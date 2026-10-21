@@ -1,0 +1,20 @@
+{
+ "level": 1,
+ "verified": false,
+ "tried": [
+  "start+150: moved 0, columns built 0",
+  "start+300: moved 0, columns built 11",
+  "start+450: moved 0, columns built 10",
+  "start+600: moved 0, columns built 0",
+  "000-4ab7567d.txt: moved 0, columns built 0",
+  "001-e306af5d.txt: moved 0, columns built 11",
+  "002-83b79a26.txt: moved 0, columns built 10",
+  "003-da39a3ee.txt: moved 0, columns built 0",
+  "004-7ed4a7f0.txt: moved 0, columns built 0",
+  "005-53cf0145.txt: moved 0, columns built 231",
+  "006-a47a6301.txt: moved 0, columns built 129",
+  "007-f4a62516.txt: moved 0, columns built 128",
+  "008-2ac9bbb5.txt: moved 0, columns built 132",
+  "009-26538156.txt: moved 0, columns built 132"
+ ]
+}

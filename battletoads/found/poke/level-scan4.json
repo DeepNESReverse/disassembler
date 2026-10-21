@@ -1,0 +1,24 @@
+{
+ "method": "poke value+1 at the from frame, same input to the to frame; alive and another background tileset",
+ "from": 2600,
+ "to": 3700,
+ "baseline": "a47a6301a5",
+ "found": [
+  {
+   "cell": "000d",
+   "from": 0,
+   "to": 1,
+   "tileset": "2653815607"
+  },
+  {
+   "cell": "00f4",
+   "from": 0,
+   "to": 1,
+   "tileset": "a112b63757"
+  }
+ ],
+ "shots": {
+  "000d": "games/battletoads/found/poke/level-scan4-000d.png",
+  "00f4": "games/battletoads/found/poke/level-scan4-00f4.png"
+ }
+}

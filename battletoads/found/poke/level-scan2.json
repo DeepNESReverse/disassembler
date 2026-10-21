@@ -1,0 +1,45 @@
+{
+ "method": "poke value+1 at the from frame, same input to the to frame; alive and another background tileset",
+ "from": 2800,
+ "to": 3700,
+ "baseline": "a47a6301a5",
+ "found": [
+  {
+   "cell": "0010",
+   "from": 1,
+   "to": 2,
+   "tileset": "a197114c96"
+  },
+  {
+   "cell": "00c9",
+   "from": 0,
+   "to": 1,
+   "tileset": "e306af5d56"
+  },
+  {
+   "cell": "00f4",
+   "from": 0,
+   "to": 1,
+   "tileset": "e306af5d56"
+  },
+  {
+   "cell": "0301",
+   "from": 0,
+   "to": 1,
+   "tileset": "f4a6251629"
+  },
+  {
+   "cell": "0585",
+   "from": 0,
+   "to": 1,
+   "tileset": "83b79a2653"
+  }
+ ],
+ "shots": {
+  "0010": "games/battletoads/found/poke/level-scan2-0010.png",
+  "00c9": "games/battletoads/found/poke/level-scan2-00c9.png",
+  "00f4": "games/battletoads/found/poke/level-scan2-00f4.png",
+  "0301": "games/battletoads/found/poke/level-scan2-0301.png",
+  "0585": "games/battletoads/found/poke/level-scan2-0585.png"
+ }
+}

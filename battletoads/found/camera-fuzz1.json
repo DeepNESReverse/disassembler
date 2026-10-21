@@ -1,0 +1,15 @@
+{
+ "method": "RAM equal to the k-th $2005 write of the frame on moving frames",
+ "from": 3000,
+ "to": 19999,
+ "found": [
+  {
+   "slot": "X write on lines 32-39",
+   "cell": "0087",
+   "lag": 1,
+   "agree": 160,
+   "frames": 160,
+   "distinct": 161
+  }
+ ]
+}
