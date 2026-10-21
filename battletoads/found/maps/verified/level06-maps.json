@@ -1,0 +1,81 @@
+{
+ "level": 6,
+ "stretches": 5,
+ "results": [
+  {
+   "name": "level06-0",
+   "level": 6,
+   "from": "004-2aa4d851.txt",
+   "builds": 74,
+   "naturalFrames": 134,
+   "camera": [
+    64,
+    -20
+   ],
+   "tiles": 11910,
+   "size": [
+    5112,
+    240
+   ],
+   "check": {
+    "compared": 21546,
+    "equal": 21546,
+    "score": 1
+   },
+   "verified": true,
+   "splitMinusY": 127,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level06-1",
+   "level": 6,
+   "from": "004-2aa4d851.txt",
+   "builds": 62,
+   "naturalFrames": 122,
+   "camera": [
+    0,
+    -20
+   ],
+   "tiles": 7260,
+   "size": [
+    5120,
+    240
+   ],
+   "check": {
+    "compared": 6840,
+    "equal": 6840,
+    "score": 1
+   },
+   "verified": true,
+   "splitMinusY": 127,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level06-2",
+   "level": 6,
+   "from": "004-2aa4d851.txt",
+   "builds": 49,
+   "naturalFrames": 214,
+   "camera": [
+    160,
+    -20
+   ],
+   "tiles": 10680,
+   "size": [
+    5112,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 127,
+   "skipped": 0,
+   "conflicts": 2
+  }
+ ]
+}

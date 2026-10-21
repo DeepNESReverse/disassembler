@@ -1,0 +1,81 @@
+{
+ "level": 11,
+ "stretches": 94,
+ "results": [
+  {
+   "name": "level11-0",
+   "level": 11,
+   "from": "008-228b5d29.txt",
+   "builds": 142,
+   "naturalFrames": 289,
+   "camera": [
+    210,
+    123
+   ],
+   "tiles": 1182,
+   "size": [
+    3688,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 216,
+   "skipped": 429,
+   "conflicts": 31
+  },
+  {
+   "name": "level11-1",
+   "level": 11,
+   "from": "013-4d71b5d7.txt",
+   "builds": 142,
+   "naturalFrames": 289,
+   "camera": [
+    210,
+    123
+   ],
+   "tiles": 1182,
+   "size": [
+    3688,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 216,
+   "skipped": 429,
+   "conflicts": 31
+  },
+  {
+   "name": "level11-2",
+   "level": 11,
+   "from": "004-9190fba1.txt",
+   "builds": 130,
+   "naturalFrames": 369,
+   "camera": [
+    94,
+    63
+   ],
+   "tiles": 1827,
+   "size": [
+    1440,
+    240
+   ],
+   "check": {
+    "compared": 3805,
+    "equal": 3805,
+    "score": 1
+   },
+   "verified": true,
+   "splitMinusY": 59,
+   "skipped": 473,
+   "conflicts": 63
+  }
+ ]
+}

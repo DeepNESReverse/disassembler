@@ -1,0 +1,81 @@
+{
+ "level": 10,
+ "stretches": 343,
+ "results": [
+  {
+   "name": "level10-0",
+   "level": 10,
+   "from": "029-09db37da.txt",
+   "builds": 148,
+   "naturalFrames": 258,
+   "camera": [
+    62,
+    71
+   ],
+   "tiles": 631,
+   "size": [
+    5128,
+    248
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 34,
+   "skipped": 11,
+   "conflicts": 0
+  },
+  {
+   "name": "level10-1",
+   "level": 10,
+   "from": "083-ae3e5e9e.txt",
+   "builds": 148,
+   "naturalFrames": 258,
+   "camera": [
+    62,
+    71
+   ],
+   "tiles": 631,
+   "size": [
+    5128,
+    248
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 34,
+   "skipped": 11,
+   "conflicts": 0
+  },
+  {
+   "name": "level10-2",
+   "level": 10,
+   "from": "084-e8afce75.txt",
+   "builds": 148,
+   "naturalFrames": 258,
+   "camera": [
+    62,
+    71
+   ],
+   "tiles": 631,
+   "size": [
+    5128,
+    248
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 34,
+   "skipped": 11,
+   "conflicts": 0
+  }
+ ]
+}
