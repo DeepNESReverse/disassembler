@@ -1,0 +1,142 @@
+{
+ "level": 2,
+ "stretches": 73,
+ "results": [
+  {
+   "name": "level02-v0",
+   "level": 2,
+   "from": "030-f9e9f8c6.txt",
+   "builds": 285,
+   "naturalFrames": 367,
+   "camera": [
+    -4,
+    18
+   ],
+   "tiles": 416,
+   "animatedCells": 0,
+   "size": [
+    256,
+    2888
+   ],
+   "check": {
+    "compared": 2310,
+    "equal": 2310,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 0,
+     "equal": 0
+    }
+   },
+   "verified": true,
+   "splitMinusY": 94,
+   "skipped": 495,
+   "conflicts": 0
+  },
+  {
+   "name": "level02-v1",
+   "level": 2,
+   "from": "005-a197114c.txt",
+   "builds": 232,
+   "naturalFrames": 292,
+   "camera": [
+    -4,
+    18
+   ],
+   "tiles": 416,
+   "animatedCells": 0,
+   "size": [
+    256,
+    2888
+   ],
+   "check": {
+    "compared": 2310,
+    "equal": 2310,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 0,
+     "equal": 0
+    }
+   },
+   "verified": true,
+   "splitMinusY": 94,
+   "skipped": 495,
+   "conflicts": 0
+  },
+  {
+   "name": "level02-v2",
+   "level": 2,
+   "from": "007-ad90ac02.txt",
+   "builds": 232,
+   "naturalFrames": 292,
+   "camera": [
+    -4,
+    18
+   ],
+   "tiles": 416,
+   "animatedCells": 0,
+   "size": [
+    256,
+    2888
+   ],
+   "check": {
+    "compared": 2310,
+    "equal": 2310,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 0,
+     "equal": 0
+    }
+   },
+   "verified": true,
+   "splitMinusY": 94,
+   "skipped": 495,
+   "conflicts": 0
+  },
+  {
+   "name": "level02-v3",
+   "level": 2,
+   "from": "018-ec1d89b8.txt",
+   "builds": 232,
+   "naturalFrames": 292,
+   "camera": [
+    -4,
+    18
+   ],
+   "tiles": 416,
+   "animatedCells": 0,
+   "size": [
+    256,
+    2888
+   ],
+   "check": {
+    "compared": 2310,
+    "equal": 2310,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 0,
+     "equal": 0
+    }
+   },
+   "verified": true,
+   "splitMinusY": 94,
+   "skipped": 495,
+   "conflicts": 0
+  }
+ ]
+}

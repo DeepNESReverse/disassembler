@@ -1,0 +1,156 @@
+{
+ "level": 4,
+ "stretches": 162,
+ "results": [
+  {
+   "name": "level04-0",
+   "level": 4,
+   "from": "004-e2429f36.txt",
+   "builds": 209,
+   "naturalFrames": 824,
+   "camera": [
+    8,
+    -21
+   ],
+   "tiles": 5190,
+   "animatedCells": 52,
+   "size": [
+    2640,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 94,
+   "skipped": 177,
+   "conflicts": 52
+  },
+  {
+   "name": "level04-1",
+   "level": 4,
+   "from": "011-4aeaaffa.txt",
+   "builds": 209,
+   "naturalFrames": 845,
+   "camera": [
+    8,
+    -21
+   ],
+   "tiles": 5190,
+   "animatedCells": 52,
+   "size": [
+    2640,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 94,
+   "skipped": 177,
+   "conflicts": 52
+  },
+  {
+   "name": "level04-2",
+   "level": 4,
+   "from": "055-f296be58.txt",
+   "builds": 209,
+   "naturalFrames": 824,
+   "camera": [
+    8,
+    -21
+   ],
+   "tiles": 5190,
+   "animatedCells": 52,
+   "size": [
+    2640,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 94,
+   "skipped": 177,
+   "conflicts": 52
+  },
+  {
+   "name": "level04-3",
+   "level": 4,
+   "from": "029-efaff999.txt",
+   "builds": 195,
+   "naturalFrames": 767,
+   "camera": [
+    8,
+    -21
+   ],
+   "tiles": 5190,
+   "animatedCells": 52,
+   "size": [
+    2640,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 94,
+   "skipped": 177,
+   "conflicts": 52
+  },
+  {
+   "name": "level04-4",
+   "level": 4,
+   "from": "012-5fe949f6.txt",
+   "builds": 193,
+   "naturalFrames": 771,
+   "camera": [
+    8,
+    -21
+   ],
+   "tiles": 5190,
+   "animatedCells": 52,
+   "size": [
+    2640,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 94,
+   "skipped": 177,
+   "conflicts": 52
+  }
+ ]
+}
