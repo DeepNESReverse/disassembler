@@ -1,0 +1,1 @@
+level 12: 11 paths, 10491 frames on the level; camera X -200..248, Y -20..0

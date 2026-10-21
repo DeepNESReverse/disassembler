@@ -1,0 +1,1 @@
+level 3: 11 paths, 162216 frames on the level; camera X -224..4197, Y -16..0

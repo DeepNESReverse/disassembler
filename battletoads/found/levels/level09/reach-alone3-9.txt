@@ -1,0 +1,1 @@
+level 11: 10 paths, 57165 frames on the level; camera X -248..260, Y -36..199

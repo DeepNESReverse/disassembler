@@ -1,0 +1,203 @@
+{
+ "level": 11,
+ "runs": [
+  {
+   "run": "runs/deep3-9",
+   "paths": 11,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      9
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/alone3-9",
+   "paths": 10,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      9
+     ]
+    ],
+    "pins": [
+     [
+      963,
+      0
+     ],
+     [
+      964,
+      0
+     ],
+     [
+      965,
+      0
+     ],
+     [
+      966,
+      0
+     ],
+     [
+      967,
+      0
+     ],
+     [
+      968,
+      0
+     ],
+     [
+      969,
+      0
+     ],
+     [
+      970,
+      0
+     ],
+     [
+      971,
+      0
+     ],
+     [
+      972,
+      0
+     ],
+     [
+      973,
+      0
+     ],
+     [
+      974,
+      0
+     ],
+     [
+      975,
+      0
+     ],
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 27,
+ "page": 0,
+ "results": [
+  {
+   "name": "level11-0",
+   "level": 11,
+   "from": {
+    "run": "runs/alone3-9",
+    "path": "009-da39a3ee.txt",
+    "frames": [
+     2774,
+     6331
+    ],
+    "sweepStart": 2786
+   },
+   "K": 95,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     0,
+     260
+    ],
+    "y": [
+     -6,
+     199
+    ]
+   },
+   "size": [
+    272,
+    1184
+   ],
+   "origin": {
+    "top": 129,
+    "column": 1
+   },
+   "tiles": 297,
+   "animatedCells": 153,
+   "check": {
+    "frames": 762,
+    "framesOfOtherPlaces": 0,
+    "compared": 84847,
+    "equal": 53301,
+    "score": 0.6282013506664939,
+    "cellsSeen": 150,
+    "cellsThatDiffered": 66
+   },
+   "verified": false,
+   "skipped": 753,
+   "conflicts": 206
+  },
+  {
+   "name": "level11-1",
+   "level": 11,
+   "from": {
+    "run": "runs/alone3-9",
+    "path": "009-da39a3ee.txt",
+    "frames": [
+     6337,
+     7212
+    ],
+    "sweepStart": 6348
+   },
+   "K": 127,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     0,
+     222
+    ],
+    "y": [
+     -36,
+     -32
+    ]
+   },
+   "size": [
+    1488,
+    248
+   ],
+   "origin": {
+    "top": -39,
+    "column": 1
+   },
+   "tiles": 4531,
+   "animatedCells": 142,
+   "check": {
+    "frames": 3037,
+    "framesOfOtherPlaces": 0,
+    "compared": 1147539,
+    "equal": 1147539,
+    "score": 1,
+    "cellsSeen": 575,
+    "cellsThatDiffered": 0
+   },
+   "verified": true,
+   "skipped": 8,
+   "conflicts": 155
+  }
+ ]
+}

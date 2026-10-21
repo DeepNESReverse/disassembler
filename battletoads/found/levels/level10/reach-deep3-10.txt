@@ -1,0 +1,1 @@
+level 9: 11 paths, 153996 frames on the level; camera X -240..248, Y 0..179

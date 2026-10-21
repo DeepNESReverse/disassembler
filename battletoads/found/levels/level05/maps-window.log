@@ -1,0 +1,3 @@
+level12: runs/deep3-5 11 paths, runs/alone3-5 11 paths; 22 segments of play; the play field on nametable page 0
+  sweep of 001-da39a3ee.txt from frame 4583: camera moved by the game after 3941 frames; 0 frames without a split placed, 0 skipped
+  level12-0: 001-da39a3ee.txt frames 2774-8629, K 131, camera X 0..8528 Y -20..16; 12331 tiles 9520×224; seen 5130 (41.6%), 91316/125258 = 72.90% on 376 frames (10388 of other places), 2132 cells ever differed

@@ -1,0 +1,250 @@
+{
+ "level": 3,
+ "runs": [
+  {
+   "run": "runs/deep3-3",
+   "paths": 10,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/alone3-3",
+   "paths": 11,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      963,
+      0
+     ],
+     [
+      964,
+      0
+     ],
+     [
+      965,
+      0
+     ],
+     [
+      966,
+      0
+     ],
+     [
+      967,
+      0
+     ],
+     [
+      968,
+      0
+     ],
+     [
+      969,
+      0
+     ],
+     [
+      970,
+      0
+     ],
+     [
+      971,
+      0
+     ],
+     [
+      972,
+      0
+     ],
+     [
+      973,
+      0
+     ],
+     [
+      974,
+      0
+     ],
+     [
+      975,
+      0
+     ],
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 35,
+ "page": 0,
+ "results": [
+  {
+   "name": "level03-0",
+   "level": 3,
+   "from": {
+    "run": "runs/deep3-3",
+    "path": "005-da39a3ee.txt",
+    "frames": [
+     11982,
+     14093
+    ],
+    "sweepStart": 11991
+   },
+   "K": 115,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     1743,
+     17040
+    ],
+    "y": [
+     -16,
+     -16
+    ]
+   },
+   "size": [
+    16568,
+    184
+   ],
+   "origin": {
+    "top": -3,
+    "column": 218
+   },
+   "tiles": 47633,
+   "animatedCells": 68,
+   "check": {
+    "frames": 24538,
+    "framesOfOtherPlaces": 0,
+    "compared": 16593902,
+    "equal": 16580964,
+    "score": 0.9992203159931884,
+    "cellsSeen": 47633,
+    "cellsThatDiffered": 182
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 68
+  },
+  {
+   "name": "level03-1",
+   "level": 3,
+   "from": {
+    "run": "runs/deep3-3",
+    "path": "005-da39a3ee.txt",
+    "frames": [
+     17848,
+     18922
+    ],
+    "sweepStart": 17857
+   },
+   "K": 115,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     12942,
+     20520
+    ],
+    "y": [
+     -16,
+     -16
+    ]
+   },
+   "size": [
+    8848,
+    184
+   ],
+   "origin": {
+    "top": -3,
+    "column": 1618
+   },
+   "tiles": 25438,
+   "animatedCells": 206,
+   "check": {
+    "frames": 10072,
+    "framesOfOtherPlaces": 0,
+    "compared": 6928589,
+    "equal": 6915288,
+    "score": 0.9980802729098234,
+    "cellsSeen": 22494,
+    "cellsThatDiffered": 126
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 206
+  },
+  {
+   "name": "level03-2",
+   "level": 3,
+   "from": {
+    "run": "runs/alone3-3",
+    "path": "010-da39a3ee.txt",
+    "frames": [
+     2775,
+     18529
+    ],
+    "sweepStart": 2784
+   },
+   "K": 115,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     16,
+     4100
+    ],
+    "y": [
+     -16,
+     -16
+    ]
+   },
+   "size": [
+    5344,
+    184
+   ],
+   "origin": {
+    "top": -3,
+    "column": 3
+   },
+   "tiles": 15364,
+   "animatedCells": 0,
+   "check": {
+    "frames": 25949,
+    "framesOfOtherPlaces": 0,
+    "compared": 17889860,
+    "equal": 17889726,
+    "score": 0.9999925097233852,
+    "cellsSeen": 15364,
+    "cellsThatDiffered": 134
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  }
+ ]
+}

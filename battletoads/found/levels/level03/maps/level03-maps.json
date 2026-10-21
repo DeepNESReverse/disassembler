@@ -1,0 +1,297 @@
+{
+ "level": 3,
+ "runs": [
+  {
+   "run": "runs/deep3-3",
+   "paths": 10,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/alone3-3",
+   "paths": 11,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      963,
+      0
+     ],
+     [
+      964,
+      0
+     ],
+     [
+      965,
+      0
+     ],
+     [
+      966,
+      0
+     ],
+     [
+      967,
+      0
+     ],
+     [
+      968,
+      0
+     ],
+     [
+      969,
+      0
+     ],
+     [
+      970,
+      0
+     ],
+     [
+      971,
+      0
+     ],
+     [
+      972,
+      0
+     ],
+     [
+      973,
+      0
+     ],
+     [
+      974,
+      0
+     ],
+     [
+      975,
+      0
+     ],
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 35,
+ "page": 0,
+ "results": [
+  {
+   "name": "level03-0",
+   "level": 3,
+   "from": {
+    "run": "runs/alone3-3",
+    "path": "010-da39a3ee.txt",
+    "frames": [
+     2775,
+     18529
+    ],
+    "sweepStart": 2784
+   },
+   "K": 115,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     16,
+     4100
+    ],
+    "y": [
+     -16,
+     -16
+    ]
+   },
+   "size": [
+    5360,
+    240
+   ],
+   "origin": {
+    "top": -11,
+    "column": 3
+   },
+   "tiles": 19171,
+   "animatedCells": 0,
+   "check": {
+    "frames": 24898,
+    "framesOfOtherPlaces": 0,
+    "compared": 16713180,
+    "equal": 16713046,
+    "score": 0.9999919823755862,
+    "cellsSeen": 14674,
+    "cellsThatDiffered": 134
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level03-1",
+   "level": 3,
+   "from": {
+    "run": "runs/deep3-3",
+    "path": "005-da39a3ee.txt",
+    "frames": [
+     2775,
+     11976
+    ],
+    "sweepStart": 2784
+   },
+   "K": 115,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     16,
+     9168
+    ],
+    "y": [
+     -16,
+     -16
+    ]
+   },
+   "size": [
+    10424,
+    240
+   ],
+   "origin": {
+    "top": -11,
+    "column": 3
+   },
+   "tiles": 38161,
+   "animatedCells": 0,
+   "check": {
+    "frames": 26178,
+    "framesOfOtherPlaces": 0,
+    "compared": 17603855,
+    "equal": 17603721,
+    "score": 0.9999923880309171,
+    "cellsSeen": 29233,
+    "cellsThatDiffered": 134
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level03-2",
+   "level": 3,
+   "from": {
+    "run": "runs/deep3-3",
+    "path": "005-da39a3ee.txt",
+    "frames": [
+     11982,
+     14093
+    ],
+    "sweepStart": 11991
+   },
+   "K": 115,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     1743,
+     17040
+    ],
+    "y": [
+     -16,
+     -16
+    ]
+   },
+   "size": [
+    16576,
+    240
+   ],
+   "origin": {
+    "top": -11,
+    "column": 218
+   },
+   "tiles": 59610,
+   "animatedCells": 48,
+   "check": {
+    "frames": 23223,
+    "framesOfOtherPlaces": 0,
+    "compared": 15600716,
+    "equal": 15597262,
+    "score": 0.9997785999052864,
+    "cellsSeen": 45678,
+    "cellsThatDiffered": 166
+   },
+   "verified": true,
+   "skipped": 35,
+   "conflicts": 48
+  },
+  {
+   "name": "level03-3",
+   "level": 3,
+   "from": {
+    "run": "runs/deep3-3",
+    "path": "005-da39a3ee.txt",
+    "frames": [
+     17848,
+     18922
+    ],
+    "sweepStart": 17857
+   },
+   "K": 115,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     12942,
+     20520
+    ],
+    "y": [
+     -16,
+     -16
+    ]
+   },
+   "size": [
+    8864,
+    240
+   ],
+   "origin": {
+    "top": -11,
+    "column": 1617
+   },
+   "tiles": 31740,
+   "animatedCells": 19,
+   "check": {
+    "frames": 9239,
+    "framesOfOtherPlaces": 0,
+    "compared": 5984715,
+    "equal": 5984165,
+    "score": 0.9999080992160864,
+    "cellsSeen": 21413,
+    "cellsThatDiffered": 5
+   },
+   "verified": true,
+   "skipped": 12,
+   "conflicts": 19
+  }
+ ]
+}

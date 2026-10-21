@@ -1,0 +1,1 @@
+level 7: 11 paths, 14961 frames on the level; camera X -176..248, Y 0..4032

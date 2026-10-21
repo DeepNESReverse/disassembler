@@ -1,0 +1,1 @@
+level 10: 13 paths, 155808 frames on the level; camera X -184..1412, Y -34..1280

@@ -1,0 +1,1 @@
+level 6: 11 paths, 50001 frames on the level; camera X -232..937, Y -20..0

@@ -1,0 +1,1 @@
+level 13: 19 paths, 81255 frames on the level; camera X -192..248, Y 0..408

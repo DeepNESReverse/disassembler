@@ -1,0 +1,11 @@
+level02: runs/deep3-2 11 paths, runs/alone3-2 11 paths; 14 segments of play; the play field on nametable page 0
+  sweep of 006-da39a3ee.txt from frame 3088: camera moved by the game after 206 frames; 0 frames without a split placed, 0 skipped
+  sweep of 000-da39a3ee.txt from frame 2776: camera moved by the game after 268 frames; 0 frames without a split placed, 0 skipped
+  sweep of 005-da39a3ee.txt from frame 4376: camera moved by the game after 65 frames; 0 frames without a split placed, 0 skipped
+  sweep of 010-da39a3ee.txt from frame 4361: camera moved by the game after 13 frames; 0 frames without a split placed, 0 skipped
+  sweep of 004-da39a3ee.txt from frame 4864: camera moved by the game after 51 frames; 0 frames without a split placed, 0 skipped
+  level02-0: 006-da39a3ee.txt frames 2775-5028, K 99, camera X -4..-4 Y 1..1103; 1170 tiles 240×312; seen 1110 (94.9%), 436050/472260 = 92.33% on 880 frames (350 of other places), 351 cells ever differed
+  level02-1: 000-da39a3ee.txt frames 2775-3638, K 94, camera X -4..-4 Y 1..863; 1710 tiles 240×456; seen 1710 (100.0%), 648450/648450 = 100.00% on 1163 frames (0 of other places), 0 cells ever differed — verified
+  level02-2: 005-da39a3ee.txt frames 4352-4804, K 98, camera X -4..-4 Y 796..1103; 960 tiles 240×256; seen 960 (100.0%), 1332360/1332360 = 100.00% on 2775 frames (0 of other places), 0 cells ever differed — verified
+  level02-3: 010-da39a3ee.txt frames 4352-5236, K 95, camera X -4..-4 Y 796..991; 750 tiles 240×200; seen 750 (100.0%), 927296/971340 = 95.47% on 2635 frames (0 of other places), 26 cells ever differed
+  level02-4: 004-da39a3ee.txt frames 4864-5028, K 94, camera X -4..-4 Y 939..1103; 870 tiles 240×232; seen 870 (100.0%), 1180969/1252440 = 94.29% on 2471 frames (0 of other places), 125 cells ever differed

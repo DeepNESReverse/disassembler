@@ -1,0 +1,1 @@
+level 8: 10 paths, 23220 frames on the level; camera X -248..256, Y 0..513

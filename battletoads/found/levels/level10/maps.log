@@ -1,0 +1,5 @@
+level09: runs/deep3-10 11 paths, runs/alone3-10 11 paths; 27 segments of play; the play field on nametable page 0
+  sweep of 010-da39a3ee.txt from frame 2785: camera moved by the game after 87 frames; 0 frames without a split placed, 330 skipped
+  sweep of 010-da39a3ee.txt from frame 14401: camera moved by the game after 179 frames; 0 frames without a split placed, 439 skipped
+  level09-0: 010-da39a3ee.txt frames 2776-6622, K 99, camera X 0..16 Y 0..171; 241 tiles 264×1408; seen 0 (0.0%), 0/0 = 0.00% on 0 frames (0 of other places), 0 cells ever differed
+  level09-1: 010-da39a3ee.txt frames 12910-16187, K 95, camera X 0..16 Y 0..179; 210 tiles 240×1424; seen 0 (0.0%), 0/0 = 0.00% on 0 frames (0 of other places), 0 cells ever differed
