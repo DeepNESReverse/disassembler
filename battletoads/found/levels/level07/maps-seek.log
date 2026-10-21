@@ -1,0 +1,5 @@
+level06: runs/seek-7 14 paths; 280 segments of play; the play field on nametable page 0
+  sweep of 010-l6.txt from frame 2784: camera moved by the game after 5 frames; 0 frames without a split placed, 0 skipped
+  sweep of 010-l6.txt from frame 33415: camera moved by the game after 797 frames; 0 frames without a split placed, 0 skipped
+  level06-0: 010-l6.txt frames 2775-22964, K 127, camera X 0..4049 Y -20..-20; 15272 tiles 5312×184; seen 15111 (98.9%), 82584633/82654410 = 99.92% on 119789 frames (0 of other places), 270 cells ever differed — verified
+  level06-1: 010-l6.txt frames 33406-33968, K 127, camera X 3022..5020 Y -20..-20; 9384 tiles 3264×184; seen 6440 (68.6%), 68740928/68740928 = 100.00% on 99654 frames (0 of other places), 0 cells ever differed — verified

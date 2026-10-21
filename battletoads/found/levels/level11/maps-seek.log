@@ -1,0 +1,5 @@
+level10: runs/seek-11 12 paths; 332 segments of play; the play field on nametable page 0
+  sweep of 006-l10.txt from frame 140010: camera moved by the game after 430 frames; 0 frames without a split placed, 0 skipped
+  sweep of 007-l10.txt from frame 140414: camera moved by the game after 442 frames; 0 frames without a split placed, 0 skipped
+  level10-0: 006-l10.txt frames 140000-140515, K 179, camera X 0..636 Y -12..166; 1658 tiles 592×184; seen 1658 (100.0%), 100032959/101044889 = 99.00% on 155188 frames (0 of other places), 19 cells ever differed
+  level10-1: 007-l10.txt frames 140288-140635, K 175, camera X 158..636 Y -12..166; 2017 tiles 472×360; seen 2017 (100.0%), 62047965/69676945 = 89.05% on 155782 frames (0 of other places), 190 cells ever differed

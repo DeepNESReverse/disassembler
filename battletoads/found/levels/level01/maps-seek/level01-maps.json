@@ -1,0 +1,221 @@
+{
+ "level": 1,
+ "runs": [
+  {
+   "run": "runs/seek-1",
+   "paths": 13,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      1
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 10,
+ "page": 0,
+ "results": [
+  {
+   "name": "level01-0",
+   "level": 1,
+   "from": {
+    "run": "runs/seek-1",
+    "path": "012-l1.txt",
+    "frames": [
+     28416,
+     37928
+    ],
+    "sweepStart": 28425
+   },
+   "K": 99,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     1722,
+     1786
+    ],
+    "y": [
+     2,
+     101
+    ]
+   },
+   "size": [
+    304,
+    1288
+   ],
+   "origin": {
+    "top": 13,
+    "column": 216
+   },
+   "tiles": 4277,
+   "animatedCells": 1104,
+   "check": {
+    "frames": 20427,
+    "framesOfOtherPlaces": 0,
+    "compared": 14129152,
+    "equal": 13023993,
+    "score": 0.9217816469098783,
+    "cellsSeen": 1326,
+    "cellsThatDiffered": 303
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 8510
+  },
+  {
+   "name": "level01-1",
+   "level": 1,
+   "from": {
+    "run": "runs/seek-1",
+    "path": "006-l1.txt",
+    "frames": [
+     2776,
+     18046
+    ],
+    "sweepStart": 2944
+   },
+   "K": 67,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     0,
+     1240
+    ],
+    "y": [
+     -206,
+     96
+    ]
+   },
+   "size": [
+    240,
+    408
+   ],
+   "origin": {
+    "top": -147,
+    "column": 1
+   },
+   "tiles": 1530,
+   "animatedCells": 109,
+   "check": {
+    "frames": 3754,
+    "framesOfOtherPlaces": 77,
+    "compared": 1385703,
+    "equal": 1351506,
+    "score": 0.9753215515878944,
+    "cellsSeen": 1140,
+    "cellsThatDiffered": 387
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 109
+  },
+  {
+   "name": "level01-2",
+   "level": 1,
+   "from": {
+    "run": "runs/seek-1",
+    "path": "012-l1.txt",
+    "frames": [
+     37933,
+     38331
+    ],
+    "sweepStart": 37942
+   },
+   "K": 3,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     1312,
+     1407
+    ],
+    "y": [
+     96,
+     96
+    ]
+   },
+   "size": [
+    1352,
+    184
+   ],
+   "origin": {
+    "top": 109,
+    "column": 165
+   },
+   "tiles": 3887,
+   "animatedCells": 0,
+   "check": {
+    "frames": 406,
+    "framesOfOtherPlaces": 0,
+    "compared": 280140,
+    "equal": 260250,
+    "score": 0.928999785821375,
+    "cellsSeen": 943,
+    "cellsThatDiffered": 142
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level01-3",
+   "level": 1,
+   "from": {
+    "run": "runs/seek-1",
+    "path": "007-l1.txt",
+    "frames": [
+     22784,
+     22899
+    ],
+    "sweepStart": 22807
+   },
+   "K": 94,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     1780,
+     1780
+    ],
+    "y": [
+     8,
+     101
+    ]
+   },
+   "size": [
+    240,
+    1232
+   ],
+   "origin": {
+    "top": 18,
+    "column": 223
+   },
+   "tiles": 4080,
+   "animatedCells": 23,
+   "check": {
+    "frames": 20427,
+    "framesOfOtherPlaces": 0,
+    "compared": 12707706,
+    "equal": 12691550,
+    "score": 0.998728645437658,
+    "cellsSeen": 1050,
+    "cellsThatDiffered": 25
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 23
+  }
+ ]
+}

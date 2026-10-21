@@ -1,0 +1,80 @@
+{
+ "level": 9,
+ "runs": [
+  {
+   "run": "runs/seek-10",
+   "paths": 12,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      10
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 14,
+ "page": 0,
+ "results": [
+  {
+   "name": "level09-0",
+   "level": 9,
+   "from": {
+    "run": "runs/seek-10",
+    "path": "006-l9.txt",
+    "frames": [
+     2776,
+     7315
+    ],
+    "sweepStart": 4253
+   },
+   "K": 95,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     0,
+     16
+    ],
+    "y": [
+     0,
+     179
+    ]
+   },
+   "size": [
+    240,
+    1336
+   ],
+   "origin": {
+    "top": 9,
+    "column": 1
+   },
+   "tiles": 4410,
+   "animatedCells": 48,
+   "check": {
+    "frames": 8426,
+    "framesOfOtherPlaces": 0,
+    "compared": 5620109,
+    "equal": 4781866,
+    "score": 0.8508493340609586,
+    "cellsSeen": 1380,
+    "cellsThatDiffered": 453
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 48
+  }
+ ]
+}

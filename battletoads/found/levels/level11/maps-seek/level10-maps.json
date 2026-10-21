@@ -1,0 +1,127 @@
+{
+ "level": 10,
+ "runs": [
+  {
+   "run": "runs/seek-11",
+   "paths": 12,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      11
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 332,
+ "page": 0,
+ "results": [
+  {
+   "name": "level10-0",
+   "level": 10,
+   "from": {
+    "run": "runs/seek-11",
+    "path": "006-l10.txt",
+    "frames": [
+     140000,
+     140515
+    ],
+    "sweepStart": 140010
+   },
+   "K": 179,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     0,
+     636
+    ],
+    "y": [
+     -12,
+     166
+    ]
+   },
+   "size": [
+    592,
+    184
+   ],
+   "origin": {
+    "top": 173,
+    "column": 1
+   },
+   "tiles": 1658,
+   "animatedCells": 0,
+   "check": {
+    "frames": 155188,
+    "framesOfOtherPlaces": 0,
+    "compared": 101044889,
+    "equal": 100032959,
+    "score": 0.989985342059211,
+    "cellsSeen": 1658,
+    "cellsThatDiffered": 19
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level10-1",
+   "level": 10,
+   "from": {
+    "run": "runs/seek-11",
+    "path": "007-l10.txt",
+    "frames": [
+     140288,
+     140635
+    ],
+    "sweepStart": 140414
+   },
+   "K": 175,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     158,
+     636
+    ],
+    "y": [
+     -12,
+     166
+    ]
+   },
+   "size": [
+    472,
+    360
+   ],
+   "origin": {
+    "top": 1,
+    "column": 20
+   },
+   "tiles": 2017,
+   "animatedCells": 864,
+   "check": {
+    "frames": 155782,
+    "framesOfOtherPlaces": 0,
+    "compared": 69676945,
+    "equal": 62047965,
+    "score": 0.8905092638605209,
+    "cellsSeen": 2017,
+    "cellsThatDiffered": 190
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 880
+  }
+ ]
+}

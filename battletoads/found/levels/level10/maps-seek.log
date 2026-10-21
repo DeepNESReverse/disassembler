@@ -1,0 +1,3 @@
+level09: runs/seek-10 12 paths; 14 segments of play; the play field on nametable page 0
+  sweep of 006-l9.txt from frame 4253: camera moved by the game after 181 frames; 0 frames without a split placed, 0 skipped
+  level09-0: 006-l9.txt frames 2776-7315, K 95, camera X 0..16 Y 0..179; 4410 tiles 240×1336; seen 1380 (31.3%), 4781866/5620109 = 85.08% on 8426 frames (0 of other places), 453 cells ever differed

@@ -1,0 +1,127 @@
+{
+ "level": 4,
+ "runs": [
+  {
+   "run": "runs/seek-4",
+   "paths": 14,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      4
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 16,
+ "page": 0,
+ "results": [
+  {
+   "name": "level04-0",
+   "level": 4,
+   "from": {
+    "run": "runs/seek-4",
+    "path": "012-l4.txt",
+    "frames": [
+     2775,
+     12059
+    ],
+    "sweepStart": 2784
+   },
+   "K": 143,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     0,
+     574
+    ],
+    "y": [
+     -36,
+     739
+    ]
+   },
+   "size": [
+    808,
+    1960
+   ],
+   "origin": {
+    "top": -23,
+    "column": 1
+   },
+   "tiles": 7356,
+   "animatedCells": 86,
+   "check": {
+    "frames": 540,
+    "framesOfOtherPlaces": 6265,
+    "compared": 172636,
+    "equal": 172636,
+    "score": 1,
+    "cellsSeen": 720,
+    "cellsThatDiffered": 0
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 86
+  },
+  {
+   "name": "level04-1",
+   "level": 4,
+   "from": {
+    "run": "runs/seek-4",
+    "path": "004-l4.txt",
+    "frames": [
+     13598,
+     19003
+    ],
+    "sweepStart": 13607
+   },
+   "K": 79,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     159,
+     484
+    ],
+    "y": [
+     536,
+     739
+    ]
+   },
+   "size": [
+    1432,
+    248
+   ],
+   "origin": {
+    "top": 689,
+    "column": -88
+   },
+   "tiles": 4414,
+   "animatedCells": 1963,
+   "check": {
+    "frames": 5460,
+    "framesOfOtherPlaces": 1506,
+    "compared": 3752191,
+    "equal": 3133184,
+    "score": 0.8350278543922738,
+    "cellsSeen": 1949,
+    "cellsThatDiffered": 455
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 4226
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+level02: runs/seek-2 12 paths; 8 segments of play; the play field on nametable page 0
+  sweep of 007-l2.txt from frame 2775: camera moved by the game after 141 frames; 0 frames without a split placed, 0 skipped
+  level02-0: 007-l2.txt frames 2775-3115, K 98, camera X -4..-4 Y 1..304; 1230 tiles 240×328; seen 1140 (92.7%), 63778/82530 = 77.28% on 119 frames (183 of other places), 348 cells ever differed

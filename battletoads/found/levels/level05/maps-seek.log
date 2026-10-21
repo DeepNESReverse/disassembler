@@ -1,0 +1,9 @@
+level12: runs/seek-5 12 paths; 116 segments of play; the play field on nametable page 0
+  sweep of 010-l12.txt from frame 4373: camera moved by the game after 6314 frames; 0 frames without a split placed, 0 skipped
+  sweep of 003-l12.txt from frame 54906: camera moved by the game after 1101 frames; 0 frames without a split placed, 0 skipped
+  sweep of 011-l12.txt from frame 24073: camera moved by the game after 532 frames; 0 frames without a split placed, 0 skipped
+  sweep of 003-l12.txt from frame 24329: camera moved by the game after 290 frames; 0 frames without a split placed, 0 skipped
+  level12-0: 010-l12.txt frames 2774-24419, K 131, camera X 0..21864 Y -36..16; 15540 tiles 9288×224; seen 5305 (34.1%), 94879/128886 = 73.61% on 350 frames (18243 of other places), 2281 cells ever differed
+  level12-1: 003-l12.txt frames 54897-55824, K 143, camera X 9198..12467 Y -36..-36; 13041 tiles 4536×184; seen 10097 (77.4%), 40653420/40653420 = 100.00% on 58918 frames (0 of other places), 0 cells ever differed — verified
+  level12-2: 011-l12.txt frames 24064-24363, K 127, camera X 19024..21416 Y -36..-36; 7222 tiles 2512×184; seen 7222 (100.0%), 315376/315376 = 100.00% on 511 frames (0 of other places), 0 cells ever differed — verified
+  level12-3: 003-l12.txt frames 24320-24529, K 127, camera X 21072..22744 Y -36..-36; 4186 tiles 1456×184; seen 4186 (100.0%), 375015/375015 = 100.00% on 576 frames (0 of other places), 0 cells ever differed — verified

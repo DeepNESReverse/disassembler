@@ -1,0 +1,9 @@
+level01: runs/seek-1 13 paths; 10 segments of play; the play field on nametable page 0
+  sweep of 012-l1.txt from frame 28425: camera moved by the game after 3885 frames; 0 frames without a split placed, 0 skipped
+  sweep of 006-l1.txt from frame 2944: camera moved by the game after 407 frames; 0 frames without a split placed, 0 skipped
+  sweep of 012-l1.txt from frame 37942: camera moved by the game after 34 frames; 0 frames without a split placed, 0 skipped
+  sweep of 007-l1.txt from frame 22807: camera moved by the game after 348 frames; 0 frames without a split placed, 0 skipped
+  level01-0: 012-l1.txt frames 28416-37928, K 99, camera X 1722..1786 Y 2..101; 4277 tiles 304×1288; seen 1326 (31.0%), 13023993/14129152 = 92.18% on 20427 frames (0 of other places), 303 cells ever differed
+  level01-1: 006-l1.txt frames 2776-18046, K 67, camera X 0..1240 Y -206..96; 1530 tiles 240×408; seen 1140 (74.5%), 1351506/1385703 = 97.53% on 3754 frames (77 of other places), 387 cells ever differed
+  level01-2: 012-l1.txt frames 37933-38331, K 3, camera X 1312..1407 Y 96..96; 3887 tiles 1352×184; seen 943 (24.3%), 260250/280140 = 92.90% on 406 frames (0 of other places), 142 cells ever differed
+  level01-3: 007-l1.txt frames 22784-22899, K 94, camera X 1780..1780 Y 8..101; 4080 tiles 240×1232; seen 1050 (25.7%), 12691550/12707706 = 99.87% on 20427 frames (0 of other places), 25 cells ever differed — verified

@@ -1,0 +1,5 @@
+level07: runs/seek-8 14 paths; 15 segments of play; the play field on nametable page 0
+  sweep of 008-l7.txt from frame 2785: camera moved by the game after 498 frames; 0 frames without a split placed, 0 skipped
+  sweep of 012-l7.txt from frame 8028: camera moved by the game after 314 frames; 0 frames without a split placed, 0 skipped
+  level07-0: 008-l7.txt frames 2775-6451, K 143, camera X 0..48 Y 3964..4028; 3858 tiles 288×1144; seen 1158 (30.0%), 7211637/7480758 = 96.40% on 11773 frames (11 of other places), 424 cells ever differed
+  level07-1: 012-l7.txt frames 8019-10571, K 147, camera X 0..48 Y 4029..4032; 3802 tiles 1312×192; seen 858 (22.6%), 7124636/7347077 = 96.97% on 11784 frames (0 of other places), 132 cells ever differed

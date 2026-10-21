@@ -1,0 +1,80 @@
+{
+ "level": 2,
+ "runs": [
+  {
+   "run": "runs/seek-2",
+   "paths": 12,
+   "interventions": {
+    "at": 2600,
+    "pokes": [
+     [
+      13,
+      2
+     ]
+    ],
+    "pins": [
+     [
+      1306,
+      47
+     ],
+     [
+      17,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 8,
+ "page": 0,
+ "results": [
+  {
+   "name": "level02-0",
+   "level": 2,
+   "from": {
+    "run": "runs/seek-2",
+    "path": "007-l2.txt",
+    "frames": [
+     2775,
+     3115
+    ],
+    "sweepStart": 2775
+   },
+   "K": 98,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     -4,
+     -4
+    ],
+    "y": [
+     1,
+     304
+    ]
+   },
+   "size": [
+    240,
+    328
+   ],
+   "origin": {
+    "top": 14,
+    "column": 0
+   },
+   "tiles": 1230,
+   "animatedCells": 0,
+   "check": {
+    "frames": 119,
+    "framesOfOtherPlaces": 183,
+    "compared": 82530,
+    "equal": 63778,
+    "score": 0.7727856537016843,
+    "cellsSeen": 1140,
+    "cellsThatDiffered": 348
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 0
+  }
+ ]
+}

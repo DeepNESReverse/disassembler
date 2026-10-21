@@ -1,0 +1,7 @@
+level08: runs/seek-6 14 paths; 14 segments of play; the play field on nametable page 0
+  sweep of 000-l8.txt from frame 8774: camera moved by the game after 2358 frames; 0 frames without a split placed, 0 skipped
+  sweep of 007-l8.txt from frame 8779: camera moved by the game after 427 frames; 0 frames without a split placed, 0 skipped
+  sweep of 011-l8.txt from frame 8704: camera moved by the game after 291 frames; 0 frames without a split placed, 0 skipped
+  level08-0: 000-l8.txt frames 8704-15027, K 82, camera X 0..256 Y 201..513; 5722 tiles 496×1448; seen 2932 (51.2%), 7449743/8172667 = 91.15% on 13074 frames (180 of other places), 1081 cells ever differed
+  level08-1: 007-l8.txt frames 8704-8883, K 78, camera X 160..208 Y 179..271; 3774 tiles 288×1128; seen 1070 (28.4%), 337098/454173 = 74.22% on 1173 frames (7 of other places), 440 cells ever differed
+  level08-2: 011-l8.txt frames 8704-8771, K 83, camera X 137..208 Y 201..271; 946 tiles 280×224; seen 946 (100.0%), 336364/438849 = 76.65% on 1158 frames (0 of other places), 435 cells ever differed
