@@ -1,0 +1,756 @@
+{
+ "method": "input scripts from one state; the player sprite cluster per DMA",
+ "start": {
+  "take": "runs/fuzz3",
+  "frame": 4052,
+  "poke": ""
+ },
+ "frames": 120,
+ "actions": {
+  "idle": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 120
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936"
+   }
+  },
+  "walk_right": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 1
+    },
+    {
+     "picture": "43e12fda46",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 9
+    },
+    {
+     "picture": "c8b1bc9c1d",
+     "frames": 5
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "b868a60f08",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "d4ccf7e5ad",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "8095d1bed6",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "c8b1bc9c1d",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "b868a60f08",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "d4ccf7e5ad",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "8095d1bed6",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "c8b1bc9c1d",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "b868a60f08",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "d4ccf7e5ad",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 1
+    },
+    {
+     "picture": "43e12fda46",
+     "frames": 20
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "43e12fda46": "34936-34936",
+    "ae805436db": "348bc-348bc",
+    "c8b1bc9c1d": "34919-34919",
+    "13735d7a30": "348f8-348f8",
+    "b868a60f08": "348d9-348d9",
+    "d4ccf7e5ad": "34882-34882",
+    "8095d1bed6": "3489f-3489f"
+   }
+  },
+  "walk_left": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 1
+    },
+    {
+     "picture": "f852d31fc2",
+     "frames": 1
+    },
+    {
+     "picture": "e522602839",
+     "frames": 2
+    },
+    {
+     "picture": "fa7a44e6cc",
+     "frames": 2
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 2
+    },
+    {
+     "picture": "fa7a44e6cc",
+     "frames": 2
+    },
+    {
+     "picture": "b73f20b34e",
+     "frames": 2
+    },
+    {
+     "picture": "f852d31fc2",
+     "frames": 2
+    },
+    {
+     "picture": "0031bf59b4",
+     "frames": 2
+    },
+    {
+     "picture": "f852d31fc2",
+     "frames": 2
+    },
+    {
+     "picture": "e522602839",
+     "frames": 2
+    },
+    {
+     "picture": "fa7a44e6cc",
+     "frames": 2
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 2
+    },
+    {
+     "picture": "fa7a44e6cc",
+     "frames": 2
+    },
+    {
+     "picture": "b73f20b34e",
+     "frames": 2
+    },
+    {
+     "picture": "f852d31fc2",
+     "frames": 2
+    },
+    {
+     "picture": "0031bf59b4",
+     "frames": 2
+    },
+    {
+     "picture": "f852d31fc2",
+     "frames": 2
+    },
+    {
+     "picture": "e522602839",
+     "frames": 1
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 85
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "f852d31fc2": "348bc-348bc",
+    "e522602839": "34919-34919",
+    "fa7a44e6cc": "348f8-348f8",
+    "004574e16d": "348d9-348d9",
+    "b73f20b34e": "34882-34882",
+    "0031bf59b4": "3489f-3489f"
+   }
+  },
+  "walk_up": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 1
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 6
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 6
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 6
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 2
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "868c4b8024": "3483c-3483c",
+    "d9247dc8f4": "3485f-3485f"
+   }
+  },
+  "walk_down": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 1
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 6
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 6
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 6
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 6
+    },
+    {
+     "picture": "868c4b8024",
+     "frames": 5
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 5
+    },
+    {
+     "picture": "d9247dc8f4",
+     "frames": 2
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "868c4b8024": "3483c-3483c",
+    "d9247dc8f4": "3485f-3485f"
+   }
+  },
+  "punch": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 1
+    },
+    {
+     "picture": "ae8230a8bd",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "66f7e17c87",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "ae8230a8bd",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "66f7e17c87",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "ae8230a8bd",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "66f7e17c87",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "66f7e17c87",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "66f7e17c87",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "ae8230a8bd",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 5
+    },
+    {
+     "picture": "66f7e17c87",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 4
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "ae8230a8bd": "34af6-34af6",
+    "d57f3bb479": "34b86-34b86",
+    "66f7e17c87": "34b44-34b44"
+   }
+  },
+  "jump": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 1
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 8
+    },
+    {
+     "picture": "0e43589f87",
+     "frames": 16
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 11
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 25
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 8
+    },
+    {
+     "picture": "0e43589f87",
+     "frames": 16
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 11
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 24
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "004574e16d": "348d9-348d9",
+    "0e43589f87": "34da2-34da2"
+   }
+  },
+  "jump_punch": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 1
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 8
+    },
+    {
+     "picture": "0e43589f87",
+     "frames": 4
+    },
+    {
+     "picture": "ae8230a8bd",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 16
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 25
+    },
+    {
+     "picture": "004574e16d",
+     "frames": 8
+    },
+    {
+     "picture": "0e43589f87",
+     "frames": 4
+    },
+    {
+     "picture": "66f7e17c87",
+     "frames": 7
+    },
+    {
+     "picture": "d57f3bb479",
+     "frames": 16
+    },
+    {
+     "picture": "5fc077c41d",
+     "frames": 24
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "004574e16d": "348d9-348d9",
+    "0e43589f87": "34da2-34da2",
+    "ae8230a8bd": "34af6-34af6",
+    "d57f3bb479": "34b86-34b86",
+    "66f7e17c87": "34b44-34b44"
+   }
+  },
+  "run_right": {
+   "sequence": [
+    {
+     "picture": "5fc077c41d",
+     "frames": 1
+    },
+    {
+     "picture": "43e12fda46",
+     "frames": 10
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 9
+    },
+    {
+     "picture": "c8b1bc9c1d",
+     "frames": 5
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "b868a60f08",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "d4ccf7e5ad",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "8095d1bed6",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "c8b1bc9c1d",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "b868a60f08",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "d4ccf7e5ad",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "8095d1bed6",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 4
+    },
+    {
+     "picture": "c8b1bc9c1d",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "b868a60f08",
+     "frames": 4
+    },
+    {
+     "picture": "13735d7a30",
+     "frames": 4
+    },
+    {
+     "picture": "d4ccf7e5ad",
+     "frames": 4
+    },
+    {
+     "picture": "ae805436db",
+     "frames": 1
+    },
+    {
+     "picture": "43e12fda46",
+     "frames": 14
+    }
+   ],
+   "pictures": {
+    "5fc077c41d": "34936-34936",
+    "43e12fda46": "34936-34936",
+    "ae805436db": "348bc-348bc",
+    "c8b1bc9c1d": "34919-34919",
+    "13735d7a30": "348f8-348f8",
+    "b868a60f08": "348d9-348d9",
+    "d4ccf7e5ad": "34882-34882",
+    "8095d1bed6": "3489f-3489f"
+   }
+  }
+ }
+}

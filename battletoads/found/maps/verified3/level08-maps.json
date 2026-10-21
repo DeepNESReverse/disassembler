@@ -1,0 +1,156 @@
+{
+ "level": 8,
+ "stretches": 35,
+ "results": [
+  {
+   "name": "level08-0",
+   "level": 8,
+   "from": "004-fe5080cf.txt",
+   "builds": 88,
+   "naturalFrames": 367,
+   "camera": [
+    2,
+    513
+   ],
+   "tiles": 3130,
+   "animatedCells": 9,
+   "size": [
+    4288,
+    240
+   ],
+   "check": {
+    "compared": 36537,
+    "equal": 31683,
+    "score": 0.8671483701453321,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 82,
+   "skipped": 0,
+   "conflicts": 9
+  },
+  {
+   "name": "level08-1",
+   "level": 8,
+   "from": "006-cb7e5de2.txt",
+   "builds": 88,
+   "naturalFrames": 367,
+   "camera": [
+    2,
+    513
+   ],
+   "tiles": 3130,
+   "animatedCells": 9,
+   "size": [
+    4288,
+    240
+   ],
+   "check": {
+    "compared": 36537,
+    "equal": 31683,
+    "score": 0.8671483701453321,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 82,
+   "skipped": 0,
+   "conflicts": 9
+  },
+  {
+   "name": "level08-2",
+   "level": 8,
+   "from": "007-2640c69e.txt",
+   "builds": 88,
+   "naturalFrames": 367,
+   "camera": [
+    2,
+    513
+   ],
+   "tiles": 3130,
+   "animatedCells": 9,
+   "size": [
+    4288,
+    240
+   ],
+   "check": {
+    "compared": 36537,
+    "equal": 31683,
+    "score": 0.8671483701453321,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 82,
+   "skipped": 0,
+   "conflicts": 9
+  },
+  {
+   "name": "level08-3",
+   "level": 8,
+   "from": "008-b5b484b1.txt",
+   "builds": 88,
+   "naturalFrames": 367,
+   "camera": [
+    2,
+    513
+   ],
+   "tiles": 3130,
+   "animatedCells": 9,
+   "size": [
+    4288,
+    240
+   ],
+   "check": {
+    "compared": 36537,
+    "equal": 31683,
+    "score": 0.8671483701453321,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 82,
+   "skipped": 0,
+   "conflicts": 9
+  },
+  {
+   "name": "level08-4",
+   "level": 8,
+   "from": "009-5d756bd2.txt",
+   "builds": 88,
+   "naturalFrames": 367,
+   "camera": [
+    2,
+    513
+   ],
+   "tiles": 3130,
+   "animatedCells": 9,
+   "size": [
+    4288,
+    240
+   ],
+   "check": {
+    "compared": 36537,
+    "equal": 31683,
+    "score": 0.8671483701453321,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 82,
+   "skipped": 0,
+   "conflicts": 9
+  }
+ ]
+}
