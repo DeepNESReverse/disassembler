@@ -1,0 +1,142 @@
+{
+ "level": 3,
+ "stretches": 528,
+ "results": [
+  {
+   "name": "level03-h0",
+   "level": 3,
+   "from": "029-e8349bf2.txt",
+   "builds": 197,
+   "naturalFrames": 584,
+   "camera": [
+    128,
+    -16
+   ],
+   "tiles": 14820,
+   "animatedCells": 0,
+   "size": [
+    4096,
+    240
+   ],
+   "check": {
+    "compared": 76304,
+    "equal": 76304,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 124488,
+     "equal": 124488
+    }
+   },
+   "verified": true,
+   "splitMinusY": 115,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level03-h1",
+   "level": 3,
+   "from": "003-da39a3ee.txt",
+   "builds": 178,
+   "naturalFrames": 429,
+   "camera": [
+    128,
+    -16
+   ],
+   "tiles": 14850,
+   "animatedCells": 0,
+   "size": [
+    4096,
+    240
+   ],
+   "check": {
+    "compared": 92226,
+    "equal": 92226,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 61465,
+     "equal": 61465
+    }
+   },
+   "verified": true,
+   "splitMinusY": 115,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level03-h2",
+   "level": 3,
+   "from": "006-6ee22c46.txt",
+   "builds": 178,
+   "naturalFrames": 429,
+   "camera": [
+    128,
+    -16
+   ],
+   "tiles": 14850,
+   "animatedCells": 0,
+   "size": [
+    4096,
+    240
+   ],
+   "check": {
+    "compared": 92226,
+    "equal": 92226,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 61465,
+     "equal": 61465
+    }
+   },
+   "verified": true,
+   "splitMinusY": 115,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level03-h3",
+   "level": 3,
+   "from": "007-9d34e933.txt",
+   "builds": 178,
+   "naturalFrames": 429,
+   "camera": [
+    128,
+    -16
+   ],
+   "tiles": 14850,
+   "animatedCells": 0,
+   "size": [
+    4096,
+    240
+   ],
+   "check": {
+    "compared": 92226,
+    "equal": 92226,
+    "score": 1,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 61465,
+     "equal": 61465
+    }
+   },
+   "verified": true,
+   "splitMinusY": 115,
+   "skipped": 0,
+   "conflicts": 0
+  }
+ ]
+}

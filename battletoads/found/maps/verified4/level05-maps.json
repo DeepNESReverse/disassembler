@@ -1,0 +1,74 @@
+{
+ "level": 5,
+ "stretches": 2,
+ "results": [
+  {
+   "name": "level05-h0",
+   "level": 5,
+   "from": "003-da39a3ee.txt",
+   "builds": 6,
+   "naturalFrames": 75,
+   "camera": [
+    0,
+    0
+   ],
+   "tiles": 6690,
+   "animatedCells": 35,
+   "size": [
+    2080,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 0,
+     "equal": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 120,
+   "skipped": 259,
+   "conflicts": 35
+  },
+  {
+   "name": "level05-h1",
+   "level": 5,
+   "from": "004-b9daf8e1.txt",
+   "builds": 6,
+   "naturalFrames": 75,
+   "camera": [
+    0,
+    0
+   ],
+   "tiles": 6690,
+   "animatedCells": 35,
+   "size": [
+    2080,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0,
+    "animated": {
+     "compared": 0,
+     "inCycle": 0
+    },
+    "laterFrames": {
+     "compared": 0,
+     "equal": 0
+    }
+   },
+   "verified": false,
+   "splitMinusY": 120,
+   "skipped": 259,
+   "conflicts": 35
+  }
+ ]
+}
