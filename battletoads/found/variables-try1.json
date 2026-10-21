@@ -1,0 +1,32 @@
+{
+  "method": "branched experiments from save states",
+  "starts": [
+    3600,
+    4500,
+    5400,
+    6300
+  ],
+  "frames": 48,
+  "evidence": {
+    "frameCounter": [
+      {
+        "address": "000B",
+        "detail": "+1 every frame on every branch"
+      },
+      {
+        "address": "00CD",
+        "detail": "+1 every frame on every branch"
+      }
+    ],
+    "padMirror": [],
+    "moveX": [],
+    "moveZ": [],
+    "jump": [
+      {
+        "address": "0029",
+        "detail": "moves only on the branch that pressed A"
+      }
+    ],
+    "scrollX": []
+  }
+}

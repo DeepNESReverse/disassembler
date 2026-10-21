@@ -1,0 +1,6195 @@
+{
+ "frame": 4200,
+ "method": "taint shadow over the take, core in step with FCEUX",
+ "tiles": [
+  {
+   "tile": 0,
+   "hash": "717128f25a67",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B0AD-0B0BC"
+   ]
+  },
+  {
+   "tile": 1,
+   "hash": "4213d75dd72b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10030-1003F"
+   ]
+  },
+  {
+   "tile": 2,
+   "hash": "94ac58c59912",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10040-1004F"
+   ]
+  },
+  {
+   "tile": 3,
+   "hash": "d33164c6df33",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10050-1005F"
+   ]
+  },
+  {
+   "tile": 4,
+   "hash": "1f4a825a1353",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10060-1006F"
+   ]
+  },
+  {
+   "tile": 5,
+   "hash": "739e8844ea7c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10070-1007F"
+   ]
+  },
+  {
+   "tile": 6,
+   "hash": "03cc9f36166b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10080-1008F"
+   ]
+  },
+  {
+   "tile": 7,
+   "hash": "f3940b37c7c2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10090-1009F"
+   ]
+  },
+  {
+   "tile": 8,
+   "hash": "8432a7bb5a69",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "100A0-100AF"
+   ]
+  },
+  {
+   "tile": 9,
+   "hash": "f101a483f4d2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "100B0-100BF"
+   ]
+  },
+  {
+   "tile": 10,
+   "hash": "a3ec39e3cd63",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "100C0-100CF"
+   ]
+  },
+  {
+   "tile": 11,
+   "hash": "6f51d8880b34",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "100D0-100DF"
+   ]
+  },
+  {
+   "tile": 12,
+   "hash": "f0068ca2618f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "100E0-100EF"
+   ]
+  },
+  {
+   "tile": 13,
+   "hash": "efdad7628672",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "100F0-100FF"
+   ]
+  },
+  {
+   "tile": 14,
+   "hash": "3e32439bd580",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10100-1010F"
+   ]
+  },
+  {
+   "tile": 15,
+   "hash": "2012604add2f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10110-1011F"
+   ]
+  },
+  {
+   "tile": 16,
+   "hash": "11d71ffde42c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "10120-1012F"
+   ]
+  },
+  {
+   "tile": 17,
+   "hash": "1476675e7f11",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B1BD-0B1CC"
+   ]
+  },
+  {
+   "tile": 18,
+   "hash": "572c05e4711a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B1CD-0B1DC"
+   ]
+  },
+  {
+   "tile": 19,
+   "hash": "4151fe3771b9",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B1DD-0B1EC"
+   ]
+  },
+  {
+   "tile": 20,
+   "hash": "4fbee0dfa61a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B1ED-0B1FC"
+   ]
+  },
+  {
+   "tile": 21,
+   "hash": "11c88c3c1b8c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B1FD-0B20C"
+   ]
+  },
+  {
+   "tile": 22,
+   "hash": "e8871e1aac07",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B20D-0B21C"
+   ]
+  },
+  {
+   "tile": 23,
+   "hash": "ae64f9bed080",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B21D-0B22C"
+   ]
+  },
+  {
+   "tile": 24,
+   "hash": "a1fe9f571341",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B22D-0B23C"
+   ]
+  },
+  {
+   "tile": 25,
+   "hash": "b7e7441dcb97",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B23D-0B24C"
+   ]
+  },
+  {
+   "tile": 26,
+   "hash": "eaaa7805545b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B24D-0B25C"
+   ]
+  },
+  {
+   "tile": 27,
+   "hash": "9893baf432a6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B25D-0B26C"
+   ]
+  },
+  {
+   "tile": 28,
+   "hash": "f6acb068170c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B26D-0B27C"
+   ]
+  },
+  {
+   "tile": 29,
+   "hash": "a1bec5da5317",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B27D-0B28C"
+   ]
+  },
+  {
+   "tile": 30,
+   "hash": "ebedc36fed2b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B28D-0B29C"
+   ]
+  },
+  {
+   "tile": 31,
+   "hash": "df3a3c3d522f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B29D-0B2AC"
+   ]
+  },
+  {
+   "tile": 32,
+   "hash": "b38a40a8cef2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B2AD-0B2BC"
+   ]
+  },
+  {
+   "tile": 33,
+   "hash": "2ee4f6f67c8b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B0BD-0B0CC"
+   ]
+  },
+  {
+   "tile": 34,
+   "hash": "78d98ba4ce93",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B0CD-0B0DC"
+   ]
+  },
+  {
+   "tile": 35,
+   "hash": "c9a0f32c2c0f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B0DD-0B0EC"
+   ]
+  },
+  {
+   "tile": 36,
+   "hash": "8e2fc95b4fbc",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B0ED-0B0FC"
+   ]
+  },
+  {
+   "tile": 37,
+   "hash": "20ed3f42e722",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B0FD-0B10C"
+   ]
+  },
+  {
+   "tile": 38,
+   "hash": "2cf953fa6b2c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B10D-0B11C"
+   ]
+  },
+  {
+   "tile": 39,
+   "hash": "98cbb39804d3",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B11D-0B12C"
+   ]
+  },
+  {
+   "tile": 40,
+   "hash": "4998439e8c13",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B12D-0B13C"
+   ]
+  },
+  {
+   "tile": 41,
+   "hash": "c3ddb9f955b6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B13D-0B14C"
+   ]
+  },
+  {
+   "tile": 42,
+   "hash": "a303aa159121",
+   "blank": false,
+   "kinds": {
+    "constant": 7,
+    "copy": 9
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B151-0B155",
+    "0B158-0B15B"
+   ]
+  },
+  {
+   "tile": 43,
+   "hash": "7eb7bdde198b",
+   "blank": false,
+   "kinds": {
+    "constant": 5,
+    "copy": 11
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B15E-0B163",
+    "0B166-0B16A"
+   ]
+  },
+  {
+   "tile": 44,
+   "hash": "66aa61ce23ac",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B16B-0B17A"
+   ]
+  },
+  {
+   "tile": 45,
+   "hash": "5b35d2bef957",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B17B-0B18A"
+   ]
+  },
+  {
+   "tile": 46,
+   "hash": "aed6e9b9f24c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B18B-0B19A"
+   ]
+  },
+  {
+   "tile": 47,
+   "hash": "99db5d414d6b",
+   "blank": false,
+   "kinds": {
+    "constant": 13,
+    "copy": 3
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B19D-0B19E",
+    "0B1A1-0B1A1"
+   ]
+  },
+  {
+   "tile": 48,
+   "hash": "15a8218137a8",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B1A2-0B1B1"
+   ]
+  },
+  {
+   "tile": 49,
+   "hash": "a265ea415cf7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B1B2-0B1C1"
+   ]
+  },
+  {
+   "tile": 50,
+   "hash": "fc3e63be3c38",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B1C2-0B1CF"
+   ]
+  },
+  {
+   "tile": 51,
+   "hash": "d30e16cd57bb",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B1D2-0B1DF"
+   ]
+  },
+  {
+   "tile": 52,
+   "hash": "3d083ca3eaaf",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B1E2-0B1EF"
+   ]
+  },
+  {
+   "tile": 53,
+   "hash": "fe8cecb2c659",
+   "blank": false,
+   "kinds": {
+    "copy": 15,
+    "constant": 1
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B1F2-0B200"
+   ]
+  },
+  {
+   "tile": 54,
+   "hash": "48000234c318",
+   "blank": false,
+   "kinds": {
+    "constant": 7,
+    "copy": 9
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B203-0B207",
+    "0B20A-0B20D"
+   ]
+  },
+  {
+   "tile": 55,
+   "hash": "5aac07a4ccab",
+   "blank": false,
+   "kinds": {
+    "constant": 7,
+    "copy": 9
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B210-0B214",
+    "0B217-0B21A"
+   ]
+  },
+  {
+   "tile": 56,
+   "hash": "f6a7252c3fca",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B21B-0B22A"
+   ]
+  },
+  {
+   "tile": 57,
+   "hash": "3fe32d015d1b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B22B-0B23A"
+   ]
+  },
+  {
+   "tile": 58,
+   "hash": "eb04a0af383b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B23B-0B24A"
+   ]
+  },
+  {
+   "tile": 59,
+   "hash": "290ca16aae86",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B24B-0B25A"
+   ]
+  },
+  {
+   "tile": 60,
+   "hash": "5c571ab34bb5",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B25B-0B26A"
+   ]
+  },
+  {
+   "tile": 61,
+   "hash": "7f7c736fa29f",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B26B-0B277"
+   ]
+  },
+  {
+   "tile": 62,
+   "hash": "08c3056cea51",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B27A-0B289"
+   ]
+  },
+  {
+   "tile": 63,
+   "hash": "85c585107819",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B28A-0B299"
+   ]
+  },
+  {
+   "tile": 64,
+   "hash": "d25104d3ec70",
+   "blank": false,
+   "kinds": {
+    "copy": 15,
+    "constant": 1
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B29A-0B2A8"
+   ]
+  },
+  {
+   "tile": 65,
+   "hash": "0ec8170f9558",
+   "blank": false,
+   "kinds": {
+    "constant": 5,
+    "copy": 11
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B2AB-0B2B0",
+    "0B2B3-0B2B7"
+   ]
+  },
+  {
+   "tile": 66,
+   "hash": "5e4e034c4136",
+   "blank": false,
+   "kinds": {
+    "constant": 7,
+    "copy": 9
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B2BA-0B2BE",
+    "0B2C1-0B2C4"
+   ]
+  },
+  {
+   "tile": 67,
+   "hash": "427140d94335",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B2C5-0B2D4"
+   ]
+  },
+  {
+   "tile": 68,
+   "hash": "47982821beb7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B2D5-0B2E4"
+   ]
+  },
+  {
+   "tile": 69,
+   "hash": "5f7f8af584bf",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B2E5-0B2F4"
+   ]
+  },
+  {
+   "tile": 70,
+   "hash": "c1ba65c6a2a7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B2F5-0B304"
+   ]
+  },
+  {
+   "tile": 71,
+   "hash": "2ed19b8f853f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B305-0B314"
+   ]
+  },
+  {
+   "tile": 72,
+   "hash": "f9f8e092db16",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B315-0B324"
+   ]
+  },
+  {
+   "tile": 73,
+   "hash": "306828bcc423",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B325-0B330"
+   ]
+  },
+  {
+   "tile": 74,
+   "hash": "b514300f6d2d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B333-0B342"
+   ]
+  },
+  {
+   "tile": 75,
+   "hash": "a4f4b0288bef",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B343-0B352"
+   ]
+  },
+  {
+   "tile": 76,
+   "hash": "916957a4d706",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B353-0B359",
+    "0B35C-0B360"
+   ]
+  },
+  {
+   "tile": 77,
+   "hash": "ba9eadd57dd5",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B363-0B365",
+    "0B368-0B369"
+   ]
+  },
+  {
+   "tile": 78,
+   "hash": "6d99743facac",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B36C-0B371",
+    "0B374-0B377"
+   ]
+  },
+  {
+   "tile": 79,
+   "hash": "1ac61030ebe3",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B378-0B37F",
+    "0B382-0B387"
+   ]
+  },
+  {
+   "tile": 80,
+   "hash": "32808bb07655",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B388-0B395"
+   ]
+  },
+  {
+   "tile": 81,
+   "hash": "182e3dcafb75",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B398-0B3A7"
+   ]
+  },
+  {
+   "tile": 82,
+   "hash": "8dc76ecc5328",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B3A8-0B3B7"
+   ]
+  },
+  {
+   "tile": 83,
+   "hash": "29b65afb2de8",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B3B8-0B3C7"
+   ]
+  },
+  {
+   "tile": 84,
+   "hash": "fe18ff994bdc",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B3C8-0B3D7"
+   ]
+  },
+  {
+   "tile": 85,
+   "hash": "88ad4c3cf6ce",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B3D8-0B3E7"
+   ]
+  },
+  {
+   "tile": 86,
+   "hash": "308352e732bd",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B3E8-0B3F5"
+   ]
+  },
+  {
+   "tile": 87,
+   "hash": "34f7305fa29d",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B3F8-0B405"
+   ]
+  },
+  {
+   "tile": 88,
+   "hash": "6ad18295349a",
+   "blank": false,
+   "kinds": {
+    "copy": 15,
+    "constant": 1
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B408-0B416"
+   ]
+  },
+  {
+   "tile": 89,
+   "hash": "b5236037ae61",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B419-0B41B",
+    "0B41E-0B41F"
+   ]
+  },
+  {
+   "tile": 90,
+   "hash": "f79b207dbd7a",
+   "blank": false,
+   "kinds": {
+    "constant": 9,
+    "copy": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B422-0B425",
+    "0B428-0B42A"
+   ]
+  },
+  {
+   "tile": 91,
+   "hash": "9f5355e69be1",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B42B-0B43A"
+   ]
+  },
+  {
+   "tile": 92,
+   "hash": "32d8f514239c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B43B-0B44A"
+   ]
+  },
+  {
+   "tile": 93,
+   "hash": "672d7436428f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B44B-0B45A"
+   ]
+  },
+  {
+   "tile": 94,
+   "hash": "ebb2c33f36b5",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B45D-0B45F",
+    "0B462-0B463"
+   ]
+  },
+  {
+   "tile": 95,
+   "hash": "930a1a343f21",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B464-0B473"
+   ]
+  },
+  {
+   "tile": 96,
+   "hash": "6fe074773cb3",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B474-0B483"
+   ]
+  },
+  {
+   "tile": 97,
+   "hash": "848b2e622356",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B484-0B490",
+    "0B493-0B493"
+   ]
+  },
+  {
+   "tile": 98,
+   "hash": "75286e7131db",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B494-0B499",
+    "0B49C-0B4A0"
+   ]
+  },
+  {
+   "tile": 99,
+   "hash": "131f577a5994",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B4A3-0B4B0"
+   ]
+  },
+  {
+   "tile": 100,
+   "hash": "ceece77de1c0",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B4B3-0B4C2"
+   ]
+  },
+  {
+   "tile": 101,
+   "hash": "2af07b03f5ac",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B4C3-0B4C7",
+    "0B4CA-0B4CD"
+   ]
+  },
+  {
+   "tile": 102,
+   "hash": "34a6e576de8d",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B4D0-0B4DD"
+   ]
+  },
+  {
+   "tile": 103,
+   "hash": "df4cf899016a",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B4E0-0B4E2",
+    "0B4E5-0B4E6"
+   ]
+  },
+  {
+   "tile": 104,
+   "hash": "4d413b2a5940",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B4E7-0B4F6"
+   ]
+  },
+  {
+   "tile": 105,
+   "hash": "6aeeef4ece3d",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B4F9-0B4FE",
+    "0B501-0B504"
+   ]
+  },
+  {
+   "tile": 106,
+   "hash": "a43f3727ad1b",
+   "blank": false,
+   "kinds": {
+    "constant": 7,
+    "copy": 9
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B507-0B50B",
+    "0B50E-0B511"
+   ]
+  },
+  {
+   "tile": 107,
+   "hash": "3b0ee9c5cf95",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B512-0B521"
+   ]
+  },
+  {
+   "tile": 108,
+   "hash": "7ea43bbdadc9",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B522-0B531"
+   ]
+  },
+  {
+   "tile": 109,
+   "hash": "079b4ab64dec",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B532-0B541"
+   ]
+  },
+  {
+   "tile": 110,
+   "hash": "84a123141a1c",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B542-0B54F"
+   ]
+  },
+  {
+   "tile": 111,
+   "hash": "5f475d9f7948",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B552-0B561"
+   ]
+  },
+  {
+   "tile": 112,
+   "hash": "e4d557044420",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "08189-08189",
+    "0818D-0818D",
+    "0B562-0B565",
+    "0B568-0B56D",
+    "0B570-0B571"
+   ]
+  },
+  {
+   "tile": 113,
+   "hash": "fc57dfd0e85e",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B572-0B57A",
+    "0B57D-0B581"
+   ]
+  },
+  {
+   "tile": 114,
+   "hash": "24372b259d78",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B582-0B587",
+    "0B58A-0B58C"
+   ]
+  },
+  {
+   "tile": 115,
+   "hash": "ae88ee53ea22",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "08189-08189",
+    "0B58F-0B596",
+    "0B599-0B59E"
+   ]
+  },
+  {
+   "tile": 116,
+   "hash": "2e867ca17772",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B59F-0B5AC"
+   ]
+  },
+  {
+   "tile": 117,
+   "hash": "6ab38a5bd812",
+   "blank": false,
+   "kinds": {
+    "constant": 5,
+    "copy": 11
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B5AF-0B5B5",
+    "0B5B8-0B5B9",
+    "0B5BC-0B5BD"
+   ]
+  },
+  {
+   "tile": 118,
+   "hash": "bbe88cc0fe33",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B5BE-0B5C5",
+    "0B5C8-0B5CD"
+   ]
+  },
+  {
+   "tile": 119,
+   "hash": "aa3c4ae55234",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B5CE-0B5D5",
+    "0B5D8-0B5DD"
+   ]
+  },
+  {
+   "tile": 120,
+   "hash": "7a4381d97317",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B5E0-0B5E3",
+    "0B5E6-0B5E6"
+   ]
+  },
+  {
+   "tile": 121,
+   "hash": "14188ccb7038",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B5E7-0B5F6"
+   ]
+  },
+  {
+   "tile": 122,
+   "hash": "7325f9901c1a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B5F7-0B606"
+   ]
+  },
+  {
+   "tile": 123,
+   "hash": "95a969341492",
+   "blank": false,
+   "kinds": {
+    "constant": 3,
+    "copy": 13
+   },
+   "sources": [
+    "08189-08189",
+    "0B609-0B615"
+   ]
+  },
+  {
+   "tile": 124,
+   "hash": "b507205af378",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B616-0B625"
+   ]
+  },
+  {
+   "tile": 125,
+   "hash": "9ff6b9880a54",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B626-0B632"
+   ]
+  },
+  {
+   "tile": 126,
+   "hash": "cd84f1070db7",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B635-0B641"
+   ]
+  },
+  {
+   "tile": 127,
+   "hash": "213facbd050c",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B644-0B651"
+   ]
+  },
+  {
+   "tile": 128,
+   "hash": "7eca0bd58d5a",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B654-0B659",
+    "0B65C-0B65F"
+   ]
+  },
+  {
+   "tile": 129,
+   "hash": "32431e96380d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B662-0B671"
+   ]
+  },
+  {
+   "tile": 130,
+   "hash": "62c05b71e64a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B672-0B681"
+   ]
+  },
+  {
+   "tile": 131,
+   "hash": "efb080824aab",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B682-0B691"
+   ]
+  },
+  {
+   "tile": 132,
+   "hash": "dc437dfe5632",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B692-0B697",
+    "0B69A-0B69E"
+   ]
+  },
+  {
+   "tile": 133,
+   "hash": "02e93259cb22",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B6A1-0B6AE"
+   ]
+  },
+  {
+   "tile": 134,
+   "hash": "19ae17627d27",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B6B1-0B6C0"
+   ]
+  },
+  {
+   "tile": 135,
+   "hash": "98e1c9a39917",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B6C1-0B6D0"
+   ]
+  },
+  {
+   "tile": 136,
+   "hash": "7a449bcc5678",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B6D1-0B6E0"
+   ]
+  },
+  {
+   "tile": 137,
+   "hash": "f2153768b3fa",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B6E1-0B6F0"
+   ]
+  },
+  {
+   "tile": 138,
+   "hash": "4181d97d36e3",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B6F1-0B700"
+   ]
+  },
+  {
+   "tile": 139,
+   "hash": "7f3dbff59e23",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "08189-08189",
+    "0B701-0B70B",
+    "0B70E-0B70F"
+   ]
+  },
+  {
+   "tile": 140,
+   "hash": "454062e735f6",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "08189-08189",
+    "0B710-0B71A",
+    "0B71D-0B71F"
+   ]
+  },
+  {
+   "tile": 141,
+   "hash": "2cc130b0af79",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "08189-08189",
+    "0B720-0B721",
+    "0B724-0B72F"
+   ]
+  },
+  {
+   "tile": 142,
+   "hash": "edf40ec689f2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B730-0B73F"
+   ]
+  },
+  {
+   "tile": 143,
+   "hash": "f1ba1e6a6bf1",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B740-0B74D"
+   ]
+  },
+  {
+   "tile": 144,
+   "hash": "556599f648ea",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B750-0B754",
+    "0B757-0B75A"
+   ]
+  },
+  {
+   "tile": 145,
+   "hash": "7023ccdc7239",
+   "blank": false,
+   "kinds": {
+    "constant": 9,
+    "copy": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B75D-0B760",
+    "0B763-0B765"
+   ]
+  },
+  {
+   "tile": 146,
+   "hash": "0160922aeac4",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B766-0B76D",
+    "0B770-0B775"
+   ]
+  },
+  {
+   "tile": 147,
+   "hash": "0ed69def95c9",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B776-0B77D",
+    "0B780-0B785"
+   ]
+  },
+  {
+   "tile": 148,
+   "hash": "9c1dd3157f00",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B786-0B795"
+   ]
+  },
+  {
+   "tile": 149,
+   "hash": "6e1aad3a6d42",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "08189-08189",
+    "0B796-0B79D",
+    "0B7A0-0B7A5"
+   ]
+  },
+  {
+   "tile": 150,
+   "hash": "9611248ee984",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "08189-08189",
+    "0B7A6-0B7A9",
+    "0B7AC-0B7B5"
+   ]
+  },
+  {
+   "tile": 151,
+   "hash": "f0ce95cfdf29",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B7B6-0B7C5"
+   ]
+  },
+  {
+   "tile": 152,
+   "hash": "e81598b1cf40",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B7C6-0B7D5"
+   ]
+  },
+  {
+   "tile": 153,
+   "hash": "508592da63f6",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B7D6-0B7DB",
+    "0B7DE-0B7E2"
+   ]
+  },
+  {
+   "tile": 154,
+   "hash": "ff9eef19a626",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B7E5-0B7E9",
+    "0B7EC-0B7EF"
+   ]
+  },
+  {
+   "tile": 155,
+   "hash": "18629e70362d",
+   "blank": false,
+   "kinds": {
+    "constant": 9,
+    "copy": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B7F2-0B7F5",
+    "0B7F8-0B7FA"
+   ]
+  },
+  {
+   "tile": 156,
+   "hash": "96995e4caf03",
+   "blank": false,
+   "kinds": {
+    "constant": 9,
+    "copy": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B7FD-0B800",
+    "0B803-0B805"
+   ]
+  },
+  {
+   "tile": 157,
+   "hash": "46bbefbb6130",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B806-0B815"
+   ]
+  },
+  {
+   "tile": 158,
+   "hash": "3944929afaab",
+   "blank": false,
+   "kinds": {
+    "constant": 4,
+    "copy": 12
+   },
+   "sources": [
+    "08189-08189",
+    "0B818-0B81B",
+    "0B81E-0B825"
+   ]
+  },
+  {
+   "tile": 159,
+   "hash": "87e30d8d2a58",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "08189-08189",
+    "0B826-0B82A",
+    "0B82D-0B834"
+   ]
+  },
+  {
+   "tile": 160,
+   "hash": "a673e2e8b103",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B835-0B842"
+   ]
+  },
+  {
+   "tile": 161,
+   "hash": "eeff07eb4610",
+   "blank": false,
+   "kinds": {
+    "constant": 2,
+    "copy": 14
+   },
+   "sources": [
+    "08189-08189",
+    "0B847-0B854"
+   ]
+  },
+  {
+   "tile": 162,
+   "hash": "16fabc31d7da",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B855-0B862"
+   ]
+  },
+  {
+   "tile": 163,
+   "hash": "afc3cdae1c99",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B865-0B874"
+   ]
+  },
+  {
+   "tile": 164,
+   "hash": "c311d7782d64",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B875-0B884"
+   ]
+  },
+  {
+   "tile": 165,
+   "hash": "c3d932ab3e27",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B885-0B894"
+   ]
+  },
+  {
+   "tile": 166,
+   "hash": "a9dee6eddaf7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B895-0B8A4"
+   ]
+  },
+  {
+   "tile": 167,
+   "hash": "4353c4360419",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "08189-08189",
+    "0B8A5-0B8AA",
+    "0B8AD-0B8B4"
+   ]
+  },
+  {
+   "tile": 168,
+   "hash": "3559aadb0bde",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "08189-08189",
+    "0B8B5-0B8BD",
+    "0B8C0-0B8C4"
+   ]
+  },
+  {
+   "tile": 169,
+   "hash": "5ea579e9306c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B8C5-0B8D4"
+   ]
+  },
+  {
+   "tile": 170,
+   "hash": "a75e4812d5d1",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B8D5-0B8E4"
+   ]
+  },
+  {
+   "tile": 171,
+   "hash": "336d3d25837c",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B8E5-0B8F2"
+   ]
+  },
+  {
+   "tile": 172,
+   "hash": "354ce74fbf6b",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B8F5-0B8FA",
+    "0B8FD-0B900"
+   ]
+  },
+  {
+   "tile": 173,
+   "hash": "e6d9eeb97d45",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B905-0B914"
+   ]
+  },
+  {
+   "tile": 174,
+   "hash": "e31bb249565a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B915-0B924"
+   ]
+  },
+  {
+   "tile": 175,
+   "hash": "2c482bdb27f0",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B925-0B932"
+   ]
+  },
+  {
+   "tile": 176,
+   "hash": "899e679dd0de",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B935-0B941"
+   ]
+  },
+  {
+   "tile": 177,
+   "hash": "02eba36e8865",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B944-0B953"
+   ]
+  },
+  {
+   "tile": 178,
+   "hash": "a4989b4e093f",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "08189-08189",
+    "0B954-0B95B"
+   ]
+  },
+  {
+   "tile": 179,
+   "hash": "9a96da26b525",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B95E-0B96D"
+   ]
+  },
+  {
+   "tile": 180,
+   "hash": "14f9ce29080d",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "08189-08189",
+    "0B96E-0B975",
+    "0B978-0B97A"
+   ]
+  },
+  {
+   "tile": 181,
+   "hash": "3f654269911b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B97B-0B98A"
+   ]
+  },
+  {
+   "tile": 182,
+   "hash": "5a5d3eefc995",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B98B-0B99A"
+   ]
+  },
+  {
+   "tile": 183,
+   "hash": "76599edc47f3",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B99B-0B9AA"
+   ]
+  },
+  {
+   "tile": 184,
+   "hash": "ecdf35f4649a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B9AB-0B9BA"
+   ]
+  },
+  {
+   "tile": 185,
+   "hash": "fe938ecbd57d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B9BB-0B9CA"
+   ]
+  },
+  {
+   "tile": 186,
+   "hash": "21bc98e671ac",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B9CB-0B9DA"
+   ]
+  },
+  {
+   "tile": 187,
+   "hash": "86e369650ddc",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B9DB-0B9EA"
+   ]
+  },
+  {
+   "tile": 188,
+   "hash": "b133881be2f4",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0B9EB-0B9FA"
+   ]
+  },
+  {
+   "tile": 189,
+   "hash": "7818a2fa6cd5",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0B9FB-0B9FF",
+    "0BA02-0BA05"
+   ]
+  },
+  {
+   "tile": 190,
+   "hash": "9c2ffe465711",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BA08-0BA17"
+   ]
+  },
+  {
+   "tile": 191,
+   "hash": "4a4bbede78f1",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BA18-0BA27"
+   ]
+  },
+  {
+   "tile": 192,
+   "hash": "ee7267c07aac",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BA28-0BA37"
+   ]
+  },
+  {
+   "tile": 193,
+   "hash": "91b3933040bb",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BA38-0BA47"
+   ]
+  },
+  {
+   "tile": 194,
+   "hash": "f565bd1d20f2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BA48-0BA57"
+   ]
+  },
+  {
+   "tile": 195,
+   "hash": "91f9c0d6c624",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BA58-0BA67"
+   ]
+  },
+  {
+   "tile": 196,
+   "hash": "31fe0a98b425",
+   "blank": false,
+   "kinds": {
+    "copy": 15,
+    "constant": 1
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BA68-0BA76"
+   ]
+  },
+  {
+   "tile": 197,
+   "hash": "ab0f27cf366e",
+   "blank": false,
+   "kinds": {
+    "constant": 4,
+    "copy": 12
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BA79-0BA7F",
+    "0BA82-0BA86"
+   ]
+  },
+  {
+   "tile": 198,
+   "hash": "a1b9f1c5614c",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BA89-0BA8E",
+    "0BA91-0BA94"
+   ]
+  },
+  {
+   "tile": 199,
+   "hash": "5d9a72a60afe",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BA97-0BA9B",
+    "0BA9E-0BAA0"
+   ]
+  },
+  {
+   "tile": 200,
+   "hash": "8958134841cd",
+   "blank": false,
+   "kinds": {
+    "constant": 10,
+    "copy": 6
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BAA3-0BAA6",
+    "0BAA9-0BAAA"
+   ]
+  },
+  {
+   "tile": 201,
+   "hash": "89df39a0fb9b",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BAAD-0BAAF",
+    "0BAB2-0BAB3"
+   ]
+  },
+  {
+   "tile": 202,
+   "hash": "8a97d6a62c2f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BAB4-0BAC3"
+   ]
+  },
+  {
+   "tile": 203,
+   "hash": "766d376887d5",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BAC4-0BAD3"
+   ]
+  },
+  {
+   "tile": 204,
+   "hash": "9921538555dc",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BAD4-0BAE3"
+   ]
+  },
+  {
+   "tile": 205,
+   "hash": "03153533fb01",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BAE4-0BAF3"
+   ]
+  },
+  {
+   "tile": 206,
+   "hash": "381598ec3969",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BAF4-0BB03"
+   ]
+  },
+  {
+   "tile": 207,
+   "hash": "16401b1e0604",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BB04-0BB13"
+   ]
+  },
+  {
+   "tile": 208,
+   "hash": "b68033f93980",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BB16-0BB25"
+   ]
+  },
+  {
+   "tile": 209,
+   "hash": "b4618e0038e6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BB26-0BB35"
+   ]
+  },
+  {
+   "tile": 210,
+   "hash": "cd4f01ea6039",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BB36-0BB45"
+   ]
+  },
+  {
+   "tile": 211,
+   "hash": "bb04a54f031c",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BB46-0BB4A",
+    "0BB4D-0BB50"
+   ]
+  },
+  {
+   "tile": 212,
+   "hash": "3403055668f6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BB53-0BB62"
+   ]
+  },
+  {
+   "tile": 213,
+   "hash": "572b8b1c39f4",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BB63-0BB6A",
+    "0BB6D-0BB72"
+   ]
+  },
+  {
+   "tile": 214,
+   "hash": "246a0cb64780",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BB73-0BB82"
+   ]
+  },
+  {
+   "tile": 215,
+   "hash": "34743570ebd1",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BB83-0BB92"
+   ]
+  },
+  {
+   "tile": 216,
+   "hash": "365989965603",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BB93-0BB9C"
+   ]
+  },
+  {
+   "tile": 217,
+   "hash": "9db6142b3bc3",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BB9F-0BBAA"
+   ]
+  },
+  {
+   "tile": 218,
+   "hash": "62bc69892881",
+   "blank": false,
+   "kinds": {
+    "constant": 13,
+    "copy": 3
+   },
+   "sources": [
+    "08189-08189",
+    "0818D-0818D",
+    "0BBB1-0BBB3"
+   ]
+  },
+  {
+   "tile": 219,
+   "hash": "53b6ed6d723c",
+   "blank": false,
+   "kinds": {
+    "constant": 10,
+    "copy": 6
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BBBA-0BBBD",
+    "0BBC0-0BBC1"
+   ]
+  },
+  {
+   "tile": 220,
+   "hash": "1984c4680b8d",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BBC4-0BBC9",
+    "0BBCC-0BBCF"
+   ]
+  },
+  {
+   "tile": 221,
+   "hash": "e76ed7d48419",
+   "blank": false,
+   "kinds": {
+    "constant": 5,
+    "copy": 11
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BBD2-0BBD7",
+    "0BBDA-0BBDE"
+   ]
+  },
+  {
+   "tile": 222,
+   "hash": "09c01783f927",
+   "blank": false,
+   "kinds": {
+    "constant": 12,
+    "copy": 4
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BBE3-0BBE4",
+    "0BBE7-0BBE8"
+   ]
+  },
+  {
+   "tile": 223,
+   "hash": "65d33a96055f",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "0818D-0818D",
+    "0BBE9-0BBEC",
+    "0BBEF-0BBF2"
+   ]
+  },
+  {
+   "tile": 224,
+   "hash": "88be4408e27e",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BBF5-0BC04"
+   ]
+  },
+  {
+   "tile": 225,
+   "hash": "533ac4fd9eb1",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC05-0BC14"
+   ]
+  },
+  {
+   "tile": 226,
+   "hash": "3829727fab21",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC15-0BC24"
+   ]
+  },
+  {
+   "tile": 227,
+   "hash": "bdee8226ff13",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC25-0BC34"
+   ]
+  },
+  {
+   "tile": 228,
+   "hash": "ddbac9ce00ac",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC35-0BC44"
+   ]
+  },
+  {
+   "tile": 229,
+   "hash": "5b7d8ffdee42",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC45-0BC54"
+   ]
+  },
+  {
+   "tile": 230,
+   "hash": "9d0ca55597f2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC55-0BC64"
+   ]
+  },
+  {
+   "tile": 231,
+   "hash": "03625098c94b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC65-0BC74"
+   ]
+  },
+  {
+   "tile": 232,
+   "hash": "eab1c182c78c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "085B2-085C1"
+   ]
+  },
+  {
+   "tile": 233,
+   "hash": "758073131e8c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "085C2-085D1"
+   ]
+  },
+  {
+   "tile": 234,
+   "hash": "03625098c94b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC65-0BC74"
+   ]
+  },
+  {
+   "tile": 235,
+   "hash": "0f9bdc9a8213",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC75-0BC84"
+   ]
+  },
+  {
+   "tile": 236,
+   "hash": "264c9dc59be3",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC85-0BC94"
+   ]
+  },
+  {
+   "tile": 237,
+   "hash": "3cb0795052af",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BC95-0BCA4"
+   ]
+  },
+  {
+   "tile": 238,
+   "hash": "70da8cbd7376",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BCA5-0BCB4"
+   ]
+  },
+  {
+   "tile": 239,
+   "hash": "be82b57dba2a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BCB5-0BCC4"
+   ]
+  },
+  {
+   "tile": 240,
+   "hash": "9e33d228d777",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BCC5-0BCD4"
+   ]
+  },
+  {
+   "tile": 241,
+   "hash": "88211bdbafc6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BCD5-0BCE4"
+   ]
+  },
+  {
+   "tile": 242,
+   "hash": "e5601e7be0df",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BCE5-0BCF4"
+   ]
+  },
+  {
+   "tile": 243,
+   "hash": "f13dc5da88f4",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BCF5-0BD04"
+   ]
+  },
+  {
+   "tile": 244,
+   "hash": "df3755055d2d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD05-0BD14"
+   ]
+  },
+  {
+   "tile": 245,
+   "hash": "f1bd8d7b6182",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD15-0BD24"
+   ]
+  },
+  {
+   "tile": 246,
+   "hash": "ed561aa800eb",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD25-0BD34"
+   ]
+  },
+  {
+   "tile": 247,
+   "hash": "91fb93e5f499",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD35-0BD44"
+   ]
+  },
+  {
+   "tile": 248,
+   "hash": "1916dc78af4e",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD45-0BD54"
+   ]
+  },
+  {
+   "tile": 249,
+   "hash": "232e3f17f344",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD55-0BD64"
+   ]
+  },
+  {
+   "tile": 250,
+   "hash": "454c6d45f3e9",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD65-0BD74"
+   ]
+  },
+  {
+   "tile": 251,
+   "hash": "1747568d58f6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD75-0BD84"
+   ]
+  },
+  {
+   "tile": 252,
+   "hash": "ea81b02020a4",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD85-0BD94"
+   ]
+  },
+  {
+   "tile": 253,
+   "hash": "dcadb2c13179",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BD95-0BDA4"
+   ]
+  },
+  {
+   "tile": 254,
+   "hash": "a72b586f5cd9",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BDA5-0BDB4"
+   ]
+  },
+  {
+   "tile": 255,
+   "hash": "d9ec27e5b2f5",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0BDB5-0BDC4"
+   ]
+  },
+  {
+   "tile": 256,
+   "hash": "e129f27c5103",
+   "blank": true,
+   "kinds": {
+    "constant": 16
+   },
+   "sources": [
+    "2008A-2008A"
+   ]
+  },
+  {
+   "tile": 257,
+   "hash": "36113ca7bc96",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24559-24568"
+   ]
+  },
+  {
+   "tile": 258,
+   "hash": "70e98b8cab9d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24569-24578"
+   ]
+  },
+  {
+   "tile": 259,
+   "hash": "01fbfba8efc2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24579-24588"
+   ]
+  },
+  {
+   "tile": 260,
+   "hash": "d456caa99a04",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24589-24598"
+   ]
+  },
+  {
+   "tile": 261,
+   "hash": "9a87db8980f5",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24599-245A8"
+   ]
+  },
+  {
+   "tile": 262,
+   "hash": "d0f16b9d3a65",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "245A9-245B8"
+   ]
+  },
+  {
+   "tile": 263,
+   "hash": "8eb5ede68ae2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "245B9-245C8"
+   ]
+  },
+  {
+   "tile": 264,
+   "hash": "4d09c1c7af4a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "245C9-245D8"
+   ]
+  },
+  {
+   "tile": 265,
+   "hash": "7fe943a87d54",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "245D9-245E8"
+   ]
+  },
+  {
+   "tile": 266,
+   "hash": "941da3b5f305",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "245E9-245F4",
+    "245F7-245F7"
+   ]
+  },
+  {
+   "tile": 267,
+   "hash": "6bdfc0039e03",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "245F8-24607"
+   ]
+  },
+  {
+   "tile": 268,
+   "hash": "eeeff2f3c875",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24608-24617"
+   ]
+  },
+  {
+   "tile": 269,
+   "hash": "318d7a9a7f7c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24618-24627"
+   ]
+  },
+  {
+   "tile": 270,
+   "hash": "2712aa04f321",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24628-24637"
+   ]
+  },
+  {
+   "tile": 271,
+   "hash": "33f55d0ce396",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24638-24647"
+   ]
+  },
+  {
+   "tile": 272,
+   "hash": "d50ff4c41803",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24648-24657"
+   ]
+  },
+  {
+   "tile": 273,
+   "hash": "c6418f2d1e02",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24658-24665"
+   ]
+  },
+  {
+   "tile": 274,
+   "hash": "b6b66543183c",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24668-24675"
+   ]
+  },
+  {
+   "tile": 275,
+   "hash": "ea5a149daffe",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24678-24685"
+   ]
+  },
+  {
+   "tile": 276,
+   "hash": "52a7c0f1b7b4",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24688-24697"
+   ]
+  },
+  {
+   "tile": 277,
+   "hash": "374b82879aef",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24698-2469F"
+   ]
+  },
+  {
+   "tile": 278,
+   "hash": "edcbc7abcaa6",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "246A2-246A9"
+   ]
+  },
+  {
+   "tile": 279,
+   "hash": "d69b97cc5e06",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "2008A-2008A",
+    "246AC-246B2",
+    "246B5-246B7"
+   ]
+  },
+  {
+   "tile": 280,
+   "hash": "7eced7be3169",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "246B8-246BF"
+   ]
+  },
+  {
+   "tile": 281,
+   "hash": "9c14c2c62ab3",
+   "blank": false,
+   "kinds": {
+    "copy": 6,
+    "constant": 10
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "246C2-246C5",
+    "246C8-246C9"
+   ]
+  },
+  {
+   "tile": 282,
+   "hash": "29c17e0d66ea",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "2008A-2008A",
+    "246CC-246D3",
+    "246D6-246D7"
+   ]
+  },
+  {
+   "tile": 283,
+   "hash": "8ea8f2cefa71",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "246DA-246E1",
+    "246E4-246E9"
+   ]
+  },
+  {
+   "tile": 284,
+   "hash": "a030ecf365f3",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "2008A-2008A",
+    "246EA-246F1",
+    "246F4-246F5"
+   ]
+  },
+  {
+   "tile": 285,
+   "hash": "a86ffaa40eee",
+   "blank": false,
+   "kinds": {
+    "copy": 5,
+    "constant": 11
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "246F8-246FC"
+   ]
+  },
+  {
+   "tile": 286,
+   "hash": "9300c2cba6ac",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24701-24704",
+    "24707-24709",
+    "2470C-2470C"
+   ]
+  },
+  {
+   "tile": 287,
+   "hash": "be660e1b21c9",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2470D-2471C"
+   ]
+  },
+  {
+   "tile": 288,
+   "hash": "e30cbe52d1cf",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "2471F-24724",
+    "24727-24728",
+    "2472B-2472C"
+   ]
+  },
+  {
+   "tile": 289,
+   "hash": "6f8927686b42",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "2472D-24738",
+    "2473B-2473C"
+   ]
+  },
+  {
+   "tile": 290,
+   "hash": "1fd2fe29a8fd",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "2473D-24745",
+    "24748-2474B"
+   ]
+  },
+  {
+   "tile": 291,
+   "hash": "788b4e1839c2",
+   "blank": false,
+   "kinds": {
+    "copy": 6,
+    "constant": 10
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "2474C-2474F",
+    "24752-24753"
+   ]
+  },
+  {
+   "tile": 292,
+   "hash": "83cf5ff06d76",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24756-2475B",
+    "2475E-24761"
+   ]
+  },
+  {
+   "tile": 293,
+   "hash": "c57ab4b6b456",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "24764-2476B",
+    "2476E-24771"
+   ]
+  },
+  {
+   "tile": 294,
+   "hash": "c7b3dd8bef22",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24772-24779",
+    "2477C-24781"
+   ]
+  },
+  {
+   "tile": 295,
+   "hash": "0a7f8e247391",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "24782-24789",
+    "2478C-24790"
+   ]
+  },
+  {
+   "tile": 296,
+   "hash": "3015b88e3c3c",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "24791-24798",
+    "2479B-2479F"
+   ]
+  },
+  {
+   "tile": 297,
+   "hash": "9e2e1198a807",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "247A0-247A7"
+   ]
+  },
+  {
+   "tile": 298,
+   "hash": "a03ea6e3e272",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "247AA-247B1"
+   ]
+  },
+  {
+   "tile": 299,
+   "hash": "71712cb3d29c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "247B4-247C3"
+   ]
+  },
+  {
+   "tile": 300,
+   "hash": "11f3e5a3560e",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "247C4-247D3"
+   ]
+  },
+  {
+   "tile": 301,
+   "hash": "aa5fa3ec0f1d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "247D4-247E3"
+   ]
+  },
+  {
+   "tile": 302,
+   "hash": "b0dcfc1d9f77",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "247E4-247F3"
+   ]
+  },
+  {
+   "tile": 303,
+   "hash": "89e983e89268",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "247F4-24803"
+   ]
+  },
+  {
+   "tile": 304,
+   "hash": "21e1d292529b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24804-24813"
+   ]
+  },
+  {
+   "tile": 305,
+   "hash": "f7e481c3fbad",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24814-24823"
+   ]
+  },
+  {
+   "tile": 306,
+   "hash": "0f9f27d1e5c6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24824-24833"
+   ]
+  },
+  {
+   "tile": 307,
+   "hash": "bdbf00d35ef7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24834-24843"
+   ]
+  },
+  {
+   "tile": 308,
+   "hash": "ab7775a2e5cd",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24844-24853"
+   ]
+  },
+  {
+   "tile": 309,
+   "hash": "7920bfac8f9e",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24854-24863"
+   ]
+  },
+  {
+   "tile": 310,
+   "hash": "a61cecb00e96",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24864-24873"
+   ]
+  },
+  {
+   "tile": 311,
+   "hash": "c4b19ce51f81",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24874-24883"
+   ]
+  },
+  {
+   "tile": 312,
+   "hash": "a6a6daa00150",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24884-24893"
+   ]
+  },
+  {
+   "tile": 313,
+   "hash": "8eb7f4bddb06",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24894-248A3"
+   ]
+  },
+  {
+   "tile": 314,
+   "hash": "8d285e433c8f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "248A4-248B3"
+   ]
+  },
+  {
+   "tile": 315,
+   "hash": "ade454d85507",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "248B4-248BF"
+   ]
+  },
+  {
+   "tile": 316,
+   "hash": "d0e8b9051687",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "248C2-248CE"
+   ]
+  },
+  {
+   "tile": 317,
+   "hash": "aa7c2ac52e08",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "248D1-248D8"
+   ]
+  },
+  {
+   "tile": 318,
+   "hash": "56a208f2e82a",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "248DB-248E2"
+   ]
+  },
+  {
+   "tile": 319,
+   "hash": "8a170dae8076",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "248E5-248EC",
+    "248EF-248F2"
+   ]
+  },
+  {
+   "tile": 320,
+   "hash": "e94eb6968717",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "248F3-248FA"
+   ]
+  },
+  {
+   "tile": 321,
+   "hash": "4457e2b676e5",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "2008A-2008A",
+    "248FD-24904",
+    "24907-24908"
+   ]
+  },
+  {
+   "tile": 322,
+   "hash": "131a69c7d1cc",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "2490B-24912"
+   ]
+  },
+  {
+   "tile": 323,
+   "hash": "6a884f86e23a",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24915-2491C",
+    "2491F-24921"
+   ]
+  },
+  {
+   "tile": 324,
+   "hash": "e56e1c9945af",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24922-24929",
+    "2492C-2492E"
+   ]
+  },
+  {
+   "tile": 325,
+   "hash": "33c595a06e9c",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "2008A-2008A",
+    "24931-24938",
+    "2493B-2493B"
+   ]
+  },
+  {
+   "tile": 326,
+   "hash": "3702729fbb72",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "2493E-24945",
+    "24948-2494B"
+   ]
+  },
+  {
+   "tile": 327,
+   "hash": "172d92ac7a4c",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "2008A-2008A",
+    "2494C-24954",
+    "24957-24957"
+   ]
+  },
+  {
+   "tile": 328,
+   "hash": "79c02f43ae5e",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24958-24965"
+   ]
+  },
+  {
+   "tile": 329,
+   "hash": "2efc7125a13f",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "24968-2496F",
+    "24972-24975"
+   ]
+  },
+  {
+   "tile": 330,
+   "hash": "865fe14ead07",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24976-24985"
+   ]
+  },
+  {
+   "tile": 331,
+   "hash": "60b9352a94fc",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24986-24995"
+   ]
+  },
+  {
+   "tile": 332,
+   "hash": "4ea944851e49",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24996-2499D"
+   ]
+  },
+  {
+   "tile": 333,
+   "hash": "d8d27a9d896d",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "249A0-249A9",
+    "249AC-249AD"
+   ]
+  },
+  {
+   "tile": 334,
+   "hash": "e410e0fd3fb6",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "2008A-2008A",
+    "249B0-249B7",
+    "249BA-249BA"
+   ]
+  },
+  {
+   "tile": 335,
+   "hash": "8ae1c3677f58",
+   "blank": false,
+   "kinds": {
+    "copy": 7,
+    "constant": 9
+   },
+   "sources": [
+    "2008A-2008A",
+    "249BB-249C1"
+   ]
+  },
+  {
+   "tile": 336,
+   "hash": "2bc27f113dfa",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "249C4-249CB"
+   ]
+  },
+  {
+   "tile": 337,
+   "hash": "b4f55bd9cbd3",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "2008A-2008A",
+    "249CE-249D2",
+    "249D5-249D9"
+   ]
+  },
+  {
+   "tile": 338,
+   "hash": "87c1e86e9166",
+   "blank": false,
+   "kinds": {
+    "constant": 9,
+    "copy": 7
+   },
+   "sources": [
+    "2008A-2008A",
+    "249DC-249DF",
+    "249E2-249E4"
+   ]
+  },
+  {
+   "tile": 339,
+   "hash": "4b2add9bb1c6",
+   "blank": false,
+   "kinds": {
+    "constant": 7,
+    "copy": 9
+   },
+   "sources": [
+    "2008A-2008A",
+    "249E7-249EB",
+    "249EE-249F1"
+   ]
+  },
+  {
+   "tile": 340,
+   "hash": "dffd6a3dfaae",
+   "blank": false,
+   "kinds": {
+    "constant": 9,
+    "copy": 7
+   },
+   "sources": [
+    "2008A-2008A",
+    "249F4-249F7",
+    "249FA-249FC"
+   ]
+  },
+  {
+   "tile": 341,
+   "hash": "e129f27c5103",
+   "blank": true,
+   "kinds": {
+    "constant": 16
+   },
+   "sources": [
+    "2008A-2008A"
+   ]
+  },
+  {
+   "tile": 342,
+   "hash": "c5c9fa3e8a66",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "249FF-24A0E"
+   ]
+  },
+  {
+   "tile": 343,
+   "hash": "ae3ebb3f38fe",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24A11-24A13",
+    "24A16-24A17"
+   ]
+  },
+  {
+   "tile": 344,
+   "hash": "d4dbdd53cee4",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "24A18-24A1F",
+    "24A22-24A26"
+   ]
+  },
+  {
+   "tile": 345,
+   "hash": "45220f183ee1",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24A29-24A2C",
+    "24A2F-24A32"
+   ]
+  },
+  {
+   "tile": 346,
+   "hash": "dc5b84fc344e",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "2008A-2008A",
+    "24A35-24A3A",
+    "24A3D-24A40"
+   ]
+  },
+  {
+   "tile": 347,
+   "hash": "f9d465e78ef0",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24A41-24A50"
+   ]
+  },
+  {
+   "tile": 348,
+   "hash": "f0758cd8d4d3",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24A51-24A60"
+   ]
+  },
+  {
+   "tile": 349,
+   "hash": "14983a25600a",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24A61-24A6E"
+   ]
+  },
+  {
+   "tile": 350,
+   "hash": "e93b7209b4f6",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24A71-24A72",
+    "24A75-24A80"
+   ]
+  },
+  {
+   "tile": 351,
+   "hash": "751003abeaa8",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24A81-24A84",
+    "24A87-24A8D"
+   ]
+  },
+  {
+   "tile": 352,
+   "hash": "cfbcc19a1700",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24A90-24A93",
+    "24A96-24A9B"
+   ]
+  },
+  {
+   "tile": 353,
+   "hash": "936b823a5a10",
+   "blank": false,
+   "kinds": {
+    "constant": 16
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A"
+   ]
+  },
+  {
+   "tile": 354,
+   "hash": "ddc7bf764a17",
+   "blank": false,
+   "kinds": {
+    "constant": 2,
+    "copy": 14
+   },
+   "sources": [
+    "2008A-2008A",
+    "24AA2-24AAF"
+   ]
+  },
+  {
+   "tile": 355,
+   "hash": "52163d4bc322",
+   "blank": false,
+   "kinds": {
+    "constant": 12,
+    "copy": 4
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24AB4-24AB7"
+   ]
+  },
+  {
+   "tile": 356,
+   "hash": "a587e1882ae8",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24AB8-24AC7"
+   ]
+  },
+  {
+   "tile": 357,
+   "hash": "07d188ff47d5",
+   "blank": false,
+   "kinds": {
+    "constant": 9,
+    "copy": 7
+   },
+   "sources": [
+    "2008A-2008A",
+    "24ACA-24AD0"
+   ]
+  },
+  {
+   "tile": 358,
+   "hash": "c755b22464bd",
+   "blank": false,
+   "kinds": {
+    "constant": 13,
+    "copy": 3
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24AD5-24AD7"
+   ]
+  },
+  {
+   "tile": 359,
+   "hash": "21e1f44426bb",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "24AD8-24ADF",
+    "24AE2-24AE5"
+   ]
+  },
+  {
+   "tile": 360,
+   "hash": "318e674b6093",
+   "blank": false,
+   "kinds": {
+    "copy": 15,
+    "constant": 1
+   },
+   "sources": [
+    "2008A-2008A",
+    "24AE6-24AF4"
+   ]
+  },
+  {
+   "tile": 361,
+   "hash": "5a71e17d27f8",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24AF7-24AFE"
+   ]
+  },
+  {
+   "tile": 362,
+   "hash": "cc3eb797163f",
+   "blank": false,
+   "kinds": {
+    "constant": 14,
+    "copy": 2
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24B03-24B04"
+   ]
+  },
+  {
+   "tile": 363,
+   "hash": "8d9505dd409f",
+   "blank": false,
+   "kinds": {
+    "constant": 10,
+    "copy": 6
+   },
+   "sources": [
+    "2008A-2008A",
+    "24B07-24B0C"
+   ]
+  },
+  {
+   "tile": 364,
+   "hash": "0a086b79c67d",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "24B0F-24B12",
+    "24B15-24B1C"
+   ]
+  },
+  {
+   "tile": 365,
+   "hash": "bdfae9dd926d",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24B1F-24B26"
+   ]
+  },
+  {
+   "tile": 366,
+   "hash": "dc9554be2256",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24B27-24B36"
+   ]
+  },
+  {
+   "tile": 367,
+   "hash": "763c8ccd3c07",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24B37-24B46"
+   ]
+  },
+  {
+   "tile": 368,
+   "hash": "1409a27bcc74",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24B47-24B56"
+   ]
+  },
+  {
+   "tile": 369,
+   "hash": "e79235a939a0",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24B57-24B66"
+   ]
+  },
+  {
+   "tile": 370,
+   "hash": "9ab033ec949d",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24B69-24B6D"
+   ]
+  },
+  {
+   "tile": 371,
+   "hash": "55ec88be4823",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24B70-24B72",
+    "24B75-24B7F"
+   ]
+  },
+  {
+   "tile": 372,
+   "hash": "8630ad65bc89",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24B80-24B80",
+    "24B83-24B86",
+    "24B89-24B8D"
+   ]
+  },
+  {
+   "tile": 373,
+   "hash": "b11aa41dc009",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24B90-24B92",
+    "24B95-24B99"
+   ]
+  },
+  {
+   "tile": 374,
+   "hash": "ef16290d384f",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "24B9A-24B9F",
+    "24BA2-24BA7"
+   ]
+  },
+  {
+   "tile": 375,
+   "hash": "b883055ab611",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24BAA-24BB9"
+   ]
+  },
+  {
+   "tile": 376,
+   "hash": "107d565a6710",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24BBA-24BC1"
+   ]
+  },
+  {
+   "tile": 377,
+   "hash": "14a95c5df69e",
+   "blank": false,
+   "kinds": {
+    "copy": 10,
+    "constant": 6
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24BC4-24BC8",
+    "24BCB-24BCF"
+   ]
+  },
+  {
+   "tile": 378,
+   "hash": "f5a2793414ce",
+   "blank": false,
+   "kinds": {
+    "constant": 13,
+    "copy": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "24BD2-24BD3",
+    "24BD6-24BD6"
+   ]
+  },
+  {
+   "tile": 379,
+   "hash": "6148ef3280ca",
+   "blank": false,
+   "kinds": {
+    "constant": 14,
+    "copy": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24BD9-24BDA"
+   ]
+  },
+  {
+   "tile": 380,
+   "hash": "8a76244bca64",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24BDD-24BE1"
+   ]
+  },
+  {
+   "tile": 381,
+   "hash": "bcc71b96954f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08619-08628"
+   ]
+  },
+  {
+   "tile": 382,
+   "hash": "3c0dbb7874ba",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08629-08638"
+   ]
+  },
+  {
+   "tile": 383,
+   "hash": "b223acca7fc4",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08639-08648"
+   ]
+  },
+  {
+   "tile": 384,
+   "hash": "4c0469c87c24",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08649-08658"
+   ]
+  },
+  {
+   "tile": 385,
+   "hash": "26ee08c584da",
+   "blank": false,
+   "kinds": {
+    "constant": 4,
+    "copy": 12
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24C22-24C27",
+    "24C2A-24C2F"
+   ]
+  },
+  {
+   "tile": 386,
+   "hash": "cd122ffdc2dc",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24C30-24C3D"
+   ]
+  },
+  {
+   "tile": 387,
+   "hash": "d736ceef63c0",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24C40-24C4F"
+   ]
+  },
+  {
+   "tile": 388,
+   "hash": "684a1ae60a7e",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24C50-24C57",
+    "24C5A-24C5F"
+   ]
+  },
+  {
+   "tile": 389,
+   "hash": "1a11160985e7",
+   "blank": false,
+   "kinds": {
+    "copy": 6,
+    "constant": 10
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24C60-24C65"
+   ]
+  },
+  {
+   "tile": 390,
+   "hash": "1e96a12592ab",
+   "blank": false,
+   "kinds": {
+    "copy": 4,
+    "constant": 12
+   },
+   "sources": [
+    "2008A-2008A",
+    "24C6A-24C6A",
+    "24C6D-24C6F"
+   ]
+  },
+  {
+   "tile": 391,
+   "hash": "c9d1593df62d",
+   "blank": false,
+   "kinds": {
+    "copy": 6,
+    "constant": 10
+   },
+   "sources": [
+    "2008A-2008A",
+    "24C72-24C72",
+    "24C75-24C79"
+   ]
+  },
+  {
+   "tile": 392,
+   "hash": "6439e75390ca",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24C7C-24C81",
+    "24C84-24C89"
+   ]
+  },
+  {
+   "tile": 393,
+   "hash": "28df2d70393c",
+   "blank": false,
+   "kinds": {
+    "copy": 9,
+    "constant": 7
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24C8C-24C91",
+    "24C94-24C96"
+   ]
+  },
+  {
+   "tile": 394,
+   "hash": "e129f27c5103",
+   "blank": true,
+   "kinds": {
+    "constant": 16
+   },
+   "sources": [
+    "2008A-2008A"
+   ]
+  },
+  {
+   "tile": 395,
+   "hash": "7b4b4abe438e",
+   "blank": false,
+   "kinds": {
+    "constant": 7,
+    "copy": 9
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24C99-24C9D",
+    "24CA2-24CA5"
+   ]
+  },
+  {
+   "tile": 396,
+   "hash": "93ccc4b840a6",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24CA8-24CAC",
+    "24CAF-24CB1"
+   ]
+  },
+  {
+   "tile": 397,
+   "hash": "63a5898be629",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "24CB2-24CBE"
+   ]
+  },
+  {
+   "tile": 398,
+   "hash": "d2971b2aaea1",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24CC1-24CC5",
+    "24CCA-24CCC"
+   ]
+  },
+  {
+   "tile": 399,
+   "hash": "1183c0b1246a",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "20086-20086",
+    "2008A-2008A",
+    "24CCF-24CD4",
+    "24CD7-24CDC"
+   ]
+  },
+  {
+   "tile": 400,
+   "hash": "f3af48d8b1fa",
+   "blank": false,
+   "kinds": {
+    "constant": 6,
+    "copy": 10
+   },
+   "sources": [
+    "2008A-2008A",
+    "24CDF-24CE5",
+    "24CE8-24CEA"
+   ]
+  },
+  {
+   "tile": 401,
+   "hash": "362d8cd01fa5",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24CED-24CF0",
+    "24CF3-24CF3"
+   ]
+  },
+  {
+   "tile": 402,
+   "hash": "4e7512645c1e",
+   "blank": false,
+   "kinds": {
+    "constant": 12,
+    "copy": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "24CF6-24CF8",
+    "24CFB-24CFB"
+   ]
+  },
+  {
+   "tile": 403,
+   "hash": "3d08db5e655d",
+   "blank": false,
+   "kinds": {
+    "copy": 11,
+    "constant": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24CFC-24CFF",
+    "24D02-24D08"
+   ]
+  },
+  {
+   "tile": 404,
+   "hash": "24c4222c0d0e",
+   "blank": false,
+   "kinds": {
+    "copy": 7,
+    "constant": 9
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D0B-24D0E",
+    "24D11-24D12",
+    "24D15-24D15"
+   ]
+  },
+  {
+   "tile": 405,
+   "hash": "d44908bee1cf",
+   "blank": false,
+   "kinds": {
+    "copy": 7,
+    "constant": 9
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D18-24D19",
+    "24D1C-24D20"
+   ]
+  },
+  {
+   "tile": 406,
+   "hash": "afd58636225b",
+   "blank": false,
+   "kinds": {
+    "constant": 5,
+    "copy": 11
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D23-24D2D"
+   ]
+  },
+  {
+   "tile": 407,
+   "hash": "20f1e07281ec",
+   "blank": false,
+   "kinds": {
+    "constant": 5,
+    "copy": 11
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D30-24D33",
+    "24D36-24D3C"
+   ]
+  },
+  {
+   "tile": 408,
+   "hash": "366bd8df31a0",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24D3D-24D4C"
+   ]
+  },
+  {
+   "tile": 409,
+   "hash": "907738a02fae",
+   "blank": false,
+   "kinds": {
+    "copy": 12,
+    "constant": 4
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D4D-24D55",
+    "24D58-24D5A"
+   ]
+  },
+  {
+   "tile": 410,
+   "hash": "67bc6e56d930",
+   "blank": false,
+   "kinds": {
+    "copy": 14,
+    "constant": 2
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D5D-24D6A"
+   ]
+  },
+  {
+   "tile": 411,
+   "hash": "f7ed68eb7e66",
+   "blank": false,
+   "kinds": {
+    "copy": 13,
+    "constant": 3
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D6D-24D79"
+   ]
+  },
+  {
+   "tile": 412,
+   "hash": "c2a2c54ad0c6",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D7C-24D80",
+    "24D83-24D85"
+   ]
+  },
+  {
+   "tile": 413,
+   "hash": "271b06c4ce72",
+   "blank": false,
+   "kinds": {
+    "constant": 11,
+    "copy": 5
+   },
+   "sources": [
+    "2008A-2008A",
+    "24D88-24D89",
+    "24D8C-24D8E"
+   ]
+  },
+  {
+   "tile": 414,
+   "hash": "4cff41f2214e",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24D8F-24D9E"
+   ]
+  },
+  {
+   "tile": 415,
+   "hash": "4873de036207",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24D9F-24DAE"
+   ]
+  },
+  {
+   "tile": 416,
+   "hash": "f13e8196535c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24DAF-24DBE"
+   ]
+  },
+  {
+   "tile": 417,
+   "hash": "c9b3de1c9d03",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24DBF-24DCE"
+   ]
+  },
+  {
+   "tile": 418,
+   "hash": "af5e1784b96b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24DCF-24DDE"
+   ]
+  },
+  {
+   "tile": 419,
+   "hash": "511e42aac6bb",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24DDF-24DEE"
+   ]
+  },
+  {
+   "tile": 420,
+   "hash": "40cc03dffe8b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24DEF-24DFE"
+   ]
+  },
+  {
+   "tile": 421,
+   "hash": "05514e1a9cd6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24DFF-24E0E"
+   ]
+  },
+  {
+   "tile": 422,
+   "hash": "6fef88445b93",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E0F-24E1E"
+   ]
+  },
+  {
+   "tile": 423,
+   "hash": "c261210bb2dd",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E1F-24E2E"
+   ]
+  },
+  {
+   "tile": 424,
+   "hash": "5bc8262ca233",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E2F-24E3E"
+   ]
+  },
+  {
+   "tile": 425,
+   "hash": "2e8df93229b7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E3F-24E4E"
+   ]
+  },
+  {
+   "tile": 426,
+   "hash": "066ad81d47a9",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E4F-24E5E"
+   ]
+  },
+  {
+   "tile": 427,
+   "hash": "4391cc160599",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E5F-24E6E"
+   ]
+  },
+  {
+   "tile": 428,
+   "hash": "110f960d8a1c",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E6F-24E7E"
+   ]
+  },
+  {
+   "tile": 429,
+   "hash": "a7bb26013dc5",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E7F-24E8E"
+   ]
+  },
+  {
+   "tile": 430,
+   "hash": "452940163f0b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E8F-24E9E"
+   ]
+  },
+  {
+   "tile": 431,
+   "hash": "07d3521c4afd",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24E9F-24EAE"
+   ]
+  },
+  {
+   "tile": 432,
+   "hash": "81b276ae315e",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24EAF-24EBE"
+   ]
+  },
+  {
+   "tile": 433,
+   "hash": "ad5e6d772c5a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24EBF-24ECE"
+   ]
+  },
+  {
+   "tile": 434,
+   "hash": "9968a94df92b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24ECF-24EDE"
+   ]
+  },
+  {
+   "tile": 435,
+   "hash": "a20037708e96",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24EDF-24EEE"
+   ]
+  },
+  {
+   "tile": 436,
+   "hash": "7b9451e514bf",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24EEF-24EFE"
+   ]
+  },
+  {
+   "tile": 437,
+   "hash": "110567bcda76",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24EFF-24F0E"
+   ]
+  },
+  {
+   "tile": 438,
+   "hash": "55878a857984",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F0F-24F1E"
+   ]
+  },
+  {
+   "tile": 439,
+   "hash": "1a56fed700df",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F1F-24F2E"
+   ]
+  },
+  {
+   "tile": 440,
+   "hash": "666893c74f12",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F2F-24F3E"
+   ]
+  },
+  {
+   "tile": 441,
+   "hash": "3d41c5213824",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F3F-24F4E"
+   ]
+  },
+  {
+   "tile": 442,
+   "hash": "7cb69d55625d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F4F-24F5E"
+   ]
+  },
+  {
+   "tile": 443,
+   "hash": "45d342fc2763",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F5F-24F6E"
+   ]
+  },
+  {
+   "tile": 444,
+   "hash": "c5d7b9c391d6",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F6F-24F7E"
+   ]
+  },
+  {
+   "tile": 445,
+   "hash": "d7c344196b69",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F7F-24F8E"
+   ]
+  },
+  {
+   "tile": 446,
+   "hash": "fb07cdf8839d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F8F-24F9E"
+   ]
+  },
+  {
+   "tile": 447,
+   "hash": "f065019f339a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24F9F-24FAE"
+   ]
+  },
+  {
+   "tile": 448,
+   "hash": "587d07c89b11",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24FAF-24FBE"
+   ]
+  },
+  {
+   "tile": 449,
+   "hash": "b632af35c34a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24FBF-24FCE"
+   ]
+  },
+  {
+   "tile": 450,
+   "hash": "371c78e3266d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24FCF-24FDE"
+   ]
+  },
+  {
+   "tile": 451,
+   "hash": "28782fd6b1c7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24FDF-24FEE"
+   ]
+  },
+  {
+   "tile": 452,
+   "hash": "cfe3b6a57329",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24FEF-24FFE"
+   ]
+  },
+  {
+   "tile": 453,
+   "hash": "bc0fbdbf88bd",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "24FFF-2500E"
+   ]
+  },
+  {
+   "tile": 454,
+   "hash": "01b3690792f8",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2500F-2501E"
+   ]
+  },
+  {
+   "tile": 455,
+   "hash": "001bcc65ef1b",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2501F-2502E"
+   ]
+  },
+  {
+   "tile": 456,
+   "hash": "7775cfb11782",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2502F-2503E"
+   ]
+  },
+  {
+   "tile": 457,
+   "hash": "34e955848dbe",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2503F-2504E"
+   ]
+  },
+  {
+   "tile": 458,
+   "hash": "c443689a4717",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2504F-2505E"
+   ]
+  },
+  {
+   "tile": 459,
+   "hash": "2e962eac16ac",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2505F-2506E"
+   ]
+  },
+  {
+   "tile": 460,
+   "hash": "460f5dc9ed3d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2506F-2507E"
+   ]
+  },
+  {
+   "tile": 461,
+   "hash": "f46585b16b27",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2507F-2508E"
+   ]
+  },
+  {
+   "tile": 462,
+   "hash": "2b133173b142",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2508F-2509E"
+   ]
+  },
+  {
+   "tile": 463,
+   "hash": "4a077c958239",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2509F-250AE"
+   ]
+  },
+  {
+   "tile": 464,
+   "hash": "ea15243cb671",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "250AF-250BE"
+   ]
+  },
+  {
+   "tile": 465,
+   "hash": "9ed47d484cac",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "250BF-250CE"
+   ]
+  },
+  {
+   "tile": 466,
+   "hash": "3e569cbc5f66",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "250CF-250DE"
+   ]
+  },
+  {
+   "tile": 467,
+   "hash": "7bcada87c344",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "250DF-250EE"
+   ]
+  },
+  {
+   "tile": 468,
+   "hash": "23b6dadba20d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "250EF-250FE"
+   ]
+  },
+  {
+   "tile": 469,
+   "hash": "1bd9e193d403",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "250FF-2510E"
+   ]
+  },
+  {
+   "tile": 470,
+   "hash": "1bc82f2ce4de",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2510F-2511E"
+   ]
+  },
+  {
+   "tile": 471,
+   "hash": "77f2e9b0b887",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2511F-2512E"
+   ]
+  },
+  {
+   "tile": 472,
+   "hash": "0b50d483c4ac",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2512F-2513E"
+   ]
+  },
+  {
+   "tile": 473,
+   "hash": "e8ab8c718f93",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2513F-2514E"
+   ]
+  },
+  {
+   "tile": 474,
+   "hash": "cf456f3bc90f",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2514F-2515E"
+   ]
+  },
+  {
+   "tile": 475,
+   "hash": "e0b17bf483a8",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2515F-2516E"
+   ]
+  },
+  {
+   "tile": 476,
+   "hash": "31d49b9ec7ad",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2516F-2517E"
+   ]
+  },
+  {
+   "tile": 477,
+   "hash": "5b419cd68d1d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2517F-2518E"
+   ]
+  },
+  {
+   "tile": 478,
+   "hash": "9a490062f278",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2518F-2519E"
+   ]
+  },
+  {
+   "tile": 479,
+   "hash": "2198df015fcb",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2519F-251AE"
+   ]
+  },
+  {
+   "tile": 480,
+   "hash": "43fd2f67a3c8",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "251AF-251BE"
+   ]
+  },
+  {
+   "tile": 481,
+   "hash": "7caf91f4626e",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "251BF-251CE"
+   ]
+  },
+  {
+   "tile": 482,
+   "hash": "749f27bd6eb7",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "251CF-251DE"
+   ]
+  },
+  {
+   "tile": 483,
+   "hash": "c618be7e1786",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "251DF-251EE"
+   ]
+  },
+  {
+   "tile": 484,
+   "hash": "5ae4a8e76435",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "251EF-251FE"
+   ]
+  },
+  {
+   "tile": 485,
+   "hash": "fd1d43711277",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "251FF-2520E"
+   ]
+  },
+  {
+   "tile": 486,
+   "hash": "3790db1f9e45",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2520F-2521E"
+   ]
+  },
+  {
+   "tile": 487,
+   "hash": "8ea4c1e82e0a",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2521F-2522E"
+   ]
+  },
+  {
+   "tile": 488,
+   "hash": "ab167f2949d9",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2522F-2523E"
+   ]
+  },
+  {
+   "tile": 489,
+   "hash": "9cacbdcbece2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2523F-2524E"
+   ]
+  },
+  {
+   "tile": 490,
+   "hash": "e6af646cc649",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2524F-2525E"
+   ]
+  },
+  {
+   "tile": 491,
+   "hash": "8af275e5c5ab",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2525F-2526E"
+   ]
+  },
+  {
+   "tile": 492,
+   "hash": "476d9cd2c8cc",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2526F-2527E"
+   ]
+  },
+  {
+   "tile": 493,
+   "hash": "00cd10851bdc",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2527F-2528E"
+   ]
+  },
+  {
+   "tile": 494,
+   "hash": "0fd3534ae822",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "2528F-2529E"
+   ]
+  },
+  {
+   "tile": 495,
+   "hash": "9966ce9e2cb5",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0873C-08743"
+   ]
+  },
+  {
+   "tile": 496,
+   "hash": "09f8e9b90aa4",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08744-0874B"
+   ]
+  },
+  {
+   "tile": 497,
+   "hash": "6c38fcfb3e67",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0874C-08753"
+   ]
+  },
+  {
+   "tile": 498,
+   "hash": "ec6d59327726",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08754-0875B"
+   ]
+  },
+  {
+   "tile": 499,
+   "hash": "afed2facde56",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "08218-08218",
+    "0875C-08763"
+   ]
+  },
+  {
+   "tile": 500,
+   "hash": "bacae67bc8dc",
+   "blank": false,
+   "kinds": {
+    "constant": 8,
+    "copy": 8
+   },
+   "sources": [
+    "08218-08218",
+    "08764-0876B"
+   ]
+  },
+  {
+   "tile": 501,
+   "hash": "ad640a1eac99",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0876C-08773"
+   ]
+  },
+  {
+   "tile": 502,
+   "hash": "4b15d5d45401",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08774-0877B"
+   ]
+  },
+  {
+   "tile": 503,
+   "hash": "46c29cd139f1",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0877C-08783"
+   ]
+  },
+  {
+   "tile": 504,
+   "hash": "44a48ef8ebef",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08784-0878B"
+   ]
+  },
+  {
+   "tile": 505,
+   "hash": "8bf1b27f23a0",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0878C-08793"
+   ]
+  },
+  {
+   "tile": 506,
+   "hash": "c6028e1a5396",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "08794-0879B"
+   ]
+  },
+  {
+   "tile": 507,
+   "hash": "09366e51e8f2",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "0879C-087A3"
+   ]
+  },
+  {
+   "tile": 508,
+   "hash": "37cd67623440",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "087A4-087AB"
+   ]
+  },
+  {
+   "tile": 509,
+   "hash": "e15170adcadb",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "087AC-087B3"
+   ]
+  },
+  {
+   "tile": 510,
+   "hash": "5397895fce5d",
+   "blank": false,
+   "kinds": {
+    "copy": 16
+   },
+   "sources": [
+    "087B4-087BB"
+   ]
+  },
+  {
+   "tile": 511,
+   "hash": "f13c11b88803",
+   "blank": false,
+   "kinds": {
+    "copy": 8,
+    "constant": 8
+   },
+   "sources": [
+    "08218-08218",
+    "087BC-087C3"
+   ]
+  }
+ ]
+}

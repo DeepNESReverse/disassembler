@@ -1,0 +1,82 @@
+{
+  "method": "branched experiments from save states",
+  "starts": [
+    5000,
+    5500,
+    5750,
+    8250,
+    8500,
+    9750,
+    10000,
+    10250,
+    10500,
+    13250,
+    13500,
+    13750,
+    16250,
+    17000,
+    17250,
+    17500,
+    17750,
+    18000,
+    18250
+  ],
+  "frames": 48,
+  "evidence": {
+    "frameCounter": [
+      {
+        "address": "000B",
+        "detail": "+1 every frame on every branch"
+      },
+      {
+        "address": "00CD",
+        "detail": "+1 every frame on every branch"
+      }
+    ],
+    "padMirror": [
+      {
+        "address": "0029",
+        "detail": "a one-to-one function of the buttons held, every frame"
+      },
+      {
+        "address": "002B",
+        "detail": "a one-to-one function of the buttons held, every frame"
+      }
+    ],
+    "moveX": [
+      {
+        "address": "03FD",
+        "detail": "right 19 left -40; right 93 left -73; right 28 left -42; right 39 left -36; right 47 left -47; right 42 left -41; right 31 left -36; right 77 left -76; right 53 left -53; right 46 left -45; right 37 left -34; right 40 left -35; right 37 left -33; right 27 left -27; right 55 left -55; right 20 left -19; right 64 left -63; right 70 left -69; right 50 left -49"
+      },
+      {
+        "address": "0484",
+        "detail": "right 19 left -40; right 93 left -73; right 28 left -42; right 39 left -36; right 19 left -47; right 17 left -41; right 25 left -36; right 77 left -76; right 53 left -53; right 46 left -45; right 37 left -34; right 40 left -35; right 37 left -33; right 27 left -27; right 41 left -55; right 16 left -19; right 38 left -63; right 41 left -69; right 42 left -49"
+      }
+    ],
+    "moveZ": [
+      {
+        "address": "041B",
+        "detail": "down 25 up -2; down 47 up -2; down 26 up -5; down 24 up -24; down 29 up -1; down 26 up -8; down 22 up -21; down 43 up -33; down 32 up -32; down 28 up -28; down 23 up -6; down 25 up -6; down 23 up -3; down 19 up -19; down 33 up -33; down 14 up -15; down 36 up -37; down 38 up -40; down 30 up -30"
+      },
+      {
+        "address": "0457",
+        "detail": "down -280 up 280; down -88 up 88; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down 272 up -272; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280; down -280 up 280"
+      },
+      {
+        "address": "0493",
+        "detail": "down 25 up -2; down 47 up -2; down 26 up -5; down 24 up -24; down 29 up -1; down 26 up -8; down 22 up -21; down 43 up -33; down 32 up -32; down 28 up -28; down 23 up -6; down 25 up -6; down 23 up -3; down 19 up -19; down 33 up -33; down 14 up -15; down 36 up -37; down 38 up -40; down 30 up -30"
+      }
+    ],
+    "jump": [
+      {
+        "address": "0029",
+        "detail": "moves only on the branch that pressed A"
+      },
+      {
+        "address": "002B",
+        "detail": "moves only on the branch that pressed A"
+      }
+    ],
+    "scrollX": []
+  }
+}
