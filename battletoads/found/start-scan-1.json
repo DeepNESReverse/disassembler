@@ -1,0 +1,21 @@
+{
+ "method": "cell set before the level loads; camera after --wait idle frames vs the unpoked run (moved > 64 px, same level)",
+ "level": 1,
+ "frame": 2800,
+ "baseline": [
+  0,
+  64
+ ],
+ "hits": [
+  {
+   "cell": "0320",
+   "value": 2,
+   "camera": [
+    1728,
+    8
+   ],
+   "level": 1,
+   "lives": 3
+  }
+ ]
+}
