@@ -1,0 +1,131 @@
+{
+ "level": 7,
+ "stretches": 82,
+ "results": [
+  {
+   "name": "level07-0",
+   "level": 7,
+   "from": "023-9a4dbb0c.txt",
+   "builds": 44,
+   "naturalFrames": 193,
+   "camera": [
+    0,
+    4032
+   ],
+   "tiles": 3570,
+   "size": [
+    4472,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 139,
+   "skipped": 5,
+   "conflicts": 658
+  },
+  {
+   "name": "level07-1",
+   "level": 7,
+   "from": "024-b8eb5780.txt",
+   "builds": 44,
+   "naturalFrames": 193,
+   "camera": [
+    0,
+    4032
+   ],
+   "tiles": 3570,
+   "size": [
+    4472,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 139,
+   "skipped": 5,
+   "conflicts": 658
+  },
+  {
+   "name": "level07-2",
+   "level": 7,
+   "from": "038-b45b81f3.txt",
+   "builds": 44,
+   "naturalFrames": 178,
+   "camera": [
+    0,
+    4032
+   ],
+   "tiles": 3570,
+   "size": [
+    4472,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 139,
+   "skipped": 5,
+   "conflicts": 658
+  },
+  {
+   "name": "level07-3",
+   "level": 7,
+   "from": "065-cf06ca71.txt",
+   "builds": 44,
+   "naturalFrames": 178,
+   "camera": [
+    0,
+    4032
+   ],
+   "tiles": 3570,
+   "size": [
+    4472,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 139,
+   "skipped": 5,
+   "conflicts": 658
+  },
+  {
+   "name": "level07-4",
+   "level": 7,
+   "from": "004-2360db9a.txt",
+   "builds": 40,
+   "naturalFrames": 197,
+   "camera": [
+    8,
+    4028
+   ],
+   "tiles": 3360,
+   "size": [
+    4280,
+    240
+   ],
+   "check": {
+    "compared": 12708,
+    "equal": 10356,
+    "score": 0.8149197355996223
+   },
+   "verified": false,
+   "splitMinusY": 143,
+   "skipped": 0,
+   "conflicts": 610
+  }
+ ]
+}

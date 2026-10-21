@@ -1,0 +1,131 @@
+{
+ "level": 2,
+ "stretches": 30,
+ "results": [
+  {
+   "name": "level02-0",
+   "level": 2,
+   "from": "003-da39a3ee.txt",
+   "builds": 4,
+   "naturalFrames": 36,
+   "camera": [
+    -4,
+    0
+   ],
+   "tiles": 330,
+   "size": [
+    88,
+    240
+   ],
+   "check": {
+    "compared": 2114,
+    "equal": 1184,
+    "score": 0.5600756859035004
+   },
+   "verified": false,
+   "splitMinusY": 2,
+   "skipped": 3,
+   "conflicts": 90
+  },
+  {
+   "name": "level02-1",
+   "level": 2,
+   "from": "004-49b29d5c.txt",
+   "builds": 4,
+   "naturalFrames": 64,
+   "camera": [
+    -4,
+    0
+   ],
+   "tiles": 330,
+   "size": [
+    88,
+    240
+   ],
+   "check": {
+    "compared": 1954,
+    "equal": 1081,
+    "score": 0.553224155578301
+   },
+   "verified": false,
+   "splitMinusY": 2,
+   "skipped": 3,
+   "conflicts": 90
+  },
+  {
+   "name": "level02-2",
+   "level": 2,
+   "from": "005-a197114c.txt",
+   "builds": 4,
+   "naturalFrames": 64,
+   "camera": [
+    -4,
+    0
+   ],
+   "tiles": 330,
+   "size": [
+    88,
+    240
+   ],
+   "check": {
+    "compared": 1954,
+    "equal": 1081,
+    "score": 0.553224155578301
+   },
+   "verified": false,
+   "splitMinusY": 2,
+   "skipped": 3,
+   "conflicts": 90
+  },
+  {
+   "name": "level02-3",
+   "level": 2,
+   "from": "006-67f2bc7e.txt",
+   "builds": 4,
+   "naturalFrames": 64,
+   "camera": [
+    -4,
+    0
+   ],
+   "tiles": 330,
+   "size": [
+    88,
+    240
+   ],
+   "check": {
+    "compared": 1954,
+    "equal": 1081,
+    "score": 0.553224155578301
+   },
+   "verified": false,
+   "splitMinusY": 2,
+   "skipped": 3,
+   "conflicts": 90
+  },
+  {
+   "name": "level02-4",
+   "level": 2,
+   "from": "007-ad90ac02.txt",
+   "builds": 4,
+   "naturalFrames": 64,
+   "camera": [
+    -4,
+    0
+   ],
+   "tiles": 330,
+   "size": [
+    88,
+    240
+   ],
+   "check": {
+    "compared": 1954,
+    "equal": 1081,
+    "score": 0.553224155578301
+   },
+   "verified": false,
+   "splitMinusY": 2,
+   "skipped": 3,
+   "conflicts": 90
+  }
+ ]
+}

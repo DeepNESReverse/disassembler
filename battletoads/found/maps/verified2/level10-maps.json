@@ -1,0 +1,131 @@
+{
+ "level": 10,
+ "stretches": 343,
+ "results": [
+  {
+   "name": "level10-0",
+   "level": 10,
+   "from": "029-09db37da.txt",
+   "builds": 148,
+   "naturalFrames": 258,
+   "camera": [
+    62,
+    166
+   ],
+   "tiles": 510,
+   "size": [
+    4104,
+    240
+   ],
+   "check": {
+    "compared": 1749,
+    "equal": 1425,
+    "score": 0.8147512864493996
+   },
+   "verified": false,
+   "splitMinusY": 179,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level10-1",
+   "level": 10,
+   "from": "083-ae3e5e9e.txt",
+   "builds": 148,
+   "naturalFrames": 258,
+   "camera": [
+    62,
+    166
+   ],
+   "tiles": 510,
+   "size": [
+    4104,
+    240
+   ],
+   "check": {
+    "compared": 1749,
+    "equal": 1425,
+    "score": 0.8147512864493996
+   },
+   "verified": false,
+   "splitMinusY": 179,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level10-2",
+   "level": 10,
+   "from": "084-e8afce75.txt",
+   "builds": 148,
+   "naturalFrames": 258,
+   "camera": [
+    62,
+    166
+   ],
+   "tiles": 510,
+   "size": [
+    4104,
+    240
+   ],
+   "check": {
+    "compared": 1749,
+    "equal": 1425,
+    "score": 0.8147512864493996
+   },
+   "verified": false,
+   "splitMinusY": 179,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level10-3",
+   "level": 10,
+   "from": "086-67dd6de6.txt",
+   "builds": 148,
+   "naturalFrames": 258,
+   "camera": [
+    62,
+    166
+   ],
+   "tiles": 510,
+   "size": [
+    4104,
+    240
+   ],
+   "check": {
+    "compared": 1749,
+    "equal": 1425,
+    "score": 0.8147512864493996
+   },
+   "verified": false,
+   "splitMinusY": 179,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level10-4",
+   "level": 10,
+   "from": "020-e7500b46.txt",
+   "builds": 142,
+   "naturalFrames": 259,
+   "camera": [
+    22,
+    166
+   ],
+   "tiles": 3374,
+   "size": [
+    3104,
+    240
+   ],
+   "check": {
+    "compared": 0,
+    "equal": 0,
+    "score": 0
+   },
+   "verified": false,
+   "splitMinusY": 171,
+   "skipped": 128,
+   "conflicts": 78
+  }
+ ]
+}
