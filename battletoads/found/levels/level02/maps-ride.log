@@ -1,0 +1,3 @@
+level02: runs/ride-2-end 1 paths; 1 segments of play; the play field on nametable page 0
+  sweep of 000.txt from frame 2775: camera moved by the game after 6910 frames; 0 frames without a split placed, 0 skipped
+  level02-0: 000.txt frames 2775-9979, K 98, camera X -4..-4 Y 1..6912; 26610 tiles 240×7096; seen 1140 (4.3%), 63778/82530 = 77.28% on 119 frames (7086 of other places), 348 cells ever differed (0 shown differently by the game itself, 348 always otherwise); the rest 77.28%
