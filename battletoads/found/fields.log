@@ -1,0 +1,7 @@
+187800 frames, 556040 object pairs
+field 9 (x_sub): x_sub — as x's fraction (field 4) the change from frame to frame is steady on 77.6 % of 184611 moving frames, against 61.6 % in whole pixels
+field 15 (facing): direction — bit 6 agrees with the flip of the sprites drawn at its screen X (field 13) on 94.3 % of 291475 object-frames (both ways ≥ 18 %; the next field 82.5 %)
+field 20 (timer_20): timer — 93.7 % of 37542 changes are −1 a frame; 1237 reloads
+field 26 (timer_26): timer — 91.1 % of 22147 changes are −1 a frame; 625 reloads
+field 29 (timer_29): timer — 98.7 % of 17483 changes are −1 a frame; 218 reloads
+field 32 (counter_32): counter — 87.5 % of 26918 changes are +1 a frame

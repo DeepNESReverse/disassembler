@@ -1,0 +1,537 @@
+{
+ "method": "agent paths replayed, the object table kept every frame; each field tested on consecutive frames of one object (fields.ts)",
+ "runs": [
+  "runs/seek-1",
+  "runs/seek-2",
+  "runs/seek-3",
+  "runs/seek-4",
+  "runs/seek-5",
+  "runs/seek-6",
+  "runs/seek-7",
+  "runs/seek-8",
+  "runs/seek-9",
+  "runs/seek-10",
+  "runs/seek-11",
+  "runs/seek-12",
+  "runs/seek-13",
+  "runs/deep3-4",
+  "runs/deep3-5",
+  "runs/deep3-6"
+ ],
+ "frames": 187800,
+ "objectPairs": 556040,
+ "positions": [
+  {
+   "name": "x",
+   "field": 4,
+   "hi": 3
+  },
+  {
+   "name": "depth",
+   "field": 6,
+   "hi": null
+  },
+  {
+   "name": "y",
+   "field": 8,
+   "hi": null
+  },
+  {
+   "name": "height",
+   "field": 12,
+   "hi": null
+  }
+ ],
+ "findings": [
+  {
+   "field": 20,
+   "what": "timer",
+   "proof": "93.7 % of 37542 changes are −1 a frame; 1237 reloads",
+   "score": 0.9371104363113313
+  },
+  {
+   "field": 26,
+   "what": "timer",
+   "proof": "91.1 % of 22147 changes are −1 a frame; 625 reloads",
+   "score": 0.910913442001174
+  },
+  {
+   "field": 29,
+   "what": "timer",
+   "proof": "98.7 % of 17483 changes are −1 a frame; 218 reloads",
+   "score": 0.986787164674255
+  },
+  {
+   "field": 32,
+   "what": "counter",
+   "proof": "87.5 % of 26918 changes are +1 a frame",
+   "score": 0.8746563637714541
+  },
+  {
+   "field": 9,
+   "what": "x_sub",
+   "proof": "as x's fraction (field 4) the change from frame to frame is steady on 77.6 % of 184611 moving frames, against 61.6 % in whole pixels",
+   "score": 0.7757121731641127
+  },
+  {
+   "field": 15,
+   "what": "direction",
+   "proof": "bit 6 agrees with the flip of the sprites drawn at its screen X (field 13) on 94.3 % of 291475 object-frames (both ways ≥ 18 %; the next field 82.5 %)",
+   "score": 0.9427257912342396
+  }
+ ],
+ "perField": {
+  "0": {
+   "changes": 0
+  },
+  "1": {
+   "changes": 39038,
+   "down1": 0.278,
+   "up1": 0.307,
+   "link": {
+    "inUse": 0.243,
+    "nearRatio": 1.19,
+    "frames": 46693
+   }
+  },
+  "2": {
+   "changes": 54922,
+   "down1": 0.027,
+   "up1": 0.088,
+   "link": {
+    "inUse": 0.183,
+    "nearRatio": 1.25,
+    "frames": 24731
+   }
+  },
+  "3": {
+   "changes": 1317,
+   "down1": 0.148,
+   "up1": 0.756,
+   "link": {
+    "inUse": 0.314,
+    "nearRatio": 0.65,
+    "frames": 228216
+   }
+  },
+  "4": {
+   "changes": 162146,
+   "down1": 0.239,
+   "up1": 0.285,
+   "subPixelCandidate": {
+    "field": 9,
+    "steadyWithIt": 0.776,
+    "steadyWithout": 0.616,
+    "moves": 184611
+   },
+   "speedTable": {
+    "field": 1,
+    "with": 15,
+    "when": "before",
+    "same": 0.426,
+    "overall": 0.12
+   },
+   "speedCandidate": {
+    "field": 28,
+    "how": "= the field × 4/256 px in size (after the frame)",
+    "score": 0.213,
+    "moves": 191239
+   },
+   "link": {
+    "inUse": 0.262,
+    "nearRatio": 4.94,
+    "frames": 16774
+   }
+  },
+  "5": {
+   "changes": 2687,
+   "down1": 0.012,
+   "up1": 0.032,
+   "link": {
+    "inUse": 0.016,
+    "nearRatio": 0.01,
+    "frames": 91256
+   }
+  },
+  "6": {
+   "changes": 18830,
+   "down1": 0.281,
+   "up1": 0.212,
+   "subPixelCandidate": {
+    "field": 10,
+    "steadyWithIt": 0.391,
+    "steadyWithout": 0.33,
+    "moves": 26153
+   },
+   "speedTable": {
+    "field": 1,
+    "with": null,
+    "when": "before",
+    "same": 0.54,
+    "overall": 0.282
+   },
+   "speedCandidate": {
+    "field": 15,
+    "how": "= the field × 8/256 px in size (before the frame)",
+    "score": 0.135,
+    "moves": 18830
+   }
+  },
+  "7": {
+   "changes": 500,
+   "down1": 0.188,
+   "up1": 0.418,
+   "link": {
+    "inUse": 0.264,
+    "nearRatio": 0.98,
+    "frames": 18602
+   }
+  },
+  "8": {
+   "changes": 123404,
+   "down1": 0.411,
+   "up1": 0.205,
+   "subPixelCandidate": {
+    "field": 14,
+    "steadyWithIt": 0.507,
+    "steadyWithout": 0.526,
+    "moves": 142732
+   },
+   "speedTable": {
+    "field": 5,
+    "with": 17,
+    "when": "before",
+    "same": 0.674,
+    "overall": 0.3
+   },
+   "speedCandidate": {
+    "field": 24,
+    "how": "= fields 17 (high) and 24 (low) as one signed 8.8 speed",
+    "score": 0.431,
+    "moves": 20000
+   },
+   "link": {
+    "inUse": 0.251,
+    "nearRatio": 1,
+    "frames": 32204
+   }
+  },
+  "9": {
+   "changes": 85744,
+   "down1": 0,
+   "up1": 0,
+   "link": {
+    "inUse": 0.051,
+    "nearRatio": 1.5,
+    "frames": 5550
+   }
+  },
+  "10": {
+   "changes": 16265,
+   "down1": 0,
+   "up1": 0,
+   "link": {
+    "inUse": 0.085,
+    "nearRatio": 0.57,
+    "frames": 2482
+   }
+  },
+  "11": {
+   "changes": 178723,
+   "down1": 0,
+   "up1": 0.023,
+   "link": {
+    "inUse": 0.2,
+    "nearRatio": 1.22,
+    "frames": 13525
+   }
+  },
+  "12": {
+   "changes": 29896,
+   "down1": 0.203,
+   "up1": 0.209,
+   "subPixelCandidate": {
+    "field": 8,
+    "steadyWithIt": 0.231,
+    "steadyWithout": 0.237,
+    "moves": 41533
+   },
+   "speedTable": {
+    "field": 5,
+    "with": 17,
+    "when": "before",
+    "same": 0.704,
+    "overall": 0.222
+   },
+   "speedCandidate": {
+    "field": 24,
+    "how": "= fields 17 (high) and 24 (low) as one signed 8.8 speed",
+    "score": 0.528,
+    "moves": 20000
+   },
+   "link": {
+    "inUse": 0.086,
+    "nearRatio": 1.35,
+    "frames": 62319
+   }
+  },
+  "13": {
+   "changes": 198937,
+   "down1": 0.306,
+   "up1": 0.307,
+   "link": {
+    "inUse": 0.147,
+    "nearRatio": 1.21,
+    "frames": 11388
+   }
+  },
+  "14": {
+   "changes": 90891,
+   "down1": 0.287,
+   "up1": 0.248,
+   "link": {
+    "inUse": 0.354,
+    "nearRatio": 0,
+    "frames": 6984
+   }
+  },
+  "15": {
+   "changes": 15421,
+   "down1": 0.007,
+   "up1": 0.007,
+   "directionBit": {
+    "bit": 6,
+    "against": "the flip of the sprites drawn at its screen X (field 13)",
+    "score": 0.943,
+    "frames": 291475,
+    "nextField": {
+     "field": 12,
+     "bit": 6,
+     "score": 0.825
+    }
+   },
+   "link": {
+    "inUse": 0.049,
+    "nearRatio": 1.13,
+    "frames": 90298
+   }
+  },
+  "16": {
+   "changes": 1109,
+   "down1": 0,
+   "up1": 0
+  },
+  "17": {
+   "changes": 48601,
+   "down1": 0.225,
+   "up1": 0.32,
+   "link": {
+    "inUse": 0.316,
+    "nearRatio": 1.5,
+    "frames": 30612
+   }
+  },
+  "18": {
+   "changes": 129948,
+   "down1": 0,
+   "up1": 0,
+   "link": {
+    "inUse": 0.02,
+    "nearRatio": 2.46,
+    "frames": 16133
+   }
+  },
+  "19": {
+   "changes": 54686,
+   "down1": 0.231,
+   "up1": 0.455,
+   "link": {
+    "inUse": 0.298,
+    "nearRatio": 0.6,
+    "frames": 25931
+   }
+  },
+  "20": {
+   "changes": 37542,
+   "down1": 0.937,
+   "up1": 0.015,
+   "pacesFields": [
+    {
+     "field": 13,
+     "atReload": 0.912,
+     "onlyThen": 0.008
+    },
+    {
+     "field": 4,
+     "atReload": 0.89,
+     "onlyThen": 0.01
+    },
+    {
+     "field": 2,
+     "atReload": 0.588,
+     "onlyThen": 0.019
+    },
+    {
+     "field": 18,
+     "atReload": 0.538,
+     "onlyThen": 0.007
+    }
+   ],
+   "link": {
+    "inUse": 0.505,
+    "nearRatio": 1.03,
+    "frames": 25991
+   }
+  },
+  "21": {
+   "changes": 9484,
+   "down1": 0.027,
+   "up1": 0,
+   "link": {
+    "inUse": 0.649,
+    "nearRatio": 1.21,
+    "frames": 66449
+   }
+  },
+  "22": {
+   "changes": 44550,
+   "down1": 0.164,
+   "up1": 0.563,
+   "link": {
+    "inUse": 0.077,
+    "nearRatio": 0.6,
+    "frames": 72493
+   }
+  },
+  "23": {
+   "changes": 707,
+   "down1": 0.283,
+   "up1": 0,
+   "link": {
+    "inUse": 0.022,
+    "nearRatio": 0.56,
+    "frames": 12450
+   }
+  },
+  "24": {
+   "changes": 52
+  },
+  "25": {
+   "changes": 55
+  },
+  "26": {
+   "changes": 22147,
+   "down1": 0.911,
+   "up1": 0,
+   "pacesFields": [
+    {
+     "field": 23,
+     "atReload": 0.638,
+     "onlyThen": 0.566
+    },
+    {
+     "field": 28,
+     "atReload": 0.912,
+     "onlyThen": 0.006
+    },
+    {
+     "field": 17,
+     "atReload": 0.863,
+     "onlyThen": 0.011
+    },
+    {
+     "field": 11,
+     "atReload": 0.852,
+     "onlyThen": 0.003
+    }
+   ],
+   "link": {
+    "inUse": 0.182,
+    "nearRatio": 1.06,
+    "frames": 2007
+   }
+  },
+  "27": {
+   "changes": 11232,
+   "down1": 0.019,
+   "up1": 0.027,
+   "link": {
+    "inUse": 0.242,
+    "nearRatio": 1.19,
+    "frames": 778
+   }
+  },
+  "28": {
+   "changes": 94986,
+   "down1": 0.124,
+   "up1": 0.063,
+   "link": {
+    "inUse": 0.32,
+    "nearRatio": 1.04,
+    "frames": 26379
+   }
+  },
+  "29": {
+   "changes": 17483,
+   "down1": 0.987,
+   "up1": 0,
+   "pacesFields": [
+    {
+     "field": 8,
+     "atReload": 0.702,
+     "onlyThen": 0.001
+    },
+    {
+     "field": 14,
+     "atReload": 0.67,
+     "onlyThen": 0.002
+    },
+    {
+     "field": 26,
+     "atReload": 0.55,
+     "onlyThen": 0.005
+    },
+    {
+     "field": 4,
+     "atReload": 0.523,
+     "onlyThen": 0.001
+    }
+   ],
+   "link": {
+    "inUse": 0.296,
+    "nearRatio": 2.58,
+    "frames": 947
+   }
+  },
+  "30": {
+   "changes": 12392,
+   "down1": 0.535,
+   "up1": 0.239,
+   "link": {
+    "inUse": 0.204,
+    "nearRatio": 0.52,
+    "frames": 62780
+   }
+  },
+  "31": {
+   "changes": 1419,
+   "down1": 0.159,
+   "up1": 0.426,
+   "link": {
+    "inUse": 0.492,
+    "nearRatio": 84.64,
+    "frames": 52709
+   }
+  },
+  "32": {
+   "changes": 26918,
+   "down1": 0.091,
+   "up1": 0.875,
+   "link": {
+    "inUse": 0.132,
+    "nearRatio": 1.29,
+    "frames": 38502
+   }
+  }
+ }
+}
