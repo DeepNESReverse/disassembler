@@ -1,0 +1,10 @@
+bank 0: code 29594, inferred 911, data 714, unknown 1549; 262 subroutines
+bank 1: code 962, inferred 0, data 30632, unknown 1174; 5 subroutines
+bank 2: code 3904, inferred 123, data 13070, unknown 15671; 15 subroutines
+bank 3: code 3867, inferred 71, data 10670, unknown 18160; 32 subroutines
+bank 4: code 195, inferred 2, data 31513, unknown 1058; 1 subroutines
+bank 5: code 4022, inferred 18, data 7558, unknown 21170; 20 subroutines
+bank 6: code 8648, inferred 61, data 7991, unknown 16068; 75 subroutines
+bank 7: code 1229, inferred 4, data 15448, unknown 16087; 3 subroutines
+all: code 52421 (20.0%), inferred 1190, data 117596 (44.9%), unknown 90937 (34.7%); 413 subroutines
+exit 0
