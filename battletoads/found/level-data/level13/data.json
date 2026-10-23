@@ -1,0 +1,55 @@
+{
+ "level": {
+  "id": 13,
+  "number": 13
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": 408,
+   "record": [
+    "$00",
+    "$00",
+    "$01",
+    "$98",
+    "$38",
+    "$20",
+    "$22",
+    "$9C",
+    "$26"
+   ]
+  },
+  "width": 56,
+  "rows": 48,
+  "layout": "B5:D1EC",
+  "blocks": "B5:DC6C",
+  "attributes": "B5:E1FC"
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 1792,
+  "height": 1536,
+  "parts": [
+   ""
+  ],
+  "tilesDrawn": 43008,
+  "drawnFromWhatWasSeenThere": 878
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-1022",
+   "runs/armageddon-duel1"
+  ],
+  "frames": 12266,
+  "framesShowingSomethingElse": 29,
+  "comparisons": 9194100,
+  "tilesEqual": 9192790,
+  "palettesEqual": 9193140,
+  "tilesPercent": 99.986,
+  "palettesPercent": 99.99,
+  "placesSeen": 1110,
+  "placesThatEverDiffered": 516,
+  "placesThatDifferedMostOfTheTime": 232
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "level": {
+  "id": 8,
+  "number": 6,
+  "room": 1
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": 512,
+   "record": [
+    "$00",
+    "$00",
+    "$02",
+    "$00",
+    "$10",
+    "$16",
+    "$22",
+    "$96",
+    "$2E"
+   ]
+  },
+  "width": 16,
+  "rows": 24,
+  "layout": "RAM $0600, part 0 unpacked by B7:8741 (its rows from B7:8817/B7:881B)",
+  "blocks": "B5:CECC",
+  "attributes": "B5:D1AC"
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 512,
+  "height": 768,
+  "parts": [
+   ""
+  ],
+  "tilesDrawn": 6144,
+  "drawnFromWhatWasSeenThere": 5586
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-1005",
+   "runs/play-20261023-1019-2",
+   "runs/play-20261023-1019-3",
+   "runs/karnath-ride"
+  ],
+  "frames": 4421,
+  "framesShowingSomethingElse": 14,
+  "comparisons": 3038024,
+  "tilesEqual": 3009950,
+  "palettesEqual": 3010781,
+  "tilesPercent": 99.076,
+  "palettesPercent": 99.103,
+  "placesSeen": 6386,
+  "placesThatEverDiffered": 1935,
+  "placesThatDifferedMostOfTheTime": 387
+ }
+}

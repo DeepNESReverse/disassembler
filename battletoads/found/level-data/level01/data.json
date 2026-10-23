@@ -1,0 +1,60 @@
+{
+ "level": {
+  "id": 1,
+  "number": 1
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": -208,
+   "record": [
+    "$00",
+    "$00",
+    "$FF",
+    "$30",
+    "$40",
+    "$02",
+    "$22",
+    "$8E",
+    "$02"
+   ]
+  },
+  "width": 64,
+  "rows": 11,
+  "layout": "B5:89CE",
+  "blocks": "B5:8C8E",
+  "attributes": "B5:8F4E"
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 2048,
+  "height": 352,
+  "parts": [
+   ""
+  ],
+  "tilesDrawn": 11264,
+  "drawnFromWhatWasSeenThere": 7368
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-0827",
+   "runs/deep3-1"
+  ],
+  "frames": 18132,
+  "framesShowingSomethingElse": 25,
+  "comparisons": 13220674,
+  "tilesEqual": 12998397,
+  "palettesEqual": 13217134,
+  "tilesPercent": 98.319,
+  "palettesPercent": 99.973,
+  "placesSeen": 7759,
+  "placesThatEverDiffered": 917,
+  "placesThatDifferedMostOfTheTime": 349,
+  "floorLookups": {
+   "lookups": 31222,
+   "same": 31222,
+   "percent": 100
+  }
+ }
+}

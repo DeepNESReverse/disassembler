@@ -1,0 +1,55 @@
+{
+ "level": {
+  "id": 10,
+  "number": 11
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": 168,
+   "record": [
+    "$00",
+    "$00",
+    "$00",
+    "$A8",
+    "$38",
+    "$1A",
+    "$22",
+    "$9C",
+    "$26"
+   ]
+  },
+  "width": 56,
+  "rows": 48,
+  "layout": "B5:D1EC",
+  "blocks": "B5:DC6C",
+  "attributes": "B5:E1FC"
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 1792,
+  "height": 1536,
+  "parts": [
+   ""
+  ],
+  "tilesDrawn": 43008,
+  "drawnFromWhatWasSeenThere": 37327
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-1022",
+   "runs/ride-11-slow112"
+  ],
+  "frames": 42063,
+  "framesShowingSomethingElse": 22,
+  "comparisons": 31288401,
+  "tilesEqual": 31287923,
+  "palettesEqual": 31286462,
+  "tilesPercent": 99.998,
+  "palettesPercent": 99.994,
+  "placesSeen": 37574,
+  "placesThatEverDiffered": 1446,
+  "placesThatDifferedMostOfTheTime": 212
+ }
+}

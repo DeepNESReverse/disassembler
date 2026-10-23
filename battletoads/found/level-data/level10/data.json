@@ -1,0 +1,116 @@
+{
+ "level": {
+  "id": 9,
+  "number": 10
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": 0,
+   "record": [
+    "$00",
+    "$00",
+    "$00",
+    "$00",
+    "$09",
+    "$18",
+    "$22",
+    "$94",
+    "$26"
+   ]
+  },
+  "width": 9,
+  "rows": 196,
+  "layout": "B5:F91C",
+  "blocks": "B5:C75C",
+  "attributes": "B5:CE3C",
+  "remap": {
+   "axis": "y",
+   "table": "B5:82FE",
+   "pages": [
+    0,
+    1,
+    1,
+    2,
+    3,
+    2,
+    3,
+    10,
+    10,
+    3,
+    2,
+    4,
+    11,
+    13,
+    2,
+    4,
+    6,
+    6,
+    8,
+    8,
+    9,
+    9,
+    12,
+    12,
+    10,
+    10,
+    5,
+    5,
+    11,
+    13,
+    7,
+    7,
+    8,
+    8,
+    2,
+    3,
+    2,
+    3,
+    10,
+    10,
+    10,
+    1,
+    1,
+    12,
+    12,
+    10,
+    10,
+    1,
+    1,
+    10,
+    10,
+    11,
+    11,
+    11
+   ]
+  }
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 288,
+  "height": 13560,
+  "parts": [
+   "-0",
+   "-1"
+  ],
+  "tilesDrawn": 61020,
+  "drawnFromWhatWasSeenThere": 53316
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-1022",
+   "runs/rat-done"
+  ],
+  "frames": 31108,
+  "framesShowingSomethingElse": 22,
+  "comparisons": 23213812,
+  "tilesEqual": 23137886,
+  "palettesEqual": 23193107,
+  "tilesPercent": 99.673,
+  "palettesPercent": 99.911,
+  "placesSeen": 53754,
+  "placesThatEverDiffered": 12132,
+  "placesThatDifferedMostOfTheTime": 433
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "level": {
+  "id": 7,
+  "number": 8
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": 4032,
+   "record": [
+    "$00",
+    "$00",
+    "$0F",
+    "$C0",
+    "$09",
+    "$14",
+    "$22",
+    "$94",
+    "$26"
+   ]
+  },
+  "width": 9,
+  "rows": 135,
+  "layout": "B5:C29D",
+  "blocks": "B5:C75C",
+  "attributes": "B5:CE3C"
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 288,
+  "height": 4320,
+  "parts": [
+   ""
+  ],
+  "tilesDrawn": 19440,
+  "drawnFromWhatWasSeenThere": 18228
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-1022",
+   "runs/intruder-full1"
+  ],
+  "frames": 24197,
+  "framesShowingSomethingElse": 24,
+  "comparisons": 17894688,
+  "tilesEqual": 17738636,
+  "palettesEqual": 17888082,
+  "tilesPercent": 99.128,
+  "palettesPercent": 99.963,
+  "placesSeen": 19098,
+  "placesThatEverDiffered": 3930,
+  "placesThatDifferedMostOfTheTime": 286
+ }
+}

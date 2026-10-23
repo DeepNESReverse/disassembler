@@ -1,0 +1,55 @@
+{
+ "level": {
+  "id": 4,
+  "number": 4
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": -36,
+   "record": [
+    "$00",
+    "$00",
+    "$FF",
+    "$DC",
+    "$1A",
+    "$0C",
+    "$22",
+    "$98",
+    "$22"
+   ]
+  },
+  "width": 26,
+  "rows": 86,
+  "layout": "B5:A1CE",
+  "blocks": "B5:AA8A",
+  "attributes": "B5:AE9A"
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 832,
+  "height": 2752,
+  "parts": [
+   ""
+  ],
+  "tilesDrawn": 35776,
+  "drawnFromWhatWasSeenThere": 31005
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-1005",
+   "runs/arctic-done"
+  ],
+  "frames": 33883,
+  "framesShowingSomethingElse": 20,
+  "comparisons": 24755529,
+  "tilesEqual": 24755237,
+  "palettesEqual": 24737282,
+  "tilesPercent": 99.999,
+  "palettesPercent": 99.926,
+  "placesSeen": 31290,
+  "placesThatEverDiffered": 2109,
+  "placesThatDifferedMostOfTheTime": 160
+ }
+}

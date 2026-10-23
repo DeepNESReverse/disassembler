@@ -1,0 +1,55 @@
+{
+ "level": {
+  "id": 11,
+  "number": 9
+ },
+ "data": {
+  "start": {
+   "x": 0,
+   "y": 0,
+   "record": [
+    "$00",
+    "$00",
+    "$00",
+    "$00",
+    "$30",
+    "$1C",
+    "$22",
+    "$3C",
+    "$3E"
+   ]
+  },
+  "width": 48,
+  "rows": 66,
+  "layout": "B5:E25C",
+  "blocks": "B5:EEBC",
+  "attributes": "B5:F5DC"
+ },
+ "map": {
+  "x": 0,
+  "y": 0,
+  "width": 1536,
+  "height": 2112,
+  "parts": [
+   ""
+  ],
+  "tilesDrawn": 50688,
+  "drawnFromWhatWasSeenThere": 49598
+ },
+ "check": {
+  "runs": [
+   "runs/play-20261023-1022",
+   "runs/terra-done"
+  ],
+  "frames": 45803,
+  "framesShowingSomethingElse": 20,
+  "comparisons": 33467488,
+  "tilesEqual": 33466680,
+  "palettesEqual": 33431746,
+  "tilesPercent": 99.998,
+  "palettesPercent": 99.893,
+  "placesSeen": 50092,
+  "placesThatEverDiffered": 8260,
+  "placesThatDifferedMostOfTheTime": 228
+ }
+}
