@@ -1,0 +1,1704 @@
+$0000  ppu_index                       named by the routines that write it and how it is used
+$0001  upload_list_ptr                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0002  upload_list_ptr_hi              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0003  ppu_addr_copy                   its value goes straight on to a hardware register
+$0004  ppu_addr_copy_0004              its value goes straight on to a hardware register
+$0005  upload_count                    named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0006  upload_src_ptr                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0007  upload_src_ptr_hi               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0008  ppu_state                       named by the routines that write it and how it is used
+$0009  ppu_ctrl_copy                   its value goes straight on to a hardware register
+$000A  ppu_mask_copy                   its value goes straight on to a hardware register
+$000B  frame_counter                   proven by experiment (game.json)
+$000C  anim_counter                    named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$000D  level_number                    proven by experiment (game.json)
+$000E  frame_update_6_timer            named by the routines that write it and how it is used
+$000F  sample_value                    named by the routines that write it and how it is used
+$0010  level_id                        proven by experiment (game.json)
+$0011  p1_lives                        proven by experiment (game.json)
+$0012  p2_lives                        proven by experiment (game.json)
+$0013  dispatch_ptr                    proven by experiment (game.json)
+$0014  dispatch_ptr+1                  proven by experiment (game.json)
+$0015  temp                            scratch: written and read by many unrelated routines
+$0016  temp_0016                       scratch: written and read by many unrelated routines
+$0017  temp_0017                       scratch: written and read by many unrelated routines
+$0018  temp_0018                       scratch: written and read by many unrelated routines
+$0019  ppu_ptr                         a pointer: read through (zp),Y or copied as a pair
+$001A  ppu_ptr_hi                      a pointer: read through (zp),Y or copied as a pair
+$001B  frame_update_28_ptr             a pointer: read through (zp),Y or copied as a pair
+$001C  sub_B6_8A4F_ptr                 a pointer: read through (zp),Y or copied as a pair
+$001D  bg_build_ptr                    named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$001E  bg_build_ptr_hi                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$001F  temp_001F                       scratch: written and read by many unrelated routines
+$0020  temp_0020                       scratch: written and read by many unrelated routines
+$0021  temp_0021                       scratch: written and read by many unrelated routines
+$0022  obj_counter                     named by the routines that write it and how it is used
+$0023  scene_handler_ptr               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0024  scene_handler_ptr_hi            named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0025  random                          a random number: made in place by one routine, read by several
+$0026  random_bytes                    named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0027  random_bytes+1                  an element of a table read with an index
+$0028  random_bytes+2                  an element of a table read with an index
+$0029  pad1_held                       proven by experiment (game.json)
+$002A  pad1_held+1                     an element of a proven cell's table (its index reached it)
+$002B  pad1_pressed                    proven by experiment (game.json)
+$002C  pad1_pressed+1                  an element of a proven cell's table (its index reached it)
+$002D  current_bank                    proven by experiment (game.json)
+$002E  vblank_flag                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$002F  ppu_index_002F                  named by the routines that write it and how it is used
+$0030  bg_build_column_flag            named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0032  music_tempo_acc                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0033  music_tempo                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0034  music_timer                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0037  sound_data_ptr                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0038  sound_data_ptr_hi               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0039  sound_temp                      named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$003A  sound_value                     named by the routines that write it and how it is used
+$003B  sound_value_003B                named by the routines that write it and how it is used
+$003E  sub_B0_FF84_value               named by the routines that write it and how it is used
+$003F  sound_index                     named by the routines that write it and how it is used
+$0040  frame_update_state              named by the routines that write it and how it is used
+$0041  frame_update_13_index           named by the routines that write it and how it is used
+$0042  sound_value_0042                named by the routines that write it and how it is used
+$0043  frame_update_13_state           named by the routines that write it and how it is used
+$0044  frame_update_13_value           named by the routines that write it and how it is used
+$0045  sub_B3_855E_value               named by the routines that write it and how it is used
+$0046  sub_B3_855E_flag                named by the routines that write it and how it is used
+$0047  frame_update_13_value_0047      named by the routines that write it and how it is used
+$0048  frame_update_13_timer           named by the routines that write it and how it is used
+$0049  frame_update_13_value_0049      named by the routines that write it and how it is used
+$004A  frame_update_13_timer_004A      named by the routines that write it and how it is used
+$004B  frame_update_13_value_004B      named by the routines that write it and how it is used
+$004C  frame_update_13_timer_004C      named by the routines that write it and how it is used
+$004D  frame_update_13_value_004D      named by the routines that write it and how it is used
+$004E  frame_update_13_value_004E      named by the routines that write it and how it is used
+$004F  sound_value_004F                named by the routines that write it and how it is used
+$0050  frame_update_13_timer_0050      named by the routines that write it and how it is used
+$0051  sample_flag                     named by the routines that write it and how it is used
+$0055  palette_buffer                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0056  palette_buffer_color1           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0057  palette_buffer_color2           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0058  palette_buffer_color3           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0059  palette_buffer+4                an element of a ROM table copied in
+$005A  palette_buffer+5                an element of a ROM table copied in
+$005B  palette_buffer_color2+4         an element of a table read with an index
+$005C  palette_buffer+7                an element of a ROM table copied in
+$005D  palette_buffer+8                an element of a ROM table copied in
+$005E  palette_buffer_color1+8         an element of a table read with an index
+$005F  palette_buffer_color2+8         an element of a table read with an index
+$0060  palette_buffer_color3+8         an element of a table read with an index
+$0061  palette_buffer+12               an element of a ROM table copied in
+$0062  palette_buffer+13               an element of a ROM table copied in
+$0063  palette_buffer+14               an element of a ROM table copied in
+$0064  palette_buffer+15               an element of a ROM table copied in
+$0065  palette_buffer+16               an element of a ROM table copied in
+$0066  palette_buffer+17               an element of a ROM table copied in
+$0067  palette_buffer+18               an element of a ROM table copied in
+$0068  palette_buffer+19               an element of a ROM table copied in
+$0069  palette_buffer+20               an element of a ROM table copied in
+$006A  palette_buffer+21               an element of a ROM table copied in
+$006B  palette_buffer+22               an element of a ROM table copied in
+$006C  palette_buffer+23               an element of a ROM table copied in
+$006D  palette_buffer+24               an element of a ROM table copied in
+$006E  palette_buffer_color1+24        an element of a table read with an index
+$006F  palette_buffer_color2+24        an element of a table read with an index
+$0070  palette_buffer_color3+24        an element of a table read with an index
+$0071  palette_buffer+28               an element of a ROM table copied in
+$0072  palette_buffer_color1+28        an element of a table read with an index
+$0073  palette_buffer+30               an element of a ROM table copied in
+$0074  palette_buffer+31               an element of a ROM table copied in
+$0078  obj_anim_frame                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0079  obj_x_speed                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$007A  obj_flags                       named by the routines that write it and how it is used
+$0080  sound_index_0080                named by the routines that write it and how it is used
+$0081  temp_0081                       scratch: written and read by many unrelated routines
+$0082  ppu_addr_copy_0082              its value goes straight on to a hardware register
+$0083  camera_nametable_row            proven by experiment (game.json)
+$0084  scroll_y                        named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0085  ppu_addr_copy_0085              its value goes straight on to a hardware register
+$0086  ppu_addr_copy_0086              its value goes straight on to a hardware register
+$0087  camera_x_lo                     proven by experiment (game.json)
+$0088  camera_x_hi                     proven by experiment (game.json)
+$0089  camera_y_lo                     proven by experiment (game.json)
+$008A  camera_y_hi                     proven by experiment (game.json)
+$008B  sprite_x                        named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$008C  sprite_y                        named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$008D  sprite_attr                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$008E  toad_sprite_attr                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$008F  obj_flags_008F                  named by the routines that write it and how it is used
+$0090  sprite_flip                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0091  sprite_piece_count              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0092  sprite_tile                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0093  built_column                    proven by experiment (game.json)
+$0094  built_row                       proven by experiment (game.json)
+$0095  vram_update_request             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0096  ppu_addr_copy_0096              its value goes straight on to a hardware register
+$0097  ppu_addr_copy_0097              its value goes straight on to a hardware register
+$0098  ppu_addr_copy_0098              its value goes straight on to a hardware register
+$0099  attribute_byte                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$009A  row_addr_hi                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$009B  built_row_addr_lo               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$009C  chr_upload_addr_hi              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$009D  chr_upload_addr_lo              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$009E  obj_draw_order                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$009F  obj_draw_order+1                an element of a table read with an index
+$00A0  obj_draw_order+2                an element of a table read with an index
+$00A1  obj_draw_order+3                an element of a table read with an index
+$00A2  obj_draw_order+4                an element of a table read with an index
+$00A3  obj_draw_order+5                an element of a table read with an index
+$00A4  obj_draw_order+6                an element of a table read with an index
+$00A5  obj_draw_order+7                an element of a table read with an index
+$00A6  obj_draw_order+8                an element of a table read with an index
+$00A7  obj_draw_order+9                an element of a table read with an index
+$00A8  obj_draw_order+10               an element of a table read with an index
+$00A9  obj_draw_order+11               an element of a table read with an index
+$00AA  obj_draw_order+12               an element of a table read with an index
+$00AB  obj_draw_order+13               an element of a table read with an index
+$00AC  obj_draw_order+14               an element of a table read with an index
+$00AD  sub_B0_87C2_state               named by the routines that write it and how it is used
+$00AE  sub_B0_87C2_value               named by the routines that write it and how it is used
+$00AF  obj_value                       named by the routines that write it and how it is used
+$00B0  sub_B2_F76F_index               named by the routines that write it and how it is used
+$00B1  camera_target                   proven by experiment (game.json)
+$00B2  camera_hold                     proven by experiment (game.json)
+$00B3  obj_state                       named by the routines that write it and how it is used
+$00B4  obj_index                       named by the routines that write it and how it is used
+$00B5  sound_counter                   named by the routines that write it and how it is used
+$00B6  vram_update_state               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00B7  placement_ptr                   proven by experiment (game.json)
+$00B8  placement_ptr_hi                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00B9  chr_load_index                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00BA  ppu_flags                       named by the routines that write it and how it is used
+$00BB  vram_src_index                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00BC  vram_dst_lo                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00BD  vram_src_index+2                an element of a table read with an index
+$00BE  vram_dst_lo+2                   an element of a table read with an index
+$00BF  vram_src_index+4                an element of a table read with an index
+$00C0  vram_dst_lo+4                   an element of a table read with an index
+$00C1  ppu_value                       named by the routines that write it and how it is used
+$00C2  ppu_value_00C2                  named by the routines that write it and how it is used
+$00C3  block_attributes_ptr            proven by experiment (game.json)
+$00C4  block_attributes_ptr+1          proven by experiment (game.json)
+$00C5  block_tiles_ptr                 proven by experiment (game.json)
+$00C6  block_tiles_ptr+1               proven by experiment (game.json)
+$00C7  layout_width                    proven by experiment (game.json)
+$00C8  rope_descent_timer              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00C9  palette_fade_level              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00CB  ppu_addr_copy_00CB              its value goes straight on to a hardware register
+$00CC  ppu_flag                        named by the routines that write it and how it is used
+$00CD  frame_counter_gfx               proven by experiment (game.json)
+$00CE  ppu_data_copy                   its value goes straight on to a hardware register
+$00CF  vram_src_ptr_hi                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00D0  hud_redraw_request              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00D1  obj_state_00D1                  named by the routines that write it and how it is used
+$00D2  camera_shake_timer              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00D3  camera_shake_x                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00D4  vehicle_speed                   named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00D5  vehicle_speed+1                 an element of a table read with an index
+$00D6  camera_x_sub                    named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00D7  parallax_scroll                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00D9  obj_state_00D9                  named by the routines that write it and how it is used
+$00DA  floor_height                    proven by experiment (game.json)
+$00DB  obj_state_00DB                  named by the routines that write it and how it is used
+$00DC  obj_flag                        named by the routines that write it and how it is used
+$00DD  k25_counter                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00DE  obj_counter_00DE                named by the routines that write it and how it is used
+$00DF  obj_value_00DF                  named by the routines that write it and how it is used
+$00E0  obj_value_00E0                  named by the routines that write it and how it is used
+$00E1  obj_value_00E1                  named by the routines that write it and how it is used
+$00E2  obj_value_00E2                  named by the routines that write it and how it is used
+$00E3  scroll_stop_flag                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00E4  sub_B0_B8AD_flag                named by the routines that write it and how it is used
+$00E5  obj_ptr                         a pointer: read through (zp),Y or copied as a pair
+$00E6  obj_ptr_hi                      a pointer: read through (zp),Y or copied as a pair
+$00E7  spawn_sequence_index            named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00E9  obj_timer                       named by the routines that write it and how it is used
+$00EA  obj_timer+1                     an element of a table read with an index
+$00EB  auto_walk_timer                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00EC  obj_timer_00EC                  named by the routines that write it and how it is used
+$00EE  parallax_mode                   named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00EF  nametable_update_mode           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00F0  level_room                      proven by experiment (game.json)
+$00F1  chr_anim_counter                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00F2  l6_frame_update_value           named by the routines that write it and how it is used
+$00F3  obj_index_00F3                  named by the routines that write it and how it is used
+$00F4  ending_trigger                  proven by experiment (game.json)
+$00F5  tile_upload_count               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00F6  pause_flag                      named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00F7  sound_counter_00F7              named by the routines that write it and how it is used
+$00F8  pause_frame_counter             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$00FC  sub_B5_854C_value               named by the routines that write it and how it is used
+$00FD  state_02_set_ppuctrl_value      named by the routines that write it and how it is used
+$00FE  ppu_flag_00FE                   named by the routines that write it and how it is used
+$00FF  sample_flag_00FF                named by the routines that write it and how it is used
+$0100  stack                           the stack page
+$0101  stack                           the stack page
+$0102  stack                           the stack page
+$0103  stack                           the stack page
+$0104  stack                           the stack page
+$0105  stack                           the stack page
+$0106  stack                           the stack page
+$0107  stack                           the stack page
+$0120  stack                           the stack page
+$0138  stack                           the stack page
+$0139  stack                           the stack page
+$013A  stack                           the stack page
+$013B  stack                           the stack page
+$013C  stack                           the stack page
+$013D  stack                           the stack page
+$013E  stack                           the stack page
+$013F  stack                           the stack page
+$0150  stack                           the stack page
+$015E  stack                           the stack page
+$015F  stack                           the stack page
+$0160  stack                           the stack page
+$0161  stack                           the stack page
+$0162  stack                           the stack page
+$0163  stack                           the stack page
+$0164  stack                           the stack page
+$0165  stack                           the stack page
+$0166  stack                           the stack page
+$0168  stack                           the stack page
+$016B  stack                           the stack page
+$016C  stack                           the stack page
+$016D  stack                           the stack page
+$016E  stack                           the stack page
+$0170  stack                           the stack page
+$0171  stack                           the stack page
+$0172  stack                           the stack page
+$0173  stack                           the stack page
+$0174  stack                           the stack page
+$0176  stack                           the stack page
+$0177  stack                           the stack page
+$0178  stack                           the stack page
+$017C  stack                           the stack page
+$017E  stack                           the stack page
+$017F  stack                           the stack page
+$0180  stack                           the stack page
+$019F  stack                           the stack page
+$01A0  stack                           the stack page
+$01A4  stack                           the stack page
+$01A7  stack                           the stack page
+$01A8  stack                           the stack page
+$01A9  stack                           the stack page
+$01AC  stack                           the stack page
+$01B0  stack                           the stack page
+$01B9  stack                           the stack page
+$01BF  stack                           the stack page
+$01C9  stack                           the stack page
+$01D0  stack                           the stack page
+$01D9  stack                           the stack page
+$01DF  stack                           the stack page
+$01E0  stack                           the stack page
+$01FD  stack                           the stack page
+$0200  oam_buffer                      the sprite DMA page
+$0201  oam_buffer+1                    the sprite DMA page
+$0202  oam_buffer+2                    the sprite DMA page
+$0203  oam_buffer+3                    the sprite DMA page
+$0204  oam_buffer+4                    the sprite DMA page
+$0205  oam_buffer+5                    the sprite DMA page
+$0206  oam_buffer+6                    the sprite DMA page
+$0207  oam_buffer+7                    the sprite DMA page
+$0208  oam_buffer+8                    the sprite DMA page
+$0209  oam_buffer+9                    the sprite DMA page
+$020A  oam_buffer+10                   the sprite DMA page
+$020B  oam_buffer+11                   the sprite DMA page
+$020C  oam_buffer+12                   the sprite DMA page
+$020D  oam_buffer+13                   the sprite DMA page
+$020E  oam_buffer+14                   the sprite DMA page
+$020F  oam_buffer+15                   the sprite DMA page
+$0210  oam_buffer+16                   the sprite DMA page
+$0211  oam_buffer+17                   the sprite DMA page
+$0212  oam_buffer+18                   the sprite DMA page
+$0213  oam_buffer+19                   the sprite DMA page
+$0214  oam_buffer+20                   the sprite DMA page
+$0215  oam_buffer+21                   the sprite DMA page
+$0216  oam_buffer+22                   the sprite DMA page
+$0217  oam_buffer+23                   the sprite DMA page
+$0218  oam_buffer+24                   the sprite DMA page
+$0219  oam_buffer+25                   the sprite DMA page
+$021A  oam_buffer+26                   the sprite DMA page
+$021B  oam_buffer+27                   the sprite DMA page
+$021C  oam_buffer+28                   the sprite DMA page
+$021D  oam_buffer+29                   the sprite DMA page
+$021E  oam_buffer+30                   the sprite DMA page
+$021F  oam_buffer+31                   the sprite DMA page
+$0220  oam_buffer+32                   the sprite DMA page
+$0221  oam_buffer+33                   the sprite DMA page
+$0222  oam_buffer+34                   the sprite DMA page
+$0223  oam_buffer+35                   the sprite DMA page
+$0224  oam_buffer+36                   the sprite DMA page
+$0225  oam_buffer+37                   the sprite DMA page
+$0226  oam_buffer+38                   the sprite DMA page
+$0227  oam_buffer+39                   the sprite DMA page
+$0228  oam_buffer+40                   the sprite DMA page
+$0229  oam_buffer+41                   the sprite DMA page
+$022A  oam_buffer+42                   the sprite DMA page
+$022B  oam_buffer+43                   the sprite DMA page
+$022C  oam_buffer+44                   the sprite DMA page
+$022D  oam_buffer+45                   the sprite DMA page
+$022E  oam_buffer+46                   the sprite DMA page
+$022F  oam_buffer+47                   the sprite DMA page
+$0230  oam_buffer+48                   the sprite DMA page
+$0231  oam_buffer+49                   the sprite DMA page
+$0232  oam_buffer+50                   the sprite DMA page
+$0233  oam_buffer+51                   the sprite DMA page
+$0234  oam_buffer+52                   the sprite DMA page
+$0235  oam_buffer+53                   the sprite DMA page
+$0236  oam_buffer+54                   the sprite DMA page
+$0237  oam_buffer+55                   the sprite DMA page
+$0238  oam_buffer+56                   the sprite DMA page
+$0239  oam_buffer+57                   the sprite DMA page
+$023A  oam_buffer+58                   the sprite DMA page
+$023B  oam_buffer+59                   the sprite DMA page
+$023C  oam_buffer+60                   the sprite DMA page
+$023D  oam_buffer+61                   the sprite DMA page
+$023E  oam_buffer+62                   the sprite DMA page
+$023F  oam_buffer+63                   the sprite DMA page
+$0240  oam_buffer+64                   the sprite DMA page
+$0241  oam_buffer+65                   the sprite DMA page
+$0242  oam_buffer+66                   the sprite DMA page
+$0243  oam_buffer+67                   the sprite DMA page
+$0244  oam_buffer+68                   the sprite DMA page
+$0245  oam_buffer+69                   the sprite DMA page
+$0246  oam_buffer+70                   the sprite DMA page
+$0247  oam_buffer+71                   the sprite DMA page
+$0248  oam_buffer+72                   the sprite DMA page
+$0249  oam_buffer+73                   the sprite DMA page
+$024A  oam_buffer+74                   the sprite DMA page
+$024B  oam_buffer+75                   the sprite DMA page
+$024C  oam_buffer+76                   the sprite DMA page
+$024D  oam_buffer+77                   the sprite DMA page
+$024E  oam_buffer+78                   the sprite DMA page
+$024F  oam_buffer+79                   the sprite DMA page
+$0250  oam_buffer+80                   the sprite DMA page
+$0251  oam_buffer+81                   the sprite DMA page
+$0252  oam_buffer+82                   the sprite DMA page
+$0253  oam_buffer+83                   the sprite DMA page
+$0254  oam_buffer+84                   the sprite DMA page
+$0255  oam_buffer+85                   the sprite DMA page
+$0256  oam_buffer+86                   the sprite DMA page
+$0257  oam_buffer+87                   the sprite DMA page
+$0258  oam_buffer+88                   the sprite DMA page
+$0259  oam_buffer+89                   the sprite DMA page
+$025A  oam_buffer+90                   the sprite DMA page
+$025B  oam_buffer+91                   the sprite DMA page
+$025C  oam_buffer+92                   the sprite DMA page
+$025D  oam_buffer+93                   the sprite DMA page
+$025E  oam_buffer+94                   the sprite DMA page
+$025F  oam_buffer+95                   the sprite DMA page
+$0260  oam_buffer+96                   the sprite DMA page
+$0261  oam_buffer+97                   the sprite DMA page
+$0262  oam_buffer+98                   the sprite DMA page
+$0263  oam_buffer+99                   the sprite DMA page
+$0264  oam_buffer+100                  the sprite DMA page
+$0265  oam_buffer+101                  the sprite DMA page
+$0266  oam_buffer+102                  the sprite DMA page
+$0267  oam_buffer+103                  the sprite DMA page
+$0268  oam_buffer+104                  the sprite DMA page
+$0269  oam_buffer+105                  the sprite DMA page
+$026A  oam_buffer+106                  the sprite DMA page
+$026B  oam_buffer+107                  the sprite DMA page
+$026C  oam_buffer+108                  the sprite DMA page
+$026D  oam_buffer+109                  the sprite DMA page
+$026E  oam_buffer+110                  the sprite DMA page
+$026F  oam_buffer+111                  the sprite DMA page
+$0270  oam_buffer+112                  the sprite DMA page
+$0271  oam_buffer+113                  the sprite DMA page
+$0272  oam_buffer+114                  the sprite DMA page
+$0273  oam_buffer+115                  the sprite DMA page
+$0274  oam_buffer+116                  the sprite DMA page
+$0275  oam_buffer+117                  the sprite DMA page
+$0276  oam_buffer+118                  the sprite DMA page
+$0277  oam_buffer+119                  the sprite DMA page
+$0278  oam_buffer+120                  the sprite DMA page
+$0279  oam_buffer+121                  the sprite DMA page
+$027A  oam_buffer+122                  the sprite DMA page
+$027B  oam_buffer+123                  the sprite DMA page
+$027C  oam_buffer+124                  the sprite DMA page
+$027D  oam_buffer+125                  the sprite DMA page
+$027E  oam_buffer+126                  the sprite DMA page
+$027F  oam_buffer+127                  the sprite DMA page
+$0280  oam_buffer+128                  the sprite DMA page
+$0281  oam_buffer+129                  the sprite DMA page
+$0282  oam_buffer+130                  the sprite DMA page
+$0283  oam_buffer+131                  the sprite DMA page
+$0284  oam_buffer+132                  the sprite DMA page
+$0285  oam_buffer+133                  the sprite DMA page
+$0286  oam_buffer+134                  the sprite DMA page
+$0287  oam_buffer+135                  the sprite DMA page
+$0288  oam_buffer+136                  the sprite DMA page
+$0289  oam_buffer+137                  the sprite DMA page
+$028A  oam_buffer+138                  the sprite DMA page
+$028B  oam_buffer+139                  the sprite DMA page
+$028C  oam_buffer+140                  the sprite DMA page
+$028D  oam_buffer+141                  the sprite DMA page
+$028E  oam_buffer+142                  the sprite DMA page
+$028F  oam_buffer+143                  the sprite DMA page
+$0290  oam_buffer+144                  the sprite DMA page
+$0291  oam_buffer+145                  the sprite DMA page
+$0292  oam_buffer+146                  the sprite DMA page
+$0293  oam_buffer+147                  the sprite DMA page
+$0294  oam_buffer+148                  the sprite DMA page
+$0295  oam_buffer+149                  the sprite DMA page
+$0296  oam_buffer+150                  the sprite DMA page
+$0297  oam_buffer+151                  the sprite DMA page
+$0298  oam_buffer+152                  the sprite DMA page
+$0299  oam_buffer+153                  the sprite DMA page
+$029A  oam_buffer+154                  the sprite DMA page
+$029B  oam_buffer+155                  the sprite DMA page
+$029C  oam_buffer+156                  the sprite DMA page
+$029D  oam_buffer+157                  the sprite DMA page
+$029E  oam_buffer+158                  the sprite DMA page
+$029F  oam_buffer+159                  the sprite DMA page
+$02A0  oam_buffer+160                  the sprite DMA page
+$02A1  oam_buffer+161                  the sprite DMA page
+$02A2  oam_buffer+162                  the sprite DMA page
+$02A3  oam_buffer+163                  the sprite DMA page
+$02A4  oam_buffer+164                  the sprite DMA page
+$02A5  oam_buffer+165                  the sprite DMA page
+$02A6  oam_buffer+166                  the sprite DMA page
+$02A7  oam_buffer+167                  the sprite DMA page
+$02A8  oam_buffer+168                  the sprite DMA page
+$02A9  oam_buffer+169                  the sprite DMA page
+$02AA  oam_buffer+170                  the sprite DMA page
+$02AB  oam_buffer+171                  the sprite DMA page
+$02AC  oam_buffer+172                  the sprite DMA page
+$02AD  oam_buffer+173                  the sprite DMA page
+$02AE  oam_buffer+174                  the sprite DMA page
+$02AF  oam_buffer+175                  the sprite DMA page
+$02B0  oam_buffer+176                  the sprite DMA page
+$02B1  oam_buffer+177                  the sprite DMA page
+$02B2  oam_buffer+178                  the sprite DMA page
+$02B3  oam_buffer+179                  the sprite DMA page
+$02B4  oam_buffer+180                  the sprite DMA page
+$02B5  oam_buffer+181                  the sprite DMA page
+$02B6  oam_buffer+182                  the sprite DMA page
+$02B7  oam_buffer+183                  the sprite DMA page
+$02B8  oam_buffer+184                  the sprite DMA page
+$02B9  oam_buffer+185                  the sprite DMA page
+$02BA  oam_buffer+186                  the sprite DMA page
+$02BB  oam_buffer+187                  the sprite DMA page
+$02BC  oam_buffer+188                  the sprite DMA page
+$02BD  oam_buffer+189                  the sprite DMA page
+$02BE  oam_buffer+190                  the sprite DMA page
+$02BF  oam_buffer+191                  the sprite DMA page
+$02C0  oam_buffer+192                  the sprite DMA page
+$02C1  oam_buffer+193                  the sprite DMA page
+$02C2  oam_buffer+194                  the sprite DMA page
+$02C3  oam_buffer+195                  the sprite DMA page
+$02C4  oam_buffer+196                  the sprite DMA page
+$02C5  oam_buffer+197                  the sprite DMA page
+$02C6  oam_buffer+198                  the sprite DMA page
+$02C7  oam_buffer+199                  the sprite DMA page
+$02C8  oam_buffer+200                  the sprite DMA page
+$02C9  oam_buffer+201                  the sprite DMA page
+$02CA  oam_buffer+202                  the sprite DMA page
+$02CB  oam_buffer+203                  the sprite DMA page
+$02CC  oam_buffer+204                  the sprite DMA page
+$02CD  oam_buffer+205                  the sprite DMA page
+$02CE  oam_buffer+206                  the sprite DMA page
+$02CF  oam_buffer+207                  the sprite DMA page
+$02D0  oam_buffer+208                  the sprite DMA page
+$02D1  oam_buffer+209                  the sprite DMA page
+$02D2  oam_buffer+210                  the sprite DMA page
+$02D3  oam_buffer+211                  the sprite DMA page
+$02D4  oam_buffer+212                  the sprite DMA page
+$02D5  oam_buffer+213                  the sprite DMA page
+$02D6  oam_buffer+214                  the sprite DMA page
+$02D7  oam_buffer+215                  the sprite DMA page
+$02D8  oam_buffer+216                  the sprite DMA page
+$02D9  oam_buffer+217                  the sprite DMA page
+$02DA  oam_buffer+218                  the sprite DMA page
+$02DB  oam_buffer+219                  the sprite DMA page
+$02DC  oam_buffer+220                  the sprite DMA page
+$02DD  oam_buffer+221                  the sprite DMA page
+$02DE  oam_buffer+222                  the sprite DMA page
+$02DF  oam_buffer+223                  the sprite DMA page
+$02E0  oam_buffer+224                  the sprite DMA page
+$02E1  oam_buffer+225                  the sprite DMA page
+$02E2  oam_buffer+226                  the sprite DMA page
+$02E3  oam_buffer+227                  the sprite DMA page
+$02E4  oam_buffer+228                  the sprite DMA page
+$02E5  oam_buffer+229                  the sprite DMA page
+$02E6  oam_buffer+230                  the sprite DMA page
+$02E7  oam_buffer+231                  the sprite DMA page
+$02E8  oam_buffer+232                  the sprite DMA page
+$02E9  oam_buffer+233                  the sprite DMA page
+$02EA  oam_buffer+234                  the sprite DMA page
+$02EB  oam_buffer+235                  the sprite DMA page
+$02EC  oam_buffer+236                  the sprite DMA page
+$02ED  oam_buffer+237                  the sprite DMA page
+$02EE  oam_buffer+238                  the sprite DMA page
+$02EF  oam_buffer+239                  the sprite DMA page
+$02F0  oam_buffer+240                  the sprite DMA page
+$02F1  oam_buffer+241                  the sprite DMA page
+$02F2  oam_buffer+242                  the sprite DMA page
+$02F3  oam_buffer+243                  the sprite DMA page
+$02F4  oam_buffer+244                  the sprite DMA page
+$02F5  oam_buffer+245                  the sprite DMA page
+$02F6  oam_buffer+246                  the sprite DMA page
+$02F7  oam_buffer+247                  the sprite DMA page
+$02F8  oam_buffer+248                  the sprite DMA page
+$02F9  oam_buffer+249                  the sprite DMA page
+$02FA  oam_buffer+250                  the sprite DMA page
+$02FB  oam_buffer+251                  the sprite DMA page
+$02FC  oam_buffer+252                  the sprite DMA page
+$02FD  oam_buffer+253                  the sprite DMA page
+$02FE  oam_buffer+254                  the sprite DMA page
+$02FF  oam_buffer+255                  the sprite DMA page
+$0300  sample_flag_0300                named by the routines that write it and how it is used
+$0301  music_chan_song                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0302  music_note_timer                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0303  music_data_ptr_lo               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0304  music_data_ptr_hi               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0305  music_chan_song+4               an element of a table read with an index
+$0306  music_note_timer+4              an element of a table read with an index
+$0307  music_data_ptr_lo+4             an element of a table read with an index
+$0308  music_data_ptr_hi+4             an element of a table read with an index
+$0309  music_chan_song+8               an element of a table read with an index
+$030A  music_note_timer+8              an element of a table read with an index
+$030B  music_data_ptr_lo+8             an element of a table read with an index
+$030C  music_data_ptr_hi+8             an element of a table read with an index
+$030D  music_chan_song+12              an element of a table read with an index
+$030E  music_note_timer+12             an element of a table read with an index
+$030F  music_data_ptr_lo+12            an element of a table read with an index
+$0310  music_data_ptr_hi+12            an element of a table read with an index
+$0311  sound_table                     named by the routines that write it and how it is used
+$0312  sfx_step_timer                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0313  sfx_data_ptr_lo                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0314  sfx_data_ptr_hi                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0315  sound_table+4                   an element of a table read with an index
+$0316  sfx_step_timer+4                an element of a table read with an index
+$0317  sfx_data_ptr_lo+4               an element of a table read with an index
+$0318  sfx_data_ptr_hi+4               an element of a table read with an index
+$0319  sound_table+8                   an element of a table read with an index
+$031A  sfx_step_timer+8                an element of a table read with an index
+$031B  sfx_data_ptr_lo+8               an element of a table read with an index
+$031C  sfx_data_ptr_hi+8               an element of a table read with an index
+$031D  sound_table+12                  an element of a table read with an index
+$031E  sfx_step_timer+12               an element of a table read with an index
+$031F  sfx_data_ptr_lo+12              an element of a table read with an index
+$0320  sfx_data_ptr_hi+12              an element of a table read with an index
+$0321  pulse1_ctrl_copy                a table copied to hardware registers by index
+$0322  pulse1_sweep_copy               a table copied to hardware registers by index
+$0323  pulse1_lo_copy                  a table copied to hardware registers by index
+$0324  pulse1_hi_copy                  a table copied to hardware registers by index
+$0325  pulse2_ctrl_copy                a table copied to hardware registers by index
+$0326  pulse2_sweep_copy               a table copied to hardware registers by index
+$0327  pulse2_lo_copy                  a table copied to hardware registers by index
+$0328  pulse2_hi_copy                  a table copied to hardware registers by index
+$0329  triangle_ctrl_copy              a table copied to hardware registers by index
+$032A  reg_4009_copy                   a table copied to hardware registers by index
+$032B  triangle_lo_copy                a table copied to hardware registers by index
+$032C  triangle_hi_copy                a table copied to hardware registers by index
+$032D  noise_ctrl_copy                 a table copied to hardware registers by index
+$032E  reg_400D_copy                   a table copied to hardware registers by index
+$032F  noise_lo_copy                   a table copied to hardware registers by index
+$0330  noise_hi_copy                   a table copied to hardware registers by index
+$0331  pulse1_ctrl_copy_0331           a table copied to hardware registers by index
+$0332  pulse1_sweep_copy_0332          a table copied to hardware registers by index
+$0333  sound_table_0333                named by the routines that write it and how it is used
+$0334  pulse1_hi_copy_0334             a table copied to hardware registers by index
+$0335  pulse2_ctrl_copy_0335           a table copied to hardware registers by index
+$0336  pulse2_sweep_copy_0336          a table copied to hardware registers by index
+$0337  sound_table_0333+4              an element of a table read with an index
+$0338  pulse2_hi_copy_0338             a table copied to hardware registers by index
+$0339  triangle_ctrl_copy_0339         a table copied to hardware registers by index
+$033A  reg_4009_copy_033A              a table copied to hardware registers by index
+$033B  sound_table_0333+8              an element of a table read with an index
+$033C  triangle_hi_copy_033C           a table copied to hardware registers by index
+$033D  noise_ctrl_copy_033D            a table copied to hardware registers by index
+$033E  reg_400D_copy_033E              a table copied to hardware registers by index
+$033F  sound_table_0333+12             an element of a table read with an index
+$0340  noise_hi_copy_0340              a table copied to hardware registers by index
+$0341  music_loop_ptr_lo               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0342  music_loop_ptr_hi               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0343  music_loop_count                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0344  music_vibrato_delta             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0345  music_loop_ptr_lo+4             an element of a table read with an index
+$0346  music_loop_ptr_hi+4             an element of a table read with an index
+$0347  music_loop_count+4              an element of a table read with an index
+$0348  music_vibrato_delta+4           an element of a table read with an index
+$0349  music_loop_ptr_lo+8             an element of a table read with an index
+$034A  music_loop_ptr_hi+8             an element of a table read with an index
+$034B  music_loop_count+8              an element of a table read with an index
+$034C  music_vibrato_delta+8           an element of a table read with an index
+$034D  music_loop_ptr_lo+12            an element of a table read with an index
+$034E  music_loop_ptr_hi+12            an element of a table read with an index
+$034F  music_loop_count+12             an element of a table read with an index
+$0351  frame_update_14_table           named by the routines that write it and how it is used
+$0352  music_cur_volume                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0353  sound_timer                     named by the routines that write it and how it is used
+$0354  music_transpose                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0355  frame_update_14_table+4         an element of a table read with an index
+$0356  music_cur_volume+4              an element of a table read with an index
+$0357  sound_timer+4                   an element of a table read with an index
+$0358  music_transpose+4               an element of a table read with an index
+$0359  frame_update_14_table+8         an element of a table read with an index
+$035A  music_cur_volume+8              an element of a table read with an index
+$035B  sound_timer+8                   an element of a table read with an index
+$035C  music_transpose+8               an element of a table read with an index
+$035D  frame_update_14_table+12        an element of a table read with an index
+$035E  music_cur_volume+12             an element of a table read with an index
+$035F  sound_timer+12                  an element of a table read with an index
+$0360  music_transpose+12              an element of a table read with an index
+$0361  music_vibrato_mode              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0362  music_vibrato_phase             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0363  music_vibrato_depth             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0364  sound_timer_0364                named by the routines that write it and how it is used
+$0365  music_vibrato_mode+4            an element of a table read with an index
+$0366  music_vibrato_phase+4           an element of a table read with an index
+$0367  music_vibrato_depth+4           an element of a table read with an index
+$0368  sound_timer_0364+4              an element of a table read with an index
+$0369  music_vibrato_mode+8            an element of a table read with an index
+$036A  music_vibrato_phase+8           an element of a table read with an index
+$036B  music_vibrato_depth+8           an element of a table read with an index
+$036C  sound_timer_0364+8              an element of a table read with an index
+$036D  music_vibrato_mode+12           an element of a table read with an index
+$036E  music_vibrato_phase+12          an element of a table read with an index
+$0371  music_note_volume               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0373  music_decay_timer               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0374  music_slide_timer               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0375  music_note_volume+4             an element of a table read with an index
+$0377  music_decay_timer+4             an element of a table read with an index
+$0378  music_slide_timer+4             an element of a table read with an index
+$0379  music_note_volume+8             an element of a table read with an index
+$037B  music_decay_timer+8             an element of a table read with an index
+$037C  music_slide_timer+8             an element of a table read with an index
+$037D  music_note_volume+12            an element of a table read with an index
+$037F  music_decay_timer+12            an element of a table read with an index
+$0380  music_slide_timer+12            an element of a table read with an index
+$0381  music_slide_count               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0382  music_slide_delay               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0383  music_slide_step                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0384  music_slide_dir                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0385  music_slide_count+4             an element of a table read with an index
+$0386  music_slide_delay+4             an element of a table read with an index
+$0387  music_slide_step+4              an element of a table read with an index
+$0388  music_slide_dir+4               an element of a table read with an index
+$0389  music_slide_count+8             an element of a table read with an index
+$038A  music_slide_delay+8             an element of a table read with an index
+$038B  music_slide_step+8              an element of a table read with an index
+$038C  music_slide_dir+8               an element of a table read with an index
+$038D  music_slide_count+12            an element of a table read with an index
+$038E  music_slide_delay+12            an element of a table read with an index
+$038F  music_slide_step+12             an element of a table read with an index
+$0390  music_slide_dir+12              an element of a table read with an index
+$0391  music_volume_target             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0392  music_decay_rate                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0393  music_decay_on                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0394  sound_volume_fade               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0395  music_volume_target+4           an element of a table read with an index
+$0396  music_decay_rate+4              an element of a table read with an index
+$0397  music_decay_on+4                an element of a table read with an index
+$0398  sound_volume_fade+4             an element of a table read with an index
+$0399  music_volume_target+8           an element of a table read with an index
+$039A  music_decay_rate+8              an element of a table read with an index
+$039B  music_decay_on+8                an element of a table read with an index
+$039C  sound_volume_fade+8             an element of a table read with an index
+$039D  music_volume_target+12          an element of a table read with an index
+$039E  music_decay_rate+12             an element of a table read with an index
+$039F  music_decay_on+12               an element of a table read with an index
+$03A0  sound_volume_fade+12            an element of a table read with an index
+$03A1  sound_slide_mode                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03A2  sound_instrument                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03A3  sound_volume                    named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03A4  sub_B3_8C2A_table               named by the routines that write it and how it is used
+$03A5  sound_slide_mode+4              an element of a table read with an index
+$03A6  sound_instrument+4              an element of a table read with an index
+$03A7  sound_volume+4                  an element of a table read with an index
+$03A8  sub_B3_8C2A_table+4             an element of a table read with an index
+$03A9  sound_slide_mode+8              an element of a table read with an index
+$03AA  sound_instrument+8              an element of a table read with an index
+$03AB  sound_volume+8                  an element of a table read with an index
+$03AC  sub_B3_8C2A_table+8             an element of a table read with an index
+$03AD  sound_slide_mode+12             an element of a table read with an index
+$03AE  sound_instrument+12             an element of a table read with an index
+$03AF  sound_volume+12                 an element of a table read with an index
+$03B0  sub_B3_8C2A_table+12            an element of a table read with an index
+$03B1  obj_table                       named by the routines that write it and how it is used
+$03B3  p1_blink_timer                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03B5  p1_anim_frame                   named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03B6  p2_anim_frame                   named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03B7  sub_B1_8018_table               named by the routines that write it and how it is used
+$03B9  obj_table_03B9                  named by the routines that write it and how it is used
+$03BB  obj_state_03BB                  named by the routines that write it and how it is used
+$03BC  obj_state_03BB+1                an element of a table read with an index
+$03BD  obj_flag_03BD                   named by the routines that write it and how it is used
+$03BE  obj_flag_03BD+1                 an element of a table read with an index
+$03BF  obj_counter_03BF                named by the routines that write it and how it is used
+$03C0  obj_counter_03BF+1              an element of a table read with an index
+$03C1  obj_kind                        the object table (game.json): field array, slot
+$03C2  obj_kind+1                      the object table (game.json): field array, slot
+$03C3  obj_kind+2                      the object table (game.json): field array, slot
+$03C4  obj_kind+3                      the object table (game.json): field array, slot
+$03C5  obj_kind+4                      the object table (game.json): field array, slot
+$03C6  obj_kind+5                      the object table (game.json): field array, slot
+$03C7  obj_kind+6                      the object table (game.json): field array, slot
+$03C8  obj_kind+7                      the object table (game.json): field array, slot
+$03C9  obj_kind+8                      the object table (game.json): field array, slot
+$03CA  obj_kind+9                      the object table (game.json): field array, slot
+$03CB  obj_kind+10                     the object table (game.json): field array, slot
+$03CC  obj_kind+11                     the object table (game.json): field array, slot
+$03CD  obj_kind+12                     the object table (game.json): field array, slot
+$03CE  obj_kind+13                     the object table (game.json): field array, slot
+$03CF  obj_kind+14                     the object table (game.json): field array, slot
+$03D0  obj_sprite_frame                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D1  obj_sprite_frame+1              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D2  obj_sprite_frame+2              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D3  obj_sprite_frame+3              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D4  obj_sprite_frame+4              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D5  obj_sprite_frame+5              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D6  obj_sprite_frame+6              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D7  obj_sprite_frame+7              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D8  obj_sprite_frame+8              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03D9  obj_sprite_frame+9              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03DA  obj_sprite_frame+10             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03DB  obj_sprite_frame+11             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03DC  obj_sprite_frame+12             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03DD  obj_sprite_frame+13             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03DE  obj_sprite_frame+14             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03DF  obj_anim_step                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E0  obj_anim_step+1                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E1  obj_anim_step+2                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E2  obj_anim_step+3                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E3  obj_anim_step+4                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E4  obj_anim_step+5                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E5  obj_anim_step+6                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E6  obj_anim_step+7                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E7  obj_anim_step+8                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E8  obj_anim_step+9                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03E9  obj_anim_step+10                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03EA  obj_anim_step+11                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03EB  obj_anim_step+12                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03EC  obj_anim_step+13                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03ED  obj_anim_step+14                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$03EE  obj_x_hi                        the object table (game.json): field array, slot
+$03EF  obj_x_hi+1                      the object table (game.json): field array, slot
+$03F0  obj_x_hi+2                      the object table (game.json): field array, slot
+$03F1  obj_x_hi+3                      the object table (game.json): field array, slot
+$03F2  obj_x_hi+4                      the object table (game.json): field array, slot
+$03F3  obj_x_hi+5                      the object table (game.json): field array, slot
+$03F4  obj_x_hi+6                      the object table (game.json): field array, slot
+$03F5  obj_x_hi+7                      the object table (game.json): field array, slot
+$03F6  obj_x_hi+8                      the object table (game.json): field array, slot
+$03F7  obj_x_hi+9                      the object table (game.json): field array, slot
+$03F8  obj_x_hi+10                     the object table (game.json): field array, slot
+$03F9  obj_x_hi+11                     the object table (game.json): field array, slot
+$03FA  obj_x_hi+12                     the object table (game.json): field array, slot
+$03FB  obj_x_hi+13                     the object table (game.json): field array, slot
+$03FC  obj_x_hi+14                     the object table (game.json): field array, slot
+$03FD  obj_x                           the object table (game.json): field array, slot
+$03FE  obj_x+1                         the object table (game.json): field array, slot
+$03FF  obj_x+2                         the object table (game.json): field array, slot
+$0400  obj_x+3                         the object table (game.json): field array, slot
+$0401  obj_x+4                         the object table (game.json): field array, slot
+$0402  obj_x+5                         the object table (game.json): field array, slot
+$0403  obj_x+6                         the object table (game.json): field array, slot
+$0404  obj_x+7                         the object table (game.json): field array, slot
+$0405  obj_x+8                         the object table (game.json): field array, slot
+$0406  obj_x+9                         the object table (game.json): field array, slot
+$0407  obj_x+10                        the object table (game.json): field array, slot
+$0408  obj_x+11                        the object table (game.json): field array, slot
+$0409  obj_x+12                        the object table (game.json): field array, slot
+$040A  obj_x+13                        the object table (game.json): field array, slot
+$040B  obj_x+14                        the object table (game.json): field array, slot
+$040C  obj_field_5                     the object table (game.json): field array, slot
+$040D  obj_field_5+1                   the object table (game.json): field array, slot
+$040E  obj_field_5+2                   the object table (game.json): field array, slot
+$040F  obj_field_5+3                   the object table (game.json): field array, slot
+$0410  obj_field_5+4                   the object table (game.json): field array, slot
+$0411  obj_field_5+5                   the object table (game.json): field array, slot
+$0412  obj_field_5+6                   the object table (game.json): field array, slot
+$0413  obj_field_5+7                   the object table (game.json): field array, slot
+$0414  obj_field_5+8                   the object table (game.json): field array, slot
+$0415  obj_field_5+9                   the object table (game.json): field array, slot
+$0416  obj_field_5+10                  the object table (game.json): field array, slot
+$0417  obj_field_5+11                  the object table (game.json): field array, slot
+$0418  obj_field_5+12                  the object table (game.json): field array, slot
+$0419  obj_field_5+13                  the object table (game.json): field array, slot
+$041A  obj_field_5+14                  the object table (game.json): field array, slot
+$041B  obj_depth                       the object table (game.json): field array, slot
+$041C  obj_depth+1                     the object table (game.json): field array, slot
+$041D  obj_depth+2                     the object table (game.json): field array, slot
+$041E  obj_depth+3                     the object table (game.json): field array, slot
+$041F  obj_depth+4                     the object table (game.json): field array, slot
+$0420  obj_depth+5                     the object table (game.json): field array, slot
+$0421  obj_depth+6                     the object table (game.json): field array, slot
+$0422  obj_depth+7                     the object table (game.json): field array, slot
+$0423  obj_depth+8                     the object table (game.json): field array, slot
+$0424  obj_depth+9                     the object table (game.json): field array, slot
+$0425  obj_depth+10                    the object table (game.json): field array, slot
+$0426  obj_depth+11                    the object table (game.json): field array, slot
+$0427  obj_depth+12                    the object table (game.json): field array, slot
+$0428  obj_depth+13                    the object table (game.json): field array, slot
+$0429  obj_depth+14                    the object table (game.json): field array, slot
+$042A  obj_y_hi                        the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$042B  obj_y_hi+1                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$042C  obj_y_hi+2                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$042D  obj_y_hi+3                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$042E  obj_y_hi+4                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$042F  obj_y_hi+5                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0430  obj_y_hi+6                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0431  obj_y_hi+7                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0432  obj_y_hi+8                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0433  obj_y_hi+9                      the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0434  obj_y_hi+10                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0435  obj_y_hi+11                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0436  obj_y_hi+12                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0437  obj_y_hi+13                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0438  obj_y_hi+14                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0439  obj_y                           the object table (game.json): field array, slot
+$043A  obj_y+1                         the object table (game.json): field array, slot
+$043B  obj_y+2                         the object table (game.json): field array, slot
+$043C  obj_y+3                         the object table (game.json): field array, slot
+$043D  obj_y+4                         the object table (game.json): field array, slot
+$043E  obj_y+5                         the object table (game.json): field array, slot
+$043F  obj_y+6                         the object table (game.json): field array, slot
+$0440  obj_y+7                         the object table (game.json): field array, slot
+$0441  obj_y+8                         the object table (game.json): field array, slot
+$0442  obj_y+9                         the object table (game.json): field array, slot
+$0443  obj_y+10                        the object table (game.json): field array, slot
+$0444  obj_y+11                        the object table (game.json): field array, slot
+$0445  obj_y+12                        the object table (game.json): field array, slot
+$0446  obj_y+13                        the object table (game.json): field array, slot
+$0447  obj_y+14                        the object table (game.json): field array, slot
+$0448  obj_x_sub                       the object table (game.json): field array, slot
+$0449  obj_x_sub+1                     the object table (game.json): field array, slot
+$044A  obj_x_sub+2                     the object table (game.json): field array, slot
+$044B  obj_x_sub+3                     the object table (game.json): field array, slot
+$044C  obj_x_sub+4                     the object table (game.json): field array, slot
+$044D  obj_x_sub+5                     the object table (game.json): field array, slot
+$044E  obj_x_sub+6                     the object table (game.json): field array, slot
+$044F  obj_x_sub+7                     the object table (game.json): field array, slot
+$0450  obj_x_sub+8                     the object table (game.json): field array, slot
+$0451  obj_x_sub+9                     the object table (game.json): field array, slot
+$0452  obj_x_sub+10                    the object table (game.json): field array, slot
+$0453  obj_x_sub+11                    the object table (game.json): field array, slot
+$0454  obj_x_sub+12                    the object table (game.json): field array, slot
+$0455  obj_x_sub+13                    the object table (game.json): field array, slot
+$0456  obj_x_sub+14                    the object table (game.json): field array, slot
+$0457  obj_depth_sub                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0458  obj_depth_sub+1                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0459  obj_depth_sub+2                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$045A  obj_depth_sub+3                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$045B  obj_depth_sub+4                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$045C  obj_depth_sub+5                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$045D  obj_depth_sub+6                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$045E  obj_depth_sub+7                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$045F  obj_depth_sub+8                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0460  obj_depth_sub+9                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0461  obj_depth_sub+10                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0462  obj_depth_sub+11                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0463  obj_depth_sub+12                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0464  obj_depth_sub+13                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0465  obj_depth_sub+14                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0466  obj_y_sub                       the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0467  obj_y_sub+1                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0468  obj_y_sub+2                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0469  obj_y_sub+3                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$046A  obj_y_sub+4                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$046B  obj_y_sub+5                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$046C  obj_y_sub+6                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$046D  obj_y_sub+7                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$046E  obj_y_sub+8                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$046F  obj_y_sub+9                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0470  obj_y_sub+10                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0471  obj_y_sub+11                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0472  obj_y_sub+12                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0473  obj_y_sub+13                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0474  obj_y_sub+14                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0475  obj_height                      the object table (game.json): field array, slot
+$0476  obj_height+1                    the object table (game.json): field array, slot
+$0477  obj_height+2                    the object table (game.json): field array, slot
+$0478  obj_height+3                    the object table (game.json): field array, slot
+$0479  obj_height+4                    the object table (game.json): field array, slot
+$047A  obj_height+5                    the object table (game.json): field array, slot
+$047B  obj_height+6                    the object table (game.json): field array, slot
+$047C  obj_height+7                    the object table (game.json): field array, slot
+$047D  obj_height+8                    the object table (game.json): field array, slot
+$047E  obj_height+9                    the object table (game.json): field array, slot
+$047F  obj_height+10                   the object table (game.json): field array, slot
+$0480  obj_height+11                   the object table (game.json): field array, slot
+$0481  obj_height+12                   the object table (game.json): field array, slot
+$0482  obj_height+13                   the object table (game.json): field array, slot
+$0483  obj_height+14                   the object table (game.json): field array, slot
+$0484  obj_screen_x                    the object table (game.json): field array, slot
+$0485  obj_screen_x+1                  the object table (game.json): field array, slot
+$0486  obj_screen_x+2                  the object table (game.json): field array, slot
+$0487  obj_screen_x+3                  the object table (game.json): field array, slot
+$0488  obj_screen_x+4                  the object table (game.json): field array, slot
+$0489  obj_screen_x+5                  the object table (game.json): field array, slot
+$048A  obj_screen_x+6                  the object table (game.json): field array, slot
+$048B  obj_screen_x+7                  the object table (game.json): field array, slot
+$048C  obj_screen_x+8                  the object table (game.json): field array, slot
+$048D  obj_screen_x+9                  the object table (game.json): field array, slot
+$048E  obj_screen_x+10                 the object table (game.json): field array, slot
+$048F  obj_screen_x+11                 the object table (game.json): field array, slot
+$0490  obj_screen_x+12                 the object table (game.json): field array, slot
+$0491  obj_screen_x+13                 the object table (game.json): field array, slot
+$0492  obj_screen_x+14                 the object table (game.json): field array, slot
+$0493  obj_screen_y                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0494  obj_screen_y+1                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0495  obj_screen_y+2                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0496  obj_screen_y+3                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0497  obj_screen_y+4                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0498  obj_screen_y+5                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0499  obj_screen_y+6                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$049A  obj_screen_y+7                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$049B  obj_screen_y+8                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$049C  obj_screen_y+9                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$049D  obj_screen_y+10                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$049E  obj_screen_y+11                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$049F  obj_screen_y+12                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04A0  obj_screen_y+13                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04A1  obj_screen_y+14                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04A2  obj_facing                      the object table (game.json): field array, slot
+$04A3  obj_facing+1                    the object table (game.json): field array, slot
+$04A4  obj_facing+2                    the object table (game.json): field array, slot
+$04A5  obj_facing+3                    the object table (game.json): field array, slot
+$04A6  obj_facing+4                    the object table (game.json): field array, slot
+$04A7  obj_facing+5                    the object table (game.json): field array, slot
+$04A8  obj_facing+6                    the object table (game.json): field array, slot
+$04A9  obj_facing+7                    the object table (game.json): field array, slot
+$04AA  obj_facing+8                    the object table (game.json): field array, slot
+$04AB  obj_facing+9                    the object table (game.json): field array, slot
+$04AC  obj_facing+10                   the object table (game.json): field array, slot
+$04AD  obj_facing+11                   the object table (game.json): field array, slot
+$04AE  obj_facing+12                   the object table (game.json): field array, slot
+$04AF  obj_facing+13                   the object table (game.json): field array, slot
+$04B0  obj_facing+14                   the object table (game.json): field array, slot
+$04B1  obj_field_16                    the object table (game.json): field array, slot
+$04B2  obj_field_16+1                  the object table (game.json): field array, slot
+$04B3  obj_field_16+2                  the object table (game.json): field array, slot
+$04B4  obj_field_16+3                  the object table (game.json): field array, slot
+$04B5  obj_field_16+4                  the object table (game.json): field array, slot
+$04B6  obj_field_16+5                  the object table (game.json): field array, slot
+$04B7  obj_field_16+6                  the object table (game.json): field array, slot
+$04B8  obj_field_16+7                  the object table (game.json): field array, slot
+$04B9  obj_field_16+8                  the object table (game.json): field array, slot
+$04BA  obj_field_16+9                  the object table (game.json): field array, slot
+$04BB  obj_field_16+10                 the object table (game.json): field array, slot
+$04BC  obj_field_16+11                 the object table (game.json): field array, slot
+$04BD  obj_field_16+12                 the object table (game.json): field array, slot
+$04BE  obj_field_16+13                 the object table (game.json): field array, slot
+$04BF  obj_field_16+14                 the object table (game.json): field array, slot
+$04C0  obj_y_speed                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C1  obj_y_speed+1                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C2  obj_y_speed+2                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C3  obj_y_speed+3                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C4  obj_y_speed+4                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C5  obj_y_speed+5                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C6  obj_y_speed+6                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C7  obj_y_speed+7                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C8  obj_y_speed+8                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04C9  obj_y_speed+9                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04CA  obj_y_speed+10                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04CB  obj_y_speed+11                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04CC  obj_y_speed+12                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04CD  obj_y_speed+13                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04CE  obj_y_speed+14                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04CF  obj_y_speed_sub                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D0  obj_y_speed_sub+1               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D1  obj_y_speed_sub+2               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D2  obj_y_speed_sub+3               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D3  obj_y_speed_sub+4               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D4  obj_y_speed_sub+5               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D5  obj_y_speed_sub+6               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D6  obj_y_speed_sub+7               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D7  obj_y_speed_sub+8               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D8  obj_y_speed_sub+9               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04D9  obj_y_speed_sub+10              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04DA  obj_y_speed_sub+11              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04DB  obj_y_speed_sub+12              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04DC  obj_y_speed_sub+13              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04DD  obj_y_speed_sub+14              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04DE  obj_ai_state                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04DF  obj_ai_state+1                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E0  obj_ai_state+2                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E1  obj_ai_state+3                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E2  obj_ai_state+4                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E3  obj_ai_state+5                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E4  obj_ai_state+6                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E5  obj_ai_state+7                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E6  obj_ai_state+8                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E7  obj_ai_state+9                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E8  obj_ai_state+10                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04E9  obj_ai_state+11                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04EA  obj_ai_state+12                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04EB  obj_ai_state+13                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04EC  obj_ai_state+14                 the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04ED  obj_timer_20                    the object table (game.json): field array, slot
+$04EE  obj_timer_20+1                  the object table (game.json): field array, slot
+$04EF  obj_timer_20+2                  the object table (game.json): field array, slot
+$04F0  obj_timer_20+3                  the object table (game.json): field array, slot
+$04F1  obj_timer_20+4                  the object table (game.json): field array, slot
+$04F2  obj_timer_20+5                  the object table (game.json): field array, slot
+$04F3  obj_timer_20+6                  the object table (game.json): field array, slot
+$04F4  obj_timer_20+7                  the object table (game.json): field array, slot
+$04F5  obj_timer_20+8                  the object table (game.json): field array, slot
+$04F6  obj_timer_20+9                  the object table (game.json): field array, slot
+$04F7  obj_timer_20+10                 the object table (game.json): field array, slot
+$04F8  obj_timer_20+11                 the object table (game.json): field array, slot
+$04F9  obj_timer_20+12                 the object table (game.json): field array, slot
+$04FA  obj_timer_20+13                 the object table (game.json): field array, slot
+$04FB  obj_timer_20+14                 the object table (game.json): field array, slot
+$04FC  obj_y_accel                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04FD  obj_y_accel+1                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04FE  obj_y_accel+2                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$04FF  obj_y_accel+3                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0500  obj_y_accel+4                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0501  obj_y_accel+5                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0502  obj_y_accel+6                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0503  obj_y_accel+7                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0504  obj_y_accel+8                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0505  obj_y_accel+9                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0506  obj_y_accel+10                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0507  obj_y_accel+11                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0508  obj_y_accel+12                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0509  obj_y_accel+13                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$050A  obj_y_accel+14                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$050B  obj_action_timer                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$050C  obj_action_timer+1              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$050D  obj_action_timer+2              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$050E  obj_action_timer+3              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$050F  obj_action_timer+4              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0510  obj_action_timer+5              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0511  obj_action_timer+6              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0512  obj_action_timer+7              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0513  obj_action_timer+8              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0514  obj_action_timer+9              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0515  obj_action_timer+10             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0516  obj_action_timer+11             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0517  obj_action_timer+12             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0518  obj_action_timer+13             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0519  obj_action_timer+14             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$051A  obj_health_or_timer             the object table (game.json): field array, slot
+$051B  obj_health_or_timer+1           the object table (game.json): field array, slot
+$051C  obj_health_or_timer+2           the object table (game.json): field array, slot
+$051D  obj_health_or_timer+3           the object table (game.json): field array, slot
+$051E  obj_health_or_timer+4           the object table (game.json): field array, slot
+$051F  obj_health_or_timer+5           the object table (game.json): field array, slot
+$0520  obj_health_or_timer+6           the object table (game.json): field array, slot
+$0521  obj_health_or_timer+7           the object table (game.json): field array, slot
+$0522  obj_health_or_timer+8           the object table (game.json): field array, slot
+$0523  obj_health_or_timer+9           the object table (game.json): field array, slot
+$0524  obj_health_or_timer+10          the object table (game.json): field array, slot
+$0525  obj_health_or_timer+11          the object table (game.json): field array, slot
+$0526  obj_health_or_timer+12          the object table (game.json): field array, slot
+$0527  obj_health_or_timer+13          the object table (game.json): field array, slot
+$0528  obj_health_or_timer+14          the object table (game.json): field array, slot
+$0529  obj_carrier_slot                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$052A  obj_carrier_slot+1              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$052B  obj_carrier_slot+2              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$052C  obj_carrier_slot+3              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$052D  obj_carrier_slot+4              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$052E  obj_carrier_slot+5              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$052F  obj_carrier_slot+6              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0530  obj_carrier_slot+7              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0531  obj_carrier_slot+8              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0532  obj_carrier_slot+9              the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0533  obj_carrier_slot+10             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0534  obj_carrier_slot+11             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0535  obj_carrier_slot+12             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0536  obj_carrier_slot+13             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0537  obj_carrier_slot+14             the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0538  obj_field_25                    the object table (game.json): field array, slot
+$0539  obj_field_25+1                  the object table (game.json): field array, slot
+$053A  obj_field_25+2                  the object table (game.json): field array, slot
+$053B  obj_field_25+3                  the object table (game.json): field array, slot
+$053C  obj_field_25+4                  the object table (game.json): field array, slot
+$053D  obj_field_25+5                  the object table (game.json): field array, slot
+$053E  obj_field_25+6                  the object table (game.json): field array, slot
+$053F  obj_field_25+7                  the object table (game.json): field array, slot
+$0540  obj_field_25+8                  the object table (game.json): field array, slot
+$0541  obj_field_25+9                  the object table (game.json): field array, slot
+$0542  obj_field_25+10                 the object table (game.json): field array, slot
+$0543  obj_field_25+11                 the object table (game.json): field array, slot
+$0544  obj_field_25+12                 the object table (game.json): field array, slot
+$0545  obj_field_25+13                 the object table (game.json): field array, slot
+$0546  obj_field_25+14                 the object table (game.json): field array, slot
+$0547  obj_timer_26                    the object table (game.json): field array, slot
+$0548  obj_timer_26+1                  the object table (game.json): field array, slot
+$0549  obj_timer_26+2                  the object table (game.json): field array, slot
+$054A  obj_timer_26+3                  the object table (game.json): field array, slot
+$054B  obj_timer_26+4                  the object table (game.json): field array, slot
+$054C  obj_timer_26+5                  the object table (game.json): field array, slot
+$054D  obj_timer_26+6                  the object table (game.json): field array, slot
+$054E  obj_timer_26+7                  the object table (game.json): field array, slot
+$054F  obj_timer_26+8                  the object table (game.json): field array, slot
+$0550  obj_timer_26+9                  the object table (game.json): field array, slot
+$0551  obj_timer_26+10                 the object table (game.json): field array, slot
+$0552  obj_timer_26+11                 the object table (game.json): field array, slot
+$0553  obj_timer_26+12                 the object table (game.json): field array, slot
+$0554  obj_timer_26+13                 the object table (game.json): field array, slot
+$0555  obj_timer_26+14                 the object table (game.json): field array, slot
+$0556  obj_move_angle                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0557  obj_move_angle+1                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0558  obj_move_angle+2                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0559  obj_move_angle+3                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$055A  obj_move_angle+4                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$055B  obj_move_angle+5                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$055C  obj_move_angle+6                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$055D  obj_move_angle+7                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$055E  obj_move_angle+8                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$055F  obj_move_angle+9                the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0560  obj_move_angle+10               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0561  obj_move_angle+11               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0562  obj_move_angle+12               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0563  obj_move_angle+13               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0564  obj_move_angle+14               the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0565  obj_speed                       the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0566  obj_speed+1                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0567  obj_speed+2                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0568  obj_speed+3                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0569  obj_speed+4                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$056A  obj_speed+5                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$056B  obj_speed+6                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$056C  obj_speed+7                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$056D  obj_speed+8                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$056E  obj_speed+9                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$056F  obj_speed+10                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0570  obj_speed+11                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0571  obj_speed+12                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0572  obj_speed+13                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0573  obj_speed+14                    the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0574  obj_timer_29                    the object table (game.json): field array, slot
+$0575  obj_timer_29+1                  the object table (game.json): field array, slot
+$0576  obj_timer_29+2                  the object table (game.json): field array, slot
+$0577  obj_timer_29+3                  the object table (game.json): field array, slot
+$0578  obj_timer_29+4                  the object table (game.json): field array, slot
+$0579  obj_timer_29+5                  the object table (game.json): field array, slot
+$057A  obj_timer_29+6                  the object table (game.json): field array, slot
+$057B  obj_timer_29+7                  the object table (game.json): field array, slot
+$057C  obj_timer_29+8                  the object table (game.json): field array, slot
+$057D  obj_timer_29+9                  the object table (game.json): field array, slot
+$057E  obj_timer_29+10                 the object table (game.json): field array, slot
+$057F  obj_timer_29+11                 the object table (game.json): field array, slot
+$0580  obj_timer_29+12                 the object table (game.json): field array, slot
+$0581  obj_timer_29+13                 the object table (game.json): field array, slot
+$0582  obj_timer_29+14                 the object table (game.json): field array, slot
+$0583  obj_floor_y                     the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0584  obj_floor_y+1                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0585  obj_floor_y+2                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0586  obj_floor_y+3                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0587  obj_floor_y+4                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0588  obj_floor_y+5                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0589  obj_floor_y+6                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$058A  obj_floor_y+7                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$058B  obj_floor_y+8                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$058C  obj_floor_y+9                   the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$058D  obj_floor_y+10                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$058E  obj_floor_y+11                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$058F  obj_floor_y+12                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0590  obj_floor_y+13                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0591  obj_floor_y+14                  the object table: field array, slot; the field named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0592  obj_field_31                    the object table (game.json): field array, slot
+$0593  obj_field_31+1                  the object table (game.json): field array, slot
+$0594  obj_field_31+2                  the object table (game.json): field array, slot
+$0595  obj_field_31+3                  the object table (game.json): field array, slot
+$0596  obj_field_31+4                  the object table (game.json): field array, slot
+$0597  obj_field_31+5                  the object table (game.json): field array, slot
+$0598  obj_field_31+6                  the object table (game.json): field array, slot
+$0599  obj_field_31+7                  the object table (game.json): field array, slot
+$059A  obj_field_31+8                  the object table (game.json): field array, slot
+$059B  obj_field_31+9                  the object table (game.json): field array, slot
+$059C  obj_field_31+10                 the object table (game.json): field array, slot
+$059D  obj_field_31+11                 the object table (game.json): field array, slot
+$059E  obj_field_31+12                 the object table (game.json): field array, slot
+$059F  obj_field_31+13                 the object table (game.json): field array, slot
+$05A0  obj_field_31+14                 the object table (game.json): field array, slot
+$05A1  obj_counter_32                  the object table (game.json): field array, slot
+$05A2  obj_counter_32+1                the object table (game.json): field array, slot
+$05A3  obj_counter_32+2                the object table (game.json): field array, slot
+$05A4  obj_counter_32+3                the object table (game.json): field array, slot
+$05A5  obj_counter_32+4                the object table (game.json): field array, slot
+$05A6  obj_counter_32+5                the object table (game.json): field array, slot
+$05A7  obj_counter_32+6                the object table (game.json): field array, slot
+$05A8  obj_counter_32+7                the object table (game.json): field array, slot
+$05A9  obj_counter_32+8                the object table (game.json): field array, slot
+$05AA  obj_counter_32+9                the object table (game.json): field array, slot
+$05AB  obj_counter_32+10               the object table (game.json): field array, slot
+$05AC  obj_counter_32+11               the object table (game.json): field array, slot
+$05AD  obj_counter_32+12               the object table (game.json): field array, slot
+$05AE  obj_counter_32+13               the object table (game.json): field array, slot
+$05AF  obj_counter_32+14               the object table (game.json): field array, slot
+$05B0  obj_table_05B0                  named by the routines that write it and how it is used
+$05B2  p1_exit_timer                   named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05B3  p1_exit_timer+1                 an element of a table read with an index
+$05B4  obj_table_05B4                  named by the routines that write it and how it is used
+$05B5  obj_table_05B4+1                an element of a table read with an index
+$05B6  obj_table_05B6                  named by the routines that write it and how it is used
+$05B7  obj_table_05B6+1                an element of a table read with an index
+$05B8  obj_counter_05B8                named by the routines that write it and how it is used
+$05B9  obj_value_05B9                  named by the routines that write it and how it is used
+$05BA  obj_table_05BA                  named by the routines that write it and how it is used
+$05BB  obj_value_05BB                  named by the routines that write it and how it is used
+$05BC  obj_counter_05BC                named by the routines that write it and how it is used
+$05BD  p1_slide_speed                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05BE  p1_slide_speed+1                an element of a table read with an index
+$05BF  obj_counter_05BF                named by the routines that write it and how it is used
+$05C1  p1_flattened_pose               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05C2  p1_flattened_pose+1             an element of a table read with an index
+$05C3  p1_shock_timer                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05C5  obj_counter_05C5                named by the routines that write it and how it is used
+$05C6  obj_counter_05C5+1              an element of a table read with an index
+$05C7  obj_counter_05C7                named by the routines that write it and how it is used
+$05C9  obj_table_05C9                  named by the routines that write it and how it is used
+$05CB  l6_frame_update_2_value         named by the routines that write it and how it is used
+$05CC  l6_frame_update_value_05CC      named by the routines that write it and how it is used
+$05CD  l6_frame_update_value_05CD      named by the routines that write it and how it is used
+$05CE  obj_timer_05CE                  named by the routines that write it and how it is used
+$05CF  obj_timer_05CE+1                an element of a table read with an index
+$05D0  obj_table_05D0                  named by the routines that write it and how it is used
+$05D1  obj_table_05D0+1                an element of a table read with an index
+$05D2  build_x_offsets                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05D3  build_y_offsets                 named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05D4  build_column_flags              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05D5  build_x_hi_offsets              named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05D6  build_x_offsets+4               an element of a ROM table copied in
+$05D7  build_y_offsets+4               an element of a table read with an index
+$05D8  build_column_flags+4            an element of a table read with an index
+$05D9  build_x_hi_offsets+4            an element of a table read with an index
+$05DA  build_x_offsets+8               an element of a ROM table copied in
+$05DB  build_y_offsets+8               an element of a table read with an index
+$05DC  build_column_flags+8            an element of a table read with an index
+$05DD  build_x_hi_offsets+8            an element of a table read with an index
+$05DE  build_x_offsets+12              an element of a ROM table copied in
+$05DF  build_y_offsets+12              an element of a table read with an index
+$05E0  build_column_flags+12           an element of a table read with an index
+$05E1  build_x_hi_offsets+12           an element of a table read with an index
+$05E2  build_x_offsets+16              an element of a ROM table copied in
+$05E3  build_y_offsets+16              an element of a table read with an index
+$05E4  build_column_flags+16           an element of a table read with an index
+$05E5  build_x_hi_offsets+16           an element of a table read with an index
+$05EF  add_counter                     named by the routines that write it and how it is used
+$05F4  p1_score                        proven by experiment (game.json)
+$05F5  p1_score+1                      proven by experiment (game.json)
+$05F6  p1_score+2                      proven by experiment (game.json)
+$05F7  p1_score+3                      proven by experiment (game.json)
+$05F8  p1_score+4                      proven by experiment (game.json)
+$05F9  p1_score+5                      proven by experiment (game.json)
+$05FA  p2_score                        named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$05FB  p2_score+1                      an element of a table read with an index
+$05FC  p2_score+2                      an element of a table read with an index
+$05FD  p2_score+3                      an element of a table read with an index
+$05FE  p2_score+4                      an element of a table read with an index
+$05FF  p2_score+5                      an element of a table read with an index
+$0600  chr_buffer                      named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0601  chr_buffer+1                    an element of a ROM table copied in
+$0602  chr_buffer+2                    an element of a ROM table copied in
+$0603  chr_buffer+3                    an element of a ROM table copied in
+$0604  chr_buffer+4                    an element of a ROM table copied in
+$0605  chr_buffer+5                    an element of a ROM table copied in
+$0606  chr_buffer+6                    an element of a ROM table copied in
+$0607  chr_buffer+7                    an element of a ROM table copied in
+$0608  chr_buffer+8                    an element of a ROM table copied in
+$0609  chr_buffer+9                    an element of a ROM table copied in
+$060A  chr_buffer+10                   an element of a ROM table copied in
+$060B  chr_buffer+11                   an element of a ROM table copied in
+$060C  chr_buffer+12                   an element of a ROM table copied in
+$060D  chr_buffer+13                   an element of a ROM table copied in
+$060E  chr_buffer+14                   an element of a ROM table copied in
+$060F  chr_buffer+15                   an element of a ROM table copied in
+$0610  chr_buffer+16                   an element of a ROM table copied in
+$0611  chr_buffer+17                   an element of a ROM table copied in
+$0612  chr_buffer+18                   an element of a ROM table copied in
+$0613  chr_buffer+19                   an element of a ROM table copied in
+$0614  chr_buffer+20                   an element of a ROM table copied in
+$0615  chr_buffer+21                   an element of a ROM table copied in
+$0616  chr_buffer+22                   an element of a ROM table copied in
+$0617  chr_buffer+23                   an element of a ROM table copied in
+$0618  chr_buffer+24                   an element of a ROM table copied in
+$0619  chr_buffer+25                   an element of a ROM table copied in
+$061A  chr_buffer+26                   an element of a ROM table copied in
+$061B  chr_buffer+27                   an element of a ROM table copied in
+$061C  chr_buffer+28                   an element of a ROM table copied in
+$061D  chr_buffer+29                   an element of a ROM table copied in
+$061E  chr_buffer+30                   an element of a ROM table copied in
+$061F  chr_buffer+31                   an element of a ROM table copied in
+$0620  chr_buffer+32                   an element of a ROM table copied in
+$0621  chr_buffer+33                   an element of a ROM table copied in
+$0622  chr_buffer+34                   an element of a ROM table copied in
+$0623  chr_buffer+35                   an element of a ROM table copied in
+$0624  chr_buffer+36                   an element of a ROM table copied in
+$0625  chr_buffer+37                   an element of a ROM table copied in
+$0626  chr_buffer+38                   an element of a ROM table copied in
+$0627  chr_buffer+39                   an element of a ROM table copied in
+$0628  chr_buffer+40                   an element of a ROM table copied in
+$0629  chr_buffer+41                   an element of a ROM table copied in
+$062A  chr_buffer+42                   an element of a ROM table copied in
+$062B  chr_buffer+43                   an element of a ROM table copied in
+$062C  chr_buffer+44                   an element of a ROM table copied in
+$062D  chr_buffer+45                   an element of a ROM table copied in
+$062E  chr_buffer+46                   an element of a ROM table copied in
+$062F  chr_buffer+47                   an element of a ROM table copied in
+$0630  chr_buffer+48                   an element of a ROM table copied in
+$0631  chr_buffer+49                   an element of a ROM table copied in
+$0632  chr_buffer+50                   an element of a ROM table copied in
+$0633  chr_buffer+51                   an element of a ROM table copied in
+$0634  chr_buffer+52                   an element of a ROM table copied in
+$0635  chr_buffer+53                   an element of a ROM table copied in
+$0636  chr_buffer+54                   an element of a ROM table copied in
+$0637  chr_buffer+55                   an element of a ROM table copied in
+$0638  chr_buffer+56                   an element of a ROM table copied in
+$0639  chr_buffer+57                   an element of a ROM table copied in
+$063A  chr_buffer+58                   an element of a ROM table copied in
+$063B  chr_buffer+59                   an element of a ROM table copied in
+$063C  chr_buffer+60                   an element of a ROM table copied in
+$063D  chr_buffer+61                   an element of a ROM table copied in
+$063E  chr_buffer+62                   an element of a ROM table copied in
+$063F  chr_buffer+63                   an element of a ROM table copied in
+$0640  chr_buffer_tile4                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0641  chr_buffer_tile4+1              an element of a table read with an index
+$0642  chr_buffer_tile4+2              an element of a table read with an index
+$0643  chr_buffer_tile4+3              an element of a table read with an index
+$0644  chr_buffer_tile4+4              an element of a table read with an index
+$0645  chr_buffer_tile4+5              an element of a table read with an index
+$0646  chr_buffer_tile4+6              an element of a table read with an index
+$0647  chr_buffer_tile4_row7           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0648  chr_buffer_tile4+8              an element of a table read with an index
+$0649  chr_buffer_tile4+9              an element of a table read with an index
+$064A  chr_buffer_tile4+10             an element of a table read with an index
+$064B  chr_buffer_tile4+11             an element of a table read with an index
+$064C  chr_buffer_tile4+12             an element of a table read with an index
+$064D  chr_buffer_tile4+13             an element of a table read with an index
+$064E  chr_buffer_tile4+14             an element of a table read with an index
+$064F  chr_buffer_tile4+15             an element of a table read with an index
+$0650  chr_buffer_tile5                named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0651  chr_buffer_tile5+1              an element of a table read with an index
+$0652  chr_buffer_tile5+2              an element of a table read with an index
+$0653  chr_buffer_tile5+3              an element of a table read with an index
+$0654  chr_buffer_tile5+4              an element of a table read with an index
+$0655  chr_buffer_tile5+5              an element of a table read with an index
+$0656  chr_buffer_tile5+6              an element of a table read with an index
+$0657  chr_buffer_tile5_row7           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0658  chr_buffer_tile5+8              an element of a table read with an index
+$0659  chr_buffer_tile5+9              an element of a table read with an index
+$065A  chr_buffer_tile5+10             an element of a table read with an index
+$065B  chr_buffer_tile5+11             an element of a table read with an index
+$065C  chr_buffer_tile5+12             an element of a table read with an index
+$065D  chr_buffer_tile5+13             an element of a table read with an index
+$065E  chr_buffer_tile5+14             an element of a table read with an index
+$065F  chr_buffer_tile5+15             an element of a table read with an index
+$0660  chr_buffer_tile5+16             an element of a table read with an index
+$0661  chr_buffer_tile5+17             an element of a table read with an index
+$0662  chr_buffer_tile5+18             an element of a table read with an index
+$0663  chr_buffer_tile5+19             an element of a table read with an index
+$0664  chr_buffer_tile5+20             an element of a table read with an index
+$0665  chr_buffer_tile5+21             an element of a table read with an index
+$0666  chr_buffer_tile5+22             an element of a table read with an index
+$0667  chr_buffer_tile6_row7           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0668  chr_buffer_tile5+24             an element of a table read with an index
+$0669  chr_buffer_tile5+25             an element of a table read with an index
+$066A  chr_buffer_tile5+26             an element of a table read with an index
+$066B  chr_buffer_tile5+27             an element of a table read with an index
+$066C  chr_buffer_tile5+28             an element of a table read with an index
+$066D  chr_buffer_tile5+29             an element of a table read with an index
+$066E  chr_buffer_tile5+30             an element of a table read with an index
+$066F  chr_buffer_tile5+31             an element of a table read with an index
+$0670  chr_buffer_tile4+48             an element of a table read with an index
+$0671  chr_buffer_tile4+49             an element of a table read with an index
+$0672  chr_buffer_tile4+50             an element of a table read with an index
+$0673  chr_buffer_tile4+51             an element of a table read with an index
+$0674  chr_buffer_tile4+52             an element of a table read with an index
+$0675  chr_buffer_tile4+53             an element of a table read with an index
+$0676  chr_buffer_tile4+54             an element of a table read with an index
+$0677  chr_buffer_tile7_row7           named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0678  chr_buffer_tile4+56             an element of a table read with an index
+$0679  chr_buffer_tile4+57             an element of a table read with an index
+$067A  chr_buffer_tile4+58             an element of a table read with an index
+$067B  chr_buffer_tile4+59             an element of a table read with an index
+$067C  chr_buffer_tile4+60             an element of a table read with an index
+$067D  chr_buffer_tile4+61             an element of a table read with an index
+$067E  chr_buffer_tile4+62             an element of a table read with an index
+$067F  chr_buffer_tile7_hi_row7        named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0680  anim_chr                        named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0681  anim_chr_tile0_row1             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0682  anim_chr+2                      an element of a table read with an index
+$0683  anim_chr+3                      an element of a table read with an index
+$0684  anim_chr+4                      an element of a table read with an index
+$0685  anim_chr+5                      an element of a table read with an index
+$0686  anim_chr+6                      an element of a table read with an index
+$0687  anim_chr+7                      an element of a table read with an index
+$0688  anim_chr_hi                     named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0689  anim_chr_hi+1                   an element of a table read with an index
+$068A  anim_chr_hi+2                   an element of a table read with an index
+$068B  anim_chr_hi+3                   an element of a table read with an index
+$068C  anim_chr_hi+4                   an element of a table read with an index
+$068D  anim_chr_hi+5                   an element of a table read with an index
+$068E  anim_chr_hi+6                   an element of a table read with an index
+$068F  anim_chr_tile0_hi_row7          named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0690  anim_chr_tile1_row0             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0691  anim_chr_tile1_row1             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$0692  anim_chr+18                     an element of a table read with an index
+$0693  anim_chr+19                     an element of a table read with an index
+$0694  anim_chr+20                     an element of a table read with an index
+$0695  anim_chr+21                     an element of a table read with an index
+$0696  anim_chr+22                     an element of a table read with an index
+$0697  anim_chr+23                     an element of a table read with an index
+$0698  anim_chr_hi+16                  an element of a table read with an index
+$0699  anim_chr_hi+17                  an element of a table read with an index
+$069A  anim_chr_hi+18                  an element of a table read with an index
+$069B  anim_chr_hi+19                  an element of a table read with an index
+$069C  anim_chr_hi+20                  an element of a table read with an index
+$069D  anim_chr_hi+21                  an element of a table read with an index
+$069E  anim_chr_hi+22                  an element of a table read with an index
+$069F  anim_chr_tile1_hi_row7          named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06A0  anim_chr_tile2_row0             named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06A1  bg_anim_tile_0_lo_row_1         named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06A2  anim_chr+34                     an element of a table read with an index
+$06A3  anim_chr+35                     an element of a table read with an index
+$06A4  anim_chr+36                     an element of a table read with an index
+$06A5  anim_chr+37                     an element of a table read with an index
+$06A6  anim_chr+38                     an element of a table read with an index
+$06A7  anim_chr+39                     an element of a table read with an index
+$06A8  anim_chr_hi+32                  an element of a table read with an index
+$06A9  anim_chr_hi+33                  an element of a table read with an index
+$06AA  anim_chr_hi+34                  an element of a table read with an index
+$06AB  anim_chr_hi+35                  an element of a table read with an index
+$06AC  anim_chr_hi+36                  an element of a table read with an index
+$06AD  anim_chr_hi+37                  an element of a table read with an index
+$06AE  anim_chr_hi+38                  an element of a table read with an index
+$06AF  bg_anim_tile_0_hi_row_7         named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06B0  bg_anim_tile_1                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06B1  bg_anim_tile_1_lo_row_1         named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06B2  bg_anim_tile_1+2                an element of a table read with an index
+$06B3  bg_anim_tile_1+3                an element of a table read with an index
+$06B4  bg_anim_tile_1+4                an element of a table read with an index
+$06B5  bg_anim_tile_1+5                an element of a table read with an index
+$06B6  bg_anim_tile_1+6                an element of a table read with an index
+$06B7  bg_anim_tile_1+7                an element of a table read with an index
+$06B8  bg_anim_tile_1_hi               named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06B9  bg_anim_tile_1_hi_row_1         named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06BA  bg_anim_tile_1_hi+2             an element of a table read with an index
+$06BB  bg_anim_tile_1_hi+3             an element of a table read with an index
+$06BC  bg_anim_tile_1_hi+4             an element of a table read with an index
+$06BD  bg_anim_tile_1_hi+5             an element of a table read with an index
+$06BE  bg_anim_tile_1_hi+6             an element of a table read with an index
+$06BF  bg_anim_tile_1_hi+7             an element of a table read with an index
+$06C0  bg_anim_tile_2                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06C1  bg_anim_tile_2+1                an element of a table read with an index
+$06C2  bg_anim_tile_2+2                an element of a table read with an index
+$06C3  bg_anim_tile_2+3                an element of a table read with an index
+$06C4  bg_anim_tile_2+4                an element of a table read with an index
+$06C5  bg_anim_tile_2+5                an element of a table read with an index
+$06C6  bg_anim_tile_2+6                an element of a table read with an index
+$06C7  bg_anim_tile_2+7                an element of a table read with an index
+$06C8  bg_anim_tile_2+8                an element of a table read with an index
+$06C9  bg_anim_tile_2_hi_row_1         named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06CA  bg_anim_tile_2+10               an element of a table read with an index
+$06CB  bg_anim_tile_2+11               an element of a table read with an index
+$06CC  bg_anim_tile_2+12               an element of a table read with an index
+$06CD  bg_anim_tile_2+13               an element of a table read with an index
+$06CE  bg_anim_tile_2+14               an element of a table read with an index
+$06CF  bg_anim_tile_1_hi+23            an element of a table read with an index
+$06D0  bg_anim_tile_3                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06D1  bg_anim_tile_3+1                an element of a ROM table copied in
+$06D2  bg_anim_tile_3+2                an element of a ROM table copied in
+$06D3  bg_anim_tile_3+3                an element of a ROM table copied in
+$06D4  bg_anim_tile_3+4                an element of a ROM table copied in
+$06D5  bg_anim_tile_3+5                an element of a ROM table copied in
+$06D6  bg_anim_tile_3+6                an element of a ROM table copied in
+$06D7  bg_anim_tile_3+7                an element of a ROM table copied in
+$06D8  bg_anim_tile_3+8                an element of a ROM table copied in
+$06D9  bg_anim_tile_3_hi_row_1         named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06DA  bg_anim_tile_3+10               an element of a ROM table copied in
+$06DB  bg_anim_tile_3+11               an element of a ROM table copied in
+$06DC  bg_anim_tile_3+12               an element of a ROM table copied in
+$06DD  bg_anim_tile_3+13               an element of a ROM table copied in
+$06DE  bg_anim_tile_3+14               an element of a ROM table copied in
+$06DF  bg_anim_tile_3+15               an element of a ROM table copied in
+$06E0  bg_anim_tile_4                  named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06E1  bg_anim_tile_4+1                an element of a table read with an index
+$06E2  bg_anim_tile_4+2                an element of a table read with an index
+$06E3  bg_anim_tile_4+3                an element of a table read with an index
+$06E4  bg_anim_tile_4+4                an element of a table read with an index
+$06E5  bg_anim_tile_4+5                an element of a table read with an index
+$06E6  bg_anim_tile_4+6                an element of a table read with an index
+$06E7  bg_anim_tile_4+7                an element of a table read with an index
+$06E8  bg_anim_tile_4+8                an element of a table read with an index
+$06E9  bg_anim_tile_4_hi_row_1         named from what changing it did (ram-effects.ts; its card named by a fresh agent)
+$06EA  bg_anim_tile_4+10               an element of a table read with an index
+$06EB  bg_anim_tile_4+11               an element of a table read with an index
+$06EC  bg_anim_tile_4+12               an element of a table read with an index
+$06ED  bg_anim_tile_4+13               an element of a table read with an index
+$06EE  bg_anim_tile_4+14               an element of a table read with an index
+$06EF  bg_anim_tile_4+15               an element of a table read with an index
+$06F0  update_frame_counter_table      named by the routines that write it and how it is used
+$06F1  update_frame_counter_table+1    an element of a table read with an index
+$06F2  update_frame_counter_table+2    an element of a table read with an index
+$06F3  update_frame_counter_table+3    an element of a table read with an index
+$06F4  update_frame_counter_table+4    an element of a table read with an index
+$06F5  update_frame_counter_table+5    an element of a table read with an index
+$06F6  update_frame_counter_table+6    an element of a table read with an index
+$06F7  update_frame_counter_table+7    an element of a table read with an index
+$06F8  update_frame_counter_table+8    an element of a table read with an index
+$06F9  update_frame_counter_table+9    an element of a table read with an index
+$06FA  update_frame_counter_table+10   an element of a table read with an index
+$06FB  update_frame_counter_table+11   an element of a table read with an index
+$06FC  update_frame_counter_table+12   an element of a table read with an index
+$06FD  update_frame_counter_table+13   an element of a table read with an index
+$06FE  update_frame_counter_table+14   an element of a table read with an index
+$06FF  bg_anim_tile_1_hi+71            an element of a table read with an index
+$0700  copy_rom_table_2_rom_copy       a ROM table copied in by an index
+$0701  ppu_table                       named by the routines that write it and how it is used
+$0702  ppu_table_0702                  named by the routines that write it and how it is used
+$0703  ppu_table_0703                  named by the routines that write it and how it is used
+$0704  copy_rom_table_2_rom_copy+4     an element of a ROM table copied in
+$0705  ppu_table+4                     an element of a table read with an index
+$0706  ppu_table_0702+4                an element of a table read with an index
+$0707  ppu_table_0703+4                an element of a table read with an index
+$0708  copy_rom_table_2_rom_copy+8     an element of a ROM table copied in
+$0709  ppu_table+8                     an element of a table read with an index
+$070A  ppu_table_0702+8                an element of a table read with an index
+$070B  ppu_table_0703+8                an element of a table read with an index
+$070C  copy_rom_table_2_rom_copy+12    an element of a ROM table copied in
+$070D  ppu_table+12                    an element of a table read with an index
+$070E  ppu_table_0702+12               an element of a table read with an index
+$070F  ppu_table_0703+12               an element of a table read with an index
+$0710  update_frame_counter_table_0710  named by the routines that write it and how it is used
+$0711  update_frame_counter_table_0710+1  an element of a table read with an index
+$0712  update_frame_counter_table_0710+2  an element of a table read with an index
+$0713  update_frame_counter_table_0710+3  an element of a table read with an index
+$0714  update_frame_counter_table_0710+4  an element of a table read with an index
+$0715  update_frame_counter_table_0710+5  an element of a table read with an index
+$0716  update_frame_counter_table_0710+6  an element of a table read with an index
+$0717  update_frame_counter_table_0710+7  an element of a table read with an index
+$0718  update_frame_counter_table_0710+8  an element of a table read with an index
+$0719  update_frame_counter_table_0710+9  an element of a table read with an index
+$071A  update_frame_counter_table_0710+10  an element of a table read with an index
+$071B  update_frame_counter_table_0710+11  an element of a table read with an index
+$071C  update_frame_counter_table_0710+12  an element of a table read with an index
+$071D  update_frame_counter_table_0710+13  an element of a table read with an index
+$071E  update_frame_counter_table_0710+14  an element of a table read with an index
+$071F  update_frame_counter_table_0710+15  an element of a table read with an index
+$0720  update_frame_counter_table_0720  named by the routines that write it and how it is used
+$0721  update_frame_counter_table_0720+1  an element of a table read with an index
+$0722  update_frame_counter_table_0720+2  an element of a table read with an index
+$0723  update_frame_counter_table_0720+3  an element of a table read with an index
+$0724  update_frame_counter_table_0720+4  an element of a table read with an index
+$0725  update_frame_counter_table_0720+5  an element of a table read with an index
+$0726  update_frame_counter_table_0720+6  an element of a table read with an index
+$0727  update_frame_counter_table_0720+7  an element of a table read with an index
+$0728  update_frame_counter_table_0720+8  an element of a table read with an index
+$0729  update_frame_counter_table_0720+9  an element of a table read with an index
+$072A  update_frame_counter_table_0720+10  an element of a table read with an index
+$072B  update_frame_counter_table_0720+11  an element of a table read with an index
+$072C  update_frame_counter_table_0720+12  an element of a table read with an index
+$072D  update_frame_counter_table_0720+13  an element of a table read with an index
+$072E  update_frame_counter_table_0720+14  an element of a table read with an index
+$072F  update_frame_counter_table_0720+15  an element of a table read with an index
+$0730  update_frame_counter_table_0730  named by the routines that write it and how it is used
+$0731  update_frame_counter_table_0730+1  an element of a table read with an index
+$0732  update_frame_counter_table_0730+2  an element of a table read with an index
+$0733  update_frame_counter_table_0730+3  an element of a table read with an index
+$0734  update_frame_counter_table_0730+4  an element of a table read with an index
+$0735  update_frame_counter_table_0730+5  an element of a table read with an index
+$0736  update_frame_counter_table_0730+6  an element of a table read with an index
+$0737  update_frame_counter_table_0730+7  an element of a table read with an index
+$0738  update_frame_counter_table_0730+8  an element of a table read with an index
+$0739  update_frame_counter_table_0730+9  an element of a table read with an index
+$073A  update_frame_counter_table_0730+10  an element of a table read with an index
+$073B  update_frame_counter_table_0730+11  an element of a table read with an index
+$073C  update_frame_counter_table_0730+12  an element of a table read with an index
+$073D  update_frame_counter_table_0730+13  an element of a table read with an index
+$073E  update_frame_counter_table_0730+14  an element of a table read with an index
+$073F  update_frame_counter_table_0730+15  an element of a table read with an index
+$0740  update_frame_counter_table_0740  named by the routines that write it and how it is used
+$0741  update_frame_counter_table_0740+1  an element of a table read with an index
+$0742  update_frame_counter_table_0740+2  an element of a table read with an index
+$0743  update_frame_counter_table_0740+3  an element of a table read with an index
+$0744  update_frame_counter_table_0740+4  an element of a table read with an index
+$0745  update_frame_counter_table_0740+5  an element of a table read with an index
+$0746  update_frame_counter_table_0740+6  an element of a table read with an index
+$0747  update_frame_counter_table_0740+7  an element of a table read with an index
+$0748  update_frame_counter_table_0740+8  an element of a table read with an index
+$0749  update_frame_counter_table_0740+9  an element of a table read with an index
+$074A  update_frame_counter_table_0740+10  an element of a table read with an index
+$074B  update_frame_counter_table_0740+11  an element of a table read with an index
+$074C  update_frame_counter_table_0740+12  an element of a table read with an index
+$074D  update_frame_counter_table_0740+13  an element of a table read with an index
+$074E  update_frame_counter_table_0740+14  an element of a table read with an index
+$074F  update_frame_counter_table_0740+15  an element of a table read with an index
+$0750  update_frame_counter_table_0740+16  an element of a table read with an index
+$0751  update_frame_counter_table_0740+17  an element of a table read with an index
+$0752  update_frame_counter_table_0740+18  an element of a table read with an index
+$0753  update_frame_counter_table_0740+19  an element of a table read with an index
+$0754  update_frame_counter_table_0740+20  an element of a table read with an index
+$0755  update_frame_counter_table_0740+21  an element of a table read with an index
+$0756  update_frame_counter_table_0740+22  an element of a table read with an index
+$0757  update_frame_counter_table_0740+23  an element of a table read with an index
+$0758  update_frame_counter_table_0740+24  an element of a table read with an index
+$0759  update_frame_counter_table_0740+25  an element of a table read with an index
+$075A  update_frame_counter_table_0740+26  an element of a table read with an index
+$075B  update_frame_counter_table_0740+27  an element of a table read with an index
+$075C  update_frame_counter_table_0740+28  an element of a table read with an index
+$075D  update_frame_counter_table_0740+29  an element of a table read with an index
+$075E  update_frame_counter_table_0740+30  an element of a table read with an index
+$075F  update_frame_counter_table_0740+31  an element of a table read with an index
+$0760  update_frame_counter_table_0740+32  an element of a table read with an index
+$0761  update_frame_counter_table_0740+33  an element of a table read with an index
+$0762  update_frame_counter_table_0740+34  an element of a table read with an index
+$0763  update_frame_counter_table_0740+35  an element of a table read with an index
+$0764  update_frame_counter_table_0740+36  an element of a table read with an index
+$0765  update_frame_counter_table_0740+37  an element of a table read with an index
+$0766  update_frame_counter_table_0740+38  an element of a table read with an index
+$0767  update_frame_counter_table_0740+39  an element of a table read with an index
+$0768  update_frame_counter_table_0740+40  an element of a table read with an index
+$0769  update_frame_counter_table_0740+41  an element of a table read with an index
+$076A  update_frame_counter_table_0740+42  an element of a table read with an index
+$076B  update_frame_counter_table_0740+43  an element of a table read with an index
+$076C  update_frame_counter_table_0740+44  an element of a table read with an index
+$076D  update_frame_counter_table_0740+45  an element of a table read with an index
+$076E  update_frame_counter_table_0740+46  an element of a table read with an index
+$076F  update_frame_counter_table_0740+47  an element of a table read with an index
+$0770  update_frame_counter_table_0740+48  an element of a table read with an index
+$0771  update_frame_counter_table_0740+49  an element of a table read with an index
+$0772  update_frame_counter_table_0740+50  an element of a table read with an index
+$0773  update_frame_counter_table_0740+51  an element of a table read with an index
+$0774  update_frame_counter_table_0740+52  an element of a table read with an index
+$0775  update_frame_counter_table_0740+53  an element of a table read with an index
+$0776  update_frame_counter_table_0740+54  an element of a table read with an index
+$0777  update_frame_counter_table_0740+55  an element of a table read with an index
+$0778  update_frame_counter_table_0740+56  an element of a table read with an index
+$0779  update_frame_counter_table_0740+57  an element of a table read with an index
+$077A  update_frame_counter_table_0740+58  an element of a table read with an index
+$077B  update_frame_counter_table_0740+59  an element of a table read with an index
+$077C  update_frame_counter_table_0740+60  an element of a table read with an index
+$077D  update_frame_counter_table_0740+61  an element of a table read with an index
+$077E  update_frame_counter_table_0740+62  an element of a table read with an index
+$077F  update_frame_counter_table_0740+63  an element of a table read with an index
+$0796  update_frame_counter_table_0796  named by the routines that write it and how it is used
+$0797  update_frame_counter_table_0797  named by the routines that write it and how it is used
+$079C  update_frame_counter_table_0796+6  an element of a table read with an index
+$079D  update_frame_counter_table_0797+6  an element of a table read with an index
+$07A2  update_frame_counter_table_0796+12  an element of a table read with an index
+$07A3  update_frame_counter_table_0797+12  an element of a table read with an index
+$07A8  update_frame_counter_table_0796+18  an element of a table read with an index
+$07A9  update_frame_counter_table_0797+18  an element of a table read with an index
+$07AE  update_frame_counter_table_0796+24  an element of a table read with an index
+$07AF  update_frame_counter_table_0797+24  an element of a table read with an index
+$07B4  update_frame_counter_table_0796+30  an element of a table read with an index
+$07B5  update_frame_counter_table_0797+30  an element of a table read with an index
+$07BA  update_frame_counter_table_0796+36  an element of a table read with an index
+$07BB  update_frame_counter_table_0797+36  an element of a table read with an index
+$07C0  update_frame_counter_table_0796+42  an element of a table read with an index
+$07C1  update_frame_counter_table_0797+42  an element of a table read with an index
+$07C6  update_frame_counter_table_0796+48  an element of a table read with an index
+$07C7  update_frame_counter_table_0797+48  an element of a table read with an index
+$07CC  update_frame_counter_table_0796+54  an element of a table read with an index
+$07CD  update_frame_counter_table_0797+54  an element of a table read with an index
+$07D2  update_frame_counter_table_0796+60  an element of a table read with an index
+$07D3  update_frame_counter_table_0797+60  an element of a table read with an index
+$07D8  update_frame_counter_table_0796+66  an element of a table read with an index
+$07D9  update_frame_counter_table_0797+66  an element of a table read with an index
+$07DE  update_frame_counter_table_0796+72  an element of a table read with an index
+$07DF  update_frame_counter_table_0797+72  an element of a table read with an index
+$07E4  update_frame_counter_table_0796+78  an element of a table read with an index
+$07E5  update_frame_counter_table_0797+78  an element of a table read with an index
+$07EA  update_frame_counter_table_0796+84  an element of a table read with an index
+$07EB  update_frame_counter_table_0797+84  an element of a table read with an index
+$07F0  update_frame_counter_table_0796+90  an element of a table read with an index
+$07F1  update_frame_counter_table_0797+90  an element of a table read with an index

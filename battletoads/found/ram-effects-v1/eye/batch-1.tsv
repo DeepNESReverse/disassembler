@@ -1,0 +1,49 @@
+subject	name	confidence	reason
+$0000	upload_index	guess	written only by the tile-upload routines (values 0,1,4,10); hold at 4 left the story-screen upload unfinished in 4/4 moments (rendering off, palette cleared, dispatch stuck at 3); other 10 let it finish but the star sprites got wrong tiles (chunky blocks)
+$0001	upload_list_ptr	likely	pointer the upload reads through (zp),Y; hold at 7 and other 23 both hung the upload in 12/12 moments (set_camera and the next dispatch never ran); its high byte $0002 visits only 8 pages, so it walks short control data, not the tile bytes ($0006)
+$0002	upload_list_ptr_hi	likely	high byte of $0001 (only $80-$83, $8B, $8C, $CB); hold at 130 garbled all of the T. Bird cutscene art, other 131 sent wrong uploads, palette and state (game stopped in 9/12 moments either way)
+$0003	upload_ppu_addr_lo	sure	stored to $2006, values multiples of 16 (tile-aligned); hold at 32 and other 48 put the title logo tiles at shifted CHR slots and wiped the font
+$0004	upload_ppu_addr_hi	sure	stored to $2006; other 44 ($2C) sent the title-screen tile data into the nametable (screen full of tile garbage); hold at 19 garbled the story-screen font
+$0005	upload_count	likely	DEC'd and branched on by the upload routines; hold at 0 and other 16 both left the upload looping (game stopped 12/12); with 16 it wrote on past its target into the nametable and the palette
+$0006	upload_src_ptr	sure	pointer the upload copies tile bytes from; hold at 150 made every title-font glyph the same pattern (source not advancing), other 166 garbled every title tile
+$0007	upload_src_ptr_hi	sure	high byte of $0006 (75 values: 0, 1, $81-$8E and more); hold at 161 garbled the title logo and font, other 149 garbled the whole level-7 map screen
+$0008	upload_state	guess	values 0-4, written by the upload routines, compared once; hold at 4 left the title font glyphs mostly blank and upload_tiles_3 never ran, other 0 turned the glyphs into dense garbage
+$0009	keep	sure	value written to $2000: other 152 (+$08) garbled every sprite (sprite pattern table), hold at 128 (-$10) garbled the background below the split; ppu_ctrl_copy is right
+$000A	keep	sure	value written to $2001: other 0 wrote $00 instead of $18 and blanked the select screen; ppu_mask_copy is right
+$000C	anim_counter	likely	+1 on 204311 of 205197 changes, compared by 19 readers; hold at 230 / other 246 in level 7 changed only CHR (animated tiles) for 102 frames; across moments chr 20, oam 20, objects 14 of 31, nothing in the other 62
+$000E	keep	guess	only effect: other 2 changed CHR at the story screen (moment 59), where an upload reads a run of zero-page cells as data (same for $000F, $0031, $0035, $0036, $003C, $003D); nothing about its own use
+$000F	keep	guess	read by no routine; only effect is the same story-screen CHR change as $000E (zero page read as tile data)
+$0015	keep	sure	scratch: hold and other break sound, scroll, sprites and objects in nearly every moment of every level (game stopped in 72/84 and 84/94)
+$0016	keep	sure	scratch: other 16 moved the cutscene text to another column, hold at 6 turned the level-5 toad yellow (sprite palette); unrelated uses
+$0017	keep	likely	scratch: at the select screen hold/other garble the toad portraits (metasprite drawing), elsewhere it breaks everything
+$0018	keep	likely	scratch: the same select-screen portrait garbling as $0017 and $0019; broad effects elsewhere
+$0019	keep	likely	general pointer (74 (zp),Y reads, 28 writers): select-screen portraits garbled; oam 80, chr 74, nametable 68 of 86 moments - shows use, not purpose
+$001A	keep	likely	high byte of $0019: hold drew the intro ship with wrong tiles, other garbled the select-screen portraits; broad (oam 78-80, chr 72-73 of 86)
+$001B	keep	likely	pointer with 31 writers: hold recoloured level-5 sprites (orb and key palette), other altered the select-screen portraits; broad
+$001C	keep	likely	pointer with 18 writers: hold/other changed the level-5 nametable off screen, but effects are broad (oam 66-69, objects 64 of 74-77)
+$001D	bg_build_ptr	likely	changes only on 15263 frames (+1 4410, -1 3551), written mostly by sub_B5_8676; other 24 (level 1) and hold at 5 (level 6) both drew the incoming edge columns with wrong blocks; nametable in 45/53 hold and 50/59 other moments
+$001E	bg_build_ptr_hi	likely	high byte of $001D; hold at 128 and other 144 (level 1) both filled the incoming right columns and bottom rows with wrong blocks (water, wall pieces)
+$001F	keep	likely	scratch (18 writers, 5 families): hold changed CHR briefly at the intro, other changed the level-5 nametable off screen; broad
+$0020	keep	likely	scratch (12 writers): other changed the intro ship's tiles, hold drew level-10 background strips with wrong blocks; broad, game stopped in 54/70 and 79/82
+$0021	keep	likely	scratch (14 writers, scroll_update the main one): both cases drew incoming background blocks wrong, but objects and oam change as often (60 and 58 of 72 hold moments)
+$0022	keep	likely	counter used by object code: objects changed in 46/60 hold and 66/73 other moments; the clearest cases (intro ship vanishing, small background errors) add nothing specific
+$0023	scene_handler_ptr	likely	low byte (15 values, constant $5A) of a code address with $0024: read in all 94 moments, a single poke stopped the game in 78/93; other 90 put the Dark Queen cutscene on another handler (scroll 240->144, text stopped printing)
+$0024	scene_handler_ptr_hi	likely	high byte ($83, $D5-$E6: ROM pages): other 230 switched the title screen into the space intro (new graphics, palette, music, level_number 1), hold at 213 turned the level-7 map into a T. Bird cutscene; a poke stopped the game in 84/93
+$0025	keep	sure	made in place by the RNG routines; hold/other change the random blinking on T. Bird's console (CHR) and object/DMC choices (objects 40-41, dmc 25 of 94)
+$0026	random_bytes	sure	table $0026-$0028 written in place by the same RNG routines as $0025; hold/other of each cell change the same random console pattern and objects/DMC (objects 42-44, dmc 25 of 94)
+$002E	vblank_flag	likely	no code info; hold at 0 froze all game logic (frame_counter, objects, camera, sound) while NMI and scroll writes went on; other 1 ran the game one frame ahead (frame counters +1) - the main loop waits on it
+$002F	vram_queue_index	guess	values 0 and $EB-$FD (a count up to zero or a stack position), written by the nametable and palette writers; hold at 253 froze the game logic (37/45 moments) while nametable and CHR kept changing
+$0030	bg_build_column_flag	sure	0/1 written by scroll_update; hold at 1 made the strip writes use the +32 increment (ctrl $04 instead of $00) and broke the level-10 background; a single poke changed the nametable in 67/71 moments
+$0031	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$0032	music_tempo_acc	likely	changes on 94% of frames by non-unit steps over all 256 values, written with the tempo $0033 by frame_update_12; hold at 26 / other 42 stopped the music advancing (triangle stuck on A3, no new noise hits), sound changed in 84-85 of 90
+$0033	music_tempo	sure	hold at 184 (level 10) made every channel's notes shorter (noise steps 5-6 frames instead of 7-8: faster music); other 154 (level 11) brought notes earlier; constant $A0 stored, raised by object routines (+1 982)
+$0034	music_timer	likely	written by one routine, changes on 93% of frames; hold at 80 / other 96 (level 10) stopped every channel from starting new notes (squares decay to silence, triangle stays on E4, noise hits stop), sound changed in 84-85 of 85
+$0035	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$0036	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$0037	sound_data_ptr	sure	read through (zp),Y x40 by the sound routines; hold at 0 / other 16 replaced the intro's slowly changing noise (n15->n12, v1) with a different sound (n2 short mode); sq1/sq2 87, noise 86 of 91 moments changed
+$0038	sound_data_ptr_hi	sure	high byte of $0037 (pages $8F-$9D); other 189 made square 2 play C#4 instead of the E2/D2 bass line in level 1, hold at 0 silenced the intro noise
+$0039	sound_temp	likely	scratch whose top writers are sound routines (sound_9 x3); hold at 4 / other 20 kept square 2 from starting its next note in level 1; sound changed in 82-87 of 90-91 moments
+$003A	note_param_ptr	guess	low byte of a pointer with $003B (which no instruction reads directly); hold at 255 / other 15 (level 11) made new notes keep the old pitch (A# instead of G#) at another volume and froze the drums on one sound (n14 v11), in all 85 moments
+$003B	note_param_ptr_hi	guess	values 0 and $8B-$8E (ROM pages), read by no instruction directly; other 140 made square 2's new note G2 instead of D2, hold at 139 kept the old pitch E2
+$003C	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$003D	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown

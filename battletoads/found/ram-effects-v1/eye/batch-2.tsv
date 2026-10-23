@@ -1,0 +1,59 @@
+subject	name	confidence	reason
+$003E	return_bank	guess	values 0/6/16 (bank 0, bank 6, bank 0 + bit 4) written only by the shared $FF84 code of banks 0 and 6, read in every moment; other stopped the game in 28 of 69 moments and on level 9 broke the HUD and shifted the playfield; hold 0 on the intro ran toad code and fell back to the licence screen: the bank value the switching code goes back to
+$003F	keep		hold 17 on the title changed only DMC writes and lag (frame_counter fell behind); other shows only the invisible moment-59 CHR change most cells share; nothing beyond the analysis
+$0040	keep		hold 129 changed DMC writes and how much sound_4 ran; poke stopped the game in 3 of 7 title moments; other shows only the shared moment-59 CHR change; role not shown beyond the analysis
+$0041	keep		hold/other change DMC writes (DMC state unchanged) in every moment with an effect and timing (scroll/proven) in 24 of 25; no visible change in the shown cases; role not shown
+$0042	keep		hold 0 changed mostly only DMC writes (12 of 12 moments, no timing change) and sound_4 ran less: fits the analysis's sound value, nothing more specific
+$0043	keep		hold changed DMC writes in 22 of 22 moments and little else (timing in 5); nothing visible; its role inside the DMC/sound code not shown
+$0044	keep		hold 17 on level 1 changed only DMC writes and sound_4 ran less; DMC in 23 of 23 moments overall; nothing visible; role not shown
+$0045	jump_ptr_lo	guess	values 0 or $6D-$70 alongside $0046 = $85: a pointer to $856D-$8570 just past its writer sub_B3_855E; other stopped the game in 14 of 27 moments, hold changed only DMC writes: low byte of a code pointer
+$0046	jump_ptr_hi	guess	values 0 or $85, the high byte of the $856D-$8570 pointer in $0045 (not a flag); other stopped the game in 20 of 27 moments, poke in 2 of 6, hold had no effect
+$0047	keep		DMC writes changed in all 24 effect moments, timing (scroll/proven) in 22; nothing visible in the shown cases; role not shown
+$0048	keep		DMC writes in 25 of 25 effect moments plus lag/timing in 24; no visible change; the timer role is not shown
+$0049	keep		DMC writes in all 24 effect moments, timing in 23; values multiples of 4; role not shown
+$004A	keep		hold 7 on the title changed DMC writes and made the game lag less (frame_counter ran ahead); nothing on screen; role not shown
+$004B	keep		DMC writes in all 24 effect moments, timing in 23; nothing visible; role not shown
+$004C	keep		hold 254 on level 3 changed only DMC writes; DMC in all 25 effect moments; role not shown
+$004D	keep		hold 212 on level 1 changed only DMC writes; DMC in 22 of 22, timing in 6; values multiples of 4; role not shown
+$004E	keep		DMC writes in all 23 effect moments, timing in 22; nothing visible; role not shown
+$004F	keep		hold 0 on the title changed DMC writes and added heavy lag (frame_counter 61,62,70.. vs 62,70,78..), nothing on screen: fits the analysis's sound value
+$0050	keep		hold 16 on the title changed DMC writes and gave the same heavy lag as $004F; nothing visible; role not shown
+$0051	keep		always 0 in play; read as 1 changed DMC writes in 24 of 27 moments and ran extra sound_4 code: consistent with the analysis's sample_flag
+$0052	keep		read in only 2 moments, both on the intro story (254); other/poke 1 gave only the invisible CHR change many cells share at moment 59; nothing to name
+$0053	keep		like $0052: read in 2 intro moments, only the shared invisible moment-59 CHR change
+$0054	keep		like $0052: read in 2 intro moments, only the shared invisible moment-59 CHR change
+$0055	palette_buffer	sure	the 32 bytes $0055-$0074 are the 4 background + 4 sprite palettes: $005C held at $32 made palette entry 7 $32, $0062 read as $30 made entry 13 $30, $006E read as $30 made entry 25 $30; filled from ROM B6:A4A9
+$0056	palette_buffer_color1	sure	colour 1 of each 4-byte sub-palette (index = 4 x palette): $0056 held at $07 set entry 1 to $07, $006E read as $30 set entry 25 (sprite palette 2 colour 1) to $30
+$0057	palette_buffer_color2	sure	colour 2 of each sub-palette: $005B held at $12 set entry 6 to $12, $006F read as $30 set entry 26 to $30
+$0058	palette_buffer_color3	sure	colour 3 of each sub-palette: $0070 read as $23 set entry 27 to $23; $0058 held at $32 showed as $22 at entry 3 during a fade-in, so the buffer holds the pre-fade colours
+$0075	keep		no writer known; read in the same 27 moments as the frame_update_13 cells and rewritten before each read (poke no effect); hold changes DMC writes and timing; role not shown
+$0076	keep		read in the same 27 moments; hold and other each stopped the game in 2 moments; the shown case is only the shared moment-59 CHR change; role not shown
+$0077	keep		read in the same 27 moments; hold 1 on the title corrupted the logo and text tiles while the screen was drawn (CHR in 16 of 17 hold moments), other 16 changed DMC writes; no single role shown
+$0078	obj_anim_frame	likely	hold 27 on level 1: the toad's field 1 stayed exactly 27 (alone 27/29), its pose froze and it stopped walking while field 22 kept counting up: the frame value stored into field 1
+$0079	obj_x_speed	likely	hold 24 on level 11: the shark's field 28 became exactly 24 (alone 128/64) and its x speed fell to about a third; alone 128 moved it 2 px/frame and 64 1 px/frame: the x speed stored into field 28
+$007A	keep		hold 97 on level 2 stopped the wall claw extending (x fixed) and played a different noise pattern; noise changed in 9 of 12 hold moments; the flags themselves not resolved
+$007B	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007C	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007D	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007E	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007F	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$0080	keep		read in 9 moments; hold no effect, other shown only as the shared moment-59 CHR change; nothing beyond the analysis's sound index
+$0081	keep		scratch of 5 families; hold 0 on a cut-scene changed a few sprite tiles, other only the shared moment-59 change: used, not what for
+$0082	keep		read by 66 routines; hold 14 on level 5 froze two objects and stopped their handlers, other 0 changed the intro sprites: breaks many things, no single role shown
+$0084	scroll_y	sure	hold 77 and other 93 on level 7 moved the whole background up against the sprites by 21 and 37 px, a 16 px gap for the 16 difference; $2005/$2000 writes unchanged, upload_tiles ran less: vertical scroll of the background
+$0085	keep		written by upload_tiles and rewritten before use (hold no effect); another value changed CHR in only 5 of 71 moments: the upload address the analysis already found, nothing more
+$0086	keep		same as $0085: rewritten by upload_tiles before each read, values multiples of 32; another value changed CHR in 6 of 71 moments; nothing beyond the analysis
+$008B	sprite_x	sure	hold 0 drew the river log at the left edge and moved the toad left, other 16 put the log at x 16 and the toad right: the screen x objects are drawn at; OAM changed in 80 of 80 moments
+$008C	sprite_y	sure	hold 146 and other 162 drew the log and the toad 16 px apart vertically, both higher than alone: the screen y objects are drawn at; OAM changed in 80 of 80 moments
+$008D	sprite_attr	likely	hold 0 and other 16 on level 10 drew the toad, its gold ball and the white ball all in sprite palette 0 (green); values 0-3, $20-$24, $40 are OAM attribute bytes; also scratch elsewhere
+$008E	toad_sprite_attr	likely	other 1 on level 10 turned the toad's green body gold, hold 0 on level 11 drew its yellow face green, nothing else changed; values 0-2 with $20/$40 bits are OAM attributes
+$008F	sprite_overlay_offset	guess	hold 56 drew the toad's face highlights green and one log piece yellow; other 20 displaced the toad's face pieces and put a stray piece on the pig's head; values mostly multiples of 4
+$0090	sprite_flip	sure	hold $40 on level 1 drew the red bird mirrored, other 1 on level 10 mirrored the halves of the rolling balls; values 0, 1, $40 (the OAM h-flip bit)
+$0091	sprite_piece_count	likely	other 1 drew one piece per object (the toad's face, the log's top), hold 0 scattered garbage pieces and stray tiles over the score: the number of pieces left to draw
+$0092	sprite_tile	sure	hold 144 and other 160 drew every piece of the toad and the pig with that one tile (thin lines, triangles): the tile number of the piece being drawn
+$0095	vram_update_request	likely	hold 128 on level 3 left the HUD score unredrawn (087100 while it rose), other 129 on level 11 wrote wrong tiles down the right edge; write_nametable ran differently; values 0 and $80-$86
+$0096	nametable_half	guess	only 0 or 2, sent to $2006; other 2 on level 11 erased the HUD and garbled the edge column, hold 2 on level 4 put wrong tiles and colours in the lower screen: picks the upper/lower half for background writes
+$0097	vram_addr_hi	sure	hold 33 ($21) on level 7 wrote every new background row into one band, other 33 put rows at wrong heights; values 0, $0C-$0F, $1C-$22: high byte of the PPU write address
+$0098	vram_addr_lo	sure	other 34 on level 3 wrote each new background column into one fixed column (a stripe), hold 20 misplaced columns too; 252 values: low byte paired with $0097
+$0099	attribute_byte	likely	other 32 on level 3 recoloured whole background areas (wall orange, floor pink), hold 151 on level 11 left blocks in wrong palettes: the attribute (palette) byte written for the area being built
+$009A	row_addr_hi	likely	values 0, $20-$23 (nametable pages); hold 32 on level 4 and other 35 on level 10 wrote background rows at wrong heights as garbled bands: high byte of the nametable address of the row being built

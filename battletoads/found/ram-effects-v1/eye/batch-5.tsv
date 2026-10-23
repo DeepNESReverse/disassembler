@@ -1,0 +1,51 @@
+subject	name	confidence	reason
+$0394	sound_volume_fade	likely	per channel (index 0/4/8/12 = sq1/sq2/tri/noise; hold/other touch only that channel, e.g. sq1 29/73 of 77 moments): hold $0398=2 slows sq2's per-frame volume decay from ~1.5 to ~3.5 frames/step, other $0398=2 starts the notes 1 louder; pitch untouched; +1/-1 steps over 0-23
+$03A1	sound_slide_mode	sure	other $03A1=1 makes every sq1 note slide up (period -11 per frame); hold $03A9=0 removes the triangle's slide down (p350->p460); values 0-2, one cell per channel
+$03A2	sound_instrument	likely	set-only selector (0,2-7,11,14,128), other changes its own channel in nearly every moment (sq1 77/83, sq2 83/84, tri 79/82, noise 78/82); other $03AA=2 turns legato triangle notes staccato (lin 2/0), hold $03AE=0 changes the noise hits' volumes
+$03A3	sound_volume	likely	hold/other change only the note volumes of the indexed channel in every moment (sq1 18/18, sq2 15/15, noise 13/14), pitch and timing intact: hold $03A7=18 turns sq2 volumes 2,3,1,3 into 6,3,0,0; values 0 or 17-26 set per note
+$03A4	sound_saved_ptr_lo	guess	address-like values (29-69, 152-202) set rarely (879 frames); hold 200 makes the triangle continue from frame 25 with other notes in the same rhythm (C#3-D#3-F3 instead of D3-C3-A2), other $03B0=0 leaves sq2 on one A5 note: a music pointer the driver jumps back to; channel match is loose
+$03B1	keep	guess	hold 2 changes only unseen CHR (picture identical), other 58 turns a fish (slot 4 field 19 1->255) in level 11; values 4n+1/4n+2 - no single role shows
+$03B3	p1_blink_timer	sure	hold 3 and other 16 keep the toad on pose 2 (eyes closed in the picture) where it opens its eyes (pose 1) alone; counts down (DEC 9932 times)
+$03B5	p1_anim_frame	sure	other 19 puts 19 into the toad's field 1 every frame (alone 4,5,8,6,7...) and the picture shows that other pose; hold 2 keeps pose 2; CHR changes in 68/68 other moments
+$03B6	p2_anim_frame	likely	twin of $03B5 for slot 1: other 1 puts 1 into slot 1's field 1 and changes CHR in 68/68 moments; always 0 in play (no second player)
+$03B7	p1_rope_length	guess	levels 0-2 rope drop, +1/-1 over 0-36: hold 1 lets the toad fall faster then yanks it back up (y 54->67, picture: toad back near the top), other 17 frees the rope (y 0) and drops the toad to the ground
+$03BB	keep	guess	values 0/128/192; hold/other change the toad's field 11 counting (levels 4, 11) and one pose sample, nothing visible in the picture
+$03BD	keep	guess	only 4 moments: hold 48 stops the speeder bike's hop (y stays 64) and shifts toad/bike poses by 1 (58->59, 43->44); too thin for a name
+$03BF	keep	guess	other changes much in 37/37 moments (levels 4-11) but the clearest case shows only a DMC write and different spawn routines; never held
+$05B0	p1_snake_offset	guess	level 8 only, values -10..8 (constants 8 and -10 stored); other 16 makes the toad play teetering poses 88/89 at the snake's end (picture); hold never matters
+$05B2	p1_exit_timer	likely	hold 76 with the toad inside the OUT hole (level 8) stops the next room from loading (level_room stays 2, old music/palette/nametable); other 16 stops obj_toad_handler; poke (counts down once) changes everything in 66/68 moments
+$05BB	keep	guess	always 0; other 1 in 2 level-10 moments (player not in play) raises the camera and places toad and vehicles elsewhere, same output as $05BC
+$05BC	keep	guess	always 0; other 1 in 3 level-10 moments gives exactly the $05BB output (camera rises, toad placed elsewhere); too thin
+$05BD	p1_slide_speed	likely	ice level 4: other 16 freezes the toad's x/x_sub and the camera while alone it slides right; hold 96 keeps it sliding right instead of slowing and turning back; +1/-1 heavy, index 0/1
+$05BF	keep	guess	always 0; other 1 changes CHR/OAM in 11/12 moments but the clearest case only shows obj_toad_handler skipping 2 instructions
+$05C1	p1_flattened_pose	sure	other 86 makes the toad loop poses 85/86 and the picture shows it squashed flat; 86 ($56) is the only constant stored, by obj_any_damage_6; values 0/86 in levels 7, 9
+$05C3	p1_shock_timer	likely	hold 0 removes the electrocution: alone the toad flickers as a skeleton (poses 0/93, x shaking 40/44, picture), held it goes straight to pose 22 then 2; decremented timer set by obj_any_damage_2
+$05C5	keep	guess	values 0,3,4,5,7; other 3 changes CHR in 11/12 moments but nothing visible in the picture; no role shows
+$05C7	p1_fan_state	guess	values 0/3 (level 7), written by obj_suction_fan_update; other 3 pulls the toad to x=384 off the ledge and loops spinning poses 91/92 (picture: toad reappears flying sideways)
+$05C9	keep	guess	always 0; other 1 in one level-11 moment makes the toad raise both arms (poses 18/14) instead of being electrocuted; 2 moments only
+$05CB	keep	guess	level 8 only, one moment: other 7 drops the toad off the snake's end (pose 5, y 222->195), same output as $05CC
+$05CC	keep	guess	level 8 only, one moment: hold 137 / other 153 drop the toad off the snake's end exactly like $05CB; cannot tell the three snake cells apart
+$05CD	keep	guess	level 8 only, one moment: other 3 knocks the toad off the snake (x 62->31) and moves the snake tail by 6 px
+$05CE	keep	guess	nonzero makes set_floor_height_2 and l12_obj_any_spawn_or_free run; other changes much in 64/67 moments; hold 0 only closes the toad's eyes a few frames; no single role
+$05D0	keep	guess	values 0/64/128; other changes the toad in 60/61 moments, but the clear cases only freeze field 11 and shuffle poses, nothing visible
+$05D2	build_x_offsets	sure	x offset (added to camera_x_lo) where a background strip is drawn, 5 records of a ROM table: other 0 draws a stray column at the wrong x (level 10 picture), hold $05E2 draws the snake body at the wrong x (level 8)
+$05D3	build_y_offsets	sure	y offset (0 or 240, added to camera_y_lo) of the drawn strip: other 0 writes the new rows at the top so wrong rows fill the lower screen (level 10 picture); hold $05E3 leaves an old snake segment on screen (level 8)
+$05D4	build_column_flags	sure	1 = strip is a column: other 0 clears the PPU ctrl +32 bit ($04->$00) and the columns come out as rows (level 10), hold $05E4=1 sets it ($00->$04) on the snake rows (level 8)
+$05D5	build_x_hi_offsets	likely	added to camera_x_hi: other 1 sends the new columns to the other nametable, the new area stays undrawn (level 10 picture); nametable only, 9/9 moments
+$05FA	p2_score	sure	other 1 shows P2's score as 100000 on screen (picture); 6 cells right after p1_score $05F4-$05F9, nametable-only effect in 41/41 moments
+$0600	chr_buffer	likely	128-byte ROM table (B7:8D21) copied in; other changes CHR (little else) in 12 of 14 moments per cell (levels 2, 11; picture: the level-2 shaft wall tiles); tiles 0-3 of the buffer
+$0640	chr_buffer_tile4	likely	tiles 4-7 of chr_buffer, filled by read_vram (index 0-63); other changes CHR in 12 of 13 moments (levels 2, 8, 11)
+$0647	chr_buffer_tile4_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 4, read on its own; other changes CHR in 12 of 19 moments read, few values
+$0650	chr_buffer_tile5	likely	tiles 5-6 of chr_buffer (32 bytes); every cell's other changes CHR in 12 of 12-17 moments read (levels 2, 8, 11)
+$0657	chr_buffer_tile5_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 5, read on its own; other changes CHR in 12 of 19 moments read
+$0667	chr_buffer_tile6_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 6, read on its own; other changes CHR in 12 of 19 moments read
+$0677	chr_buffer_tile7_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 7, read on its own; other changes CHR in 9 of 15 moments read (levels 8, 11)
+$067F	chr_buffer_tile7_hi_row7	likely	byte 15 (high-plane row 7) of chr_buffer tile 7, changes often in levels 2-11; hold 19 animates the level-7 window tiles differently for 112 frames (picture), other changes CHR in 17 of 22 moments
+$0680	anim_chr	likely	animated background tiles (3 tiles at $0680/$0690/$06A0) rewritten on 33083 frames in 11 levels; hold/other change only CHR (25 and 39 of 40 moments); pictures: level-7 window static, level-10 crystal walls, level-13 pyramid, level-11 fans differ
+$0681	anim_chr_tile0_row1	likely	byte 1 (low-plane row 1) of anim_chr tile 0, read on its own; hold changes CHR in 25 and other in 40 of 40 moments (level-7 windows, level-11 fans)
+$0688	anim_chr_hi	likely	bytes 8-14 (high plane) of the 3 anim_chr tiles; per cell hold changes CHR in 14-25 and other in 38-39 of 38-40 moments; pictures: level-7 windows, level-10 crystal walls differ
+$068F	anim_chr_tile0_hi_row7	likely	byte 15 (high-plane row 7) of anim_chr tile 0, read on its own; hold changes CHR in 24 and other in 39 of 39 moments (level-11 fans, level-7 windows)
+$0690	anim_chr_tile1_row0	likely	byte 0 (low-plane row 0) of anim_chr tile 1, written by update_frame_counter; hold 96 changes the level-10 crystal wall tiles (picture), other changes CHR in 39 of 40 moments
+$0691	anim_chr_tile1_row1	likely	byte 1 (low-plane row 1) of anim_chr tile 1, read on its own; hold 160 changes the level-13 pyramid tiles (picture), other changes CHR in 39 of 39 moments
+$069F	anim_chr_tile1_hi_row7	likely	byte 15 (high-plane row 7) of anim_chr tile 1, read on its own; hold 254 changes the level-11 fan tiles, other changes CHR in 36 of 36 moments
+$06A0	anim_chr_tile2_row0	likely	byte 0 (low-plane row 0) of anim_chr tile 2, written by update_frame_counter; hold changes CHR in 15 (level-10 crystal walls) and other in 39 of 40 moments (level-7 windows)

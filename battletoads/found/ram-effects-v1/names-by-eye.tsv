@@ -1,0 +1,329 @@
+subject	name	confidence	reason
+$0000	upload_index	guess	written only by the tile-upload routines (values 0,1,4,10); hold at 4 left the story-screen upload unfinished in 4/4 moments (rendering off, palette cleared, dispatch stuck at 3); other 10 let it finish but the star sprites got wrong tiles (chunky blocks)
+$0001	upload_list_ptr	likely	pointer the upload reads through (zp),Y; hold at 7 and other 23 both hung the upload in 12/12 moments (set_camera and the next dispatch never ran); its high byte $0002 visits only 8 pages, so it walks short control data, not the tile bytes ($0006)
+$0002	upload_list_ptr_hi	likely	high byte of $0001 (only $80-$83, $8B, $8C, $CB); hold at 130 garbled all of the T. Bird cutscene art, other 131 sent wrong uploads, palette and state (game stopped in 9/12 moments either way)
+$0003	upload_ppu_addr_lo	sure	stored to $2006, values multiples of 16 (tile-aligned); hold at 32 and other 48 put the title logo tiles at shifted CHR slots and wiped the font
+$0004	upload_ppu_addr_hi	sure	stored to $2006; other 44 ($2C) sent the title-screen tile data into the nametable (screen full of tile garbage); hold at 19 garbled the story-screen font
+$0005	upload_count	likely	DEC'd and branched on by the upload routines; hold at 0 and other 16 both left the upload looping (game stopped 12/12); with 16 it wrote on past its target into the nametable and the palette
+$0006	upload_src_ptr	sure	pointer the upload copies tile bytes from; hold at 150 made every title-font glyph the same pattern (source not advancing), other 166 garbled every title tile
+$0007	upload_src_ptr_hi	sure	high byte of $0006 (75 values: 0, 1, $81-$8E and more); hold at 161 garbled the title logo and font, other 149 garbled the whole level-7 map screen
+$0008	upload_state	guess	values 0-4, written by the upload routines, compared once; hold at 4 left the title font glyphs mostly blank and upload_tiles_3 never ran, other 0 turned the glyphs into dense garbage
+$0009	keep	sure	value written to $2000: other 152 (+$08) garbled every sprite (sprite pattern table), hold at 128 (-$10) garbled the background below the split; ppu_ctrl_copy is right
+$000A	keep	sure	value written to $2001: other 0 wrote $00 instead of $18 and blanked the select screen; ppu_mask_copy is right
+$000C	anim_counter	likely	+1 on 204311 of 205197 changes, compared by 19 readers; hold at 230 / other 246 in level 7 changed only CHR (animated tiles) for 102 frames; across moments chr 20, oam 20, objects 14 of 31, nothing in the other 62
+$000E	keep	guess	only effect: other 2 changed CHR at the story screen (moment 59), where an upload reads a run of zero-page cells as data (same for $000F, $0031, $0035, $0036, $003C, $003D); nothing about its own use
+$000F	keep	guess	read by no routine; only effect is the same story-screen CHR change as $000E (zero page read as tile data)
+$0015	keep	sure	scratch: hold and other break sound, scroll, sprites and objects in nearly every moment of every level (game stopped in 72/84 and 84/94)
+$0016	keep	sure	scratch: other 16 moved the cutscene text to another column, hold at 6 turned the level-5 toad yellow (sprite palette); unrelated uses
+$0017	keep	likely	scratch: at the select screen hold/other garble the toad portraits (metasprite drawing), elsewhere it breaks everything
+$0018	keep	likely	scratch: the same select-screen portrait garbling as $0017 and $0019; broad effects elsewhere
+$0019	keep	likely	general pointer (74 (zp),Y reads, 28 writers): select-screen portraits garbled; oam 80, chr 74, nametable 68 of 86 moments - shows use, not purpose
+$001A	keep	likely	high byte of $0019: hold drew the intro ship with wrong tiles, other garbled the select-screen portraits; broad (oam 78-80, chr 72-73 of 86)
+$001B	keep	likely	pointer with 31 writers: hold recoloured level-5 sprites (orb and key palette), other altered the select-screen portraits; broad
+$001C	keep	likely	pointer with 18 writers: hold/other changed the level-5 nametable off screen, but effects are broad (oam 66-69, objects 64 of 74-77)
+$001D	bg_build_ptr	likely	changes only on 15263 frames (+1 4410, -1 3551), written mostly by sub_B5_8676; other 24 (level 1) and hold at 5 (level 6) both drew the incoming edge columns with wrong blocks; nametable in 45/53 hold and 50/59 other moments
+$001E	bg_build_ptr_hi	likely	high byte of $001D; hold at 128 and other 144 (level 1) both filled the incoming right columns and bottom rows with wrong blocks (water, wall pieces)
+$001F	keep	likely	scratch (18 writers, 5 families): hold changed CHR briefly at the intro, other changed the level-5 nametable off screen; broad
+$0020	keep	likely	scratch (12 writers): other changed the intro ship's tiles, hold drew level-10 background strips with wrong blocks; broad, game stopped in 54/70 and 79/82
+$0021	keep	likely	scratch (14 writers, scroll_update the main one): both cases drew incoming background blocks wrong, but objects and oam change as often (60 and 58 of 72 hold moments)
+$0022	keep	likely	counter used by object code: objects changed in 46/60 hold and 66/73 other moments; the clearest cases (intro ship vanishing, small background errors) add nothing specific
+$0023	scene_handler_ptr	likely	low byte (15 values, constant $5A) of a code address with $0024: read in all 94 moments, a single poke stopped the game in 78/93; other 90 put the Dark Queen cutscene on another handler (scroll 240->144, text stopped printing)
+$0024	scene_handler_ptr_hi	likely	high byte ($83, $D5-$E6: ROM pages): other 230 switched the title screen into the space intro (new graphics, palette, music, level_number 1), hold at 213 turned the level-7 map into a T. Bird cutscene; a poke stopped the game in 84/93
+$0025	keep	sure	made in place by the RNG routines; hold/other change the random blinking on T. Bird's console (CHR) and object/DMC choices (objects 40-41, dmc 25 of 94)
+$0026	random_bytes	sure	table $0026-$0028 written in place by the same RNG routines as $0025; hold/other of each cell change the same random console pattern and objects/DMC (objects 42-44, dmc 25 of 94)
+$002E	vblank_flag	likely	no code info; hold at 0 froze all game logic (frame_counter, objects, camera, sound) while NMI and scroll writes went on; other 1 ran the game one frame ahead (frame counters +1) - the main loop waits on it
+$002F	vram_queue_index	guess	values 0 and $EB-$FD (a count up to zero or a stack position), written by the nametable and palette writers; hold at 253 froze the game logic (37/45 moments) while nametable and CHR kept changing
+$0030	bg_build_column_flag	sure	0/1 written by scroll_update; hold at 1 made the strip writes use the +32 increment (ctrl $04 instead of $00) and broke the level-10 background; a single poke changed the nametable in 67/71 moments
+$0031	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$0032	music_tempo_acc	likely	changes on 94% of frames by non-unit steps over all 256 values, written with the tempo $0033 by frame_update_12; hold at 26 / other 42 stopped the music advancing (triangle stuck on A3, no new noise hits), sound changed in 84-85 of 90
+$0033	music_tempo	sure	hold at 184 (level 10) made every channel's notes shorter (noise steps 5-6 frames instead of 7-8: faster music); other 154 (level 11) brought notes earlier; constant $A0 stored, raised by object routines (+1 982)
+$0034	music_timer	likely	written by one routine, changes on 93% of frames; hold at 80 / other 96 (level 10) stopped every channel from starting new notes (squares decay to silence, triangle stays on E4, noise hits stop), sound changed in 84-85 of 85
+$0035	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$0036	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$0037	sound_data_ptr	sure	read through (zp),Y x40 by the sound routines; hold at 0 / other 16 replaced the intro's slowly changing noise (n15->n12, v1) with a different sound (n2 short mode); sq1/sq2 87, noise 86 of 91 moments changed
+$0038	sound_data_ptr_hi	sure	high byte of $0037 (pages $8F-$9D); other 189 made square 2 play C#4 instead of the E2/D2 bass line in level 1, hold at 0 silenced the intro noise
+$0039	sound_temp	likely	scratch whose top writers are sound routines (sound_9 x3); hold at 4 / other 20 kept square 2 from starting its next note in level 1; sound changed in 82-87 of 90-91 moments
+$003A	note_param_ptr	guess	low byte of a pointer with $003B (which no instruction reads directly); hold at 255 / other 15 (level 11) made new notes keep the old pitch (A# instead of G#) at another volume and froze the drums on one sound (n14 v11), in all 85 moments
+$003B	note_param_ptr_hi	guess	values 0 and $8B-$8E (ROM pages), read by no instruction directly; other 140 made square 2's new note G2 instead of D2, hold at 139 kept the old pitch E2
+$003C	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$003D	keep	guess	no code info; read only at the story screen where an upload reads zero page as data (other 1 changed CHR there); no use of its own shown
+$003E	return_bank	guess	values 0/6/16 (bank 0, bank 6, bank 0 + bit 4) written only by the shared $FF84 code of banks 0 and 6, read in every moment; other stopped the game in 28 of 69 moments and on level 9 broke the HUD and shifted the playfield; hold 0 on the intro ran toad code and fell back to the licence screen: the bank value the switching code goes back to
+$003F	keep		hold 17 on the title changed only DMC writes and lag (frame_counter fell behind); other shows only the invisible moment-59 CHR change most cells share; nothing beyond the analysis
+$0040	keep		hold 129 changed DMC writes and how much sound_4 ran; poke stopped the game in 3 of 7 title moments; other shows only the shared moment-59 CHR change; role not shown beyond the analysis
+$0041	keep		hold/other change DMC writes (DMC state unchanged) in every moment with an effect and timing (scroll/proven) in 24 of 25; no visible change in the shown cases; role not shown
+$0042	keep		hold 0 changed mostly only DMC writes (12 of 12 moments, no timing change) and sound_4 ran less: fits the analysis's sound value, nothing more specific
+$0043	keep		hold changed DMC writes in 22 of 22 moments and little else (timing in 5); nothing visible; its role inside the DMC/sound code not shown
+$0044	keep		hold 17 on level 1 changed only DMC writes and sound_4 ran less; DMC in 23 of 23 moments overall; nothing visible; role not shown
+$0045	jump_ptr_lo	guess	values 0 or $6D-$70 alongside $0046 = $85: a pointer to $856D-$8570 just past its writer sub_B3_855E; other stopped the game in 14 of 27 moments, hold changed only DMC writes: low byte of a code pointer
+$0046	jump_ptr_hi	guess	values 0 or $85, the high byte of the $856D-$8570 pointer in $0045 (not a flag); other stopped the game in 20 of 27 moments, poke in 2 of 6, hold had no effect
+$0047	keep		DMC writes changed in all 24 effect moments, timing (scroll/proven) in 22; nothing visible in the shown cases; role not shown
+$0048	keep		DMC writes in 25 of 25 effect moments plus lag/timing in 24; no visible change; the timer role is not shown
+$0049	keep		DMC writes in all 24 effect moments, timing in 23; values multiples of 4; role not shown
+$004A	keep		hold 7 on the title changed DMC writes and made the game lag less (frame_counter ran ahead); nothing on screen; role not shown
+$004B	keep		DMC writes in all 24 effect moments, timing in 23; nothing visible; role not shown
+$004C	keep		hold 254 on level 3 changed only DMC writes; DMC in all 25 effect moments; role not shown
+$004D	keep		hold 212 on level 1 changed only DMC writes; DMC in 22 of 22, timing in 6; values multiples of 4; role not shown
+$004E	keep		DMC writes in all 23 effect moments, timing in 22; nothing visible; role not shown
+$004F	keep		hold 0 on the title changed DMC writes and added heavy lag (frame_counter 61,62,70.. vs 62,70,78..), nothing on screen: fits the analysis's sound value
+$0050	keep		hold 16 on the title changed DMC writes and gave the same heavy lag as $004F; nothing visible; role not shown
+$0051	keep		always 0 in play; read as 1 changed DMC writes in 24 of 27 moments and ran extra sound_4 code: consistent with the analysis's sample_flag
+$0052	keep		read in only 2 moments, both on the intro story (254); other/poke 1 gave only the invisible CHR change many cells share at moment 59; nothing to name
+$0053	keep		like $0052: read in 2 intro moments, only the shared invisible moment-59 CHR change
+$0054	keep		like $0052: read in 2 intro moments, only the shared invisible moment-59 CHR change
+$0055	palette_buffer	sure	the 32 bytes $0055-$0074 are the 4 background + 4 sprite palettes: $005C held at $32 made palette entry 7 $32, $0062 read as $30 made entry 13 $30, $006E read as $30 made entry 25 $30; filled from ROM B6:A4A9
+$0056	palette_buffer_color1	sure	colour 1 of each 4-byte sub-palette (index = 4 x palette): $0056 held at $07 set entry 1 to $07, $006E read as $30 set entry 25 (sprite palette 2 colour 1) to $30
+$0057	palette_buffer_color2	sure	colour 2 of each sub-palette: $005B held at $12 set entry 6 to $12, $006F read as $30 set entry 26 to $30
+$0058	palette_buffer_color3	sure	colour 3 of each sub-palette: $0070 read as $23 set entry 27 to $23; $0058 held at $32 showed as $22 at entry 3 during a fade-in, so the buffer holds the pre-fade colours
+$0075	keep		no writer known; read in the same 27 moments as the frame_update_13 cells and rewritten before each read (poke no effect); hold changes DMC writes and timing; role not shown
+$0076	keep		read in the same 27 moments; hold and other each stopped the game in 2 moments; the shown case is only the shared moment-59 CHR change; role not shown
+$0077	keep		read in the same 27 moments; hold 1 on the title corrupted the logo and text tiles while the screen was drawn (CHR in 16 of 17 hold moments), other 16 changed DMC writes; no single role shown
+$0078	obj_anim_frame	likely	hold 27 on level 1: the toad's field 1 stayed exactly 27 (alone 27/29), its pose froze and it stopped walking while field 22 kept counting up: the frame value stored into field 1
+$0079	obj_x_speed	likely	hold 24 on level 11: the shark's field 28 became exactly 24 (alone 128/64) and its x speed fell to about a third; alone 128 moved it 2 px/frame and 64 1 px/frame: the x speed stored into field 28
+$007A	keep		hold 97 on level 2 stopped the wall claw extending (x fixed) and played a different noise pattern; noise changed in 9 of 12 hold moments; the flags themselves not resolved
+$007B	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007C	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007D	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007E	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$007F	keep		read in only 2 intro moments; only the shared invisible moment-59 CHR change
+$0080	keep		read in 9 moments; hold no effect, other shown only as the shared moment-59 CHR change; nothing beyond the analysis's sound index
+$0081	keep		scratch of 5 families; hold 0 on a cut-scene changed a few sprite tiles, other only the shared moment-59 change: used, not what for
+$0082	keep		read by 66 routines; hold 14 on level 5 froze two objects and stopped their handlers, other 0 changed the intro sprites: breaks many things, no single role shown
+$0084	scroll_y	sure	hold 77 and other 93 on level 7 moved the whole background up against the sprites by 21 and 37 px, a 16 px gap for the 16 difference; $2005/$2000 writes unchanged, upload_tiles ran less: vertical scroll of the background
+$0085	keep		written by upload_tiles and rewritten before use (hold no effect); another value changed CHR in only 5 of 71 moments: the upload address the analysis already found, nothing more
+$0086	keep		same as $0085: rewritten by upload_tiles before each read, values multiples of 32; another value changed CHR in 6 of 71 moments; nothing beyond the analysis
+$008B	sprite_x	sure	hold 0 drew the river log at the left edge and moved the toad left, other 16 put the log at x 16 and the toad right: the screen x objects are drawn at; OAM changed in 80 of 80 moments
+$008C	sprite_y	sure	hold 146 and other 162 drew the log and the toad 16 px apart vertically, both higher than alone: the screen y objects are drawn at; OAM changed in 80 of 80 moments
+$008D	sprite_attr	likely	hold 0 and other 16 on level 10 drew the toad, its gold ball and the white ball all in sprite palette 0 (green); values 0-3, $20-$24, $40 are OAM attribute bytes; also scratch elsewhere
+$008E	toad_sprite_attr	likely	other 1 on level 10 turned the toad's green body gold, hold 0 on level 11 drew its yellow face green, nothing else changed; values 0-2 with $20/$40 bits are OAM attributes
+$008F	sprite_overlay_offset	guess	hold 56 drew the toad's face highlights green and one log piece yellow; other 20 displaced the toad's face pieces and put a stray piece on the pig's head; values mostly multiples of 4
+$0090	sprite_flip	sure	hold $40 on level 1 drew the red bird mirrored, other 1 on level 10 mirrored the halves of the rolling balls; values 0, 1, $40 (the OAM h-flip bit)
+$0091	sprite_piece_count	likely	other 1 drew one piece per object (the toad's face, the log's top), hold 0 scattered garbage pieces and stray tiles over the score: the number of pieces left to draw
+$0092	sprite_tile	sure	hold 144 and other 160 drew every piece of the toad and the pig with that one tile (thin lines, triangles): the tile number of the piece being drawn
+$0095	vram_update_request	likely	hold 128 on level 3 left the HUD score unredrawn (087100 while it rose), other 129 on level 11 wrote wrong tiles down the right edge; write_nametable ran differently; values 0 and $80-$86
+$0096	nametable_half	guess	only 0 or 2, sent to $2006; other 2 on level 11 erased the HUD and garbled the edge column, hold 2 on level 4 put wrong tiles and colours in the lower screen: picks the upper/lower half for background writes
+$0097	vram_addr_hi	sure	hold 33 ($21) on level 7 wrote every new background row into one band, other 33 put rows at wrong heights; values 0, $0C-$0F, $1C-$22: high byte of the PPU write address
+$0098	vram_addr_lo	sure	other 34 on level 3 wrote each new background column into one fixed column (a stripe), hold 20 misplaced columns too; 252 values: low byte paired with $0097
+$0099	attribute_byte	likely	other 32 on level 3 recoloured whole background areas (wall orange, floor pink), hold 151 on level 11 left blocks in wrong palettes: the attribute (palette) byte written for the area being built
+$009A	row_addr_hi	likely	values 0, $20-$23 (nametable pages); hold 32 on level 4 and other 35 on level 10 wrote background rows at wrong heights as garbled bands: high byte of the nametable address of the row being built
+$009B	built_row_addr_lo	likely	hold 160 and other 160: newly built background rows land on the wrong nametable rows (garbage strips; nametable in 25/25 hold and 25/27 other moments); values only multiples of 32 = low byte of a row start
+$009C	chr_upload_addr_hi	likely	other 22 (level 1): background tiles overwritten, the sky turns into a tile pattern; hold 26 (level 7): background tiles differ; chr in 71/71 other and 36/36 hold moments; values 0/22/26 = pattern-table pages $16xx/$1Axx
+$009D	chr_upload_addr_lo	likely	other 48 (level 1) and hold 48 (level 7): the toad's sprite tiles come out wrong; chr in every moment; values 0-192 all tile-aligned (multiples of 16), the low byte under $009C
+$009E	obj_draw_order	likely	15 cells holding slot numbers (cell n = 0 or n); other $009E=1: the toad (slot 0) vanishes from the screen while play goes on; hold $00A0=0: one of the two yellow ball enemies (slot 2) is not drawn, object table unchanged; oam differs in 66-68 of 70 moments for every cell
+$00AD	keep	-	hold 60 (level 6) changes the toad's entry fall and camera_hold in one moment; other shows only the generic story-screen chr change; nothing specific repeats
+$00AE	keep	-	hold 0 (level 1) re-spawns two flies (l12_obj_any_spawn_or_free runs only then) in one moment; other shows only the generic story-screen chr change
+$00AF	keep	-	hold 7 (level 12): a thrown club flies the other way (field 17 sign flips) in one moment; other shows only the generic story-screen chr change
+$00B0	keep	-	only the generic story-screen chr change (other 3); hold has no effect
+$00B3	keep	-	other 4 disturbs sound, mask and chr in a few moments (levels 7/9/11) but the only clear case is the generic story-screen chr change
+$00B4	keep	-	other 48 (level 7): background chr differs and the screen lags one pixel, no specific pattern; hold has no effect
+$00B5	chr_anim_counter	guess	+1 counter only in levels 0-2; hold 238 and other 254 (level 1) change only chr, for 88 frames from frame 4, with nothing visible and no sound change at all, so not a sound counter
+$00B6	vram_update_state	likely	hold 129 (level 3): the score digits stop being redrawn (write_nametable runs only left alone); other 129 (level 1): tile uploads skipped (upload_tiles_2, clear_tiles_8_bytes only left alone); values 0/1/129, 129 blocks the frame's VRAM writes
+$00B8	placement_ptr_hi	sure	hold 0 at a level start (level 9): no objects are placed, not even the toad (slot 0 kind stays 0), and placement_ptr $00B7 diverges (168 vs 212); values $D3-$E8 = ROM page of the pointer whose low byte is $00B7
+$00B9	chr_load_index	likely	steps by 4 (INC x4) through a list during loads; other 16 (level 0): different tile routines run (copy_rom_table_2, clear_tiles_224_bytes) and the intro ship's sprite graphics are missing
+$00BA	step_delay_counter	guess	hold 0 in the intro (level 0): an intro counter (slot 0 field 28) advances every frame instead of every other frame, the ship never appears and the intro never reaches its next phase (dispatch_ptr stays 15, frame_counter stops)
+$00BB	vram_src_index	likely	ending text (level 255): hold 8 stops the text (char 8, a blank, printed on), other 24 prints 'M' (char 24 of the string) again and again at advancing positions; cells +2/+4 change chr and nametable in levels 0/5
+$00BC	vram_dst_lo	likely	ending text (level 255): hold 50 prints each new letter on the same spot, other 66 puts the letters 16 columns further right; constant $2A is the line start; cells +2/+4 change chr in level 0
+$00C1	keep	-	hold 248 in the intro: the ship's sprite graphics are missing (chr only); other shows only the generic story-screen chr change; values do not tell what it holds
+$00C2	keep	-	only the generic story-screen chr change (other 1); always 0 in play
+$00C8	rope_descent_timer	likely	counts 152 to 0 only at the start of level 1; hold 119: the toad and its rope keep swinging left to x=22 and the camera keeps going down (camera_y_lo 36 vs 27) instead of the descent ending; other 16 disrupts all other levels
+$00C9	palette_fade_level	sure	hold 0 in the intro: the text never fades out (stays $20 white); other 16: text colours one brightness step darker ($20 -> $10); values are brightness steps 0-240; palette changed in 73/73 other moments
+$00CA	keep	-	only the generic story-screen chr change (other 1)
+$00CB	palette_upload_addr_lo	likely	the code stores it to $2006; values 0/16 = $3F00 background / $3F10 sprites; hold 16 (level 8): the new area's background palette is not loaded (wrong colours); other 16 (level 6): a background colour not updated (07 vs 17); palette in 4/4 hold and 16/18 other moments
+$00CC	keep	-	hold 0 (level 3) changes one split's X scroll (36 vs 108) and reading 1 stops the game in 47/71 moments: critical, but not what for
+$00CE	vram_src_ptr	likely	low byte of the pointer under $00CF; other 16 (ending text): the text jumps 16 characters ahead and carries on from there; hold 216 (level 10): the animated background tiles come out wrong
+$00CF	vram_src_ptr_hi	likely	high byte of a pointer (code); hold 228 and other 212 (level 10): the animated background tiles get wrong graphics; values are ROM pages
+$00D0	hud_redraw_request	likely	incremented in 17 places by damage/toad routines; hold 0 (level 10): the score on the status bar stops updating (033300 stays, write_nametable runs only left alone); other 1 (level 5): status-bar squares redrawn differently
+$00D1	keep	-	changes only 3 times in level 1; reading 1 elsewhere disrupts scroll, nametable and objects in 57/59 moments, but no clear case beyond the story-screen chr change
+$00D2	camera_shake_timer	likely	counts 6 to 0 only in level 2, on the same frames as $00D3 swings; other 1 (level 10): the X scroll is one pixel off (191 vs 192) for 60 frames; scroll in 67/70 moments
+$00D3	camera_shake_x	likely	the code adds it to camera_x_lo; other 1: X scroll +1 pixel (0 -> 1) in 62/64 moments; values swing -6..+6 only in level 2, in short bursts timed by $00D2
+$00D4	vehicle_speed	likely	2-cell table, fraction in $00D4 (multiples of 4) and pixels in $00D5 (0-11), vehicle levels 3/6/12; hold $00D4=0 (level 3): the toad and its vehicle accelerate more slowly (x 247 vs 18 at the end), camera slower; $00D5 read as 16 (level 6): scrolling stops
+$00D6	camera_x_sub	likely	hold 0 (level 3): the camera moves in whole pixels only (16 px per 8 frames) and falls behind, every object's screen_x shifts while the toad's own x is unchanged; values are multiples of 4 like a sub-pixel fraction
+$00D7	parallax_scroll	likely	+1 counter in levels 0/6 feeding the per-scanline X scroll of the top band (rows 0-67, the ceiling); hold 69 freezes that band while the rest scrolls (its line scrolls differ by 24-31 after 30 frames); other 32 shifts it
+$00D8	keep	-	only the generic story-screen chr change (other 1)
+$00D9	keep	-	hold 0 (level 4) changes the toad's animation for a few frames; other 1 (level 11) changes a fish's movement; no common thread
+$00DB	keep	-	only the generic story-screen chr change; no in-level effect
+$00DC	sfx_request	guess	written with many different constants by 17 object routines, read by 2; hold 0 (level 2): a 3-note noise effect does not play (start_sound_8, sound_7 run only left alone); other 12: dmc differs in 68/70 moments
+$00DD	k25_counter	likely	written only by obj_k25_handler; hold 1 (level 12): the kind-25 object in slot 2 is freed at once and its palette swap (background palette 1, entries 2/3) stops; palette in 4/4 hold moments
+$00DE	keep	-	hold and other effects are scattered (dmc, objects) with no clear case beyond the story-screen chr change
+$00DF	keep	-	hold 251 (level 9) changes which object routines run (obj_any_spawn_or_free) with nothing visible; effects spread over many levels without a pattern
+$00E0	keep	-	other 48 (level 9) changes which object routines run, nothing visible; no specific pattern
+$00E1	keep	-	hold 12 (level 4): the toad uses a different attack (field 21 is 4, not 2) in one moment, same as $00E2; not enough to say what it holds
+$00E2	keep	-	hold 28 (level 4): the toad uses a different attack (field 21 is 4, not 2), same as $00E1; values 0/14/28; not enough to say what it holds
+$00E3	scroll_stop_flag	likely	set once (0 -> 1) in level 3; other 1 (level 6): the scrolling stops (built_column stays 120, scroll_update runs only left alone); disrupts 62/67 moments
+$00E4	keep	-	only the generic story-screen chr change; a 0/128 flag set in levels 0/3/6
+$00E5	keep	-	only the generic story-screen chr change; pointer low byte as the analysis says
+$00E6	keep	-	only the generic story-screen chr change; pointer high byte as the analysis says
+$00E7	spawn_sequence_index	likely	incremented once per spawn by obj_any_spawn_or_free_7, 0-54, only in levels 0/3; hold 0 (level 3): the toad's vehicle bounces (height 3-13) where it ran flat, as if a different obstacle came
+$00E8	keep	-	only the generic story-screen chr change
+$00E9	keep	-	per-toad timer table (index 0/1); only the generic story-screen chr change
+$00EB	auto_walk_timer	likely	hold 0 (level 11): the toad stops at the right edge (x 238) instead of walking out to the right, pad1_held is 0 instead of 1 (the game no longer forces 'right'); the following spawns run only left alone
+$00EC	keep	-	other 16 (level 9) only changes the noise pattern on the background windows (incidental); hold 3 (level 5) changes one toad animation frame
+$00ED	keep	-	only the generic story-screen chr change
+$00EE	parallax_mode	likely	other 0 (level 6): the per-scanline scroll list of the top band disappears (only the base scroll is written, l7_set_scroll runs only left alone) and the ceiling band is drawn flat; values 0-2 stepped in levels 0/6
+$00EF	nametable_update_mode	likely	hold at 0 in level 8 stopped write_nametable and l7_upload_tiles and froze the background-drawn snake (snake_tail y/timer_20 stuck, picture); other=3 in any level ran write_nametable with the +32 PPUCTRL increment (nametable changed in 55 of 67 moments)
+$00F1	chr_anim_counter	likely	+1 on 13074 of 14084 changes, 256 values, level 8 only; hold at 120 and other=136 each changed only CHR uploads (from frame 1 for 112 frames), nothing visible in the pictures
+$00F2	chr_upload_stage	guess	values 0/2/4 with only $04 stored, 8 changes, level 8; hold at 4 across a room change kept CHR differing for 54 frames and the toad then fell past the snake instead of landing on it (picture)
+$00F3	keep	guess	hold had no effect; other/poke only changed CHR at moment 59 (story screen), a change seen there for many unrelated cells
+$00F5	tile_upload_count	likely	set to $F8 then +1 up to 0 (8 steps); hold at 0 in level 10 kept upload_tiles from running; other=248 started uploads anywhere (CHR changed in 28, OAM in 68 of 70 moments)
+$00F6	pause_flag	sure	hold at 16 kept the game paused (toad and camera frozen, frame_counter at half speed, music silent, picture); other=16 paused it in 71 of 71 moments in all levels
+$00F7	pause_timer	guess	zeroed and INC'd by frame_update up to 120, read only during a pause; hold at 1 made the game resume one frame earlier
+$00F8	pause_frame_counter	likely	INC'd by frame_update, bit-tested, read only during a pause; hold at 8 froze the pause's 8-frame alternation (dispatch_ptr 9,9,9,9 instead of 24,9,24,9) and the game resumed 2 frames later
+$00F9	keep	guess	read in 2 moments only; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FA	keep	guess	read in 2 moments only; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FB	keep	guess	read in 2 moments only; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FC	keep	guess	hold had no effect; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FD	keep	guess	hold had no effect; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FE	keep	guess	other=0 changed CHR/OAM only on screens outside levels (254/255); its clearest case is the shared moment-59 CHR change; nothing specific
+$00FF	keep	guess	hold had no effect; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$0301	music_chan_song	likely	hold at 0 on the noise entry silenced its drum line and sound_5/frame_update_20/21/24 stopped running for it; other=1 on sq1 made sound_5/sound_6 run; sq2 values 8n+2, tri 8n+4 look like song×8+channel×2
+$0302	music_note_timer	sure	hold at 1 on the noise entry ran its drum pattern faster (a new step every 1–2 frames); other=17 on sq1 never let the next note start
+$0303	music_data_ptr_lo	likely	moves +1 through 245 values; hold at 250 on sq2 repeated F#3 at v5 and never reached the next F3; other=95 on sq1 played B6 instead of D#3
+$0304	music_data_ptr_hi	likely	values $96–$AD (ROM pages); hold at 150 on sq2 turned the line into random notes, volumes and duties every 4 frames; other=202 on sq1 played G#2/A#2 instead of D#3
+$0311	keep	guess	hold at 154 on sq2 changed the step timing of an F5 sound (7–8 → 12 frames per step); other showed no logged change; no clear meaning beyond the analysis
+$0312	sfx_step_timer	likely	changes on most frames of an effect in steps of −16 (tri values 51,35,19,3); hold at 17 or other=33 at the start of the D6-F6-A6 jingle on sq1 left it silent, its first step never came
+$0313	sfx_data_ptr_lo	likely	hold at 14 repeated the jingle's first step (D6 v15 for 48 frames); other=30 stuck on its last step (A6 v4)
+$0314	sfx_data_ptr_hi	likely	values $8F–$95 (ROM pages); hold at 147 on sq2 replaced a D4/E3 effect with silence; other=149 on noise played a different noise pattern
+$0321	keep	sure	copy of $4000: hold at 51 played sq1 at duty 0 instead of 2; other=135 froze the duty cycling at d2
+$0322	keep	likely	copy of $4001 (values 0/16/67); changes reach sq1 writes but never the logged period, volume or duty
+$0323	keep	sure	copy of $4002: other=8 moved A2 p1016 to D3 p776; hold at 65 shifted every note's period
+$0324	keep	sure	copy of $4003: hold at 58 (period high 2) moved notes with high 1 down (A3 p508 → D3 p764)
+$0325	keep	sure	copy of $4004: other=135 froze sq2's duty cycling at d2
+$0326	keep	likely	copy of $4005 (values 0/16/67); changes reach sq2 writes but never the logged period, volume or duty
+$0327	keep	sure	copy of $4006: other=4 moved D2 p1524 to F2 p1284; hold at 93 removed sq2's ±1 vibrato
+$0328	keep	sure	copy of $4007: other=173 moved D3 p761 to D2 p1529; hold at 154 moved B2 p905 to F3 p649
+$0329	keep	sure	copy of $4008: other=120 changed the triangle linear counter 31→127; hold at 21 gave 22 instead of 54
+$032A	keep	likely	copy of the unused $4009 (values 0/16/67); no logged triangle change
+$032B	keep	sure	copy of $400A: other=240 moved A#2 p479 to A2 p496; hold at 56 removed the triangle's vibrato
+$032C	keep	sure	copy of $400B: hold at 138 (period high 2) moved A2 p508 to D2 p764
+$032D	keep	likely	copy of $400C; changes reach noise writes but not the logged state
+$032E	keep	likely	copy of the unused $400D (values 0/16/67); no logged noise change
+$032F	keep	sure	copy of $400E: hold at 14 fixed the noise period at n14 (alone n13/n6/n14/n9)
+$0330	keep	likely	copy of $400F; changes reach noise writes but not the logged state
+$0331	sfx_pulse1_ctrl_copy	likely	the sound-effect layer's $4000 copy (written by sound_7/sound_9 like $0311–$0314): other=200 played sq1 at duty 3 instead of 2; hold at 115 played the rising A2 effect at duty 1
+$0332	sfx_pulse1_sweep_copy	likely	the effect layer's $4001 copy: other=85 silenced the D6-F6-A6 jingle on sq1 (start_sound_8 ran); hold at 131 kept the A4 echo effect off sq1 and the music played instead
+$0334	sfx_pulse1_hi_copy	likely	the effect layer's $4003 copy (sound_7/sound_9); hold at 2 and other=3 during the rising A2 effect changed sq1 writes, not the logged state
+$0335	sfx_pulse2_ctrl_copy	likely	the effect layer's $4004 copy: hold at 0 and other=16 played the rising A2 effect on sq2 at duty 0 instead of 2
+$0336	sfx_pulse2_sweep_copy	likely	the effect layer's $4005 copy: other=85 silenced the jingle on sq2 (start_sound_8 ran); hold at 131 kept the A4 echo effect off sq2 and music F3/E3 played
+$0338	sfx_pulse2_hi_copy	likely	the effect layer's $4007 copy; hold and other=1 during the rising A2 effect changed sq2 writes only
+$0339	sfx_triangle_ctrl_copy	likely	the effect layer's $4008 copy: other=0 played the level-12 triangle effect with linear counter 15 instead of 127
+$033A	sfx_reg_4009_copy	likely	the effect layer's copy for $4009: hold at 8 cut the level-12 triangle effect (a steady C2 remained); other=85 silenced the triangle
+$033C	sfx_triangle_hi_copy	likely	the effect layer's $400B copy: hold at 1 and other=7 shifted the level-12 triangle effect's periods by whole 256s (F3 p320 → C2 p832, G5 p72 → F3 p328)
+$033D	sfx_noise_ctrl_copy	likely	the effect layer's $400C copy; changes reach noise writes only, no logged state change
+$033E	sfx_reg_400D_copy	likely	the effect layer's copy for $400D: other=85 replaced a noise effect with a flat n8 v1; hold at 8 played another noise pattern and start_sound_8 did not run
+$0340	sfx_noise_hi_copy	likely	the effect layer's $400F copy; changes reach noise writes only, no logged state change
+$0341	music_loop_ptr_lo	likely	written only by frame_update_20 (1128 changes); other=55 on sq1 jumped the music to other notes (G3, C4, D4 at d0 instead of F2, G#2 at d2); hold at 127 on tri played G4/C5 instead of F2: a saved stream position (high byte $0342)
+$0342	music_loop_ptr_hi	likely	values $96–$C5 like the stream pointer's high byte; hold at 188 on tri played A2 instead of F2; other=161 played B4 instead of A2
+$0343	music_loop_count	likely	DEC'd by the stream code (frame_update_20/21); hold at 0 on tri went on to another section (G2 instead of F2); other=17 played another section (E2 instead of A2)
+$0344	music_vibrato_delta	sure	signed −5..+5; hold at +1 on tri turned A3's ±1 vibrato into a steady fall (period +1 every 1–2 frames, p250 → p793); other=3 on sq1 made every note's period rise 3 per frame
+$0351	music_length_scale	guess	values 0/2/4/8; other=4 on sq1 made notes last 8 frames instead of 4; hold at 2 on sq2 left it silent after one F3
+$0352	music_cur_volume	sure	$10|volume, decremented as notes decay; hold at 22 played every sq1 note at v6; other=19 played v3 instead of v2
+$0353	music_env_phase	guess	values 0–3 stepping ±1; hold at 0 kept sq2 at v5 with no decay; other=2 held v8 for 8 frames then dropped to v3 instead of decaying
+$0354	music_transpose	sure	signed semitones; other=1 raised sq1's A2 to A#2; hold at 12 left the triangle on E2 instead of A2
+$0361	music_vibrato_mode	likely	values 0–3, 7, 254; hold at 0 flattened sq1's ±1 vibrato (F2 p1281 throughout)
+$0362	music_vibrato_phase	likely	moves ±1; hold at 2 on sq2 kept the vibrato going one way (period falling 2 per step through every note)
+$0363	music_vibrato_depth	likely	set by start_sound_10, values 0–2; hold at 0 removed sq2's vibrato that moved in steps of 2 (A#3 p477 flat)
+$0364	music_vibrato_timer	guess	DEC'd 0–6, written with the vibrato cells by start_sound_10; its clearest cases only changed CHR on a briefing screen
+$0371	music_note_volume	sure	low nibble is the notes' starting volume: hold at 147 ($93) played sq2 notes at 3/2/1 instead of 6/5/4 (and 1/0); other=148 ($94) played sq1 notes at 4
+$0373	music_decay_timer	likely	DEC'd on most frames of a note; hold at 2 kept sq1 notes at their start volume (no decay); other=17 held v8 for 8 frames instead of decaying
+$0374	music_slide_timer	likely	DEC'd 0–3; hold at 3 stopped sq2's slow slide (B4 p222→232 stayed p220); other=2 kept the triangle on E3 instead of sliding down to B2
+$0381	music_slide_count	likely	DEC'd during slides; hold at 0 and other=16 let the triangle's slide run past its end (A#2 p470–492 instead of stopping at B2 p460)
+$0382	music_slide_delay	likely	DEC'd 0–5; hold at 0 and other=1 started the triangle's slide 8 frames early, skipping the E3 before it
+$0383	music_slide_step	sure	signed period step: other=9 made sq2 slide +9 per step instead of +2; hold at 2 made sq1 slide down (+2) instead of up (−5)
+$0384	music_slide_dir	likely	always 0 in play; other=1 reversed sq2's slide (period falling 2 per step instead of rising) and sound_5 took another path
+$0391	music_volume_target	sure	$10|level the volume moves toward: other=0 made rising sq1 notes (up to v11) decay to 0; hold at 17 ($11) stopped sq2's decay at v1 instead of v0
+$0392	music_decay_rate	likely	values 0–3; other=2 slowed sq2's decay to 2 frames per step; hold at 2 changed the length of each decay step
+$0393	music_decay_on	likely	0/1 toggled per note; hold at 0 on sq2 stopped the decay (v8 for 8 frames, then v3)
+$0394	sound_volume_fade	likely	per channel (index 0/4/8/12 = sq1/sq2/tri/noise; hold/other touch only that channel, e.g. sq1 29/73 of 77 moments): hold $0398=2 slows sq2's per-frame volume decay from ~1.5 to ~3.5 frames/step, other $0398=2 starts the notes 1 louder; pitch untouched; +1/-1 steps over 0-23
+$03A1	sound_slide_mode	sure	other $03A1=1 makes every sq1 note slide up (period -11 per frame); hold $03A9=0 removes the triangle's slide down (p350->p460); values 0-2, one cell per channel
+$03A2	sound_instrument	likely	set-only selector (0,2-7,11,14,128), other changes its own channel in nearly every moment (sq1 77/83, sq2 83/84, tri 79/82, noise 78/82); other $03AA=2 turns legato triangle notes staccato (lin 2/0), hold $03AE=0 changes the noise hits' volumes
+$03A3	sound_volume	likely	hold/other change only the note volumes of the indexed channel in every moment (sq1 18/18, sq2 15/15, noise 13/14), pitch and timing intact: hold $03A7=18 turns sq2 volumes 2,3,1,3 into 6,3,0,0; values 0 or 17-26 set per note
+$03A4	sound_saved_ptr_lo	guess	address-like values (29-69, 152-202) set rarely (879 frames); hold 200 makes the triangle continue from frame 25 with other notes in the same rhythm (C#3-D#3-F3 instead of D3-C3-A2), other $03B0=0 leaves sq2 on one A5 note: a music pointer the driver jumps back to; channel match is loose
+$03B1	keep	guess	hold 2 changes only unseen CHR (picture identical), other 58 turns a fish (slot 4 field 19 1->255) in level 11; values 4n+1/4n+2 - no single role shows
+$03B3	p1_blink_timer	sure	hold 3 and other 16 keep the toad on pose 2 (eyes closed in the picture) where it opens its eyes (pose 1) alone; counts down (DEC 9932 times)
+$03B5	p1_anim_frame	sure	other 19 puts 19 into the toad's field 1 every frame (alone 4,5,8,6,7...) and the picture shows that other pose; hold 2 keeps pose 2; CHR changes in 68/68 other moments
+$03B6	p2_anim_frame	likely	twin of $03B5 for slot 1: other 1 puts 1 into slot 1's field 1 and changes CHR in 68/68 moments; always 0 in play (no second player)
+$03B7	p1_rope_length	guess	levels 0-2 rope drop, +1/-1 over 0-36: hold 1 lets the toad fall faster then yanks it back up (y 54->67, picture: toad back near the top), other 17 frees the rope (y 0) and drops the toad to the ground
+$03BB	keep	guess	values 0/128/192; hold/other change the toad's field 11 counting (levels 4, 11) and one pose sample, nothing visible in the picture
+$03BD	keep	guess	only 4 moments: hold 48 stops the speeder bike's hop (y stays 64) and shifts toad/bike poses by 1 (58->59, 43->44); too thin for a name
+$03BF	keep	guess	other changes much in 37/37 moments (levels 4-11) but the clearest case shows only a DMC write and different spawn routines; never held
+$05B0	p1_snake_offset	guess	level 8 only, values -10..8 (constants 8 and -10 stored); other 16 makes the toad play teetering poses 88/89 at the snake's end (picture); hold never matters
+$05B2	p1_exit_timer	likely	hold 76 with the toad inside the OUT hole (level 8) stops the next room from loading (level_room stays 2, old music/palette/nametable); other 16 stops obj_toad_handler; poke (counts down once) changes everything in 66/68 moments
+$05BB	keep	guess	always 0; other 1 in 2 level-10 moments (player not in play) raises the camera and places toad and vehicles elsewhere, same output as $05BC
+$05BC	keep	guess	always 0; other 1 in 3 level-10 moments gives exactly the $05BB output (camera rises, toad placed elsewhere); too thin
+$05BD	p1_slide_speed	likely	ice level 4: other 16 freezes the toad's x/x_sub and the camera while alone it slides right; hold 96 keeps it sliding right instead of slowing and turning back; +1/-1 heavy, index 0/1
+$05BF	keep	guess	always 0; other 1 changes CHR/OAM in 11/12 moments but the clearest case only shows obj_toad_handler skipping 2 instructions
+$05C1	p1_flattened_pose	sure	other 86 makes the toad loop poses 85/86 and the picture shows it squashed flat; 86 ($56) is the only constant stored, by obj_any_damage_6; values 0/86 in levels 7, 9
+$05C3	p1_shock_timer	likely	hold 0 removes the electrocution: alone the toad flickers as a skeleton (poses 0/93, x shaking 40/44, picture), held it goes straight to pose 22 then 2; decremented timer set by obj_any_damage_2
+$05C5	keep	guess	values 0,3,4,5,7; other 3 changes CHR in 11/12 moments but nothing visible in the picture; no role shows
+$05C7	p1_fan_state	guess	values 0/3 (level 7), written by obj_suction_fan_update; other 3 pulls the toad to x=384 off the ledge and loops spinning poses 91/92 (picture: toad reappears flying sideways)
+$05C9	keep	guess	always 0; other 1 in one level-11 moment makes the toad raise both arms (poses 18/14) instead of being electrocuted; 2 moments only
+$05CB	keep	guess	level 8 only, one moment: other 7 drops the toad off the snake's end (pose 5, y 222->195), same output as $05CC
+$05CC	keep	guess	level 8 only, one moment: hold 137 / other 153 drop the toad off the snake's end exactly like $05CB; cannot tell the three snake cells apart
+$05CD	keep	guess	level 8 only, one moment: other 3 knocks the toad off the snake (x 62->31) and moves the snake tail by 6 px
+$05CE	keep	guess	nonzero makes set_floor_height_2 and l12_obj_any_spawn_or_free run; other changes much in 64/67 moments; hold 0 only closes the toad's eyes a few frames; no single role
+$05D0	keep	guess	values 0/64/128; other changes the toad in 60/61 moments, but the clear cases only freeze field 11 and shuffle poses, nothing visible
+$05D2	build_x_offsets	sure	x offset (added to camera_x_lo) where a background strip is drawn, 5 records of a ROM table: other 0 draws a stray column at the wrong x (level 10 picture), hold $05E2 draws the snake body at the wrong x (level 8)
+$05D3	build_y_offsets	sure	y offset (0 or 240, added to camera_y_lo) of the drawn strip: other 0 writes the new rows at the top so wrong rows fill the lower screen (level 10 picture); hold $05E3 leaves an old snake segment on screen (level 8)
+$05D4	build_column_flags	sure	1 = strip is a column: other 0 clears the PPU ctrl +32 bit ($04->$00) and the columns come out as rows (level 10), hold $05E4=1 sets it ($00->$04) on the snake rows (level 8)
+$05D5	build_x_hi_offsets	likely	added to camera_x_hi: other 1 sends the new columns to the other nametable, the new area stays undrawn (level 10 picture); nametable only, 9/9 moments
+$05FA	p2_score	sure	other 1 shows P2's score as 100000 on screen (picture); 6 cells right after p1_score $05F4-$05F9, nametable-only effect in 41/41 moments
+$0600	chr_buffer	likely	128-byte ROM table (B7:8D21) copied in; other changes CHR (little else) in 12 of 14 moments per cell (levels 2, 11; picture: the level-2 shaft wall tiles); tiles 0-3 of the buffer
+$0640	chr_buffer_tile4	likely	tiles 4-7 of chr_buffer, filled by read_vram (index 0-63); other changes CHR in 12 of 13 moments (levels 2, 8, 11)
+$0647	chr_buffer_tile4_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 4, read on its own; other changes CHR in 12 of 19 moments read, few values
+$0650	chr_buffer_tile5	likely	tiles 5-6 of chr_buffer (32 bytes); every cell's other changes CHR in 12 of 12-17 moments read (levels 2, 8, 11)
+$0657	chr_buffer_tile5_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 5, read on its own; other changes CHR in 12 of 19 moments read
+$0667	chr_buffer_tile6_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 6, read on its own; other changes CHR in 12 of 19 moments read
+$0677	chr_buffer_tile7_row7	likely	byte 7 (low-plane row 7) of chr_buffer tile 7, read on its own; other changes CHR in 9 of 15 moments read (levels 8, 11)
+$067F	chr_buffer_tile7_hi_row7	likely	byte 15 (high-plane row 7) of chr_buffer tile 7, changes often in levels 2-11; hold 19 animates the level-7 window tiles differently for 112 frames (picture), other changes CHR in 17 of 22 moments
+$0680	anim_chr	likely	animated background tiles (3 tiles at $0680/$0690/$06A0) rewritten on 33083 frames in 11 levels; hold/other change only CHR (25 and 39 of 40 moments); pictures: level-7 window static, level-10 crystal walls, level-13 pyramid, level-11 fans differ
+$0681	anim_chr_tile0_row1	likely	byte 1 (low-plane row 1) of anim_chr tile 0, read on its own; hold changes CHR in 25 and other in 40 of 40 moments (level-7 windows, level-11 fans)
+$0688	anim_chr_hi	likely	bytes 8-14 (high plane) of the 3 anim_chr tiles; per cell hold changes CHR in 14-25 and other in 38-39 of 38-40 moments; pictures: level-7 windows, level-10 crystal walls differ
+$068F	anim_chr_tile0_hi_row7	likely	byte 15 (high-plane row 7) of anim_chr tile 0, read on its own; hold changes CHR in 24 and other in 39 of 39 moments (level-11 fans, level-7 windows)
+$0690	anim_chr_tile1_row0	likely	byte 0 (low-plane row 0) of anim_chr tile 1, written by update_frame_counter; hold 96 changes the level-10 crystal wall tiles (picture), other changes CHR in 39 of 40 moments
+$0691	anim_chr_tile1_row1	likely	byte 1 (low-plane row 1) of anim_chr tile 1, read on its own; hold 160 changes the level-13 pyramid tiles (picture), other changes CHR in 39 of 39 moments
+$069F	anim_chr_tile1_hi_row7	likely	byte 15 (high-plane row 7) of anim_chr tile 1, read on its own; hold 254 changes the level-11 fan tiles, other changes CHR in 36 of 36 moments
+$06A0	anim_chr_tile2_row0	likely	byte 0 (low-plane row 0) of anim_chr tile 2, written by update_frame_counter; hold changes CHR in 15 (level-10 crystal walls) and other in 39 of 40 moments (level-7 windows)
+$06A1	bg_anim_tile_0_lo_row_1	sure	other (read 170, level 7): CHR changes in 39/39 moments and the picture shows row 1 (y=41) of the repeated wall-panel tiles off by a pixel; hold (level 10) desyncs the animated brick wall; 142 values like every plane-0 byte - byte 1 of the 16-byte tile at $06A0
+$06AF	bg_anim_tile_0_hi_row_7	sure	other (level 7): CHR in 39/39 and the picture differs on row 7 (y=39) of the same wall-panel tiles as $06A1; only 68 values like every plane-1 byte - byte 15 of the tile at $06A0; hold (level 10) desyncs the animated brick wall
+$06B0	bg_anim_tile_1	sure	every cell $06B0-$06B7 changes CHR in 39 of 40 other moments (hold 20-30); picture: 2-4 px per tile on row 0 (y=40) of the pillar column at the screen edge; ~144 values per byte; filled by update_frame_counter - 16-byte background tile at $06B0 (bytes 1 and 8+ are on their own cards)
+$06B1	bg_anim_tile_1_lo_row_1	sure	other (level 7): row 1 (y=41) of the same pillar tiles as $06B0 differs, CHR in 39/39; hold (level 10) changes the animated brick wall - byte 1 of tile 1
+$06B8	bg_anim_tile_1_hi	sure	each cell changes CHR in 39 other moments; picture: at first exactly one pixel per pillar tile on row 0 (x=251) differs; ~72 values like every plane-1 byte - bit plane 1 (bytes 8-15) of tile 1; the analysis also files $06CF (tile 2 byte 15) here as +23
+$06B9	bg_anim_tile_1_hi_row_1	sure	other: one pixel per pillar tile on row 1 (y=41, x=251) differs, CHR in 39/40; 73 values like the plane-1 bytes - byte 9 of tile 1
+$06C0	bg_anim_tile_2	sure	all 14 cells change CHR in 36-39 other moments (hold 21-30); picture: row 0 of the tile column at x=243 differs by one pixel per tile - 16-byte background tile at $06C0
+$06C9	bg_anim_tile_2_hi_row_1	sure	other: row 1 (y=41) of the x=243 column tiles differs, CHR in 39/39; 73 values (plane-1 byte) - byte 9 of tile 2
+$06D0	bg_anim_tile_3	sure	copied in from ROM B2:FACE (32 bytes, $06D0-$06EF); other changes CHR in 39/39 and the picture shows one pixel per tile on row 0 of a 21-tile strip at y=184 - 16-byte background tile at $06D0
+$06D9	bg_anim_tile_3_hi_row_1	sure	other: row 1 (y=185) of the same 21-tile strip differs, 3 px per tile, CHR in 39/39; 76 values (plane-1 byte) - byte 9 of tile 3
+$06E0	bg_anim_tile_4	likely	all 15 cells change CHR in 36-39 other moments (hold 12-30) exactly like tiles 1-3 and it is the second half of the ROM copy from B2:FACE; the tile is not on screen in the pictures - 16-byte background tile at $06E0
+$06E9	bg_anim_tile_4_hi_row_1	likely	other changes CHR in 38/38 moments, hold in 30; 69 values like the plane-1 bytes - byte 9 of tile 4; not visible in the pictures
+field-00	keep	sure	proven kind; other on slot 0 changes objects/oam in 66/66, room_exit read as 95 runs another kind's handler
+field-01	sprite_frame	sure	hold on the toad (at 4) changes OAM for 110 frames and the picture shows the toad drawn in a wrong frozen pose while its tiles keep changing; raven cycles 28-29-30, propeller 234/235 as they animate; gear copies it to its follower
+field-02	anim_step	likely	raven held at 128 freezes its frame (field 1) at 30; propeller read as 18 locks frame 31 and facing 132; toad's value advances +2/frame and loops (field-26 card) and changing it alters CHR+OAM in 37/40 - position in the animation sequence
+field-03	keep	sure	proven x_hi; gear read as 18 copies it to the follower gear's x_hi
+field-04	keep	sure	proven x; brown column held freezes its screen_x, read as 250 carries into x_hi every frame
+field-05	depth_hi	guess	written x4 by obj_any_move_5 together with x_hi/x/x_sub/depth/field 10; toad values 0-5 changing mostly +-1; kind 25 keeps a palette colour here instead (hold/other change sprite palette 3 colour 3 in ~10 moments)
+field-06	keep	sure	proven depth; kind 110 held at 216 freezes its y, restore_point read as 232 moves its screen_y
+field-07	y_hi	sure	steps with y's wrap: shark y 1->250 while field 7 25->24 (field-10 card), fly y 236->6 while 24->25 (field-21 card); +1/-1 balanced; gear copies it with x_hi; fly held at 0 is re-placed at y 112 by a spawn routine
+field-08	keep	sure	proven y; restore_point read as 206 moves its screen_y by -16
+field-09	keep	sure	proven x_sub; duck held at 176 (or read as 192) stops its -0.5 px/frame drift
+field-10	depth_sub	likely	written only by obj_any_move_5 (x4, like x_sub) with values in steps of 8 like x_sub; fly moved by obj_any_move_5 changes depth and field 10 together (field-20 card); shark/kind 110 use it for vertical motion instead (held: shark y -1/frame not -1.33)
+field-11	y_sub	likely	accumulates the vertical speed: toad's grows 16/frame with field 18 read as 16 and stops with 18 held at 0; fly with y_accel 0 keeps it and y still; pillar drifts in y through it when y_speed is pinned; toad held at 211 leaves y_speed stuck at 255:98
+field-12	keep	sure	proven height; toad read as 24 moves its screen_y by 16
+field-13	keep	sure	proven screen_x; pictures show the toad drawn shifted sideways
+field-14	screen_y	sure	other/hold on the toad change only OAM and the pictures show the toad drawn lower / at a fixed height; written by the same routines as screen_x (frame_update_28, sub_B0_87C2, obj_vehicle_handler); follows y, depth and height in other cards
+field-15	keep	sure	proven facing; toad read as 16 also changes the dragon's facing
+field-16	state_flags	guess	values are high-nibble bit sets (0,16,...,192; 0/64/128 in other slots) changed only by jumps; toad read as 16 drops height 8->0 and facing 8->0; toad frozen by timer_26 shows 80 instead of 16
+field-17	y_speed	sure	signed small values (252-255, 0-11) changed mostly +-1; pillar held at 0 drifts y 158->187 while field 18 grows 13.7/frame; fly's climbs 0->5 as its y accelerates; shark has 254/255 while y falls 1.33/frame
+field-18	y_speed_sub	sure	toad held at 0 freezes field 11, read as 16 makes field 11 grow 16 per frame - fraction of the vertical speed added to y_sub each frame; fly's grows by y_accel (24/frame)
+field-19	ai_state	likely	fly held at 12 stays put (x fixed, y_sub/y_speed_sub/y_accel 0, facing flipped) while alone it flies off; chasing gear read as 16 starts rolling +2 px/frame with speed set to 128; kind-specific values elsewhere; toad uses it only outside levels
+field-20	keep	sure	proven timer_20; fly read as 16 starts circling, brown column held at 6 reverses
+field-21	y_accel	sure	fly held at 0: y_speed and field 18 stay 0 and y stops; read as 16: field 18 grows 16 per frame (alone 24); values even (0,2,...,28,44,54)
+field-22	action_timer	likely	counts up (+1 on 20787 of 33490 changes); wall claw held at 14 stops its extend/retract moves and changes its noise pattern; toad read as 16 shows frame 62 instead of 61
+field-23	keep	sure	proven health_or_timer; slot 1 read as 1 redraws HUD nametable in 41/42 moments
+field-24	carrier_slot	likely	hold at 0 on the toad (level 5): it does not latch onto the peg and falls (picture), damage and sound code run; values $84-$88 = $80 + slot of the object it hangs on; written by obj_vehicle_update_2/3
+field-25	partner_slot	guess	values are $40/$80 + a slot number (toad: $43-$4C, $84-$8C; enemies: $40 = slot 0), written by the same vehicle routines as field 24; other on the toad changes everything in 54/67 moments; which relation it holds is not shown
+field-26	keep	sure	proven timer_26; toad held at 116 stays frozen in one pose (picture), vehicle read as 16 is freed
+field-27	move_angle	likely	brown column: 128 moves it -1 px/frame, held at 0 +1 px/frame; fly whose value turns +16/frame circles in x and depth with facing flipping (field-20 card); values in steps of 4 (read as 16 also sends the column left)
+field-28	speed	sure	fly held at 0 stops (x fixed; alone +2 px/frame); toad read as 16 makes obj_any_move_5 run 47 times and move x_sub; gear rolling 2 px/frame has 128 (field-19 card)
+field-29	keep	sure	proven timer_29; pillar read as 16 breaks and spawns another object
+field-30	floor_y	likely	pillar read as 174 sits at y 174 instead of 158 for all 120 frames; a pillar in the field-17 card sits at the same y 158 and is pulled back there every frame despite its y_speed
+field-31	parent_slot	guess	chasing gear read as 16 (no such slot): both gears' frame, x_hi and x go to 0 as if copied from an empty slot; toad values 0-4 and 255
+field-32	keep	sure	proven counter_32; shark read as 32 changes a fish's moves

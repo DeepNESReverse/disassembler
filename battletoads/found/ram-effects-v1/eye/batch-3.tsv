@@ -1,0 +1,55 @@
+subject	name	confidence	reason
+$009B	built_row_addr_lo	likely	hold 160 and other 160: newly built background rows land on the wrong nametable rows (garbage strips; nametable in 25/25 hold and 25/27 other moments); values only multiples of 32 = low byte of a row start
+$009C	chr_upload_addr_hi	likely	other 22 (level 1): background tiles overwritten, the sky turns into a tile pattern; hold 26 (level 7): background tiles differ; chr in 71/71 other and 36/36 hold moments; values 0/22/26 = pattern-table pages $16xx/$1Axx
+$009D	chr_upload_addr_lo	likely	other 48 (level 1) and hold 48 (level 7): the toad's sprite tiles come out wrong; chr in every moment; values 0-192 all tile-aligned (multiples of 16), the low byte under $009C
+$009E	obj_draw_order	likely	15 cells holding slot numbers (cell n = 0 or n); other $009E=1: the toad (slot 0) vanishes from the screen while play goes on; hold $00A0=0: one of the two yellow ball enemies (slot 2) is not drawn, object table unchanged; oam differs in 66-68 of 70 moments for every cell
+$00AD	keep	-	hold 60 (level 6) changes the toad's entry fall and camera_hold in one moment; other shows only the generic story-screen chr change; nothing specific repeats
+$00AE	keep	-	hold 0 (level 1) re-spawns two flies (l12_obj_any_spawn_or_free runs only then) in one moment; other shows only the generic story-screen chr change
+$00AF	keep	-	hold 7 (level 12): a thrown club flies the other way (field 17 sign flips) in one moment; other shows only the generic story-screen chr change
+$00B0	keep	-	only the generic story-screen chr change (other 3); hold has no effect
+$00B3	keep	-	other 4 disturbs sound, mask and chr in a few moments (levels 7/9/11) but the only clear case is the generic story-screen chr change
+$00B4	keep	-	other 48 (level 7): background chr differs and the screen lags one pixel, no specific pattern; hold has no effect
+$00B5	chr_anim_counter	guess	+1 counter only in levels 0-2; hold 238 and other 254 (level 1) change only chr, for 88 frames from frame 4, with nothing visible and no sound change at all, so not a sound counter
+$00B6	vram_update_state	likely	hold 129 (level 3): the score digits stop being redrawn (write_nametable runs only left alone); other 129 (level 1): tile uploads skipped (upload_tiles_2, clear_tiles_8_bytes only left alone); values 0/1/129, 129 blocks the frame's VRAM writes
+$00B8	placement_ptr_hi	sure	hold 0 at a level start (level 9): no objects are placed, not even the toad (slot 0 kind stays 0), and placement_ptr $00B7 diverges (168 vs 212); values $D3-$E8 = ROM page of the pointer whose low byte is $00B7
+$00B9	chr_load_index	likely	steps by 4 (INC x4) through a list during loads; other 16 (level 0): different tile routines run (copy_rom_table_2, clear_tiles_224_bytes) and the intro ship's sprite graphics are missing
+$00BA	step_delay_counter	guess	hold 0 in the intro (level 0): an intro counter (slot 0 field 28) advances every frame instead of every other frame, the ship never appears and the intro never reaches its next phase (dispatch_ptr stays 15, frame_counter stops)
+$00BB	vram_src_index	likely	ending text (level 255): hold 8 stops the text (char 8, a blank, printed on), other 24 prints 'M' (char 24 of the string) again and again at advancing positions; cells +2/+4 change chr and nametable in levels 0/5
+$00BC	vram_dst_lo	likely	ending text (level 255): hold 50 prints each new letter on the same spot, other 66 puts the letters 16 columns further right; constant $2A is the line start; cells +2/+4 change chr in level 0
+$00C1	keep	-	hold 248 in the intro: the ship's sprite graphics are missing (chr only); other shows only the generic story-screen chr change; values do not tell what it holds
+$00C2	keep	-	only the generic story-screen chr change (other 1); always 0 in play
+$00C8	rope_descent_timer	likely	counts 152 to 0 only at the start of level 1; hold 119: the toad and its rope keep swinging left to x=22 and the camera keeps going down (camera_y_lo 36 vs 27) instead of the descent ending; other 16 disrupts all other levels
+$00C9	palette_fade_level	sure	hold 0 in the intro: the text never fades out (stays $20 white); other 16: text colours one brightness step darker ($20 -> $10); values are brightness steps 0-240; palette changed in 73/73 other moments
+$00CA	keep	-	only the generic story-screen chr change (other 1)
+$00CB	palette_upload_addr_lo	likely	the code stores it to $2006; values 0/16 = $3F00 background / $3F10 sprites; hold 16 (level 8): the new area's background palette is not loaded (wrong colours); other 16 (level 6): a background colour not updated (07 vs 17); palette in 4/4 hold and 16/18 other moments
+$00CC	keep	-	hold 0 (level 3) changes one split's X scroll (36 vs 108) and reading 1 stops the game in 47/71 moments: critical, but not what for
+$00CE	vram_src_ptr	likely	low byte of the pointer under $00CF; other 16 (ending text): the text jumps 16 characters ahead and carries on from there; hold 216 (level 10): the animated background tiles come out wrong
+$00CF	vram_src_ptr_hi	likely	high byte of a pointer (code); hold 228 and other 212 (level 10): the animated background tiles get wrong graphics; values are ROM pages
+$00D0	hud_redraw_request	likely	incremented in 17 places by damage/toad routines; hold 0 (level 10): the score on the status bar stops updating (033300 stays, write_nametable runs only left alone); other 1 (level 5): status-bar squares redrawn differently
+$00D1	keep	-	changes only 3 times in level 1; reading 1 elsewhere disrupts scroll, nametable and objects in 57/59 moments, but no clear case beyond the story-screen chr change
+$00D2	camera_shake_timer	likely	counts 6 to 0 only in level 2, on the same frames as $00D3 swings; other 1 (level 10): the X scroll is one pixel off (191 vs 192) for 60 frames; scroll in 67/70 moments
+$00D3	camera_shake_x	likely	the code adds it to camera_x_lo; other 1: X scroll +1 pixel (0 -> 1) in 62/64 moments; values swing -6..+6 only in level 2, in short bursts timed by $00D2
+$00D4	vehicle_speed	likely	2-cell table, fraction in $00D4 (multiples of 4) and pixels in $00D5 (0-11), vehicle levels 3/6/12; hold $00D4=0 (level 3): the toad and its vehicle accelerate more slowly (x 247 vs 18 at the end), camera slower; $00D5 read as 16 (level 6): scrolling stops
+$00D6	camera_x_sub	likely	hold 0 (level 3): the camera moves in whole pixels only (16 px per 8 frames) and falls behind, every object's screen_x shifts while the toad's own x is unchanged; values are multiples of 4 like a sub-pixel fraction
+$00D7	parallax_scroll	likely	+1 counter in levels 0/6 feeding the per-scanline X scroll of the top band (rows 0-67, the ceiling); hold 69 freezes that band while the rest scrolls (its line scrolls differ by 24-31 after 30 frames); other 32 shifts it
+$00D8	keep	-	only the generic story-screen chr change (other 1)
+$00D9	keep	-	hold 0 (level 4) changes the toad's animation for a few frames; other 1 (level 11) changes a fish's movement; no common thread
+$00DB	keep	-	only the generic story-screen chr change; no in-level effect
+$00DC	sfx_request	guess	written with many different constants by 17 object routines, read by 2; hold 0 (level 2): a 3-note noise effect does not play (start_sound_8, sound_7 run only left alone); other 12: dmc differs in 68/70 moments
+$00DD	k25_counter	likely	written only by obj_k25_handler; hold 1 (level 12): the kind-25 object in slot 2 is freed at once and its palette swap (background palette 1, entries 2/3) stops; palette in 4/4 hold moments
+$00DE	keep	-	hold and other effects are scattered (dmc, objects) with no clear case beyond the story-screen chr change
+$00DF	keep	-	hold 251 (level 9) changes which object routines run (obj_any_spawn_or_free) with nothing visible; effects spread over many levels without a pattern
+$00E0	keep	-	other 48 (level 9) changes which object routines run, nothing visible; no specific pattern
+$00E1	keep	-	hold 12 (level 4): the toad uses a different attack (field 21 is 4, not 2) in one moment, same as $00E2; not enough to say what it holds
+$00E2	keep	-	hold 28 (level 4): the toad uses a different attack (field 21 is 4, not 2), same as $00E1; values 0/14/28; not enough to say what it holds
+$00E3	scroll_stop_flag	likely	set once (0 -> 1) in level 3; other 1 (level 6): the scrolling stops (built_column stays 120, scroll_update runs only left alone); disrupts 62/67 moments
+$00E4	keep	-	only the generic story-screen chr change; a 0/128 flag set in levels 0/3/6
+$00E5	keep	-	only the generic story-screen chr change; pointer low byte as the analysis says
+$00E6	keep	-	only the generic story-screen chr change; pointer high byte as the analysis says
+$00E7	spawn_sequence_index	likely	incremented once per spawn by obj_any_spawn_or_free_7, 0-54, only in levels 0/3; hold 0 (level 3): the toad's vehicle bounces (height 3-13) where it ran flat, as if a different obstacle came
+$00E8	keep	-	only the generic story-screen chr change
+$00E9	keep	-	per-toad timer table (index 0/1); only the generic story-screen chr change
+$00EB	auto_walk_timer	likely	hold 0 (level 11): the toad stops at the right edge (x 238) instead of walking out to the right, pad1_held is 0 instead of 1 (the game no longer forces 'right'); the following spawns run only left alone
+$00EC	keep	-	other 16 (level 9) only changes the noise pattern on the background windows (incidental); hold 3 (level 5) changes one toad animation frame
+$00ED	keep	-	only the generic story-screen chr change
+$00EE	parallax_mode	likely	other 0 (level 6): the per-scanline scroll list of the top band disappears (only the base scroll is written, l7_set_scroll runs only left alone) and the ceiling band is drawn flat; values 0-2 stepped in levels 0/6

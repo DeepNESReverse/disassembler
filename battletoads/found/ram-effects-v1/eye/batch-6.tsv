@@ -1,0 +1,46 @@
+subject	name	confidence	reason
+$06A1	bg_anim_tile_0_lo_row_1	sure	other (read 170, level 7): CHR changes in 39/39 moments and the picture shows row 1 (y=41) of the repeated wall-panel tiles off by a pixel; hold (level 10) desyncs the animated brick wall; 142 values like every plane-0 byte - byte 1 of the 16-byte tile at $06A0
+$06AF	bg_anim_tile_0_hi_row_7	sure	other (level 7): CHR in 39/39 and the picture differs on row 7 (y=39) of the same wall-panel tiles as $06A1; only 68 values like every plane-1 byte - byte 15 of the tile at $06A0; hold (level 10) desyncs the animated brick wall
+$06B0	bg_anim_tile_1	sure	every cell $06B0-$06B7 changes CHR in 39 of 40 other moments (hold 20-30); picture: 2-4 px per tile on row 0 (y=40) of the pillar column at the screen edge; ~144 values per byte; filled by update_frame_counter - 16-byte background tile at $06B0 (bytes 1 and 8+ are on their own cards)
+$06B1	bg_anim_tile_1_lo_row_1	sure	other (level 7): row 1 (y=41) of the same pillar tiles as $06B0 differs, CHR in 39/39; hold (level 10) changes the animated brick wall - byte 1 of tile 1
+$06B8	bg_anim_tile_1_hi	sure	each cell changes CHR in 39 other moments; picture: at first exactly one pixel per pillar tile on row 0 (x=251) differs; ~72 values like every plane-1 byte - bit plane 1 (bytes 8-15) of tile 1; the analysis also files $06CF (tile 2 byte 15) here as +23
+$06B9	bg_anim_tile_1_hi_row_1	sure	other: one pixel per pillar tile on row 1 (y=41, x=251) differs, CHR in 39/40; 73 values like the plane-1 bytes - byte 9 of tile 1
+$06C0	bg_anim_tile_2	sure	all 14 cells change CHR in 36-39 other moments (hold 21-30); picture: row 0 of the tile column at x=243 differs by one pixel per tile - 16-byte background tile at $06C0
+$06C9	bg_anim_tile_2_hi_row_1	sure	other: row 1 (y=41) of the x=243 column tiles differs, CHR in 39/39; 73 values (plane-1 byte) - byte 9 of tile 2
+$06D0	bg_anim_tile_3	sure	copied in from ROM B2:FACE (32 bytes, $06D0-$06EF); other changes CHR in 39/39 and the picture shows one pixel per tile on row 0 of a 21-tile strip at y=184 - 16-byte background tile at $06D0
+$06D9	bg_anim_tile_3_hi_row_1	sure	other: row 1 (y=185) of the same 21-tile strip differs, 3 px per tile, CHR in 39/39; 76 values (plane-1 byte) - byte 9 of tile 3
+$06E0	bg_anim_tile_4	likely	all 15 cells change CHR in 36-39 other moments (hold 12-30) exactly like tiles 1-3 and it is the second half of the ROM copy from B2:FACE; the tile is not on screen in the pictures - 16-byte background tile at $06E0
+$06E9	bg_anim_tile_4_hi_row_1	likely	other changes CHR in 38/38 moments, hold in 30; 69 values like the plane-1 bytes - byte 9 of tile 4; not visible in the pictures
+field-00	keep	sure	proven kind; other on slot 0 changes objects/oam in 66/66, room_exit read as 95 runs another kind's handler
+field-01	sprite_frame	sure	hold on the toad (at 4) changes OAM for 110 frames and the picture shows the toad drawn in a wrong frozen pose while its tiles keep changing; raven cycles 28-29-30, propeller 234/235 as they animate; gear copies it to its follower
+field-02	anim_step	likely	raven held at 128 freezes its frame (field 1) at 30; propeller read as 18 locks frame 31 and facing 132; toad's value advances +2/frame and loops (field-26 card) and changing it alters CHR+OAM in 37/40 - position in the animation sequence
+field-03	keep	sure	proven x_hi; gear read as 18 copies it to the follower gear's x_hi
+field-04	keep	sure	proven x; brown column held freezes its screen_x, read as 250 carries into x_hi every frame
+field-05	depth_hi	guess	written x4 by obj_any_move_5 together with x_hi/x/x_sub/depth/field 10; toad values 0-5 changing mostly +-1; kind 25 keeps a palette colour here instead (hold/other change sprite palette 3 colour 3 in ~10 moments)
+field-06	keep	sure	proven depth; kind 110 held at 216 freezes its y, restore_point read as 232 moves its screen_y
+field-07	y_hi	sure	steps with y's wrap: shark y 1->250 while field 7 25->24 (field-10 card), fly y 236->6 while 24->25 (field-21 card); +1/-1 balanced; gear copies it with x_hi; fly held at 0 is re-placed at y 112 by a spawn routine
+field-08	keep	sure	proven y; restore_point read as 206 moves its screen_y by -16
+field-09	keep	sure	proven x_sub; duck held at 176 (or read as 192) stops its -0.5 px/frame drift
+field-10	depth_sub	likely	written only by obj_any_move_5 (x4, like x_sub) with values in steps of 8 like x_sub; fly moved by obj_any_move_5 changes depth and field 10 together (field-20 card); shark/kind 110 use it for vertical motion instead (held: shark y -1/frame not -1.33)
+field-11	y_sub	likely	accumulates the vertical speed: toad's grows 16/frame with field 18 read as 16 and stops with 18 held at 0; fly with y_accel 0 keeps it and y still; pillar drifts in y through it when y_speed is pinned; toad held at 211 leaves y_speed stuck at 255:98
+field-12	keep	sure	proven height; toad read as 24 moves its screen_y by 16
+field-13	keep	sure	proven screen_x; pictures show the toad drawn shifted sideways
+field-14	screen_y	sure	other/hold on the toad change only OAM and the pictures show the toad drawn lower / at a fixed height; written by the same routines as screen_x (frame_update_28, sub_B0_87C2, obj_vehicle_handler); follows y, depth and height in other cards
+field-15	keep	sure	proven facing; toad read as 16 also changes the dragon's facing
+field-16	state_flags	guess	values are high-nibble bit sets (0,16,...,192; 0/64/128 in other slots) changed only by jumps; toad read as 16 drops height 8->0 and facing 8->0; toad frozen by timer_26 shows 80 instead of 16
+field-17	y_speed	sure	signed small values (252-255, 0-11) changed mostly +-1; pillar held at 0 drifts y 158->187 while field 18 grows 13.7/frame; fly's climbs 0->5 as its y accelerates; shark has 254/255 while y falls 1.33/frame
+field-18	y_speed_sub	sure	toad held at 0 freezes field 11, read as 16 makes field 11 grow 16 per frame - fraction of the vertical speed added to y_sub each frame; fly's grows by y_accel (24/frame)
+field-19	ai_state	likely	fly held at 12 stays put (x fixed, y_sub/y_speed_sub/y_accel 0, facing flipped) while alone it flies off; chasing gear read as 16 starts rolling +2 px/frame with speed set to 128; kind-specific values elsewhere; toad uses it only outside levels
+field-20	keep	sure	proven timer_20; fly read as 16 starts circling, brown column held at 6 reverses
+field-21	y_accel	sure	fly held at 0: y_speed and field 18 stay 0 and y stops; read as 16: field 18 grows 16 per frame (alone 24); values even (0,2,...,28,44,54)
+field-22	action_timer	likely	counts up (+1 on 20787 of 33490 changes); wall claw held at 14 stops its extend/retract moves and changes its noise pattern; toad read as 16 shows frame 62 instead of 61
+field-23	keep	sure	proven health_or_timer; slot 1 read as 1 redraws HUD nametable in 41/42 moments
+field-24	carrier_slot	likely	hold at 0 on the toad (level 5): it does not latch onto the peg and falls (picture), damage and sound code run; values $84-$88 = $80 + slot of the object it hangs on; written by obj_vehicle_update_2/3
+field-25	partner_slot	guess	values are $40/$80 + a slot number (toad: $43-$4C, $84-$8C; enemies: $40 = slot 0), written by the same vehicle routines as field 24; other on the toad changes everything in 54/67 moments; which relation it holds is not shown
+field-26	keep	sure	proven timer_26; toad held at 116 stays frozen in one pose (picture), vehicle read as 16 is freed
+field-27	move_angle	likely	brown column: 128 moves it -1 px/frame, held at 0 +1 px/frame; fly whose value turns +16/frame circles in x and depth with facing flipping (field-20 card); values in steps of 4 (read as 16 also sends the column left)
+field-28	speed	sure	fly held at 0 stops (x fixed; alone +2 px/frame); toad read as 16 makes obj_any_move_5 run 47 times and move x_sub; gear rolling 2 px/frame has 128 (field-19 card)
+field-29	keep	sure	proven timer_29; pillar read as 16 breaks and spawns another object
+field-30	floor_y	likely	pillar read as 174 sits at y 174 instead of 158 for all 120 frames; a pillar in the field-17 card sits at the same y 158 and is pulled back there every frame despite its y_speed
+field-31	parent_slot	guess	chasing gear read as 16 (no such slot): both gears' frame, x_hi and x go to 0 as if copied from an empty slot; toad values 0-4 and 255
+field-32	keep	sure	proven counter_32; shark read as 32 changes a fish's moves

@@ -1,0 +1,74 @@
+subject	name	confidence	reason
+$00EF	nametable_update_mode	likely	hold at 0 in level 8 stopped write_nametable and l7_upload_tiles and froze the background-drawn snake (snake_tail y/timer_20 stuck, picture); other=3 in any level ran write_nametable with the +32 PPUCTRL increment (nametable changed in 55 of 67 moments)
+$00F1	chr_anim_counter	likely	+1 on 13074 of 14084 changes, 256 values, level 8 only; hold at 120 and other=136 each changed only CHR uploads (from frame 1 for 112 frames), nothing visible in the pictures
+$00F2	chr_upload_stage	guess	values 0/2/4 with only $04 stored, 8 changes, level 8; hold at 4 across a room change kept CHR differing for 54 frames and the toad then fell past the snake instead of landing on it (picture)
+$00F3	keep	guess	hold had no effect; other/poke only changed CHR at moment 59 (story screen), a change seen there for many unrelated cells
+$00F5	tile_upload_count	likely	set to $F8 then +1 up to 0 (8 steps); hold at 0 in level 10 kept upload_tiles from running; other=248 started uploads anywhere (CHR changed in 28, OAM in 68 of 70 moments)
+$00F6	pause_flag	sure	hold at 16 kept the game paused (toad and camera frozen, frame_counter at half speed, music silent, picture); other=16 paused it in 71 of 71 moments in all levels
+$00F7	pause_timer	guess	zeroed and INC'd by frame_update up to 120, read only during a pause; hold at 1 made the game resume one frame earlier
+$00F8	pause_frame_counter	likely	INC'd by frame_update, bit-tested, read only during a pause; hold at 8 froze the pause's 8-frame alternation (dispatch_ptr 9,9,9,9 instead of 24,9,24,9) and the game resumed 2 frames later
+$00F9	keep	guess	read in 2 moments only; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FA	keep	guess	read in 2 moments only; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FB	keep	guess	read in 2 moments only; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FC	keep	guess	hold had no effect; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FD	keep	guess	hold had no effect; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$00FE	keep	guess	other=0 changed CHR/OAM only on screens outside levels (254/255); its clearest case is the shared moment-59 CHR change; nothing specific
+$00FF	keep	guess	hold had no effect; other/poke changed only CHR at moment 59 (story screen), shared by many cells
+$0301	music_chan_song	likely	hold at 0 on the noise entry silenced its drum line and sound_5/frame_update_20/21/24 stopped running for it; other=1 on sq1 made sound_5/sound_6 run; sq2 values 8n+2, tri 8n+4 look like song×8+channel×2
+$0302	music_note_timer	sure	hold at 1 on the noise entry ran its drum pattern faster (a new step every 1–2 frames); other=17 on sq1 never let the next note start
+$0303	music_data_ptr_lo	likely	moves +1 through 245 values; hold at 250 on sq2 repeated F#3 at v5 and never reached the next F3; other=95 on sq1 played B6 instead of D#3
+$0304	music_data_ptr_hi	likely	values $96–$AD (ROM pages); hold at 150 on sq2 turned the line into random notes, volumes and duties every 4 frames; other=202 on sq1 played G#2/A#2 instead of D#3
+$0311	keep	guess	hold at 154 on sq2 changed the step timing of an F5 sound (7–8 → 12 frames per step); other showed no logged change; no clear meaning beyond the analysis
+$0312	sfx_step_timer	likely	changes on most frames of an effect in steps of −16 (tri values 51,35,19,3); hold at 17 or other=33 at the start of the D6-F6-A6 jingle on sq1 left it silent, its first step never came
+$0313	sfx_data_ptr_lo	likely	hold at 14 repeated the jingle's first step (D6 v15 for 48 frames); other=30 stuck on its last step (A6 v4)
+$0314	sfx_data_ptr_hi	likely	values $8F–$95 (ROM pages); hold at 147 on sq2 replaced a D4/E3 effect with silence; other=149 on noise played a different noise pattern
+$0321	keep	sure	copy of $4000: hold at 51 played sq1 at duty 0 instead of 2; other=135 froze the duty cycling at d2
+$0322	keep	likely	copy of $4001 (values 0/16/67); changes reach sq1 writes but never the logged period, volume or duty
+$0323	keep	sure	copy of $4002: other=8 moved A2 p1016 to D3 p776; hold at 65 shifted every note's period
+$0324	keep	sure	copy of $4003: hold at 58 (period high 2) moved notes with high 1 down (A3 p508 → D3 p764)
+$0325	keep	sure	copy of $4004: other=135 froze sq2's duty cycling at d2
+$0326	keep	likely	copy of $4005 (values 0/16/67); changes reach sq2 writes but never the logged period, volume or duty
+$0327	keep	sure	copy of $4006: other=4 moved D2 p1524 to F2 p1284; hold at 93 removed sq2's ±1 vibrato
+$0328	keep	sure	copy of $4007: other=173 moved D3 p761 to D2 p1529; hold at 154 moved B2 p905 to F3 p649
+$0329	keep	sure	copy of $4008: other=120 changed the triangle linear counter 31→127; hold at 21 gave 22 instead of 54
+$032A	keep	likely	copy of the unused $4009 (values 0/16/67); no logged triangle change
+$032B	keep	sure	copy of $400A: other=240 moved A#2 p479 to A2 p496; hold at 56 removed the triangle's vibrato
+$032C	keep	sure	copy of $400B: hold at 138 (period high 2) moved A2 p508 to D2 p764
+$032D	keep	likely	copy of $400C; changes reach noise writes but not the logged state
+$032E	keep	likely	copy of the unused $400D (values 0/16/67); no logged noise change
+$032F	keep	sure	copy of $400E: hold at 14 fixed the noise period at n14 (alone n13/n6/n14/n9)
+$0330	keep	likely	copy of $400F; changes reach noise writes but not the logged state
+$0331	sfx_pulse1_ctrl_copy	likely	the sound-effect layer's $4000 copy (written by sound_7/sound_9 like $0311–$0314): other=200 played sq1 at duty 3 instead of 2; hold at 115 played the rising A2 effect at duty 1
+$0332	sfx_pulse1_sweep_copy	likely	the effect layer's $4001 copy: other=85 silenced the D6-F6-A6 jingle on sq1 (start_sound_8 ran); hold at 131 kept the A4 echo effect off sq1 and the music played instead
+$0334	sfx_pulse1_hi_copy	likely	the effect layer's $4003 copy (sound_7/sound_9); hold at 2 and other=3 during the rising A2 effect changed sq1 writes, not the logged state
+$0335	sfx_pulse2_ctrl_copy	likely	the effect layer's $4004 copy: hold at 0 and other=16 played the rising A2 effect on sq2 at duty 0 instead of 2
+$0336	sfx_pulse2_sweep_copy	likely	the effect layer's $4005 copy: other=85 silenced the jingle on sq2 (start_sound_8 ran); hold at 131 kept the A4 echo effect off sq2 and music F3/E3 played
+$0338	sfx_pulse2_hi_copy	likely	the effect layer's $4007 copy; hold and other=1 during the rising A2 effect changed sq2 writes only
+$0339	sfx_triangle_ctrl_copy	likely	the effect layer's $4008 copy: other=0 played the level-12 triangle effect with linear counter 15 instead of 127
+$033A	sfx_reg_4009_copy	likely	the effect layer's copy for $4009: hold at 8 cut the level-12 triangle effect (a steady C2 remained); other=85 silenced the triangle
+$033C	sfx_triangle_hi_copy	likely	the effect layer's $400B copy: hold at 1 and other=7 shifted the level-12 triangle effect's periods by whole 256s (F3 p320 → C2 p832, G5 p72 → F3 p328)
+$033D	sfx_noise_ctrl_copy	likely	the effect layer's $400C copy; changes reach noise writes only, no logged state change
+$033E	sfx_reg_400D_copy	likely	the effect layer's copy for $400D: other=85 replaced a noise effect with a flat n8 v1; hold at 8 played another noise pattern and start_sound_8 did not run
+$0340	sfx_noise_hi_copy	likely	the effect layer's $400F copy; changes reach noise writes only, no logged state change
+$0341	music_loop_ptr_lo	likely	written only by frame_update_20 (1128 changes); other=55 on sq1 jumped the music to other notes (G3, C4, D4 at d0 instead of F2, G#2 at d2); hold at 127 on tri played G4/C5 instead of F2: a saved stream position (high byte $0342)
+$0342	music_loop_ptr_hi	likely	values $96–$C5 like the stream pointer's high byte; hold at 188 on tri played A2 instead of F2; other=161 played B4 instead of A2
+$0343	music_loop_count	likely	DEC'd by the stream code (frame_update_20/21); hold at 0 on tri went on to another section (G2 instead of F2); other=17 played another section (E2 instead of A2)
+$0344	music_vibrato_delta	sure	signed −5..+5; hold at +1 on tri turned A3's ±1 vibrato into a steady fall (period +1 every 1–2 frames, p250 → p793); other=3 on sq1 made every note's period rise 3 per frame
+$0351	music_length_scale	guess	values 0/2/4/8; other=4 on sq1 made notes last 8 frames instead of 4; hold at 2 on sq2 left it silent after one F3
+$0352	music_cur_volume	sure	$10|volume, decremented as notes decay; hold at 22 played every sq1 note at v6; other=19 played v3 instead of v2
+$0353	music_env_phase	guess	values 0–3 stepping ±1; hold at 0 kept sq2 at v5 with no decay; other=2 held v8 for 8 frames then dropped to v3 instead of decaying
+$0354	music_transpose	sure	signed semitones; other=1 raised sq1's A2 to A#2; hold at 12 left the triangle on E2 instead of A2
+$0361	music_vibrato_mode	likely	values 0–3, 7, 254; hold at 0 flattened sq1's ±1 vibrato (F2 p1281 throughout)
+$0362	music_vibrato_phase	likely	moves ±1; hold at 2 on sq2 kept the vibrato going one way (period falling 2 per step through every note)
+$0363	music_vibrato_depth	likely	set by start_sound_10, values 0–2; hold at 0 removed sq2's vibrato that moved in steps of 2 (A#3 p477 flat)
+$0364	music_vibrato_timer	guess	DEC'd 0–6, written with the vibrato cells by start_sound_10; its clearest cases only changed CHR on a briefing screen
+$0371	music_note_volume	sure	low nibble is the notes' starting volume: hold at 147 ($93) played sq2 notes at 3/2/1 instead of 6/5/4 (and 1/0); other=148 ($94) played sq1 notes at 4
+$0373	music_decay_timer	likely	DEC'd on most frames of a note; hold at 2 kept sq1 notes at their start volume (no decay); other=17 held v8 for 8 frames instead of decaying
+$0374	music_slide_timer	likely	DEC'd 0–3; hold at 3 stopped sq2's slow slide (B4 p222→232 stayed p220); other=2 kept the triangle on E3 instead of sliding down to B2
+$0381	music_slide_count	likely	DEC'd during slides; hold at 0 and other=16 let the triangle's slide run past its end (A#2 p470–492 instead of stopping at B2 p460)
+$0382	music_slide_delay	likely	DEC'd 0–5; hold at 0 and other=1 started the triangle's slide 8 frames early, skipping the E3 before it
+$0383	music_slide_step	sure	signed period step: other=9 made sq2 slide +9 per step instead of +2; hold at 2 made sq1 slide down (+2) instead of up (−5)
+$0384	music_slide_dir	likely	always 0 in play; other=1 reversed sq2's slide (period falling 2 per step instead of rising) and sound_5 took another path
+$0391	music_volume_target	sure	$10|level the volume moves toward: other=0 made rising sq1 notes (up to v11) decay to 0; hold at 17 ($11) stopped sq2's decay at v1 instead of v0
+$0392	music_decay_rate	likely	values 0–3; other=2 slowed sq2's decay to 2 frames per step; hold at 2 changed the length of each decay step
+$0393	music_decay_on	likely	0/1 toggled per note; hold at 0 on sq2 stopped the decay (v8 for 8 frames, then v3)
