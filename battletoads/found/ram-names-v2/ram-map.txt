@@ -1,0 +1,1703 @@
+$0000  ppu_index                       named by the routines that write it and how it is used
+$0001  ppu_ptr                         a pointer: read through (zp),Y or copied as a pair
+$0002  ppu_ptr_hi                      a pointer: read through (zp),Y or copied as a pair
+$0003  ppu_addr_copy                   its value goes straight on to a hardware register
+$0004  ppu_addr_copy_0004              its value goes straight on to a hardware register
+$0005  ppu_timer                       named by the routines that write it and how it is used
+$0006  ppu_ptr_0006                    a pointer: read through (zp),Y or copied as a pair
+$0007  ppu_ptr_hi_0007                 a pointer: read through (zp),Y or copied as a pair
+$0008  ppu_state                       named by the routines that write it and how it is used
+$0009  ppu_ctrl_copy                   its value goes straight on to a hardware register
+$000A  ppu_mask_copy                   its value goes straight on to a hardware register
+$000B  frame_counter                   proven by experiment (game.json)
+$000C  ppu_counter                     named by the routines that write it and how it is used
+$000D  level_number                    proven by experiment (game.json)
+$000E  sample_timer                    named by the routines that write it and how it is used
+$000F  sample_value                    named by the routines that write it and how it is used
+$0010  level_id                        proven by experiment (game.json)
+$0011  p1_lives                        proven by experiment (game.json)
+$0012  p2_lives                        proven by experiment (game.json)
+$0013  dispatch_ptr                    proven by experiment (game.json)
+$0014  dispatch_ptr+1                  proven by experiment (game.json)
+$0015  temp                            scratch: written and read by many unrelated routines
+$0016  temp_0016                       scratch: written and read by many unrelated routines
+$0017  temp_0017                       scratch: written and read by many unrelated routines
+$0018  temp_0018                       scratch: written and read by many unrelated routines
+$0019  ppu_ptr_0019                    a pointer: read through (zp),Y or copied as a pair
+$001A  ppu_ptr_hi_001A                 a pointer: read through (zp),Y or copied as a pair
+$001B  frame_update_28_ptr             a pointer: read through (zp),Y or copied as a pair
+$001C  sub_B6_8A4F_ptr                 a pointer: read through (zp),Y or copied as a pair
+$001D  sub_B5_8676_ptr                 a pointer: read through (zp),Y or copied as a pair
+$001E  sub_B5_8676_ptr_hi              a pointer: read through (zp),Y or copied as a pair
+$001F  temp_001F                       scratch: written and read by many unrelated routines
+$0020  temp_0020                       scratch: written and read by many unrelated routines
+$0021  temp_0021                       scratch: written and read by many unrelated routines
+$0022  obj_counter                     named by the routines that write it and how it is used
+$0023  ppu_value                       named by the routines that write it and how it is used
+$0024  ppu_table                       named by the routines that write it and how it is used
+$0025  random                          a random number: made in place by one routine, read by several
+$0026  random_0026                     a random number: made in place by one routine, read by several
+$0027  random_0026+1                   an element of a table read with an index
+$0028  random_0026+2                   an element of a table read with an index
+$0029  pad1_held                       proven by experiment (game.json)
+$002A  pad1_held+1                     an element of a proven cell's table (its index reached it)
+$002B  pad1_pressed                    proven by experiment (game.json)
+$002C  pad1_pressed+1                  an element of a proven cell's table (its index reached it)
+$002D  current_bank                    proven by experiment (game.json)
+$002F  ppu_index_002F                  named by the routines that write it and how it is used
+$0030  scroll_flag                     named by the routines that write it and how it is used
+$0032  sub_B0_8383_value               named by the routines that write it and how it is used
+$0033  obj_counter_0033                named by the routines that write it and how it is used
+$0034  sub_B3_8865_value               named by the routines that write it and how it is used
+$0037  sound_7_ptr                     a pointer: read through (zp),Y or copied as a pair
+$0038  sound_7_ptr_hi                  a pointer: read through (zp),Y or copied as a pair
+$0039  temp_0039                       scratch: written and read by many unrelated routines
+$003A  sound_value                     named by the routines that write it and how it is used
+$003B  sound_value_003B                named by the routines that write it and how it is used
+$003E  sub_B0_FF84_value               named by the routines that write it and how it is used
+$003F  sound_index                     named by the routines that write it and how it is used
+$0040  frame_update_value              named by the routines that write it and how it is used
+$0041  frame_update_13_index           named by the routines that write it and how it is used
+$0042  sound_value_0042                named by the routines that write it and how it is used
+$0043  frame_update_13_state           named by the routines that write it and how it is used
+$0044  frame_update_13_value           named by the routines that write it and how it is used
+$0045  sub_B3_855E_value               named by the routines that write it and how it is used
+$0046  sub_B3_855E_value_0046          named by the routines that write it and how it is used
+$0047  frame_update_13_value_0047      named by the routines that write it and how it is used
+$0048  frame_update_13_timer           named by the routines that write it and how it is used
+$0049  frame_update_13_value_0049      named by the routines that write it and how it is used
+$004A  frame_update_13_timer_004A      named by the routines that write it and how it is used
+$004B  frame_update_13_value_004B      named by the routines that write it and how it is used
+$004C  frame_update_13_timer_004C      named by the routines that write it and how it is used
+$004D  frame_update_13_value_004D      named by the routines that write it and how it is used
+$004E  frame_update_13_value_004E      named by the routines that write it and how it is used
+$004F  sound_value_004F                named by the routines that write it and how it is used
+$0050  frame_update_13_timer_0050      named by the routines that write it and how it is used
+$0051  sample_flag                     named by the routines that write it and how it is used
+$0055  ppu_table_0055                  named by the routines that write it and how it is used
+$0056  obj_table                       named by the routines that write it and how it is used
+$0057  obj_table_0057                  named by the routines that write it and how it is used
+$0058  obj_table_0058                  named by the routines that write it and how it is used
+$0059  ppu_table_0055+4                an element of a table read with an index
+$005A  obj_table+4                     an element of a table read with an index
+$005B  obj_table_0057+4                an element of a table read with an index
+$005C  obj_table_0058+4                an element of a table read with an index
+$005D  ppu_table_0055+8                an element of a table read with an index
+$005E  obj_table+8                     an element of a table read with an index
+$005F  obj_table_0057+8                an element of a table read with an index
+$0060  obj_table_0058+8                an element of a table read with an index
+$0061  ppu_table_0055+12               an element of a table read with an index
+$0062  ppu_table_0055+13               an element of a table read with an index
+$0063  ppu_table_0055+14               an element of a table read with an index
+$0064  ppu_table_0055+15               an element of a table read with an index
+$0065  ppu_table_0055+16               an element of a table read with an index
+$0066  ppu_table_0055+17               an element of a table read with an index
+$0067  ppu_table_0055+18               an element of a table read with an index
+$0068  ppu_table_0055+19               an element of a table read with an index
+$0069  ppu_table_0055+20               an element of a table read with an index
+$006A  ppu_table_0055+21               an element of a table read with an index
+$006B  ppu_table_0055+22               an element of a table read with an index
+$006C  ppu_table_0055+23               an element of a table read with an index
+$006D  ppu_table_0055+24               an element of a table read with an index
+$006E  obj_table+24                    an element of a table read with an index
+$006F  obj_table_0057+24               an element of a table read with an index
+$0070  obj_table_0058+24               an element of a table read with an index
+$0071  ppu_table_0055+28               an element of a table read with an index
+$0072  obj_table+28                    an element of a table read with an index
+$0073  obj_table_0057+28               an element of a table read with an index
+$0074  obj_table_0058+28               an element of a table read with an index
+$0078  obj_value                       named by the routines that write it and how it is used
+$0079  obj_value_0079                  named by the routines that write it and how it is used
+$007A  obj_flags                       named by the routines that write it and how it is used
+$0080  sound_index_0080                named by the routines that write it and how it is used
+$0081  temp_0081                       scratch: written and read by many unrelated routines
+$0082  ppu_addr_copy_0082              its value goes straight on to a hardware register
+$0083  camera_nametable_row            proven by experiment (game.json)
+$0084  sub_B3_D144_flags               named by the routines that write it and how it is used
+$0085  ppu_addr_copy_0085              its value goes straight on to a hardware register
+$0086  ppu_addr_copy_0086              its value goes straight on to a hardware register
+$0087  camera_x_lo                     proven by experiment (game.json)
+$0088  camera_x_hi                     proven by experiment (game.json)
+$0089  camera_y_lo                     proven by experiment (game.json)
+$008A  camera_y_hi                     proven by experiment (game.json)
+$008B  frame_update_28_timer           named by the routines that write it and how it is used
+$008C  frame_update_28_state           named by the routines that write it and how it is used
+$008D  temp_008D                       scratch: written and read by many unrelated routines
+$008E  obj_any_update_2_timer          named by the routines that write it and how it is used
+$008F  obj_flags_008F                  named by the routines that write it and how it is used
+$0090  l1_frame_update_2_flag          named by the routines that write it and how it is used
+$0091  sub_B6_8D23_timer               named by the routines that write it and how it is used
+$0092  sub_B6_8D23_counter             named by the routines that write it and how it is used
+$0093  built_column                    proven by experiment (game.json)
+$0094  built_row                       proven by experiment (game.json)
+$0095  temp_0095                       scratch: written and read by many unrelated routines
+$0096  ppu_addr_copy_0096              its value goes straight on to a hardware register
+$0097  ppu_addr_copy_0097              its value goes straight on to a hardware register
+$0098  ppu_addr_copy_0098              its value goes straight on to a hardware register
+$0099  scroll_update_value             named by the routines that write it and how it is used
+$009A  sub_B5_86DC_value               named by the routines that write it and how it is used
+$009B  sub_B5_86DC_value_009B          named by the routines that write it and how it is used
+$009C  update_frame_counter_value      named by the routines that write it and how it is used
+$009D  update_frame_counter_value_009D  named by the routines that write it and how it is used
+$009E  copy_rom_table_2_counter        named by the routines that write it and how it is used
+$009F  copy_rom_table_2_counter+1      an element of a table read with an index
+$00A0  copy_rom_table_2_counter+2      an element of a table read with an index
+$00A1  copy_rom_table_2_counter+3      an element of a table read with an index
+$00A2  copy_rom_table_2_counter+4      an element of a table read with an index
+$00A3  copy_rom_table_2_counter+5      an element of a table read with an index
+$00A4  copy_rom_table_2_counter+6      an element of a table read with an index
+$00A5  copy_rom_table_2_counter+7      an element of a table read with an index
+$00A6  copy_rom_table_2_counter+8      an element of a table read with an index
+$00A7  copy_rom_table_2_counter+9      an element of a table read with an index
+$00A8  copy_rom_table_2_counter+10     an element of a table read with an index
+$00A9  copy_rom_table_2_counter+11     an element of a table read with an index
+$00AA  copy_rom_table_2_counter+12     an element of a table read with an index
+$00AB  copy_rom_table_2_counter+13     an element of a table read with an index
+$00AC  copy_rom_table_2_counter+14     an element of a table read with an index
+$00AD  copy_rom_table_2_counter+15     an element of a table read with an index
+$00AE  sub_B0_87C2_value               named by the routines that write it and how it is used
+$00AF  copy_rom_table_2_counter+17     an element of a table read with an index
+$00B0  copy_rom_table_2_counter+18     an element of a table read with an index
+$00B1  camera_target                   proven by experiment (game.json)
+$00B2  camera_hold                     proven by experiment (game.json)
+$00B3  copy_rom_table_2_counter+21     an element of a table read with an index
+$00B4  obj_index                       named by the routines that write it and how it is used
+$00B5  sound_counter                   named by the routines that write it and how it is used
+$00B6  scroll_value                    named by the routines that write it and how it is used
+$00B7  placement_ptr                   proven by experiment (game.json)
+$00B8  sub_B3_802A_ptr_hi              a pointer: read through (zp),Y or copied as a pair
+$00B9  sub_B6_8018_counter             named by the routines that write it and how it is used
+$00BA  copy_rom_table_2_counter+28     an element of a table read with an index
+$00BB  ppu_table_00BB                  named by the routines that write it and how it is used
+$00BC  frame_update_12_table           named by the routines that write it and how it is used
+$00BD  ppu_table_00BB+2                an element of a table read with an index
+$00BE  frame_update_12_table+2         an element of a table read with an index
+$00BF  ppu_table_00BB+4                an element of a table read with an index
+$00C0  frame_update_12_table+4         an element of a table read with an index
+$00C1  ppu_value_00C1                  named by the routines that write it and how it is used
+$00C2  ppu_value_00C2                  named by the routines that write it and how it is used
+$00C3  block_attributes_ptr            proven by experiment (game.json)
+$00C4  block_attributes_ptr+1          proven by experiment (game.json)
+$00C5  block_tiles_ptr                 proven by experiment (game.json)
+$00C6  block_tiles_ptr+1               proven by experiment (game.json)
+$00C7  layout_width                    proven by experiment (game.json)
+$00C8  sub_B2_F7A6_timer               named by the routines that write it and how it is used
+$00C9  ppu_state_00C9                  named by the routines that write it and how it is used
+$00CB  copy_rom_table_2_counter+45     an element of a table read with an index
+$00CC  copy_rom_table_2_counter+46     an element of a table read with an index
+$00CD  frame_counter_gfx               proven by experiment (game.json)
+$00CE  ppu_data_copy                   its value goes straight on to a hardware register
+$00CF  copy_rom_table_2_counter+49     an element of a table read with an index
+$00D0  temp_00D0                       scratch: written and read by many unrelated routines
+$00D1  obj_flag                        named by the routines that write it and how it is used
+$00D2  frame_update_12_timer           named by the routines that write it and how it is used
+$00D3  frame_update_12_timer_00D3      named by the routines that write it and how it is used
+$00D4  obj_table_00D4                  named by the routines that write it and how it is used
+$00D5  obj_table_00D4+1                an element of a table read with an index
+$00D6  frame_update_12_value           named by the routines that write it and how it is used
+$00D7  ppu_counter_00D7                named by the routines that write it and how it is used
+$00D9  obj_state                       named by the routines that write it and how it is used
+$00DA  floor_height                    proven by experiment (game.json)
+$00DB  ppu_timer_00DB                  named by the routines that write it and how it is used
+$00DC  obj_flag_00DC                   named by the routines that write it and how it is used
+$00DD  obj_counter_00DD                named by the routines that write it and how it is used
+$00DE  obj_counter_00DE                named by the routines that write it and how it is used
+$00DF  obj_value_00DF                  named by the routines that write it and how it is used
+$00E0  obj_value_00E0                  named by the routines that write it and how it is used
+$00E1  obj_value_00E1                  named by the routines that write it and how it is used
+$00E2  obj_value_00E2                  named by the routines that write it and how it is used
+$00E3  frame_update_12_flag            named by the routines that write it and how it is used
+$00E4  sub_B0_B8AD_flag                named by the routines that write it and how it is used
+$00E5  obj_ptr                         a pointer: read through (zp),Y or copied as a pair
+$00E6  obj_ptr_hi                      a pointer: read through (zp),Y or copied as a pair
+$00E7  obj_counter_00E7                named by the routines that write it and how it is used
+$00E9  ppu_timer_00E9                  named by the routines that write it and how it is used
+$00EA  ppu_timer_00E9+1                an element of a table read with an index
+$00EB  obj_timer                       named by the routines that write it and how it is used
+$00EC  obj_timer_00EC                  named by the routines that write it and how it is used
+$00EE  ppu_state_00EE                  named by the routines that write it and how it is used
+$00EF  l6_frame_update_value           named by the routines that write it and how it is used
+$00F0  level_room                      proven by experiment (game.json)
+$00F1  l6_frame_update_2_counter       named by the routines that write it and how it is used
+$00F2  l6_frame_update_value_00F2      named by the routines that write it and how it is used
+$00F3  ppu_flag                        named by the routines that write it and how it is used
+$00F4  ending_trigger                  proven by experiment (game.json)
+$00F5  sub_B0_9142_counter             named by the routines that write it and how it is used
+$00F6  sound_flag                      named by the routines that write it and how it is used
+$00F7  sound_counter_00F7              named by the routines that write it and how it is used
+$00F8  sound_counter_00F8              named by the routines that write it and how it is used
+$00FC  sub_B5_854C_value               named by the routines that write it and how it is used
+$00FD  state_02_set_ppuctrl_value      named by the routines that write it and how it is used
+$00FE  ppu_flag_00FE                   named by the routines that write it and how it is used
+$00FF  sample_flag_00FF                named by the routines that write it and how it is used
+$0100  stack                           the stack page
+$0101  stack                           the stack page
+$0102  stack                           the stack page
+$0103  stack                           the stack page
+$0104  stack                           the stack page
+$0105  stack                           the stack page
+$0106  stack                           the stack page
+$0107  stack                           the stack page
+$0120  stack                           the stack page
+$0138  stack                           the stack page
+$0139  stack                           the stack page
+$013A  stack                           the stack page
+$013B  stack                           the stack page
+$013C  stack                           the stack page
+$013D  stack                           the stack page
+$013E  stack                           the stack page
+$013F  stack                           the stack page
+$0150  stack                           the stack page
+$015E  stack                           the stack page
+$015F  stack                           the stack page
+$0160  stack                           the stack page
+$0161  stack                           the stack page
+$0162  stack                           the stack page
+$0163  stack                           the stack page
+$0164  stack                           the stack page
+$0165  stack                           the stack page
+$0166  stack                           the stack page
+$0168  stack                           the stack page
+$016B  stack                           the stack page
+$016C  stack                           the stack page
+$016D  stack                           the stack page
+$016E  stack                           the stack page
+$0170  stack                           the stack page
+$0171  stack                           the stack page
+$0172  stack                           the stack page
+$0173  stack                           the stack page
+$0174  stack                           the stack page
+$0176  stack                           the stack page
+$0177  stack                           the stack page
+$0178  stack                           the stack page
+$017C  stack                           the stack page
+$017E  stack                           the stack page
+$017F  stack                           the stack page
+$0180  stack                           the stack page
+$019F  stack                           the stack page
+$01A0  stack                           the stack page
+$01A4  stack                           the stack page
+$01A7  stack                           the stack page
+$01A8  stack                           the stack page
+$01A9  stack                           the stack page
+$01AC  stack                           the stack page
+$01B0  stack                           the stack page
+$01B9  stack                           the stack page
+$01BF  stack                           the stack page
+$01C9  stack                           the stack page
+$01D0  stack                           the stack page
+$01D9  stack                           the stack page
+$01DF  stack                           the stack page
+$01E0  stack                           the stack page
+$01FD  stack                           the stack page
+$0200  oam_buffer                      the sprite DMA page
+$0201  oam_buffer+1                    the sprite DMA page
+$0202  oam_buffer+2                    the sprite DMA page
+$0203  oam_buffer+3                    the sprite DMA page
+$0204  oam_buffer+4                    the sprite DMA page
+$0205  oam_buffer+5                    the sprite DMA page
+$0206  oam_buffer+6                    the sprite DMA page
+$0207  oam_buffer+7                    the sprite DMA page
+$0208  oam_buffer+8                    the sprite DMA page
+$0209  oam_buffer+9                    the sprite DMA page
+$020A  oam_buffer+10                   the sprite DMA page
+$020B  oam_buffer+11                   the sprite DMA page
+$020C  oam_buffer+12                   the sprite DMA page
+$020D  oam_buffer+13                   the sprite DMA page
+$020E  oam_buffer+14                   the sprite DMA page
+$020F  oam_buffer+15                   the sprite DMA page
+$0210  oam_buffer+16                   the sprite DMA page
+$0211  oam_buffer+17                   the sprite DMA page
+$0212  oam_buffer+18                   the sprite DMA page
+$0213  oam_buffer+19                   the sprite DMA page
+$0214  oam_buffer+20                   the sprite DMA page
+$0215  oam_buffer+21                   the sprite DMA page
+$0216  oam_buffer+22                   the sprite DMA page
+$0217  oam_buffer+23                   the sprite DMA page
+$0218  oam_buffer+24                   the sprite DMA page
+$0219  oam_buffer+25                   the sprite DMA page
+$021A  oam_buffer+26                   the sprite DMA page
+$021B  oam_buffer+27                   the sprite DMA page
+$021C  oam_buffer+28                   the sprite DMA page
+$021D  oam_buffer+29                   the sprite DMA page
+$021E  oam_buffer+30                   the sprite DMA page
+$021F  oam_buffer+31                   the sprite DMA page
+$0220  oam_buffer+32                   the sprite DMA page
+$0221  oam_buffer+33                   the sprite DMA page
+$0222  oam_buffer+34                   the sprite DMA page
+$0223  oam_buffer+35                   the sprite DMA page
+$0224  oam_buffer+36                   the sprite DMA page
+$0225  oam_buffer+37                   the sprite DMA page
+$0226  oam_buffer+38                   the sprite DMA page
+$0227  oam_buffer+39                   the sprite DMA page
+$0228  oam_buffer+40                   the sprite DMA page
+$0229  oam_buffer+41                   the sprite DMA page
+$022A  oam_buffer+42                   the sprite DMA page
+$022B  oam_buffer+43                   the sprite DMA page
+$022C  oam_buffer+44                   the sprite DMA page
+$022D  oam_buffer+45                   the sprite DMA page
+$022E  oam_buffer+46                   the sprite DMA page
+$022F  oam_buffer+47                   the sprite DMA page
+$0230  oam_buffer+48                   the sprite DMA page
+$0231  oam_buffer+49                   the sprite DMA page
+$0232  oam_buffer+50                   the sprite DMA page
+$0233  oam_buffer+51                   the sprite DMA page
+$0234  oam_buffer+52                   the sprite DMA page
+$0235  oam_buffer+53                   the sprite DMA page
+$0236  oam_buffer+54                   the sprite DMA page
+$0237  oam_buffer+55                   the sprite DMA page
+$0238  oam_buffer+56                   the sprite DMA page
+$0239  oam_buffer+57                   the sprite DMA page
+$023A  oam_buffer+58                   the sprite DMA page
+$023B  oam_buffer+59                   the sprite DMA page
+$023C  oam_buffer+60                   the sprite DMA page
+$023D  oam_buffer+61                   the sprite DMA page
+$023E  oam_buffer+62                   the sprite DMA page
+$023F  oam_buffer+63                   the sprite DMA page
+$0240  oam_buffer+64                   the sprite DMA page
+$0241  oam_buffer+65                   the sprite DMA page
+$0242  oam_buffer+66                   the sprite DMA page
+$0243  oam_buffer+67                   the sprite DMA page
+$0244  oam_buffer+68                   the sprite DMA page
+$0245  oam_buffer+69                   the sprite DMA page
+$0246  oam_buffer+70                   the sprite DMA page
+$0247  oam_buffer+71                   the sprite DMA page
+$0248  oam_buffer+72                   the sprite DMA page
+$0249  oam_buffer+73                   the sprite DMA page
+$024A  oam_buffer+74                   the sprite DMA page
+$024B  oam_buffer+75                   the sprite DMA page
+$024C  oam_buffer+76                   the sprite DMA page
+$024D  oam_buffer+77                   the sprite DMA page
+$024E  oam_buffer+78                   the sprite DMA page
+$024F  oam_buffer+79                   the sprite DMA page
+$0250  oam_buffer+80                   the sprite DMA page
+$0251  oam_buffer+81                   the sprite DMA page
+$0252  oam_buffer+82                   the sprite DMA page
+$0253  oam_buffer+83                   the sprite DMA page
+$0254  oam_buffer+84                   the sprite DMA page
+$0255  oam_buffer+85                   the sprite DMA page
+$0256  oam_buffer+86                   the sprite DMA page
+$0257  oam_buffer+87                   the sprite DMA page
+$0258  oam_buffer+88                   the sprite DMA page
+$0259  oam_buffer+89                   the sprite DMA page
+$025A  oam_buffer+90                   the sprite DMA page
+$025B  oam_buffer+91                   the sprite DMA page
+$025C  oam_buffer+92                   the sprite DMA page
+$025D  oam_buffer+93                   the sprite DMA page
+$025E  oam_buffer+94                   the sprite DMA page
+$025F  oam_buffer+95                   the sprite DMA page
+$0260  oam_buffer+96                   the sprite DMA page
+$0261  oam_buffer+97                   the sprite DMA page
+$0262  oam_buffer+98                   the sprite DMA page
+$0263  oam_buffer+99                   the sprite DMA page
+$0264  oam_buffer+100                  the sprite DMA page
+$0265  oam_buffer+101                  the sprite DMA page
+$0266  oam_buffer+102                  the sprite DMA page
+$0267  oam_buffer+103                  the sprite DMA page
+$0268  oam_buffer+104                  the sprite DMA page
+$0269  oam_buffer+105                  the sprite DMA page
+$026A  oam_buffer+106                  the sprite DMA page
+$026B  oam_buffer+107                  the sprite DMA page
+$026C  oam_buffer+108                  the sprite DMA page
+$026D  oam_buffer+109                  the sprite DMA page
+$026E  oam_buffer+110                  the sprite DMA page
+$026F  oam_buffer+111                  the sprite DMA page
+$0270  oam_buffer+112                  the sprite DMA page
+$0271  oam_buffer+113                  the sprite DMA page
+$0272  oam_buffer+114                  the sprite DMA page
+$0273  oam_buffer+115                  the sprite DMA page
+$0274  oam_buffer+116                  the sprite DMA page
+$0275  oam_buffer+117                  the sprite DMA page
+$0276  oam_buffer+118                  the sprite DMA page
+$0277  oam_buffer+119                  the sprite DMA page
+$0278  oam_buffer+120                  the sprite DMA page
+$0279  oam_buffer+121                  the sprite DMA page
+$027A  oam_buffer+122                  the sprite DMA page
+$027B  oam_buffer+123                  the sprite DMA page
+$027C  oam_buffer+124                  the sprite DMA page
+$027D  oam_buffer+125                  the sprite DMA page
+$027E  oam_buffer+126                  the sprite DMA page
+$027F  oam_buffer+127                  the sprite DMA page
+$0280  oam_buffer+128                  the sprite DMA page
+$0281  oam_buffer+129                  the sprite DMA page
+$0282  oam_buffer+130                  the sprite DMA page
+$0283  oam_buffer+131                  the sprite DMA page
+$0284  oam_buffer+132                  the sprite DMA page
+$0285  oam_buffer+133                  the sprite DMA page
+$0286  oam_buffer+134                  the sprite DMA page
+$0287  oam_buffer+135                  the sprite DMA page
+$0288  oam_buffer+136                  the sprite DMA page
+$0289  oam_buffer+137                  the sprite DMA page
+$028A  oam_buffer+138                  the sprite DMA page
+$028B  oam_buffer+139                  the sprite DMA page
+$028C  oam_buffer+140                  the sprite DMA page
+$028D  oam_buffer+141                  the sprite DMA page
+$028E  oam_buffer+142                  the sprite DMA page
+$028F  oam_buffer+143                  the sprite DMA page
+$0290  oam_buffer+144                  the sprite DMA page
+$0291  oam_buffer+145                  the sprite DMA page
+$0292  oam_buffer+146                  the sprite DMA page
+$0293  oam_buffer+147                  the sprite DMA page
+$0294  oam_buffer+148                  the sprite DMA page
+$0295  oam_buffer+149                  the sprite DMA page
+$0296  oam_buffer+150                  the sprite DMA page
+$0297  oam_buffer+151                  the sprite DMA page
+$0298  oam_buffer+152                  the sprite DMA page
+$0299  oam_buffer+153                  the sprite DMA page
+$029A  oam_buffer+154                  the sprite DMA page
+$029B  oam_buffer+155                  the sprite DMA page
+$029C  oam_buffer+156                  the sprite DMA page
+$029D  oam_buffer+157                  the sprite DMA page
+$029E  oam_buffer+158                  the sprite DMA page
+$029F  oam_buffer+159                  the sprite DMA page
+$02A0  oam_buffer+160                  the sprite DMA page
+$02A1  oam_buffer+161                  the sprite DMA page
+$02A2  oam_buffer+162                  the sprite DMA page
+$02A3  oam_buffer+163                  the sprite DMA page
+$02A4  oam_buffer+164                  the sprite DMA page
+$02A5  oam_buffer+165                  the sprite DMA page
+$02A6  oam_buffer+166                  the sprite DMA page
+$02A7  oam_buffer+167                  the sprite DMA page
+$02A8  oam_buffer+168                  the sprite DMA page
+$02A9  oam_buffer+169                  the sprite DMA page
+$02AA  oam_buffer+170                  the sprite DMA page
+$02AB  oam_buffer+171                  the sprite DMA page
+$02AC  oam_buffer+172                  the sprite DMA page
+$02AD  oam_buffer+173                  the sprite DMA page
+$02AE  oam_buffer+174                  the sprite DMA page
+$02AF  oam_buffer+175                  the sprite DMA page
+$02B0  oam_buffer+176                  the sprite DMA page
+$02B1  oam_buffer+177                  the sprite DMA page
+$02B2  oam_buffer+178                  the sprite DMA page
+$02B3  oam_buffer+179                  the sprite DMA page
+$02B4  oam_buffer+180                  the sprite DMA page
+$02B5  oam_buffer+181                  the sprite DMA page
+$02B6  oam_buffer+182                  the sprite DMA page
+$02B7  oam_buffer+183                  the sprite DMA page
+$02B8  oam_buffer+184                  the sprite DMA page
+$02B9  oam_buffer+185                  the sprite DMA page
+$02BA  oam_buffer+186                  the sprite DMA page
+$02BB  oam_buffer+187                  the sprite DMA page
+$02BC  oam_buffer+188                  the sprite DMA page
+$02BD  oam_buffer+189                  the sprite DMA page
+$02BE  oam_buffer+190                  the sprite DMA page
+$02BF  oam_buffer+191                  the sprite DMA page
+$02C0  oam_buffer+192                  the sprite DMA page
+$02C1  oam_buffer+193                  the sprite DMA page
+$02C2  oam_buffer+194                  the sprite DMA page
+$02C3  oam_buffer+195                  the sprite DMA page
+$02C4  oam_buffer+196                  the sprite DMA page
+$02C5  oam_buffer+197                  the sprite DMA page
+$02C6  oam_buffer+198                  the sprite DMA page
+$02C7  oam_buffer+199                  the sprite DMA page
+$02C8  oam_buffer+200                  the sprite DMA page
+$02C9  oam_buffer+201                  the sprite DMA page
+$02CA  oam_buffer+202                  the sprite DMA page
+$02CB  oam_buffer+203                  the sprite DMA page
+$02CC  oam_buffer+204                  the sprite DMA page
+$02CD  oam_buffer+205                  the sprite DMA page
+$02CE  oam_buffer+206                  the sprite DMA page
+$02CF  oam_buffer+207                  the sprite DMA page
+$02D0  oam_buffer+208                  the sprite DMA page
+$02D1  oam_buffer+209                  the sprite DMA page
+$02D2  oam_buffer+210                  the sprite DMA page
+$02D3  oam_buffer+211                  the sprite DMA page
+$02D4  oam_buffer+212                  the sprite DMA page
+$02D5  oam_buffer+213                  the sprite DMA page
+$02D6  oam_buffer+214                  the sprite DMA page
+$02D7  oam_buffer+215                  the sprite DMA page
+$02D8  oam_buffer+216                  the sprite DMA page
+$02D9  oam_buffer+217                  the sprite DMA page
+$02DA  oam_buffer+218                  the sprite DMA page
+$02DB  oam_buffer+219                  the sprite DMA page
+$02DC  oam_buffer+220                  the sprite DMA page
+$02DD  oam_buffer+221                  the sprite DMA page
+$02DE  oam_buffer+222                  the sprite DMA page
+$02DF  oam_buffer+223                  the sprite DMA page
+$02E0  oam_buffer+224                  the sprite DMA page
+$02E1  oam_buffer+225                  the sprite DMA page
+$02E2  oam_buffer+226                  the sprite DMA page
+$02E3  oam_buffer+227                  the sprite DMA page
+$02E4  oam_buffer+228                  the sprite DMA page
+$02E5  oam_buffer+229                  the sprite DMA page
+$02E6  oam_buffer+230                  the sprite DMA page
+$02E7  oam_buffer+231                  the sprite DMA page
+$02E8  oam_buffer+232                  the sprite DMA page
+$02E9  oam_buffer+233                  the sprite DMA page
+$02EA  oam_buffer+234                  the sprite DMA page
+$02EB  oam_buffer+235                  the sprite DMA page
+$02EC  oam_buffer+236                  the sprite DMA page
+$02ED  oam_buffer+237                  the sprite DMA page
+$02EE  oam_buffer+238                  the sprite DMA page
+$02EF  oam_buffer+239                  the sprite DMA page
+$02F0  oam_buffer+240                  the sprite DMA page
+$02F1  oam_buffer+241                  the sprite DMA page
+$02F2  oam_buffer+242                  the sprite DMA page
+$02F3  oam_buffer+243                  the sprite DMA page
+$02F4  oam_buffer+244                  the sprite DMA page
+$02F5  oam_buffer+245                  the sprite DMA page
+$02F6  oam_buffer+246                  the sprite DMA page
+$02F7  oam_buffer+247                  the sprite DMA page
+$02F8  oam_buffer+248                  the sprite DMA page
+$02F9  oam_buffer+249                  the sprite DMA page
+$02FA  oam_buffer+250                  the sprite DMA page
+$02FB  oam_buffer+251                  the sprite DMA page
+$02FC  oam_buffer+252                  the sprite DMA page
+$02FD  oam_buffer+253                  the sprite DMA page
+$02FE  oam_buffer+254                  the sprite DMA page
+$02FF  oam_buffer+255                  the sprite DMA page
+$0300  sample_flag_0300                named by the routines that write it and how it is used
+$0301  sound_table                     named by the routines that write it and how it is used
+$0302  sound_timer                     named by the routines that write it and how it is used
+$0303  sub_B3_8CBE_table               named by the routines that write it and how it is used
+$0304  sub_B3_8CBE_table_0304          named by the routines that write it and how it is used
+$0305  sound_table+4                   an element of a table read with an index
+$0306  sound_timer+4                   an element of a table read with an index
+$0307  sub_B3_8CBE_table+4             an element of a table read with an index
+$0308  sub_B3_8CBE_table_0304+4        an element of a table read with an index
+$0309  sound_table+8                   an element of a table read with an index
+$030A  sound_timer+8                   an element of a table read with an index
+$030B  sub_B3_8CBE_table+8             an element of a table read with an index
+$030C  sub_B3_8CBE_table_0304+8        an element of a table read with an index
+$030D  sound_table+12                  an element of a table read with an index
+$030E  sound_timer+12                  an element of a table read with an index
+$030F  sub_B3_8CBE_table+12            an element of a table read with an index
+$0310  sub_B3_8CBE_table_0304+12       an element of a table read with an index
+$0311  sound_table_0311                named by the routines that write it and how it is used
+$0312  sound_table_0312                named by the routines that write it and how it is used
+$0313  sound_table_0313                named by the routines that write it and how it is used
+$0314  sound_table_0314                named by the routines that write it and how it is used
+$0315  sound_table_0311+4              an element of a table read with an index
+$0316  sound_table_0312+4              an element of a table read with an index
+$0317  sound_table_0313+4              an element of a table read with an index
+$0318  sound_table_0314+4              an element of a table read with an index
+$0319  sound_table_0311+8              an element of a table read with an index
+$031A  sound_table_0312+8              an element of a table read with an index
+$031B  sound_table_0313+8              an element of a table read with an index
+$031C  sound_table_0314+8              an element of a table read with an index
+$031D  sound_table_0311+12             an element of a table read with an index
+$031E  sound_table_0312+12             an element of a table read with an index
+$031F  sound_table_0313+12             an element of a table read with an index
+$0320  sound_table_0314+12             an element of a table read with an index
+$0321  pulse1_ctrl_copy                a table copied to hardware registers by index
+$0322  pulse1_sweep_copy               a table copied to hardware registers by index
+$0323  pulse1_lo_copy                  a table copied to hardware registers by index
+$0324  pulse1_hi_copy                  a table copied to hardware registers by index
+$0325  pulse2_ctrl_copy                a table copied to hardware registers by index
+$0326  pulse2_sweep_copy               a table copied to hardware registers by index
+$0327  pulse2_lo_copy                  a table copied to hardware registers by index
+$0328  pulse2_hi_copy                  a table copied to hardware registers by index
+$0329  triangle_ctrl_copy              a table copied to hardware registers by index
+$032A  reg_4009_copy                   a table copied to hardware registers by index
+$032B  triangle_lo_copy                a table copied to hardware registers by index
+$032C  triangle_hi_copy                a table copied to hardware registers by index
+$032D  noise_ctrl_copy                 a table copied to hardware registers by index
+$032E  reg_400D_copy                   a table copied to hardware registers by index
+$032F  noise_lo_copy                   a table copied to hardware registers by index
+$0330  noise_hi_copy                   a table copied to hardware registers by index
+$0331  pulse1_ctrl_copy_0331           a table copied to hardware registers by index
+$0332  pulse1_sweep_copy_0332          a table copied to hardware registers by index
+$0333  sound_table_0333                named by the routines that write it and how it is used
+$0334  pulse1_hi_copy_0334             a table copied to hardware registers by index
+$0335  pulse2_ctrl_copy_0335           a table copied to hardware registers by index
+$0336  pulse2_sweep_copy_0336          a table copied to hardware registers by index
+$0337  sound_table_0333+4              an element of a table read with an index
+$0338  pulse2_hi_copy_0338             a table copied to hardware registers by index
+$0339  triangle_ctrl_copy_0339         a table copied to hardware registers by index
+$033A  reg_4009_copy_033A              a table copied to hardware registers by index
+$033B  sound_table_0333+8              an element of a table read with an index
+$033C  triangle_hi_copy_033C           a table copied to hardware registers by index
+$033D  noise_ctrl_copy_033D            a table copied to hardware registers by index
+$033E  reg_400D_copy_033E              a table copied to hardware registers by index
+$033F  sound_table_0333+12             an element of a table read with an index
+$0340  noise_hi_copy_0340              a table copied to hardware registers by index
+$0341  frame_update_20_table           named by the routines that write it and how it is used
+$0342  frame_update_20_table_0342      named by the routines that write it and how it is used
+$0343  frame_update_20_timer           named by the routines that write it and how it is used
+$0344  sound_timer_0344                named by the routines that write it and how it is used
+$0345  frame_update_20_table+4         an element of a table read with an index
+$0346  frame_update_20_table_0342+4    an element of a table read with an index
+$0347  frame_update_20_timer+4         an element of a table read with an index
+$0348  sound_timer_0344+4              an element of a table read with an index
+$0349  frame_update_20_table+8         an element of a table read with an index
+$034A  frame_update_20_table_0342+8    an element of a table read with an index
+$034B  frame_update_20_timer+8         an element of a table read with an index
+$034C  sound_timer_0344+8              an element of a table read with an index
+$034D  frame_update_20_table+12        an element of a table read with an index
+$034E  frame_update_20_table_0342+12   an element of a table read with an index
+$034F  frame_update_20_timer+12        an element of a table read with an index
+$0351  frame_update_14_table           named by the routines that write it and how it is used
+$0352  sound_table_0352                named by the routines that write it and how it is used
+$0353  sound_timer_0353                named by the routines that write it and how it is used
+$0354  frame_update_26_table           named by the routines that write it and how it is used
+$0355  frame_update_14_table+4         an element of a table read with an index
+$0356  sound_table_0352+4              an element of a table read with an index
+$0357  sound_timer_0353+4              an element of a table read with an index
+$0358  frame_update_26_table+4         an element of a table read with an index
+$0359  frame_update_14_table+8         an element of a table read with an index
+$035A  sound_table_0352+8              an element of a table read with an index
+$035B  sound_timer_0353+8              an element of a table read with an index
+$035C  frame_update_26_table+8         an element of a table read with an index
+$035D  frame_update_14_table+12        an element of a table read with an index
+$035E  sound_table_0352+12             an element of a table read with an index
+$035F  sound_timer_0353+12             an element of a table read with an index
+$0360  frame_update_26_table+12        an element of a table read with an index
+$0361  sound_table_0361                named by the routines that write it and how it is used
+$0362  sound_timer_0362                named by the routines that write it and how it is used
+$0363  sound_counter_0363              named by the routines that write it and how it is used
+$0364  sound_timer_0364                named by the routines that write it and how it is used
+$0365  sound_table_0361+4              an element of a table read with an index
+$0366  sound_timer_0362+4              an element of a table read with an index
+$0367  sound_counter_0363+4            an element of a table read with an index
+$0368  sound_timer_0364+4              an element of a table read with an index
+$0369  sound_table_0361+8              an element of a table read with an index
+$036A  sound_timer_0362+8              an element of a table read with an index
+$036B  sound_counter_0363+8            an element of a table read with an index
+$036C  sound_timer_0364+8              an element of a table read with an index
+$036D  sound_table_0361+12             an element of a table read with an index
+$036E  sound_timer_0362+12             an element of a table read with an index
+$0371  sound_table_0371                named by the routines that write it and how it is used
+$0373  sound_timer_0373                named by the routines that write it and how it is used
+$0374  sound_timer_0374                named by the routines that write it and how it is used
+$0375  sound_table_0371+4              an element of a table read with an index
+$0377  sound_timer_0373+4              an element of a table read with an index
+$0378  sound_timer_0374+4              an element of a table read with an index
+$0379  sound_table_0371+8              an element of a table read with an index
+$037B  sound_timer_0373+8              an element of a table read with an index
+$037C  sound_timer_0374+8              an element of a table read with an index
+$037D  sound_table_0371+12             an element of a table read with an index
+$037F  sound_timer_0373+12             an element of a table read with an index
+$0380  sound_timer_0374+12             an element of a table read with an index
+$0381  sound_timer_0381                named by the routines that write it and how it is used
+$0382  sound_timer_0382                named by the routines that write it and how it is used
+$0383  sub_B3_8CEE_table               named by the routines that write it and how it is used
+$0384  sub_B3_8CEE_counter             named by the routines that write it and how it is used
+$0385  sound_timer_0381+4              an element of a table read with an index
+$0386  sound_timer_0382+4              an element of a table read with an index
+$0387  sub_B3_8CEE_table+4             an element of a table read with an index
+$0388  sub_B3_8CEE_counter+4           an element of a table read with an index
+$0389  sound_timer_0381+8              an element of a table read with an index
+$038A  sound_timer_0382+8              an element of a table read with an index
+$038B  sub_B3_8CEE_table+8             an element of a table read with an index
+$038C  sub_B3_8CEE_counter+8           an element of a table read with an index
+$038D  sound_timer_0381+12             an element of a table read with an index
+$038E  sound_timer_0382+12             an element of a table read with an index
+$038F  sub_B3_8CEE_table+12            an element of a table read with an index
+$0390  sub_B3_8CEE_counter+12          an element of a table read with an index
+$0391  frame_update_25_table           named by the routines that write it and how it is used
+$0392  frame_update_25_table_0392      named by the routines that write it and how it is used
+$0393  sound_flag_0393                 named by the routines that write it and how it is used
+$0394  frame_update_25_table_0394      named by the routines that write it and how it is used
+$0395  frame_update_25_table+4         an element of a table read with an index
+$0396  frame_update_25_table_0392+4    an element of a table read with an index
+$0397  sound_flag_0393+4               an element of a table read with an index
+$0398  frame_update_25_table_0394+4    an element of a table read with an index
+$0399  frame_update_25_table+8         an element of a table read with an index
+$039A  frame_update_25_table_0392+8    an element of a table read with an index
+$039B  sound_flag_0393+8               an element of a table read with an index
+$039C  frame_update_25_table_0394+8    an element of a table read with an index
+$039D  frame_update_25_table+12        an element of a table read with an index
+$039E  frame_update_25_table_0392+12   an element of a table read with an index
+$039F  sound_flag_0393+12              an element of a table read with an index
+$03A0  frame_update_25_table_0394+12   an element of a table read with an index
+$03A1  sound_table_03A1                named by the routines that write it and how it is used
+$03A2  sub_B3_8D2F_table               named by the routines that write it and how it is used
+$03A3  sound_table_03A3                named by the routines that write it and how it is used
+$03A4  sub_B3_8C2A_table               named by the routines that write it and how it is used
+$03A5  sound_table_03A1+4              an element of a table read with an index
+$03A6  sub_B3_8D2F_table+4             an element of a table read with an index
+$03A7  sound_table_03A3+4              an element of a table read with an index
+$03A8  sub_B3_8C2A_table+4             an element of a table read with an index
+$03A9  sound_table_03A1+8              an element of a table read with an index
+$03AA  sub_B3_8D2F_table+8             an element of a table read with an index
+$03AB  sound_table_03A3+8              an element of a table read with an index
+$03AC  sub_B3_8C2A_table+8             an element of a table read with an index
+$03AD  sound_table_03A1+12             an element of a table read with an index
+$03AE  sub_B3_8D2F_table+12            an element of a table read with an index
+$03AF  sound_table_03A3+12             an element of a table read with an index
+$03B0  sub_B3_8C2A_table+12            an element of a table read with an index
+$03B1  obj_table_03B1                  named by the routines that write it and how it is used
+$03B3  obj_timer_03B3                  named by the routines that write it and how it is used
+$03B5  obj_table_03B5                  named by the routines that write it and how it is used
+$03B6  update_frame_counter_counter    named by the routines that write it and how it is used
+$03B7  sub_B1_8018_table               named by the routines that write it and how it is used
+$03B9  obj_table_03B9                  named by the routines that write it and how it is used
+$03BB  obj_state_03BB                  named by the routines that write it and how it is used
+$03BC  obj_state_03BB+1                an element of a table read with an index
+$03BD  obj_table_03BD                  named by the routines that write it and how it is used
+$03BE  obj_table_03BD+1                an element of a table read with an index
+$03BF  obj_counter_03BF                named by the routines that write it and how it is used
+$03C0  obj_counter_03BF+1              an element of a table read with an index
+$03C1  obj_kind                        the object table (game.json): field array, slot
+$03C2  obj_kind+1                      the object table (game.json): field array, slot
+$03C3  obj_kind+2                      the object table (game.json): field array, slot
+$03C4  obj_kind+3                      the object table (game.json): field array, slot
+$03C5  obj_kind+4                      the object table (game.json): field array, slot
+$03C6  obj_kind+5                      the object table (game.json): field array, slot
+$03C7  obj_kind+6                      the object table (game.json): field array, slot
+$03C8  obj_kind+7                      the object table (game.json): field array, slot
+$03C9  obj_kind+8                      the object table (game.json): field array, slot
+$03CA  obj_kind+9                      the object table (game.json): field array, slot
+$03CB  obj_kind+10                     the object table (game.json): field array, slot
+$03CC  obj_kind+11                     the object table (game.json): field array, slot
+$03CD  obj_kind+12                     the object table (game.json): field array, slot
+$03CE  obj_kind+13                     the object table (game.json): field array, slot
+$03CF  obj_kind+14                     the object table (game.json): field array, slot
+$03D0  obj_field_1                     the object table (game.json): field array, slot
+$03D1  obj_field_1+1                   the object table (game.json): field array, slot
+$03D2  obj_field_1+2                   the object table (game.json): field array, slot
+$03D3  obj_field_1+3                   the object table (game.json): field array, slot
+$03D4  obj_field_1+4                   the object table (game.json): field array, slot
+$03D5  obj_field_1+5                   the object table (game.json): field array, slot
+$03D6  obj_field_1+6                   the object table (game.json): field array, slot
+$03D7  obj_field_1+7                   the object table (game.json): field array, slot
+$03D8  obj_field_1+8                   the object table (game.json): field array, slot
+$03D9  obj_field_1+9                   the object table (game.json): field array, slot
+$03DA  obj_field_1+10                  the object table (game.json): field array, slot
+$03DB  obj_field_1+11                  the object table (game.json): field array, slot
+$03DC  obj_field_1+12                  the object table (game.json): field array, slot
+$03DD  obj_field_1+13                  the object table (game.json): field array, slot
+$03DE  obj_field_1+14                  the object table (game.json): field array, slot
+$03DF  obj_field_2                     the object table (game.json): field array, slot
+$03E0  obj_field_2+1                   the object table (game.json): field array, slot
+$03E1  obj_field_2+2                   the object table (game.json): field array, slot
+$03E2  obj_field_2+3                   the object table (game.json): field array, slot
+$03E3  obj_field_2+4                   the object table (game.json): field array, slot
+$03E4  obj_field_2+5                   the object table (game.json): field array, slot
+$03E5  obj_field_2+6                   the object table (game.json): field array, slot
+$03E6  obj_field_2+7                   the object table (game.json): field array, slot
+$03E7  obj_field_2+8                   the object table (game.json): field array, slot
+$03E8  obj_field_2+9                   the object table (game.json): field array, slot
+$03E9  obj_field_2+10                  the object table (game.json): field array, slot
+$03EA  obj_field_2+11                  the object table (game.json): field array, slot
+$03EB  obj_field_2+12                  the object table (game.json): field array, slot
+$03EC  obj_field_2+13                  the object table (game.json): field array, slot
+$03ED  obj_field_2+14                  the object table (game.json): field array, slot
+$03EE  obj_x_hi                        the object table (game.json): field array, slot
+$03EF  obj_x_hi+1                      the object table (game.json): field array, slot
+$03F0  obj_x_hi+2                      the object table (game.json): field array, slot
+$03F1  obj_x_hi+3                      the object table (game.json): field array, slot
+$03F2  obj_x_hi+4                      the object table (game.json): field array, slot
+$03F3  obj_x_hi+5                      the object table (game.json): field array, slot
+$03F4  obj_x_hi+6                      the object table (game.json): field array, slot
+$03F5  obj_x_hi+7                      the object table (game.json): field array, slot
+$03F6  obj_x_hi+8                      the object table (game.json): field array, slot
+$03F7  obj_x_hi+9                      the object table (game.json): field array, slot
+$03F8  obj_x_hi+10                     the object table (game.json): field array, slot
+$03F9  obj_x_hi+11                     the object table (game.json): field array, slot
+$03FA  obj_x_hi+12                     the object table (game.json): field array, slot
+$03FB  obj_x_hi+13                     the object table (game.json): field array, slot
+$03FC  obj_x_hi+14                     the object table (game.json): field array, slot
+$03FD  obj_x                           the object table (game.json): field array, slot
+$03FE  obj_x+1                         the object table (game.json): field array, slot
+$03FF  obj_x+2                         the object table (game.json): field array, slot
+$0400  obj_x+3                         the object table (game.json): field array, slot
+$0401  obj_x+4                         the object table (game.json): field array, slot
+$0402  obj_x+5                         the object table (game.json): field array, slot
+$0403  obj_x+6                         the object table (game.json): field array, slot
+$0404  obj_x+7                         the object table (game.json): field array, slot
+$0405  obj_x+8                         the object table (game.json): field array, slot
+$0406  obj_x+9                         the object table (game.json): field array, slot
+$0407  obj_x+10                        the object table (game.json): field array, slot
+$0408  obj_x+11                        the object table (game.json): field array, slot
+$0409  obj_x+12                        the object table (game.json): field array, slot
+$040A  obj_x+13                        the object table (game.json): field array, slot
+$040B  obj_x+14                        the object table (game.json): field array, slot
+$040C  obj_field_5                     the object table (game.json): field array, slot
+$040D  obj_field_5+1                   the object table (game.json): field array, slot
+$040E  obj_field_5+2                   the object table (game.json): field array, slot
+$040F  obj_field_5+3                   the object table (game.json): field array, slot
+$0410  obj_field_5+4                   the object table (game.json): field array, slot
+$0411  obj_field_5+5                   the object table (game.json): field array, slot
+$0412  obj_field_5+6                   the object table (game.json): field array, slot
+$0413  obj_field_5+7                   the object table (game.json): field array, slot
+$0414  obj_field_5+8                   the object table (game.json): field array, slot
+$0415  obj_field_5+9                   the object table (game.json): field array, slot
+$0416  obj_field_5+10                  the object table (game.json): field array, slot
+$0417  obj_field_5+11                  the object table (game.json): field array, slot
+$0418  obj_field_5+12                  the object table (game.json): field array, slot
+$0419  obj_field_5+13                  the object table (game.json): field array, slot
+$041A  obj_field_5+14                  the object table (game.json): field array, slot
+$041B  obj_depth                       the object table (game.json): field array, slot
+$041C  obj_depth+1                     the object table (game.json): field array, slot
+$041D  obj_depth+2                     the object table (game.json): field array, slot
+$041E  obj_depth+3                     the object table (game.json): field array, slot
+$041F  obj_depth+4                     the object table (game.json): field array, slot
+$0420  obj_depth+5                     the object table (game.json): field array, slot
+$0421  obj_depth+6                     the object table (game.json): field array, slot
+$0422  obj_depth+7                     the object table (game.json): field array, slot
+$0423  obj_depth+8                     the object table (game.json): field array, slot
+$0424  obj_depth+9                     the object table (game.json): field array, slot
+$0425  obj_depth+10                    the object table (game.json): field array, slot
+$0426  obj_depth+11                    the object table (game.json): field array, slot
+$0427  obj_depth+12                    the object table (game.json): field array, slot
+$0428  obj_depth+13                    the object table (game.json): field array, slot
+$0429  obj_depth+14                    the object table (game.json): field array, slot
+$042A  obj_field_7                     the object table (game.json): field array, slot
+$042B  obj_field_7+1                   the object table (game.json): field array, slot
+$042C  obj_field_7+2                   the object table (game.json): field array, slot
+$042D  obj_field_7+3                   the object table (game.json): field array, slot
+$042E  obj_field_7+4                   the object table (game.json): field array, slot
+$042F  obj_field_7+5                   the object table (game.json): field array, slot
+$0430  obj_field_7+6                   the object table (game.json): field array, slot
+$0431  obj_field_7+7                   the object table (game.json): field array, slot
+$0432  obj_field_7+8                   the object table (game.json): field array, slot
+$0433  obj_field_7+9                   the object table (game.json): field array, slot
+$0434  obj_field_7+10                  the object table (game.json): field array, slot
+$0435  obj_field_7+11                  the object table (game.json): field array, slot
+$0436  obj_field_7+12                  the object table (game.json): field array, slot
+$0437  obj_field_7+13                  the object table (game.json): field array, slot
+$0438  obj_field_7+14                  the object table (game.json): field array, slot
+$0439  obj_y                           the object table (game.json): field array, slot
+$043A  obj_y+1                         the object table (game.json): field array, slot
+$043B  obj_y+2                         the object table (game.json): field array, slot
+$043C  obj_y+3                         the object table (game.json): field array, slot
+$043D  obj_y+4                         the object table (game.json): field array, slot
+$043E  obj_y+5                         the object table (game.json): field array, slot
+$043F  obj_y+6                         the object table (game.json): field array, slot
+$0440  obj_y+7                         the object table (game.json): field array, slot
+$0441  obj_y+8                         the object table (game.json): field array, slot
+$0442  obj_y+9                         the object table (game.json): field array, slot
+$0443  obj_y+10                        the object table (game.json): field array, slot
+$0444  obj_y+11                        the object table (game.json): field array, slot
+$0445  obj_y+12                        the object table (game.json): field array, slot
+$0446  obj_y+13                        the object table (game.json): field array, slot
+$0447  obj_y+14                        the object table (game.json): field array, slot
+$0448  obj_x_sub                       the object table (game.json): field array, slot
+$0449  obj_x_sub+1                     the object table (game.json): field array, slot
+$044A  obj_x_sub+2                     the object table (game.json): field array, slot
+$044B  obj_x_sub+3                     the object table (game.json): field array, slot
+$044C  obj_x_sub+4                     the object table (game.json): field array, slot
+$044D  obj_x_sub+5                     the object table (game.json): field array, slot
+$044E  obj_x_sub+6                     the object table (game.json): field array, slot
+$044F  obj_x_sub+7                     the object table (game.json): field array, slot
+$0450  obj_x_sub+8                     the object table (game.json): field array, slot
+$0451  obj_x_sub+9                     the object table (game.json): field array, slot
+$0452  obj_x_sub+10                    the object table (game.json): field array, slot
+$0453  obj_x_sub+11                    the object table (game.json): field array, slot
+$0454  obj_x_sub+12                    the object table (game.json): field array, slot
+$0455  obj_x_sub+13                    the object table (game.json): field array, slot
+$0456  obj_x_sub+14                    the object table (game.json): field array, slot
+$0457  obj_field_10                    the object table (game.json): field array, slot
+$0458  obj_field_10+1                  the object table (game.json): field array, slot
+$0459  obj_field_10+2                  the object table (game.json): field array, slot
+$045A  obj_field_10+3                  the object table (game.json): field array, slot
+$045B  obj_field_10+4                  the object table (game.json): field array, slot
+$045C  obj_field_10+5                  the object table (game.json): field array, slot
+$045D  obj_field_10+6                  the object table (game.json): field array, slot
+$045E  obj_field_10+7                  the object table (game.json): field array, slot
+$045F  obj_field_10+8                  the object table (game.json): field array, slot
+$0460  obj_field_10+9                  the object table (game.json): field array, slot
+$0461  obj_field_10+10                 the object table (game.json): field array, slot
+$0462  obj_field_10+11                 the object table (game.json): field array, slot
+$0463  obj_field_10+12                 the object table (game.json): field array, slot
+$0464  obj_field_10+13                 the object table (game.json): field array, slot
+$0465  obj_field_10+14                 the object table (game.json): field array, slot
+$0466  obj_field_11                    the object table (game.json): field array, slot
+$0467  obj_field_11+1                  the object table (game.json): field array, slot
+$0468  obj_field_11+2                  the object table (game.json): field array, slot
+$0469  obj_field_11+3                  the object table (game.json): field array, slot
+$046A  obj_field_11+4                  the object table (game.json): field array, slot
+$046B  obj_field_11+5                  the object table (game.json): field array, slot
+$046C  obj_field_11+6                  the object table (game.json): field array, slot
+$046D  obj_field_11+7                  the object table (game.json): field array, slot
+$046E  obj_field_11+8                  the object table (game.json): field array, slot
+$046F  obj_field_11+9                  the object table (game.json): field array, slot
+$0470  obj_field_11+10                 the object table (game.json): field array, slot
+$0471  obj_field_11+11                 the object table (game.json): field array, slot
+$0472  obj_field_11+12                 the object table (game.json): field array, slot
+$0473  obj_field_11+13                 the object table (game.json): field array, slot
+$0474  obj_field_11+14                 the object table (game.json): field array, slot
+$0475  obj_height                      the object table (game.json): field array, slot
+$0476  obj_height+1                    the object table (game.json): field array, slot
+$0477  obj_height+2                    the object table (game.json): field array, slot
+$0478  obj_height+3                    the object table (game.json): field array, slot
+$0479  obj_height+4                    the object table (game.json): field array, slot
+$047A  obj_height+5                    the object table (game.json): field array, slot
+$047B  obj_height+6                    the object table (game.json): field array, slot
+$047C  obj_height+7                    the object table (game.json): field array, slot
+$047D  obj_height+8                    the object table (game.json): field array, slot
+$047E  obj_height+9                    the object table (game.json): field array, slot
+$047F  obj_height+10                   the object table (game.json): field array, slot
+$0480  obj_height+11                   the object table (game.json): field array, slot
+$0481  obj_height+12                   the object table (game.json): field array, slot
+$0482  obj_height+13                   the object table (game.json): field array, slot
+$0483  obj_height+14                   the object table (game.json): field array, slot
+$0484  obj_screen_x                    the object table (game.json): field array, slot
+$0485  obj_screen_x+1                  the object table (game.json): field array, slot
+$0486  obj_screen_x+2                  the object table (game.json): field array, slot
+$0487  obj_screen_x+3                  the object table (game.json): field array, slot
+$0488  obj_screen_x+4                  the object table (game.json): field array, slot
+$0489  obj_screen_x+5                  the object table (game.json): field array, slot
+$048A  obj_screen_x+6                  the object table (game.json): field array, slot
+$048B  obj_screen_x+7                  the object table (game.json): field array, slot
+$048C  obj_screen_x+8                  the object table (game.json): field array, slot
+$048D  obj_screen_x+9                  the object table (game.json): field array, slot
+$048E  obj_screen_x+10                 the object table (game.json): field array, slot
+$048F  obj_screen_x+11                 the object table (game.json): field array, slot
+$0490  obj_screen_x+12                 the object table (game.json): field array, slot
+$0491  obj_screen_x+13                 the object table (game.json): field array, slot
+$0492  obj_screen_x+14                 the object table (game.json): field array, slot
+$0493  obj_field_14                    the object table (game.json): field array, slot
+$0494  obj_field_14+1                  the object table (game.json): field array, slot
+$0495  obj_field_14+2                  the object table (game.json): field array, slot
+$0496  obj_field_14+3                  the object table (game.json): field array, slot
+$0497  obj_field_14+4                  the object table (game.json): field array, slot
+$0498  obj_field_14+5                  the object table (game.json): field array, slot
+$0499  obj_field_14+6                  the object table (game.json): field array, slot
+$049A  obj_field_14+7                  the object table (game.json): field array, slot
+$049B  obj_field_14+8                  the object table (game.json): field array, slot
+$049C  obj_field_14+9                  the object table (game.json): field array, slot
+$049D  obj_field_14+10                 the object table (game.json): field array, slot
+$049E  obj_field_14+11                 the object table (game.json): field array, slot
+$049F  obj_field_14+12                 the object table (game.json): field array, slot
+$04A0  obj_field_14+13                 the object table (game.json): field array, slot
+$04A1  obj_field_14+14                 the object table (game.json): field array, slot
+$04A2  obj_facing                      the object table (game.json): field array, slot
+$04A3  obj_facing+1                    the object table (game.json): field array, slot
+$04A4  obj_facing+2                    the object table (game.json): field array, slot
+$04A5  obj_facing+3                    the object table (game.json): field array, slot
+$04A6  obj_facing+4                    the object table (game.json): field array, slot
+$04A7  obj_facing+5                    the object table (game.json): field array, slot
+$04A8  obj_facing+6                    the object table (game.json): field array, slot
+$04A9  obj_facing+7                    the object table (game.json): field array, slot
+$04AA  obj_facing+8                    the object table (game.json): field array, slot
+$04AB  obj_facing+9                    the object table (game.json): field array, slot
+$04AC  obj_facing+10                   the object table (game.json): field array, slot
+$04AD  obj_facing+11                   the object table (game.json): field array, slot
+$04AE  obj_facing+12                   the object table (game.json): field array, slot
+$04AF  obj_facing+13                   the object table (game.json): field array, slot
+$04B0  obj_facing+14                   the object table (game.json): field array, slot
+$04B1  obj_field_16                    the object table (game.json): field array, slot
+$04B2  obj_field_16+1                  the object table (game.json): field array, slot
+$04B3  obj_field_16+2                  the object table (game.json): field array, slot
+$04B4  obj_field_16+3                  the object table (game.json): field array, slot
+$04B5  obj_field_16+4                  the object table (game.json): field array, slot
+$04B6  obj_field_16+5                  the object table (game.json): field array, slot
+$04B7  obj_field_16+6                  the object table (game.json): field array, slot
+$04B8  obj_field_16+7                  the object table (game.json): field array, slot
+$04B9  obj_field_16+8                  the object table (game.json): field array, slot
+$04BA  obj_field_16+9                  the object table (game.json): field array, slot
+$04BB  obj_field_16+10                 the object table (game.json): field array, slot
+$04BC  obj_field_16+11                 the object table (game.json): field array, slot
+$04BD  obj_field_16+12                 the object table (game.json): field array, slot
+$04BE  obj_field_16+13                 the object table (game.json): field array, slot
+$04BF  obj_field_16+14                 the object table (game.json): field array, slot
+$04C0  obj_field_17                    the object table (game.json): field array, slot
+$04C1  obj_field_17+1                  the object table (game.json): field array, slot
+$04C2  obj_field_17+2                  the object table (game.json): field array, slot
+$04C3  obj_field_17+3                  the object table (game.json): field array, slot
+$04C4  obj_field_17+4                  the object table (game.json): field array, slot
+$04C5  obj_field_17+5                  the object table (game.json): field array, slot
+$04C6  obj_field_17+6                  the object table (game.json): field array, slot
+$04C7  obj_field_17+7                  the object table (game.json): field array, slot
+$04C8  obj_field_17+8                  the object table (game.json): field array, slot
+$04C9  obj_field_17+9                  the object table (game.json): field array, slot
+$04CA  obj_field_17+10                 the object table (game.json): field array, slot
+$04CB  obj_field_17+11                 the object table (game.json): field array, slot
+$04CC  obj_field_17+12                 the object table (game.json): field array, slot
+$04CD  obj_field_17+13                 the object table (game.json): field array, slot
+$04CE  obj_field_17+14                 the object table (game.json): field array, slot
+$04CF  obj_field_18                    the object table (game.json): field array, slot
+$04D0  obj_field_18+1                  the object table (game.json): field array, slot
+$04D1  obj_field_18+2                  the object table (game.json): field array, slot
+$04D2  obj_field_18+3                  the object table (game.json): field array, slot
+$04D3  obj_field_18+4                  the object table (game.json): field array, slot
+$04D4  obj_field_18+5                  the object table (game.json): field array, slot
+$04D5  obj_field_18+6                  the object table (game.json): field array, slot
+$04D6  obj_field_18+7                  the object table (game.json): field array, slot
+$04D7  obj_field_18+8                  the object table (game.json): field array, slot
+$04D8  obj_field_18+9                  the object table (game.json): field array, slot
+$04D9  obj_field_18+10                 the object table (game.json): field array, slot
+$04DA  obj_field_18+11                 the object table (game.json): field array, slot
+$04DB  obj_field_18+12                 the object table (game.json): field array, slot
+$04DC  obj_field_18+13                 the object table (game.json): field array, slot
+$04DD  obj_field_18+14                 the object table (game.json): field array, slot
+$04DE  obj_field_19                    the object table (game.json): field array, slot
+$04DF  obj_field_19+1                  the object table (game.json): field array, slot
+$04E0  obj_field_19+2                  the object table (game.json): field array, slot
+$04E1  obj_field_19+3                  the object table (game.json): field array, slot
+$04E2  obj_field_19+4                  the object table (game.json): field array, slot
+$04E3  obj_field_19+5                  the object table (game.json): field array, slot
+$04E4  obj_field_19+6                  the object table (game.json): field array, slot
+$04E5  obj_field_19+7                  the object table (game.json): field array, slot
+$04E6  obj_field_19+8                  the object table (game.json): field array, slot
+$04E7  obj_field_19+9                  the object table (game.json): field array, slot
+$04E8  obj_field_19+10                 the object table (game.json): field array, slot
+$04E9  obj_field_19+11                 the object table (game.json): field array, slot
+$04EA  obj_field_19+12                 the object table (game.json): field array, slot
+$04EB  obj_field_19+13                 the object table (game.json): field array, slot
+$04EC  obj_field_19+14                 the object table (game.json): field array, slot
+$04ED  obj_timer_20                    the object table (game.json): field array, slot
+$04EE  obj_timer_20+1                  the object table (game.json): field array, slot
+$04EF  obj_timer_20+2                  the object table (game.json): field array, slot
+$04F0  obj_timer_20+3                  the object table (game.json): field array, slot
+$04F1  obj_timer_20+4                  the object table (game.json): field array, slot
+$04F2  obj_timer_20+5                  the object table (game.json): field array, slot
+$04F3  obj_timer_20+6                  the object table (game.json): field array, slot
+$04F4  obj_timer_20+7                  the object table (game.json): field array, slot
+$04F5  obj_timer_20+8                  the object table (game.json): field array, slot
+$04F6  obj_timer_20+9                  the object table (game.json): field array, slot
+$04F7  obj_timer_20+10                 the object table (game.json): field array, slot
+$04F8  obj_timer_20+11                 the object table (game.json): field array, slot
+$04F9  obj_timer_20+12                 the object table (game.json): field array, slot
+$04FA  obj_timer_20+13                 the object table (game.json): field array, slot
+$04FB  obj_timer_20+14                 the object table (game.json): field array, slot
+$04FC  obj_field_21                    the object table (game.json): field array, slot
+$04FD  obj_field_21+1                  the object table (game.json): field array, slot
+$04FE  obj_field_21+2                  the object table (game.json): field array, slot
+$04FF  obj_field_21+3                  the object table (game.json): field array, slot
+$0500  obj_field_21+4                  the object table (game.json): field array, slot
+$0501  obj_field_21+5                  the object table (game.json): field array, slot
+$0502  obj_field_21+6                  the object table (game.json): field array, slot
+$0503  obj_field_21+7                  the object table (game.json): field array, slot
+$0504  obj_field_21+8                  the object table (game.json): field array, slot
+$0505  obj_field_21+9                  the object table (game.json): field array, slot
+$0506  obj_field_21+10                 the object table (game.json): field array, slot
+$0507  obj_field_21+11                 the object table (game.json): field array, slot
+$0508  obj_field_21+12                 the object table (game.json): field array, slot
+$0509  obj_field_21+13                 the object table (game.json): field array, slot
+$050A  obj_field_21+14                 the object table (game.json): field array, slot
+$050B  obj_field_22                    the object table (game.json): field array, slot
+$050C  obj_field_22+1                  the object table (game.json): field array, slot
+$050D  obj_field_22+2                  the object table (game.json): field array, slot
+$050E  obj_field_22+3                  the object table (game.json): field array, slot
+$050F  obj_field_22+4                  the object table (game.json): field array, slot
+$0510  obj_field_22+5                  the object table (game.json): field array, slot
+$0511  obj_field_22+6                  the object table (game.json): field array, slot
+$0512  obj_field_22+7                  the object table (game.json): field array, slot
+$0513  obj_field_22+8                  the object table (game.json): field array, slot
+$0514  obj_field_22+9                  the object table (game.json): field array, slot
+$0515  obj_field_22+10                 the object table (game.json): field array, slot
+$0516  obj_field_22+11                 the object table (game.json): field array, slot
+$0517  obj_field_22+12                 the object table (game.json): field array, slot
+$0518  obj_field_22+13                 the object table (game.json): field array, slot
+$0519  obj_field_22+14                 the object table (game.json): field array, slot
+$051A  obj_health_or_timer             the object table (game.json): field array, slot
+$051B  obj_health_or_timer+1           the object table (game.json): field array, slot
+$051C  obj_health_or_timer+2           the object table (game.json): field array, slot
+$051D  obj_health_or_timer+3           the object table (game.json): field array, slot
+$051E  obj_health_or_timer+4           the object table (game.json): field array, slot
+$051F  obj_health_or_timer+5           the object table (game.json): field array, slot
+$0520  obj_health_or_timer+6           the object table (game.json): field array, slot
+$0521  obj_health_or_timer+7           the object table (game.json): field array, slot
+$0522  obj_health_or_timer+8           the object table (game.json): field array, slot
+$0523  obj_health_or_timer+9           the object table (game.json): field array, slot
+$0524  obj_health_or_timer+10          the object table (game.json): field array, slot
+$0525  obj_health_or_timer+11          the object table (game.json): field array, slot
+$0526  obj_health_or_timer+12          the object table (game.json): field array, slot
+$0527  obj_health_or_timer+13          the object table (game.json): field array, slot
+$0528  obj_health_or_timer+14          the object table (game.json): field array, slot
+$0529  obj_field_24                    the object table (game.json): field array, slot
+$052A  obj_field_24+1                  the object table (game.json): field array, slot
+$052B  obj_field_24+2                  the object table (game.json): field array, slot
+$052C  obj_field_24+3                  the object table (game.json): field array, slot
+$052D  obj_field_24+4                  the object table (game.json): field array, slot
+$052E  obj_field_24+5                  the object table (game.json): field array, slot
+$052F  obj_field_24+6                  the object table (game.json): field array, slot
+$0530  obj_field_24+7                  the object table (game.json): field array, slot
+$0531  obj_field_24+8                  the object table (game.json): field array, slot
+$0532  obj_field_24+9                  the object table (game.json): field array, slot
+$0533  obj_field_24+10                 the object table (game.json): field array, slot
+$0534  obj_field_24+11                 the object table (game.json): field array, slot
+$0535  obj_field_24+12                 the object table (game.json): field array, slot
+$0536  obj_field_24+13                 the object table (game.json): field array, slot
+$0537  obj_field_24+14                 the object table (game.json): field array, slot
+$0538  obj_field_25                    the object table (game.json): field array, slot
+$0539  obj_field_25+1                  the object table (game.json): field array, slot
+$053A  obj_field_25+2                  the object table (game.json): field array, slot
+$053B  obj_field_25+3                  the object table (game.json): field array, slot
+$053C  obj_field_25+4                  the object table (game.json): field array, slot
+$053D  obj_field_25+5                  the object table (game.json): field array, slot
+$053E  obj_field_25+6                  the object table (game.json): field array, slot
+$053F  obj_field_25+7                  the object table (game.json): field array, slot
+$0540  obj_field_25+8                  the object table (game.json): field array, slot
+$0541  obj_field_25+9                  the object table (game.json): field array, slot
+$0542  obj_field_25+10                 the object table (game.json): field array, slot
+$0543  obj_field_25+11                 the object table (game.json): field array, slot
+$0544  obj_field_25+12                 the object table (game.json): field array, slot
+$0545  obj_field_25+13                 the object table (game.json): field array, slot
+$0546  obj_field_25+14                 the object table (game.json): field array, slot
+$0547  obj_timer_26                    the object table (game.json): field array, slot
+$0548  obj_timer_26+1                  the object table (game.json): field array, slot
+$0549  obj_timer_26+2                  the object table (game.json): field array, slot
+$054A  obj_timer_26+3                  the object table (game.json): field array, slot
+$054B  obj_timer_26+4                  the object table (game.json): field array, slot
+$054C  obj_timer_26+5                  the object table (game.json): field array, slot
+$054D  obj_timer_26+6                  the object table (game.json): field array, slot
+$054E  obj_timer_26+7                  the object table (game.json): field array, slot
+$054F  obj_timer_26+8                  the object table (game.json): field array, slot
+$0550  obj_timer_26+9                  the object table (game.json): field array, slot
+$0551  obj_timer_26+10                 the object table (game.json): field array, slot
+$0552  obj_timer_26+11                 the object table (game.json): field array, slot
+$0553  obj_timer_26+12                 the object table (game.json): field array, slot
+$0554  obj_timer_26+13                 the object table (game.json): field array, slot
+$0555  obj_timer_26+14                 the object table (game.json): field array, slot
+$0556  obj_field_27                    the object table (game.json): field array, slot
+$0557  obj_field_27+1                  the object table (game.json): field array, slot
+$0558  obj_field_27+2                  the object table (game.json): field array, slot
+$0559  obj_field_27+3                  the object table (game.json): field array, slot
+$055A  obj_field_27+4                  the object table (game.json): field array, slot
+$055B  obj_field_27+5                  the object table (game.json): field array, slot
+$055C  obj_field_27+6                  the object table (game.json): field array, slot
+$055D  obj_field_27+7                  the object table (game.json): field array, slot
+$055E  obj_field_27+8                  the object table (game.json): field array, slot
+$055F  obj_field_27+9                  the object table (game.json): field array, slot
+$0560  obj_field_27+10                 the object table (game.json): field array, slot
+$0561  obj_field_27+11                 the object table (game.json): field array, slot
+$0562  obj_field_27+12                 the object table (game.json): field array, slot
+$0563  obj_field_27+13                 the object table (game.json): field array, slot
+$0564  obj_field_27+14                 the object table (game.json): field array, slot
+$0565  obj_field_28                    the object table (game.json): field array, slot
+$0566  obj_field_28+1                  the object table (game.json): field array, slot
+$0567  obj_field_28+2                  the object table (game.json): field array, slot
+$0568  obj_field_28+3                  the object table (game.json): field array, slot
+$0569  obj_field_28+4                  the object table (game.json): field array, slot
+$056A  obj_field_28+5                  the object table (game.json): field array, slot
+$056B  obj_field_28+6                  the object table (game.json): field array, slot
+$056C  obj_field_28+7                  the object table (game.json): field array, slot
+$056D  obj_field_28+8                  the object table (game.json): field array, slot
+$056E  obj_field_28+9                  the object table (game.json): field array, slot
+$056F  obj_field_28+10                 the object table (game.json): field array, slot
+$0570  obj_field_28+11                 the object table (game.json): field array, slot
+$0571  obj_field_28+12                 the object table (game.json): field array, slot
+$0572  obj_field_28+13                 the object table (game.json): field array, slot
+$0573  obj_field_28+14                 the object table (game.json): field array, slot
+$0574  obj_timer_29                    the object table (game.json): field array, slot
+$0575  obj_timer_29+1                  the object table (game.json): field array, slot
+$0576  obj_timer_29+2                  the object table (game.json): field array, slot
+$0577  obj_timer_29+3                  the object table (game.json): field array, slot
+$0578  obj_timer_29+4                  the object table (game.json): field array, slot
+$0579  obj_timer_29+5                  the object table (game.json): field array, slot
+$057A  obj_timer_29+6                  the object table (game.json): field array, slot
+$057B  obj_timer_29+7                  the object table (game.json): field array, slot
+$057C  obj_timer_29+8                  the object table (game.json): field array, slot
+$057D  obj_timer_29+9                  the object table (game.json): field array, slot
+$057E  obj_timer_29+10                 the object table (game.json): field array, slot
+$057F  obj_timer_29+11                 the object table (game.json): field array, slot
+$0580  obj_timer_29+12                 the object table (game.json): field array, slot
+$0581  obj_timer_29+13                 the object table (game.json): field array, slot
+$0582  obj_timer_29+14                 the object table (game.json): field array, slot
+$0583  obj_field_30                    the object table (game.json): field array, slot
+$0584  obj_field_30+1                  the object table (game.json): field array, slot
+$0585  obj_field_30+2                  the object table (game.json): field array, slot
+$0586  obj_field_30+3                  the object table (game.json): field array, slot
+$0587  obj_field_30+4                  the object table (game.json): field array, slot
+$0588  obj_field_30+5                  the object table (game.json): field array, slot
+$0589  obj_field_30+6                  the object table (game.json): field array, slot
+$058A  obj_field_30+7                  the object table (game.json): field array, slot
+$058B  obj_field_30+8                  the object table (game.json): field array, slot
+$058C  obj_field_30+9                  the object table (game.json): field array, slot
+$058D  obj_field_30+10                 the object table (game.json): field array, slot
+$058E  obj_field_30+11                 the object table (game.json): field array, slot
+$058F  obj_field_30+12                 the object table (game.json): field array, slot
+$0590  obj_field_30+13                 the object table (game.json): field array, slot
+$0591  obj_field_30+14                 the object table (game.json): field array, slot
+$0592  obj_field_31                    the object table (game.json): field array, slot
+$0593  obj_field_31+1                  the object table (game.json): field array, slot
+$0594  obj_field_31+2                  the object table (game.json): field array, slot
+$0595  obj_field_31+3                  the object table (game.json): field array, slot
+$0596  obj_field_31+4                  the object table (game.json): field array, slot
+$0597  obj_field_31+5                  the object table (game.json): field array, slot
+$0598  obj_field_31+6                  the object table (game.json): field array, slot
+$0599  obj_field_31+7                  the object table (game.json): field array, slot
+$059A  obj_field_31+8                  the object table (game.json): field array, slot
+$059B  obj_field_31+9                  the object table (game.json): field array, slot
+$059C  obj_field_31+10                 the object table (game.json): field array, slot
+$059D  obj_field_31+11                 the object table (game.json): field array, slot
+$059E  obj_field_31+12                 the object table (game.json): field array, slot
+$059F  obj_field_31+13                 the object table (game.json): field array, slot
+$05A0  obj_field_31+14                 the object table (game.json): field array, slot
+$05A1  obj_counter_32                  the object table (game.json): field array, slot
+$05A2  obj_counter_32+1                the object table (game.json): field array, slot
+$05A3  obj_counter_32+2                the object table (game.json): field array, slot
+$05A4  obj_counter_32+3                the object table (game.json): field array, slot
+$05A5  obj_counter_32+4                the object table (game.json): field array, slot
+$05A6  obj_counter_32+5                the object table (game.json): field array, slot
+$05A7  obj_counter_32+6                the object table (game.json): field array, slot
+$05A8  obj_counter_32+7                the object table (game.json): field array, slot
+$05A9  obj_counter_32+8                the object table (game.json): field array, slot
+$05AA  obj_counter_32+9                the object table (game.json): field array, slot
+$05AB  obj_counter_32+10               the object table (game.json): field array, slot
+$05AC  obj_counter_32+11               the object table (game.json): field array, slot
+$05AD  obj_counter_32+12               the object table (game.json): field array, slot
+$05AE  obj_counter_32+13               the object table (game.json): field array, slot
+$05AF  obj_counter_32+14               the object table (game.json): field array, slot
+$05B0  obj_counter_05B0                named by the routines that write it and how it is used
+$05B2  ppu_timer_05B2                  named by the routines that write it and how it is used
+$05B3  ppu_timer_05B2+1                an element of a table read with an index
+$05B4  obj_table_05B4                  named by the routines that write it and how it is used
+$05B5  obj_table_05B4+1                an element of a table read with an index
+$05B6  obj_table_05B6                  named by the routines that write it and how it is used
+$05B7  obj_table_05B6+1                an element of a table read with an index
+$05B8  obj_counter_05B8                named by the routines that write it and how it is used
+$05B9  obj_value_05B9                  named by the routines that write it and how it is used
+$05BA  obj_table_05BA                  named by the routines that write it and how it is used
+$05BB  obj_value_05BB                  named by the routines that write it and how it is used
+$05BC  obj_counter_05BC                named by the routines that write it and how it is used
+$05BD  obj_table_05BD                  named by the routines that write it and how it is used
+$05BE  obj_table_05BD+1                an element of a table read with an index
+$05BF  obj_counter_05BF                named by the routines that write it and how it is used
+$05C1  obj_flag_05C1                   named by the routines that write it and how it is used
+$05C2  obj_flag_05C1+1                 an element of a table read with an index
+$05C3  ppu_timer_05C3                  named by the routines that write it and how it is used
+$05C5  ppu_counter_05C5                named by the routines that write it and how it is used
+$05C6  ppu_counter_05C5+1              an element of a table read with an index
+$05C7  ppu_counter_05C7                named by the routines that write it and how it is used
+$05C9  ppu_table_05C9                  named by the routines that write it and how it is used
+$05CB  l6_frame_update_2_value         named by the routines that write it and how it is used
+$05CC  l6_frame_update_value_05CC      named by the routines that write it and how it is used
+$05CD  l6_frame_update_value_05CD      named by the routines that write it and how it is used
+$05CE  ppu_timer_05CE                  named by the routines that write it and how it is used
+$05CF  ppu_timer_05CE+1                an element of a table read with an index
+$05D0  ppu_table_05D0                  named by the routines that write it and how it is used
+$05D1  ppu_table_05D0+1                an element of a table read with an index
+$05D2  camera_x_lo_offsets             an offset of a proven cell
+$05D3  camera_y_lo_offsets             an offset of a proven cell
+$05D4  scroll_counter                  named by the routines that write it and how it is used
+$05D5  camera_x_hi_offsets             an offset of a proven cell
+$05D6  camera_x_lo_offsets+4           an element of a ROM table copied in
+$05D7  camera_y_lo_offsets+4           an element of a table read with an index
+$05D8  scroll_counter+4                an element of a table read with an index
+$05D9  camera_x_hi_offsets+4           an element of a table read with an index
+$05DA  camera_x_lo_offsets+8           an element of a ROM table copied in
+$05DB  camera_y_lo_offsets+8           an element of a table read with an index
+$05DC  scroll_counter+8                an element of a table read with an index
+$05DD  camera_x_hi_offsets+8           an element of a table read with an index
+$05DE  camera_x_lo_offsets+12          an element of a ROM table copied in
+$05DF  camera_y_lo_offsets+12          an element of a table read with an index
+$05E0  scroll_counter+12               an element of a table read with an index
+$05E1  camera_x_hi_offsets+12          an element of a table read with an index
+$05E2  camera_x_lo_offsets+16          an element of a ROM table copied in
+$05E3  camera_y_lo_offsets+16          an element of a table read with an index
+$05E4  scroll_counter+16               an element of a table read with an index
+$05E5  camera_x_hi_offsets+16          an element of a table read with an index
+$05EF  add_counter                     named by the routines that write it and how it is used
+$05F4  p1_score                        proven by experiment (game.json)
+$05F5  p1_score+1                      proven by experiment (game.json)
+$05F6  p1_score+2                      proven by experiment (game.json)
+$05F7  p1_score+3                      proven by experiment (game.json)
+$05F8  p1_score+4                      proven by experiment (game.json)
+$05F9  p1_score+5                      proven by experiment (game.json)
+$05FA  sub_B3_804B_table               named by the routines that write it and how it is used
+$05FB  sub_B3_804B_table+1             an element of a table read with an index
+$05FC  sub_B3_804B_table+2             an element of a table read with an index
+$05FD  sub_B3_804B_table+3             an element of a table read with an index
+$05FE  sub_B3_804B_table+4             an element of a table read with an index
+$05FF  sub_B3_804B_table+5             an element of a table read with an index
+$0600  copy_rom_table_2_rom_copy       a ROM table copied in by an index
+$0601  copy_rom_table_2_rom_copy+1     an element of a ROM table copied in
+$0602  copy_rom_table_2_rom_copy+2     an element of a ROM table copied in
+$0603  copy_rom_table_2_rom_copy+3     an element of a ROM table copied in
+$0604  copy_rom_table_2_rom_copy+4     an element of a ROM table copied in
+$0605  copy_rom_table_2_rom_copy+5     an element of a ROM table copied in
+$0606  copy_rom_table_2_rom_copy+6     an element of a ROM table copied in
+$0607  copy_rom_table_2_rom_copy+7     an element of a ROM table copied in
+$0608  copy_rom_table_2_rom_copy+8     an element of a ROM table copied in
+$0609  copy_rom_table_2_rom_copy+9     an element of a ROM table copied in
+$060A  copy_rom_table_2_rom_copy+10    an element of a ROM table copied in
+$060B  copy_rom_table_2_rom_copy+11    an element of a ROM table copied in
+$060C  copy_rom_table_2_rom_copy+12    an element of a ROM table copied in
+$060D  copy_rom_table_2_rom_copy+13    an element of a ROM table copied in
+$060E  copy_rom_table_2_rom_copy+14    an element of a ROM table copied in
+$060F  copy_rom_table_2_rom_copy+15    an element of a ROM table copied in
+$0610  copy_rom_table_2_rom_copy+16    an element of a ROM table copied in
+$0611  copy_rom_table_2_rom_copy+17    an element of a ROM table copied in
+$0612  copy_rom_table_2_rom_copy+18    an element of a ROM table copied in
+$0613  copy_rom_table_2_rom_copy+19    an element of a ROM table copied in
+$0614  copy_rom_table_2_rom_copy+20    an element of a ROM table copied in
+$0615  copy_rom_table_2_rom_copy+21    an element of a ROM table copied in
+$0616  copy_rom_table_2_rom_copy+22    an element of a ROM table copied in
+$0617  copy_rom_table_2_rom_copy+23    an element of a ROM table copied in
+$0618  copy_rom_table_2_rom_copy+24    an element of a ROM table copied in
+$0619  copy_rom_table_2_rom_copy+25    an element of a ROM table copied in
+$061A  copy_rom_table_2_rom_copy+26    an element of a ROM table copied in
+$061B  copy_rom_table_2_rom_copy+27    an element of a ROM table copied in
+$061C  copy_rom_table_2_rom_copy+28    an element of a ROM table copied in
+$061D  copy_rom_table_2_rom_copy+29    an element of a ROM table copied in
+$061E  copy_rom_table_2_rom_copy+30    an element of a ROM table copied in
+$061F  copy_rom_table_2_rom_copy+31    an element of a ROM table copied in
+$0620  copy_rom_table_2_rom_copy+32    an element of a ROM table copied in
+$0621  copy_rom_table_2_rom_copy+33    an element of a ROM table copied in
+$0622  copy_rom_table_2_rom_copy+34    an element of a ROM table copied in
+$0623  copy_rom_table_2_rom_copy+35    an element of a ROM table copied in
+$0624  copy_rom_table_2_rom_copy+36    an element of a ROM table copied in
+$0625  copy_rom_table_2_rom_copy+37    an element of a ROM table copied in
+$0626  copy_rom_table_2_rom_copy+38    an element of a ROM table copied in
+$0627  copy_rom_table_2_rom_copy+39    an element of a ROM table copied in
+$0628  copy_rom_table_2_rom_copy+40    an element of a ROM table copied in
+$0629  copy_rom_table_2_rom_copy+41    an element of a ROM table copied in
+$062A  copy_rom_table_2_rom_copy+42    an element of a ROM table copied in
+$062B  copy_rom_table_2_rom_copy+43    an element of a ROM table copied in
+$062C  copy_rom_table_2_rom_copy+44    an element of a ROM table copied in
+$062D  copy_rom_table_2_rom_copy+45    an element of a ROM table copied in
+$062E  copy_rom_table_2_rom_copy+46    an element of a ROM table copied in
+$062F  copy_rom_table_2_rom_copy+47    an element of a ROM table copied in
+$0630  copy_rom_table_2_rom_copy+48    an element of a ROM table copied in
+$0631  copy_rom_table_2_rom_copy+49    an element of a ROM table copied in
+$0632  copy_rom_table_2_rom_copy+50    an element of a ROM table copied in
+$0633  copy_rom_table_2_rom_copy+51    an element of a ROM table copied in
+$0634  copy_rom_table_2_rom_copy+52    an element of a ROM table copied in
+$0635  copy_rom_table_2_rom_copy+53    an element of a ROM table copied in
+$0636  copy_rom_table_2_rom_copy+54    an element of a ROM table copied in
+$0637  copy_rom_table_2_rom_copy+55    an element of a ROM table copied in
+$0638  copy_rom_table_2_rom_copy+56    an element of a ROM table copied in
+$0639  copy_rom_table_2_rom_copy+57    an element of a ROM table copied in
+$063A  copy_rom_table_2_rom_copy+58    an element of a ROM table copied in
+$063B  copy_rom_table_2_rom_copy+59    an element of a ROM table copied in
+$063C  copy_rom_table_2_rom_copy+60    an element of a ROM table copied in
+$063D  copy_rom_table_2_rom_copy+61    an element of a ROM table copied in
+$063E  copy_rom_table_2_rom_copy+62    an element of a ROM table copied in
+$063F  copy_rom_table_2_rom_copy+63    an element of a ROM table copied in
+$0640  ppu_table_0640                  named by the routines that write it and how it is used
+$0641  ppu_table_0640+1                an element of a table read with an index
+$0642  ppu_table_0640+2                an element of a table read with an index
+$0643  ppu_table_0640+3                an element of a table read with an index
+$0644  ppu_table_0640+4                an element of a table read with an index
+$0645  ppu_table_0640+5                an element of a table read with an index
+$0646  ppu_table_0640+6                an element of a table read with an index
+$0647  update_frame_counter_table      named by the routines that write it and how it is used
+$0648  ppu_table_0640+8                an element of a table read with an index
+$0649  ppu_table_0640+9                an element of a table read with an index
+$064A  ppu_table_0640+10               an element of a table read with an index
+$064B  ppu_table_0640+11               an element of a table read with an index
+$064C  ppu_table_0640+12               an element of a table read with an index
+$064D  ppu_table_0640+13               an element of a table read with an index
+$064E  ppu_table_0640+14               an element of a table read with an index
+$064F  ppu_table_0640+15               an element of a table read with an index
+$0650  obj_table_0650                  named by the routines that write it and how it is used
+$0651  obj_table_0650+1                an element of a table read with an index
+$0652  obj_table_0650+2                an element of a table read with an index
+$0653  obj_table_0650+3                an element of a table read with an index
+$0654  obj_table_0650+4                an element of a table read with an index
+$0655  obj_table_0650+5                an element of a table read with an index
+$0656  obj_table_0650+6                an element of a table read with an index
+$0657  update_frame_counter_table_0657  named by the routines that write it and how it is used
+$0658  obj_table_0650+8                an element of a table read with an index
+$0659  obj_table_0650+9                an element of a table read with an index
+$065A  obj_table_0650+10               an element of a table read with an index
+$065B  obj_table_0650+11               an element of a table read with an index
+$065C  obj_table_0650+12               an element of a table read with an index
+$065D  obj_table_0650+13               an element of a table read with an index
+$065E  obj_table_0650+14               an element of a table read with an index
+$065F  obj_table_0650+15               an element of a table read with an index
+$0660  obj_table_0650+16               an element of a table read with an index
+$0661  obj_table_0650+17               an element of a table read with an index
+$0662  obj_table_0650+18               an element of a table read with an index
+$0663  obj_table_0650+19               an element of a table read with an index
+$0664  obj_table_0650+20               an element of a table read with an index
+$0665  obj_table_0650+21               an element of a table read with an index
+$0666  obj_table_0650+22               an element of a table read with an index
+$0667  update_frame_counter_table_0667  named by the routines that write it and how it is used
+$0668  obj_table_0650+24               an element of a table read with an index
+$0669  obj_table_0650+25               an element of a table read with an index
+$066A  obj_table_0650+26               an element of a table read with an index
+$066B  obj_table_0650+27               an element of a table read with an index
+$066C  obj_table_0650+28               an element of a table read with an index
+$066D  obj_table_0650+29               an element of a table read with an index
+$066E  obj_table_0650+30               an element of a table read with an index
+$066F  obj_table_0650+31               an element of a table read with an index
+$0670  ppu_table_0640+48               an element of a table read with an index
+$0671  ppu_table_0640+49               an element of a table read with an index
+$0672  ppu_table_0640+50               an element of a table read with an index
+$0673  ppu_table_0640+51               an element of a table read with an index
+$0674  ppu_table_0640+52               an element of a table read with an index
+$0675  ppu_table_0640+53               an element of a table read with an index
+$0676  ppu_table_0640+54               an element of a table read with an index
+$0677  update_frame_counter_table_0677  named by the routines that write it and how it is used
+$0678  ppu_table_0640+56               an element of a table read with an index
+$0679  ppu_table_0640+57               an element of a table read with an index
+$067A  ppu_table_0640+58               an element of a table read with an index
+$067B  ppu_table_0640+59               an element of a table read with an index
+$067C  ppu_table_0640+60               an element of a table read with an index
+$067D  ppu_table_0640+61               an element of a table read with an index
+$067E  ppu_table_0640+62               an element of a table read with an index
+$067F  update_frame_counter_table_067F  named by the routines that write it and how it is used
+$0680  update_frame_counter_table_0680  named by the routines that write it and how it is used
+$0681  update_frame_counter_table_0681  named by the routines that write it and how it is used
+$0682  update_frame_counter_table_0680+2  an element of a table read with an index
+$0683  update_frame_counter_table_0680+3  an element of a table read with an index
+$0684  update_frame_counter_table_0680+4  an element of a table read with an index
+$0685  update_frame_counter_table_0680+5  an element of a table read with an index
+$0686  update_frame_counter_table_0680+6  an element of a table read with an index
+$0687  update_frame_counter_table_0680+7  an element of a table read with an index
+$0688  update_frame_counter_table_0688  named by the routines that write it and how it is used
+$0689  update_frame_counter_table_0688+1  an element of a table read with an index
+$068A  update_frame_counter_table_0688+2  an element of a table read with an index
+$068B  update_frame_counter_table_0688+3  an element of a table read with an index
+$068C  update_frame_counter_table_0688+4  an element of a table read with an index
+$068D  update_frame_counter_table_0688+5  an element of a table read with an index
+$068E  update_frame_counter_table_0688+6  an element of a table read with an index
+$068F  update_frame_counter_table_068F  named by the routines that write it and how it is used
+$0690  update_frame_counter_table_0690  named by the routines that write it and how it is used
+$0691  update_frame_counter_table_0691  named by the routines that write it and how it is used
+$0692  update_frame_counter_table_0680+18  an element of a table read with an index
+$0693  update_frame_counter_table_0680+19  an element of a table read with an index
+$0694  update_frame_counter_table_0680+20  an element of a table read with an index
+$0695  update_frame_counter_table_0680+21  an element of a table read with an index
+$0696  update_frame_counter_table_0680+22  an element of a table read with an index
+$0697  update_frame_counter_table_0680+23  an element of a table read with an index
+$0698  update_frame_counter_table_0688+16  an element of a table read with an index
+$0699  update_frame_counter_table_0688+17  an element of a table read with an index
+$069A  update_frame_counter_table_0688+18  an element of a table read with an index
+$069B  update_frame_counter_table_0688+19  an element of a table read with an index
+$069C  update_frame_counter_table_0688+20  an element of a table read with an index
+$069D  update_frame_counter_table_0688+21  an element of a table read with an index
+$069E  update_frame_counter_table_0688+22  an element of a table read with an index
+$069F  update_frame_counter_table_069F  named by the routines that write it and how it is used
+$06A0  update_frame_counter_table_06A0  named by the routines that write it and how it is used
+$06A1  update_frame_counter_table_06A1  named by the routines that write it and how it is used
+$06A2  update_frame_counter_table_0680+34  an element of a table read with an index
+$06A3  update_frame_counter_table_0680+35  an element of a table read with an index
+$06A4  update_frame_counter_table_0680+36  an element of a table read with an index
+$06A5  update_frame_counter_table_0680+37  an element of a table read with an index
+$06A6  update_frame_counter_table_0680+38  an element of a table read with an index
+$06A7  update_frame_counter_table_0680+39  an element of a table read with an index
+$06A8  update_frame_counter_table_0688+32  an element of a table read with an index
+$06A9  update_frame_counter_table_0688+33  an element of a table read with an index
+$06AA  update_frame_counter_table_0688+34  an element of a table read with an index
+$06AB  update_frame_counter_table_0688+35  an element of a table read with an index
+$06AC  update_frame_counter_table_0688+36  an element of a table read with an index
+$06AD  update_frame_counter_table_0688+37  an element of a table read with an index
+$06AE  update_frame_counter_table_0688+38  an element of a table read with an index
+$06AF  update_frame_counter_table_06AF  named by the routines that write it and how it is used
+$06B0  update_frame_counter_table_06B0  named by the routines that write it and how it is used
+$06B1  update_frame_counter_table_06B1  named by the routines that write it and how it is used
+$06B2  update_frame_counter_table_06B0+2  an element of a table read with an index
+$06B3  update_frame_counter_table_06B0+3  an element of a table read with an index
+$06B4  update_frame_counter_table_06B0+4  an element of a table read with an index
+$06B5  update_frame_counter_table_06B0+5  an element of a table read with an index
+$06B6  update_frame_counter_table_06B0+6  an element of a table read with an index
+$06B7  update_frame_counter_table_06B0+7  an element of a table read with an index
+$06B8  sub_B2_FAEE_table               named by the routines that write it and how it is used
+$06B9  update_frame_counter_table_06B9  named by the routines that write it and how it is used
+$06BA  sub_B2_FAEE_table+2             an element of a table read with an index
+$06BB  sub_B2_FAEE_table+3             an element of a table read with an index
+$06BC  sub_B2_FAEE_table+4             an element of a table read with an index
+$06BD  sub_B2_FAEE_table+5             an element of a table read with an index
+$06BE  sub_B2_FAEE_table+6             an element of a table read with an index
+$06BF  sub_B2_FAEE_table+7             an element of a table read with an index
+$06C0  update_frame_counter_table_06C0  named by the routines that write it and how it is used
+$06C1  update_frame_counter_table_06C0+1  an element of a table read with an index
+$06C2  update_frame_counter_table_06C0+2  an element of a table read with an index
+$06C3  update_frame_counter_table_06C0+3  an element of a table read with an index
+$06C4  update_frame_counter_table_06C0+4  an element of a table read with an index
+$06C5  update_frame_counter_table_06C0+5  an element of a table read with an index
+$06C6  update_frame_counter_table_06C0+6  an element of a table read with an index
+$06C7  update_frame_counter_table_06C0+7  an element of a table read with an index
+$06C8  update_frame_counter_table_06C0+8  an element of a table read with an index
+$06C9  update_frame_counter_table_06C9  named by the routines that write it and how it is used
+$06CA  update_frame_counter_table_06C0+10  an element of a table read with an index
+$06CB  update_frame_counter_table_06C0+11  an element of a table read with an index
+$06CC  update_frame_counter_table_06C0+12  an element of a table read with an index
+$06CD  update_frame_counter_table_06C0+13  an element of a table read with an index
+$06CE  update_frame_counter_table_06C0+14  an element of a table read with an index
+$06CF  sub_B2_FAEE_table+23            an element of a table read with an index
+$06D0  update_frame_counter_rom_copy   a ROM table copied in by an index
+$06D1  update_frame_counter_rom_copy+1  an element of a ROM table copied in
+$06D2  update_frame_counter_rom_copy+2  an element of a ROM table copied in
+$06D3  update_frame_counter_rom_copy+3  an element of a ROM table copied in
+$06D4  update_frame_counter_rom_copy+4  an element of a ROM table copied in
+$06D5  update_frame_counter_rom_copy+5  an element of a ROM table copied in
+$06D6  update_frame_counter_rom_copy+6  an element of a ROM table copied in
+$06D7  update_frame_counter_rom_copy+7  an element of a ROM table copied in
+$06D8  update_frame_counter_rom_copy+8  an element of a ROM table copied in
+$06D9  update_frame_counter_table_06D9  named by the routines that write it and how it is used
+$06DA  update_frame_counter_rom_copy+10  an element of a ROM table copied in
+$06DB  update_frame_counter_rom_copy+11  an element of a ROM table copied in
+$06DC  update_frame_counter_rom_copy+12  an element of a ROM table copied in
+$06DD  update_frame_counter_rom_copy+13  an element of a ROM table copied in
+$06DE  update_frame_counter_rom_copy+14  an element of a ROM table copied in
+$06DF  update_frame_counter_rom_copy+15  an element of a ROM table copied in
+$06E0  update_frame_counter_table_06E0  named by the routines that write it and how it is used
+$06E1  update_frame_counter_table_06E0+1  an element of a table read with an index
+$06E2  update_frame_counter_table_06E0+2  an element of a table read with an index
+$06E3  update_frame_counter_table_06E0+3  an element of a table read with an index
+$06E4  update_frame_counter_table_06E0+4  an element of a table read with an index
+$06E5  update_frame_counter_table_06E0+5  an element of a table read with an index
+$06E6  update_frame_counter_table_06E0+6  an element of a table read with an index
+$06E7  update_frame_counter_table_06E0+7  an element of a table read with an index
+$06E8  update_frame_counter_table_06E0+8  an element of a table read with an index
+$06E9  update_frame_counter_table_06E9  named by the routines that write it and how it is used
+$06EA  update_frame_counter_table_06E0+10  an element of a table read with an index
+$06EB  update_frame_counter_table_06E0+11  an element of a table read with an index
+$06EC  update_frame_counter_table_06E0+12  an element of a table read with an index
+$06ED  update_frame_counter_table_06E0+13  an element of a table read with an index
+$06EE  update_frame_counter_table_06E0+14  an element of a table read with an index
+$06EF  update_frame_counter_table_06E0+15  an element of a table read with an index
+$06F0  update_frame_counter_table_06F0  named by the routines that write it and how it is used
+$06F1  update_frame_counter_table_06F0+1  an element of a table read with an index
+$06F2  update_frame_counter_table_06F0+2  an element of a table read with an index
+$06F3  update_frame_counter_table_06F0+3  an element of a table read with an index
+$06F4  update_frame_counter_table_06F0+4  an element of a table read with an index
+$06F5  update_frame_counter_table_06F0+5  an element of a table read with an index
+$06F6  update_frame_counter_table_06F0+6  an element of a table read with an index
+$06F7  update_frame_counter_table_06F0+7  an element of a table read with an index
+$06F8  update_frame_counter_table_06F0+8  an element of a table read with an index
+$06F9  update_frame_counter_table_06F0+9  an element of a table read with an index
+$06FA  update_frame_counter_table_06F0+10  an element of a table read with an index
+$06FB  update_frame_counter_table_06F0+11  an element of a table read with an index
+$06FC  update_frame_counter_table_06F0+12  an element of a table read with an index
+$06FD  update_frame_counter_table_06F0+13  an element of a table read with an index
+$06FE  update_frame_counter_table_06F0+14  an element of a table read with an index
+$06FF  sub_B2_FAEE_table+71            an element of a table read with an index
+$0700  copy_rom_table_2_rom_copy_0700  a ROM table copied in by an index
+$0701  ppu_table_0701                  named by the routines that write it and how it is used
+$0702  ppu_table_0702                  named by the routines that write it and how it is used
+$0703  ppu_table_0703                  named by the routines that write it and how it is used
+$0704  copy_rom_table_2_rom_copy_0700+4  an element of a ROM table copied in
+$0705  ppu_table_0701+4                an element of a table read with an index
+$0706  ppu_table_0702+4                an element of a table read with an index
+$0707  ppu_table_0703+4                an element of a table read with an index
+$0708  copy_rom_table_2_rom_copy_0700+8  an element of a ROM table copied in
+$0709  ppu_table_0701+8                an element of a table read with an index
+$070A  ppu_table_0702+8                an element of a table read with an index
+$070B  ppu_table_0703+8                an element of a table read with an index
+$070C  copy_rom_table_2_rom_copy_0700+12  an element of a ROM table copied in
+$070D  ppu_table_0701+12               an element of a table read with an index
+$070E  ppu_table_0702+12               an element of a table read with an index
+$070F  ppu_table_0703+12               an element of a table read with an index
+$0710  update_frame_counter_table_0710  named by the routines that write it and how it is used
+$0711  update_frame_counter_table_0710+1  an element of a table read with an index
+$0712  update_frame_counter_table_0710+2  an element of a table read with an index
+$0713  update_frame_counter_table_0710+3  an element of a table read with an index
+$0714  update_frame_counter_table_0710+4  an element of a table read with an index
+$0715  update_frame_counter_table_0710+5  an element of a table read with an index
+$0716  update_frame_counter_table_0710+6  an element of a table read with an index
+$0717  update_frame_counter_table_0710+7  an element of a table read with an index
+$0718  update_frame_counter_table_0710+8  an element of a table read with an index
+$0719  update_frame_counter_table_0710+9  an element of a table read with an index
+$071A  update_frame_counter_table_0710+10  an element of a table read with an index
+$071B  update_frame_counter_table_0710+11  an element of a table read with an index
+$071C  update_frame_counter_table_0710+12  an element of a table read with an index
+$071D  update_frame_counter_table_0710+13  an element of a table read with an index
+$071E  update_frame_counter_table_0710+14  an element of a table read with an index
+$071F  update_frame_counter_table_0710+15  an element of a table read with an index
+$0720  update_frame_counter_table_0720  named by the routines that write it and how it is used
+$0721  update_frame_counter_table_0720+1  an element of a table read with an index
+$0722  update_frame_counter_table_0720+2  an element of a table read with an index
+$0723  update_frame_counter_table_0720+3  an element of a table read with an index
+$0724  update_frame_counter_table_0720+4  an element of a table read with an index
+$0725  update_frame_counter_table_0720+5  an element of a table read with an index
+$0726  update_frame_counter_table_0720+6  an element of a table read with an index
+$0727  update_frame_counter_table_0720+7  an element of a table read with an index
+$0728  update_frame_counter_table_0720+8  an element of a table read with an index
+$0729  update_frame_counter_table_0720+9  an element of a table read with an index
+$072A  update_frame_counter_table_0720+10  an element of a table read with an index
+$072B  update_frame_counter_table_0720+11  an element of a table read with an index
+$072C  update_frame_counter_table_0720+12  an element of a table read with an index
+$072D  update_frame_counter_table_0720+13  an element of a table read with an index
+$072E  update_frame_counter_table_0720+14  an element of a table read with an index
+$072F  update_frame_counter_table_0720+15  an element of a table read with an index
+$0730  update_frame_counter_table_0730  named by the routines that write it and how it is used
+$0731  update_frame_counter_table_0730+1  an element of a table read with an index
+$0732  update_frame_counter_table_0730+2  an element of a table read with an index
+$0733  update_frame_counter_table_0730+3  an element of a table read with an index
+$0734  update_frame_counter_table_0730+4  an element of a table read with an index
+$0735  update_frame_counter_table_0730+5  an element of a table read with an index
+$0736  update_frame_counter_table_0730+6  an element of a table read with an index
+$0737  update_frame_counter_table_0730+7  an element of a table read with an index
+$0738  update_frame_counter_table_0730+8  an element of a table read with an index
+$0739  update_frame_counter_table_0730+9  an element of a table read with an index
+$073A  update_frame_counter_table_0730+10  an element of a table read with an index
+$073B  update_frame_counter_table_0730+11  an element of a table read with an index
+$073C  update_frame_counter_table_0730+12  an element of a table read with an index
+$073D  update_frame_counter_table_0730+13  an element of a table read with an index
+$073E  update_frame_counter_table_0730+14  an element of a table read with an index
+$073F  update_frame_counter_table_0730+15  an element of a table read with an index
+$0740  update_frame_counter_table_0740  named by the routines that write it and how it is used
+$0741  update_frame_counter_table_0740+1  an element of a table read with an index
+$0742  update_frame_counter_table_0740+2  an element of a table read with an index
+$0743  update_frame_counter_table_0740+3  an element of a table read with an index
+$0744  update_frame_counter_table_0740+4  an element of a table read with an index
+$0745  update_frame_counter_table_0740+5  an element of a table read with an index
+$0746  update_frame_counter_table_0740+6  an element of a table read with an index
+$0747  update_frame_counter_table_0740+7  an element of a table read with an index
+$0748  update_frame_counter_table_0740+8  an element of a table read with an index
+$0749  update_frame_counter_table_0740+9  an element of a table read with an index
+$074A  update_frame_counter_table_0740+10  an element of a table read with an index
+$074B  update_frame_counter_table_0740+11  an element of a table read with an index
+$074C  update_frame_counter_table_0740+12  an element of a table read with an index
+$074D  update_frame_counter_table_0740+13  an element of a table read with an index
+$074E  update_frame_counter_table_0740+14  an element of a table read with an index
+$074F  update_frame_counter_table_0740+15  an element of a table read with an index
+$0750  update_frame_counter_table_0740+16  an element of a table read with an index
+$0751  update_frame_counter_table_0740+17  an element of a table read with an index
+$0752  update_frame_counter_table_0740+18  an element of a table read with an index
+$0753  update_frame_counter_table_0740+19  an element of a table read with an index
+$0754  update_frame_counter_table_0740+20  an element of a table read with an index
+$0755  update_frame_counter_table_0740+21  an element of a table read with an index
+$0756  update_frame_counter_table_0740+22  an element of a table read with an index
+$0757  update_frame_counter_table_0740+23  an element of a table read with an index
+$0758  update_frame_counter_table_0740+24  an element of a table read with an index
+$0759  update_frame_counter_table_0740+25  an element of a table read with an index
+$075A  update_frame_counter_table_0740+26  an element of a table read with an index
+$075B  update_frame_counter_table_0740+27  an element of a table read with an index
+$075C  update_frame_counter_table_0740+28  an element of a table read with an index
+$075D  update_frame_counter_table_0740+29  an element of a table read with an index
+$075E  update_frame_counter_table_0740+30  an element of a table read with an index
+$075F  update_frame_counter_table_0740+31  an element of a table read with an index
+$0760  update_frame_counter_table_0740+32  an element of a table read with an index
+$0761  update_frame_counter_table_0740+33  an element of a table read with an index
+$0762  update_frame_counter_table_0740+34  an element of a table read with an index
+$0763  update_frame_counter_table_0740+35  an element of a table read with an index
+$0764  update_frame_counter_table_0740+36  an element of a table read with an index
+$0765  update_frame_counter_table_0740+37  an element of a table read with an index
+$0766  update_frame_counter_table_0740+38  an element of a table read with an index
+$0767  update_frame_counter_table_0740+39  an element of a table read with an index
+$0768  update_frame_counter_table_0740+40  an element of a table read with an index
+$0769  update_frame_counter_table_0740+41  an element of a table read with an index
+$076A  update_frame_counter_table_0740+42  an element of a table read with an index
+$076B  update_frame_counter_table_0740+43  an element of a table read with an index
+$076C  update_frame_counter_table_0740+44  an element of a table read with an index
+$076D  update_frame_counter_table_0740+45  an element of a table read with an index
+$076E  update_frame_counter_table_0740+46  an element of a table read with an index
+$076F  update_frame_counter_table_0740+47  an element of a table read with an index
+$0770  update_frame_counter_table_0740+48  an element of a table read with an index
+$0771  update_frame_counter_table_0740+49  an element of a table read with an index
+$0772  update_frame_counter_table_0740+50  an element of a table read with an index
+$0773  update_frame_counter_table_0740+51  an element of a table read with an index
+$0774  update_frame_counter_table_0740+52  an element of a table read with an index
+$0775  update_frame_counter_table_0740+53  an element of a table read with an index
+$0776  update_frame_counter_table_0740+54  an element of a table read with an index
+$0777  update_frame_counter_table_0740+55  an element of a table read with an index
+$0778  update_frame_counter_table_0740+56  an element of a table read with an index
+$0779  update_frame_counter_table_0740+57  an element of a table read with an index
+$077A  update_frame_counter_table_0740+58  an element of a table read with an index
+$077B  update_frame_counter_table_0740+59  an element of a table read with an index
+$077C  update_frame_counter_table_0740+60  an element of a table read with an index
+$077D  update_frame_counter_table_0740+61  an element of a table read with an index
+$077E  update_frame_counter_table_0740+62  an element of a table read with an index
+$077F  update_frame_counter_table_0740+63  an element of a table read with an index
+$0796  update_frame_counter_table_0796  named by the routines that write it and how it is used
+$0797  update_frame_counter_table_0797  named by the routines that write it and how it is used
+$079C  update_frame_counter_table_0796+6  an element of a table read with an index
+$079D  update_frame_counter_table_0797+6  an element of a table read with an index
+$07A2  update_frame_counter_table_0796+12  an element of a table read with an index
+$07A3  update_frame_counter_table_0797+12  an element of a table read with an index
+$07A8  update_frame_counter_table_0796+18  an element of a table read with an index
+$07A9  update_frame_counter_table_0797+18  an element of a table read with an index
+$07AE  update_frame_counter_table_0796+24  an element of a table read with an index
+$07AF  update_frame_counter_table_0797+24  an element of a table read with an index
+$07B4  update_frame_counter_table_0796+30  an element of a table read with an index
+$07B5  update_frame_counter_table_0797+30  an element of a table read with an index
+$07BA  update_frame_counter_table_0796+36  an element of a table read with an index
+$07BB  update_frame_counter_table_0797+36  an element of a table read with an index
+$07C0  update_frame_counter_table_0796+42  an element of a table read with an index
+$07C1  update_frame_counter_table_0797+42  an element of a table read with an index
+$07C6  update_frame_counter_table_0796+48  an element of a table read with an index
+$07C7  update_frame_counter_table_0797+48  an element of a table read with an index
+$07CC  update_frame_counter_table_0796+54  an element of a table read with an index
+$07CD  update_frame_counter_table_0797+54  an element of a table read with an index
+$07D2  update_frame_counter_table_0796+60  an element of a table read with an index
+$07D3  update_frame_counter_table_0797+60  an element of a table read with an index
+$07D8  update_frame_counter_table_0796+66  an element of a table read with an index
+$07D9  update_frame_counter_table_0797+66  an element of a table read with an index
+$07DE  update_frame_counter_table_0796+72  an element of a table read with an index
+$07DF  update_frame_counter_table_0797+72  an element of a table read with an index
+$07E4  update_frame_counter_table_0796+78  an element of a table read with an index
+$07E5  update_frame_counter_table_0797+78  an element of a table read with an index
+$07EA  update_frame_counter_table_0796+84  an element of a table read with an index
+$07EB  update_frame_counter_table_0797+84  an element of a table read with an index
+$07F0  update_frame_counter_table_0796+90  an element of a table read with an index
+$07F1  update_frame_counter_table_0797+90  an element of a table read with an index
