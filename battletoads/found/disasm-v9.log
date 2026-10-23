@@ -1,0 +1,10 @@
+bank 0: code 30174, inferred 432, data 714, unknown 1448; 266 subroutines
+bank 1: code 962, inferred 31, data 30616, unknown 1159; 5 subroutines
+bank 2: code 3911, inferred 161, data 13070, unknown 15626; 15 subroutines
+bank 3: code 3867, inferred 170, data 10670, unknown 18061; 32 subroutines
+bank 4: code 195, inferred 51, data 31480, unknown 1042; 1 subroutines
+bank 5: code 4022, inferred 55, data 7558, unknown 21133; 20 subroutines
+bank 6: code 8658, inferred 79, data 7991, unknown 16040; 75 subroutines
+bank 7: code 1500, inferred 42, data 15139, unknown 16087; 3 subroutines
+jump tables: 3, 66 entries, 9 targets new to the descent
+all: code 53289 (20.3%), inferred 1021, data 117238 (44.7%), unknown 90596 (34.6%); 417 subroutines
