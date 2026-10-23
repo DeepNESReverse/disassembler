@@ -26200,7 +26200,7 @@ loc_B3_D32F:                    ; from 1d310 1d2fb
   D33E  10 05     BPL loc_B3_D345               ; 1D33E ×47
 
 sub_B3_D340:                    ; from 1d336 1cf74
-  D340  20 38 FF  JSR sub_B3_FF38               ; 1D340 ×226
+  D340  20 38 FF  JSR find_free_slot_4               ; 1D340 ×226
   D343  D0 4C     BNE loc_B3_D391               ; 1D343 ×226
 
 loc_B3_D345:                    ; from 1d33e
@@ -27016,7 +27016,7 @@ loc_B3_E08D:                    ; from 1e07c
   FF20  .byte 00 67 F7 F1 F8 F0 00 CA 00 20 30 00 26 FC 40 FD   ; 1FF20
   FF30  .byte 3F 00 CE 00 40 00 00 FE                           ; 1FF30
 
-sub_B3_FF38:                    ; from 1d340
+find_free_slot_4:                    ; from 1d340
   FF38  A2 02     LDX #$02                      ; 1FF38 ×226
 
 loc_B3_FF3A:                    ; from 1ff42
