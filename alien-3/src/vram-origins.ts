@@ -11,8 +11,10 @@ import { Taint, originOffset, isDerived } from './taint.ts';
 const from = Number(process.argv[2] ?? CARD_FRAME), to = Number(process.argv[3] ?? 1500);
 const m = new Machine();
 toCard(m);
+if (process.env.LEVEL) m.ram[0xa8] = Number(process.env.LEVEL);
 m.frames(from - CARD_FRAME);
 const t = new Taint(m);
+if (process.env.PAL) t.filter = (a) => a >= 0x3f00;
 m.frames(to - from, process.env.HOLD ? buttonsOf(process.env.HOLD) : 0);
 const h = (n: number, w = 4) => n.toString(16).toUpperCase().padStart(w, '0');
 const byPc = new Map<number, typeof t.vramWrites>();
@@ -30,7 +32,7 @@ for (const [off, ws] of [...byPc].sort((a, b) => b[1].length - a[1].length)) {
     origins.set(o, (origins.get(o) ?? 0) + 1);
   }
   const froms = new Map<string, number>();
-  for (const w of ws) { const k = w.readFrom < 0 ? '-' : h(w.readFrom & 0xfff0); froms.set(k, (froms.get(k) ?? 0) + 1); }
+  for (const w of ws) { const k = w.readFrom < 0 ? '-' : h(w.readFrom & (process.env.PAL ? 0xffff : 0xfff0)); froms.set(k, (froms.get(k) ?? 0) + 1); }
   const top = (mm: Map<string, number>) => [...mm].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k}:${n}`).join(' ');
   console.log(`pc ${h(ws[0].pc)} (prg ${h(off, 5)}) ${ws.length} writes, frames ${Math.min(...frames)}-${Math.max(...frames)} (${frames.size})`);
   console.log(`   origins ${top(origins)}`);

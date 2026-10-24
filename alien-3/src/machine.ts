@@ -32,6 +32,12 @@ export class Machine {
   readonly hooks: Hooks = {};
   /** Values to answer CPU reads of a RAM cell with, while the RAM keeps what the game wrote. */
   readonly pins = new Map<number, number>();
+  /** Per visible line of the last frame: the nametable-plane x (0-511) and y (0-479) it starts at. */
+  readonly lineX = new Int16Array(240);
+  readonly lineY = new Int16Array(240);
+  /** PPUMASK and PPUCTRL each visible line was drawn with. */
+  readonly lineMask = new Uint8Array(240);
+  readonly lineCtrl = new Uint8Array(240);
 
   constructor(file = readFileSync(ROM_PATH)) {
     this.cart = parseRom(new Uint8Array(file));
@@ -51,6 +57,18 @@ export class Machine {
     n.write = (a, v) => {
       this.hooks.write?.(a, v);
       write(a, v);
+    };
+    // The scroll each visible line is drawn with: x and y in the 512 × 480 nametable plane.
+    const ppu = this.ppu as unknown as { scanline(l: number): void; t: number; fineX: number; y: number; mask: number; ctrl: number };
+    const scanline = ppu.scanline.bind(ppu);
+    ppu.scanline = (line) => {
+      scanline(line);
+      if (line < 240) {
+        this.lineX[line] = ((ppu.t >> 10) & 1) * 256 + (ppu.t & 31) * 8 + ppu.fineX;
+        this.lineY[line] = ppu.y;
+        this.lineMask[line] = ppu.mask;
+        this.lineCtrl[line] = ppu.ctrl;
+      }
     };
     const cpu = this.nes.cpu;
     const step = cpu.step.bind(cpu);
@@ -124,7 +142,8 @@ export function saveState(m: Machine): State {
     const rec: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(o)) {
       if (typeof v === 'function' || (typeof v === 'object' && v !== null && !ArrayBuffer.isView(v) && !Array.isArray(v))) continue;
-      if (k === 'writes') continue;
+      // Callbacks (beforeVblank, unset or not) and the sound log are the caller's, not state.
+      if (k === 'writes' || k === 'beforeVblank' || v === undefined) continue;
       rec[k] = copyValue(v);
     }
     s.set(o, rec);

@@ -52,3 +52,58 @@ followed back to the ROM through registers and RAM):
   for each block down — the layout is 64 blocks a row.
 - Block's 16 tiles: `($04) + 16·block`, R6 = `$8A`, row-major 4 × 4 (scatter table $EBE0).
 - Block's attribute byte: `($06),block` → `$3E`, stored at `($41)` (the attribute buffer).
+
+## 5. Pages: the world is 240 px pages of 8 layout rows (`src/level.ts`)
+
+- Read as plain 32-px block rows, the decoder matched a ladder descent in level 1 (Right to X 860,
+  Down; `runs/down-check.ts`) only 77.5 %: below world Y ≈ 240 the screen is the map moved up
+  16 px. Read as pages — 30 tile rows a page, 8 layout rows a page, the 8th only its top 16 px —
+  the same frames match 100 % (1 073 160 samples).
+- All 12 headers agree (`runs/hdr.ts`): the start camera is a multiple of 512 in X and 240 in Y,
+  and the start layout pointer `$18` equals layout + 64 · (8 · page + row in page) + column for
+  every one — including levels 5, 8, 9, which start at Y = 480, 480, 240.
+- The builder's own test of the half row: `StripUp` keeps the row in the page in `$3D`, B15:$E924
+  compares it with 7.
+
+## 6. The check, level 1 (`src/check.ts`, `src/check-run.ts`)
+
+On each frame (at line 241), for every tile centre of the field (lines 0-175, x 8-247): its world
+place (camera of the previous frame + screen position) and its nametable cell (the scroll the PPU
+drew that line with); tile number and palette compared with the decoder. The world → nametable
+relation is not assumed: the grids are only checked to line up (0 misaligned samples).
+
+Every nametable write is tagged with where it came from, following the game's buffers (taint of
+our own, B15:$EB94 → $EBCB/$EBDA → $0500 → $EF61/$EF71/$EFA4; $EB57/$EB65 → $0600 → $F31F/$F33A):
+- a screen cell last written by anything else (the status bar) is counted apart ("not built");
+- a screen cell holding a write made for **another** place of the world is "stale": the game had
+  not rewritten that cell yet. Seen when the camera crosses a page edge (the top two rows of the
+  next page are rewritten some frames late) and after a teleport, when the player falls far and the
+  camera outruns the builder. Not a difference of the format: the write itself was right for its
+  own place;
+- every builder write is checked against the decoder at its own place, seen or not.
+
+Two wrong turns, kept as lessons: (1) a camera teleported to any multiple of 32 broke the builders'
+invariants (the first screen always starts at nametable column 0, row 0) — real starts are on the
+512 × 240 grid, so the teleports' scroll copy is set to 0 and Y is a page top; (2) "stale = equals
+the tile a whole page away" was dropped: on repeating wall texture it matched by chance; the
+provenance tags replaced it.
+
+**Teleports** (`src/teleport.ts`): at B15:$EAE1 (the first screen about to be built, the header
+already copied) the camera, `$18`, the game's scroll copy and the player are set; the screen is then
+built and scrolled by the game. Proved harmless: a teleport to the real start gives the same RAM as
+the real start, byte for byte (`runs/tpdiff.ts`, 0 bytes differ outside the stack).
+
+Level 1, `check-run.ts 1 --teleport --frames 6000 --per 900 --step 96` (a seeded wander: a
+direction 20-120 frames, B half the time, A 5 %):
+
+| part | frames | samples | matched | stale | match | stale apart | tile writes | attribute writes |
+|---|---|---|---|---|---|---|---|---|
+| real start, 6000 frames | 6 000 | 3 957 150 | 3 957 150 | 0 | 100 % | 100 % | 18 136 / 18 136 | 9 715 / 9 715 |
+| 108 teleports × 900 frames | 94 367 | 60 635 563 | 60 252 645 | 382 918 | 99.368 % | 100 % | 257 588 / 257 588 | 77 393 / 77 393 |
+
+- Cells: 34 379 of 61 440 seen; of the 32 096 not in void blocks, 25 595 (79.7 %). 0 cells ever
+  differed; 1 745 were seen only stale or also stale.
+- Background CHR on every field line = header `$26`..+3 (0 lines other); palette `$3F00-$3F0F` =
+  the header's on every counted frame (0 frames other); background pattern table always $0000.
+- 2 833 frames left out (fewer than half the samples agree, or nothing of the level to compare):
+  cards after a death, the tally screen after the exit.
