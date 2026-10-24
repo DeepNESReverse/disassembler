@@ -193,3 +193,17 @@ the vertical at all only when the player's X high byte (`$0440`) is odd; otherwi
 (band 5): within 20 frames it aligns to X 1280 (`$2A` = 0), `$2D` becomes 1 and it goes down at
 3 px a frame (Y 594 at frame 220). So vertical travel happens with the camera on a multiple of 256
 in an odd band. The player shows the band and says which way the camera can go.
+
+## 12. Down forever: the layout pointer goes round the whole CPU address space (found by the user)
+
+From level 3's room, no-clip straight down: the room comes back at camera Y 30 720.
+`src/experiments/wrap-down.ts` (band 1, camera X 256): `$18/$19` is $9555 at page 0 and grows by
+$200 a page (8 rows × 64) — $B55D at page 16, $F55D at 48, $155D at 64 (past $FFFF), $955D at 128
+= Y 30 720, the start again (+8 columns: the camera's X). 65 536 / 512 = 128 pages × 240 px.
+On the way the strip builder reads as "layout" whatever the CPU sees: $A000-$BFFF (the bank in R7
+then), the fixed bank's code $C000-$FFFF, RAM $0000-$07FF and its mirrors (live), the PPU and APU
+registers ($2000-$5FFF — reads of $2002/$2007 change the PPU's state), cartridge RAM $6000-$7FFF.
+Only the layout bank's 8 KB is fixed data: `Level` reads the layout bank alone (`& 0x1FFF`), so
+the pictures stop at the bank's end and say nothing about pages past it. The room seen again is not
+playable: its walls and objects are not where the player stands (Y 30 816) — they are not the
+layout (not looked at further).
