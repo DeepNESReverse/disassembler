@@ -3,3 +3,4 @@ runs/
 rom/
 *.nes
 *.zip
+out/levels/*-space-*.png

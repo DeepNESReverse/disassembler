@@ -207,3 +207,13 @@ Only the layout bank's 8 KB is fixed data: `Level` reads the layout bank alone (
 the pictures stop at the bank's end and say nothing about pages past it. The room seen again is not
 playable: its walls and objects are not where the player stands (Y 30 816) — they are not the
 layout (not looked at further).
+
+## 13. The whole address space as layout (`src/address-space.ts`, viewer switch, off by default)
+
+128 pages from the layout's first byte, every CPU address taken as a block number. ROM bytes from
+the cartridge through the banks the builder had mapped; the rest (RAM, registers, cartridge RAM)
+as the builder read it in one no-clip descent through all 128 pages (band 1), elsewhere the memory
+of the level's first frame — those are a moment of play, not level data, and are drawn dimmed.
+The check of the model, level 3: 4 256 ROM bytes read by the builder in the descent, every one the
+cartridge's at the bank assumed; the banks seen were one each — 13 at $A000, 14 at $C000, 15 at
+$E000. Pictures: `out/levels/<nn>-space-<k>.png` (not in git: big, made again by the script).
