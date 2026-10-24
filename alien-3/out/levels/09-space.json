@@ -1,0 +1,73 @@
+{
+ "level": 9,
+ "layout": 38271,
+ "bankA000": 13,
+ "firstFrame": 1180,
+ "descentFrames": 10392,
+ "bytesReadInDescent": 8264,
+ "romBytesReadChecked": 4216,
+ "romMismatches": [],
+ "banksSeen": {
+  "a000": [
+   13
+  ],
+  "c000": [
+   14
+  ],
+  "e000": [
+   15
+  ]
+ },
+ "chunks": 8,
+ "chunkHeight": 3840,
+ "regions": [
+  {
+   "from": 38271,
+   "to": 41022,
+   "y": 0,
+   "name": "ROM: банк раскладки"
+  },
+  {
+   "from": 41023,
+   "to": 49214,
+   "y": 1296,
+   "name": "ROM: банк на $A000"
+  },
+  {
+   "from": 49215,
+   "to": 62,
+   "y": 5136,
+   "name": "ROM: фиксированный банк (код)"
+  },
+  {
+   "from": 63,
+   "to": 8254,
+   "y": 12816,
+   "name": "RAM"
+  },
+  {
+   "from": 8255,
+   "to": 16446,
+   "y": 16656,
+   "name": "регистры PPU"
+  },
+  {
+   "from": 16447,
+   "to": 24638,
+   "y": 20496,
+   "name": "пусто (open bus)"
+  },
+  {
+   "from": 24639,
+   "to": 32830,
+   "y": 24336,
+   "name": "RAM картриджа"
+  },
+  {
+   "from": 32831,
+   "to": 38270,
+   "y": 28176,
+   "name": "ROM: банк раскладки"
+  }
+ ]
+}
