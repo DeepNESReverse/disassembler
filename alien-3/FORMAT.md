@@ -35,7 +35,7 @@ Bytes $0C-$2E are copied to zero page $04-$26 (B15:$EA17, `LDA ($9E),Y` / `STA $
 | $0E/$0F | $06/$07 | $91CB | one attribute byte a block | decoder = every attribute write |
 | $10/$11 | $08/$09 | $8000 | the layout's first byte (block row 0, column 0), in the layout bank | the picture |
 | $12-$1F | $0A-$17 | | read by the object code (B13:$BB1B, B15:$EAB4) — not looked at | |
-| $20/$21 | $18/$19 | $8010 | layout byte at the camera's top-left | = layout + 64 · (8 · page + row in page) + column of the start camera, all 12 headers (`runs/hdr.ts` → STATUS §5) |
+| $20/$21 | $18/$19 | $8010 | layout byte at the camera's top-left | = layout + 64 · (8 · page + row in page) + column of the start camera, all 12 headers (`src/experiments/hdr.ts` → STATUS §5) |
 | $22/$23 | $1A/$1B | $0200 | camera X at the start | the camera cell (§5) |
 | $24/$25 | $1C/$1D | $0000 | camera Y at the start | |
 | $26/$27 | $1E/$1F | $816B | 32 objects × 8 fields of 32 bytes (X lo, X hi, Y lo, Y hi, …); object 0 = the player → `$0420/$0440/$0460/$0480`… (B15:$EA86) | player's start = (612, 80) |

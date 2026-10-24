@@ -56,10 +56,10 @@ followed back to the ROM through registers and RAM):
 ## 5. Pages: the world is 240 px pages of 8 layout rows (`src/level.ts`)
 
 - Read as plain 32-px block rows, the decoder matched a ladder descent in level 1 (Right to X 860,
-  Down; `runs/down-check.ts`) only 77.5 %: below world Y ≈ 240 the screen is the map moved up
+  Down; `src/experiments/down-check.ts`) only 77.5 %: below world Y ≈ 240 the screen is the map moved up
   16 px. Read as pages — 30 tile rows a page, 8 layout rows a page, the 8th only its top 16 px —
   the same frames match 100 % (1 073 160 samples).
-- All 12 headers agree (`runs/hdr.ts`): the start camera is a multiple of 512 in X and 240 in Y,
+- All 12 headers agree (`src/experiments/hdr.ts`): the start camera is a multiple of 512 in X and 240 in Y,
   and the start layout pointer `$18` equals layout + 64 · (8 · page + row in page) + column for
   every one — including levels 5, 8, 9, which start at Y = 480, 480, 240.
 - The builder's own test of the half row: `StripUp` keeps the row in the page in `$3D`, B15:$E924
@@ -91,7 +91,7 @@ provenance tags replaced it.
 **Teleports** (`src/teleport.ts`): at B15:$EAE1 (the first screen about to be built, the header
 already copied) the camera, `$18`, the game's scroll copy and the player are set; the screen is then
 built and scrolled by the game. Proved harmless: a teleport to the real start gives the same RAM as
-the real start, byte for byte (`runs/tpdiff.ts`, 0 bytes differ outside the stack).
+the real start, byte for byte (`src/experiments/tpdiff.ts`, 0 bytes differ outside the stack).
 
 Level 1, `check-run.ts 1 --teleport --frames 6000 --per 900 --step 96` (a seeded wander: a
 direction 20-120 frames, B half the time, A 5 %):
