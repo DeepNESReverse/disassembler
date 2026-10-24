@@ -2,6 +2,7 @@
  * Who writes these RAM cells on the way into level 1, with what, and from where in the ROM:
  *   node --experimental-strip-types src/who-writes.ts <from> <to> 04 05 06 ...   (cells hex)
  */
+import { romFile } from './rom.ts';
 import { Machine } from './machine.ts';
 import { goTo } from './path.ts';
 import { Taint, originOffset, isDerived } from './taint.ts';
@@ -10,7 +11,7 @@ import { buttonsOf } from './shots.ts';
 const [fromS, toS, ...cellsS] = process.argv.slice(2);
 const from = Number(fromS), to = Number(toS);
 const cells = new Set(cellsS.map((c) => parseInt(c, 16)));
-const m = new Machine();
+const m = new Machine(romFile());
 const h = (n: number, w = 4) => n.toString(16).toUpperCase().padStart(w, '0');
 goTo(m, from);
 const t = new Taint(m);

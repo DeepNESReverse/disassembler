@@ -3,13 +3,14 @@
  *   node --experimental-strip-types src/vram-origins.ts [from frame] [to frame]
  * Groups $2007 writes to $2000-$2FFF by the instruction (PRG offset) and reports their origins.
  */
+import { romFile } from './rom.ts';
 import { Machine } from './machine.ts';
 import { buttonsOf } from './shots.ts';
 import { toCard, CARD_FRAME } from './path.ts';
 import { Taint, originOffset, isDerived } from './taint.ts';
 
 const from = Number(process.argv[2] ?? CARD_FRAME), to = Number(process.argv[3] ?? 1500);
-const m = new Machine();
+const m = new Machine(romFile());
 toCard(m);
 if (process.env.LEVEL) m.ram[0xa8] = Number(process.env.LEVEL);
 m.frames(from - CARD_FRAME);

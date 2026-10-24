@@ -9,7 +9,7 @@ import { encodePng } from '../../xrom-libs/nes/src/png.ts';
 import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
 import { parseRom } from '../../xrom-libs/nes/src/nes.ts';
 import { Level, LEVELS } from './level.ts';
-import { ROM_PATH } from './machine.ts';
+import { ROM_PATH } from './rom.ts';
 
 export function loadCart() {
   return parseRom(new Uint8Array(readFileSync(ROM_PATH)));

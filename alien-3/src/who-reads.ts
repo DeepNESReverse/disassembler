@@ -4,6 +4,7 @@
  * Prints each distinct (cell, reading pc) once; and every distinct MMC3 register write
  * (R0-R7 via $8000/$8001) with the ROM origin of the value.
  */
+import { romFile } from './rom.ts';
 import { Machine } from './machine.ts';
 import { goTo, CARD_FRAME } from './path.ts';
 import { Taint, originOffset, isDerived } from './taint.ts';
@@ -13,7 +14,7 @@ const [fromS, toS, ...cellsS] = process.argv.slice(2);
 const from = Number(fromS), to = Number(toS);
 const cells = new Set(cellsS.map((c) => parseInt(c, 16)));
 const h = (n: number, w = 4) => n.toString(16).toUpperCase().padStart(w, '0');
-const m = new Machine();
+const m = new Machine(romFile());
 goTo(m, CARD_FRAME);
 if (process.env.LEVEL) m.ram[0xa8] = Number(process.env.LEVEL);
 goTo(m, from);

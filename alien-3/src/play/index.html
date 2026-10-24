@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alien 3 — плеер</title>
+<script type="importmap">
+{ "imports": {
+  "@xromdev/cpu6502": "/xrom-libs/nes/node_modules/@xromdev/cpu6502/dist/index.js",
+  "@xromdev/apu": "/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js"
+} }
+</script>
+<style>
+  :root { color-scheme: dark; --bg: #111; --panel: #1b1b1b; --line: #333; --text: #ddd; --muted: #888; --accent: #5b7fb0; --on: #3d5a80; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px system-ui, sans-serif; display: flex; min-height: 100vh; }
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  canvas { image-rendering: pixelated; width: 768px; height: 720px; max-width: 100%; height: auto; aspect-ratio: 256 / 240; background: #000; outline: 1px solid var(--line); }
+  aside { width: 320px; background: var(--panel); border-left: 1px solid var(--line); padding: 14px; overflow-y: auto; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 18px 0 8px; }
+  h2:first-child { margin-top: 0; }
+  select, button { background: #2a2a2a; color: var(--text); border: 1px solid #444; border-radius: 4px; padding: 5px 9px; font: inherit; }
+  button { cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  .row { display: flex; gap: 8px; align-items: center; margin: 6px 0; flex-wrap: wrap; }
+  label.sw { display: flex; gap: 8px; align-items: center; margin: 7px 0; cursor: pointer; }
+  label.sw input { width: 16px; height: 16px; accent-color: var(--accent); }
+  kbd { background: #2a2a2a; border: 1px solid #444; border-bottom-width: 2px; border-radius: 3px; padding: 0 5px; font: 12px ui-monospace, monospace; }
+  .muted { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  td { padding: 2px 0; } td:last-child { text-align: right; font-family: ui-monospace, monospace; }
+  #toast { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); background: var(--on); padding: 6px 14px; border-radius: 4px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+  #toast.show { opacity: 1; }
+  .hint { font-size: 12px; color: var(--muted); margin: 2px 0 0 24px; }
+</style>
+</head>
+<body>
+<main><canvas id="screen" width="256" height="240"></canvas></main>
+<aside>
+  <h2>Уровень</h2>
+  <div class="row">
+    <select id="level"></select>
+    <button id="go">Начать</button>
+  </div>
+  <div class="row">
+    <span class="muted">Таймер</span>
+    <select id="difficulty">
+      <option value="0">лёгкий</option>
+      <option value="1" selected>обычный</option>
+      <option value="2">трудный</option>
+    </select>
+  </div>
+  <div class="row"><button id="power">С самого начала (заставка)</button></div>
+
+  <h2>Читы</h2>
+  <label class="sw"><input type="checkbox" id="health"> Здоровье не убывает <kbd>Q</kbd></label>
+  <label class="sw"><input type="checkbox" id="timer"> Таймер стоит <kbd>T</kbd></label>
+  <label class="sw"><input type="checkbox" id="noclip"> Сквозь стены (полёт) <kbd>F</kbd></label>
+  <div class="hint">Направления двигают игрока куда угодно, камера едет за ним. Shift — быстрее.</div>
+  <label class="sw"><input type="checkbox" id="noexit"> Выход не срабатывает</label>
+  <div class="hint">Чтобы пролететь мимо выхода и не закончить уровень.</div>
+
+  <h2>Где я</h2>
+  <table>
+    <tr><td>уровень ($A8)</td><td id="iLevel"></td></tr>
+    <tr><td>игрок X, Y</td><td id="iPlayer"></td></tr>
+    <tr><td>камера X, Y</td><td id="iCamera"></td></tr>
+    <tr><td>блок под игроком</td><td id="iBlock"></td></tr>
+    <tr><td>выход уровня</td><td id="iExit"></td></tr>
+    <tr><td>здоровье ($074A)</td><td id="iHealth"></td></tr>
+    <tr><td>таймер</td><td id="iTimer"></td></tr>
+    <tr><td>кадр</td><td id="iFrame"></td></tr>
+  </table>
+
+  <h2>Сохранение</h2>
+  <div class="row"><button id="save">Сохранить <kbd>I</kbd></button><button id="load">Загрузить <kbd>P</kbd></button></div>
+
+  <h2>Звук</h2>
+  <div class="row"><label class="sw"><input type="checkbox" id="sound" checked> звук</label><input type="range" id="volume" min="0" max="1" step="0.05" value="0.6"></div>
+
+  <h2>Управление</h2>
+  <table class="muted">
+    <tr><td>движение</td><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></td></tr>
+    <tr><td>A — прыжок</td><td><kbd>J</kbd></td></tr>
+    <tr><td>B — выстрел</td><td><kbd>K</kbd></td></tr>
+    <tr><td>Start / Select</td><td><kbd>Enter</kbd> <kbd>Shift</kbd>→</td></tr>
+    <tr><td>ускорение ×4 (держать)</td><td><kbd>Tab</kbd></td></tr>
+    <tr><td>пауза</td><td><kbd>Esc</kbd></td></tr>
+  </table>
+  <p class="muted" style="font-size:12px">Геймпад тоже работает (стандартная раскладка).</p>
+</aside>
+<div id="toast"></div>
+<script type="module" src="/src/play/client.ts"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@
  * Candidates: cells read between the card and the first screen that hold a small value.
  * (Set on the title menu instead, no cell changes the level: Start resets it.)
  */
+import { romFile } from './rom.ts';
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { encodePng } from '../../xrom-libs/nes/src/png.ts';
@@ -13,7 +14,7 @@ import { Machine, loadState, saveState } from './machine.ts';
 
 const CARD = Number(process.env.AT ?? CARD_FRAME);
 const END = PLAY_FRAME;
-const m = new Machine();
+const m = new Machine(romFile());
 toCard(m);
 m.frames(CARD - CARD_FRAME);
 const menu = saveState(m);

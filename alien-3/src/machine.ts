@@ -6,13 +6,11 @@
  * `step` are wrapped here (the CPU's bus calls `this.read`, so an instance property takes over).
  */
 
-import { readFileSync } from 'node:fs';
 import { Nes, parseRom, BUTTON, type Cartridge } from '../../xrom-libs/nes/src/nes.ts';
 import { Ppu } from '../../xrom-libs/nes/src/ppu.ts';
 
 export { BUTTON };
 
-export const ROM_PATH = process.env.ALIEN3_ROM ?? `${process.env.HOME}/roms/dendy/nes/Alien 3 (USA).nes`;
 
 export interface Hooks {
   /** Before an instruction runs. */
@@ -39,7 +37,8 @@ export class Machine {
   readonly lineMask = new Uint8Array(240);
   readonly lineCtrl = new Uint8Array(240);
 
-  constructor(file = readFileSync(ROM_PATH)) {
+  /** `file`: the iNES file's bytes (Node: `romFile()` from rom.ts; the browser: fetched). */
+  constructor(file: Uint8Array) {
     this.cart = parseRom(new Uint8Array(file));
     this.nes = new Nes(this.cart);
     this.ppu = new Ppu(this.cart, this.nes.mapper);

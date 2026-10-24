@@ -8,6 +8,7 @@
  * column 0, row 0 ($EAE1 calls $F0FD with columns 0-7), as on a real start. The screen is then
  * built and scrolled by the game's own code — only where it starts is ours.
  */
+import { romFile } from './rom.ts';
 import { Machine, loadState, saveState } from './machine.ts';
 import { CARD_FRAME, toCard } from './path.ts';
 import { Level, BLOCK, LAYOUT_WIDTH } from './level.ts';
@@ -43,7 +44,7 @@ export function teleportOnBuild(m: Machine, level: Level, camX: number, camY: nu
 
 /** A card state for level n, to start teleports from. */
 export function cardState(n: number) {
-  const m = new Machine();
+  const m = new Machine(romFile());
   toCard(m);
   m.ram[0xa8] = n;
   return { m, state: saveState(m), frame: CARD_FRAME };

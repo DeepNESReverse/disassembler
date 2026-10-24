@@ -3,6 +3,7 @@
  *   node --experimental-strip-types src/shots.ts <out dir> "wait 120, start 4, every 30 f, wait 600"
  * Steps as xrom-libs' snap: `wait N`, `<buttons> N`, `shot name`, `every N name`, plus `poke $addr=$v`.
  */
+import { romFile } from './rom.ts';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { encodePng } from '../../xrom-libs/nes/src/png.ts';
@@ -41,7 +42,7 @@ export function runScript(m: Machine, script: string, shot: (name: string) => vo
 if (import.meta.url === `file://${process.argv[1]}`) {
   const [out, script] = process.argv.slice(2);
   mkdirSync(out, { recursive: true });
-  const m = new Machine();
+  const m = new Machine(romFile());
   runScript(m, script, (name) => {
     const s = m.ppu.snapshot();
     writeFileSync(join(out, `${name}.png`), encodePng(s.pixels, WIDTH, HEIGHT));

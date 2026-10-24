@@ -125,3 +125,27 @@ direction 20-120 frames, B half the time, A 5 %):
 - The check from the real start, 6000 frames each: levels 3, 6, 9, 12 — 100 %, 100 %, 100 %,
   99.998 % (100 % with stale cells apart); every tile and attribute write matched. Level 12: the
   palette is not the header's on 3 945 frames, and one frame's 176 field lines had other CHR banks.
+
+## 8. No-clip: what lies outside the rooms (`src/noclip.ts`)
+
+- **The exit.** Player held at Y 64 and moved right in level 3: at X ≈ 482 the level ends
+  (fade, "WELL DONE"). First-run code by frame (`src/experiments/exit-code.ts`) leads to B15:$E267
+  (`$52` = 2 fade, then `INC $A8`), reached only from B13:$B9CB: B13:$B99F takes the player within
+  32 × 32 px of (`$FE24 + 2·$A8`, `$FE3C + 2·$A8`) — the exits table, fixed bank. Exits (X, Y):
+  1 (1904, 1504), 2 (1760, 1728), 3 (488, 48), 4 (1882, 1744), 5 (1920, 1504), 6 (−32, 304),
+  7 (128, 1776), 8 (1920, 1504), 9 (688, 304), 10 (128, 1744), 11 (1824, 1744), 12 (1016, 512).
+  Level 1's matches the tally reached by a teleport to (1792, 1440); level 3's the no-clip run;
+  level 6's is out of the world (its way out is something else — not looked at).
+- **A wrong conclusion corrected.** §7 said the camera "has no limits": the camera that stopped at
+  X 343 in the first no-clip try had in fact stopped because the exit fired. Still true: no camera
+  bounds were found in the code read (B15:$FAE1…$FCF3); the follow code reads the player's screen
+  X as one byte (`$7C`, B15:$FAC0) and moves ≤ 3 px a frame — a player put off-screen sends it the
+  wrong way (seen: camera X 5965).
+- **Interventions** (all in `noclip.ts`): player X/Y written at line 241 every frame, led just
+  ahead of the camera at 2 px a frame (`lead`); the CPU sent from B13:$B9CB to its RTS at $B9CE (no
+  exit); health `$074A` = $32 and timer minutes `$0746/$0747` = 0, 4 held (B14:$D6A5 takes health
+  for long falls). The game builds and scrolls the screens itself; the check counts as always.
+- **Level 3** (6.3 M samples, 100 %; 64 820 / 64 820 tile writes, 33 920 / 33 920 attribute
+  writes): the camera went X −19..1797, Y 0..1036. Besides the playable corridor (top left) the
+  layout holds a second, walled room no one can enter (X ≈ 830-1340, Y ≈ 30-390), then strips and
+  noise — other tables of the bank read as layout. The game shows all of it as the decoder draws it.
