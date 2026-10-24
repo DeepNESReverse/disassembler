@@ -107,3 +107,21 @@ direction 20-120 frames, B half the time, A 5 %):
   the header's on every counted frame (0 frames other); background pattern table always $0000.
 - 2 833 frames left out (fewer than half the samples agree, or nothing of the level to compare):
   cards after a death, the tally screen after the exit.
+
+## 7. Boss rooms: levels 3, 6, 9, 12 (header $9BC0 of each group)
+
+- Drawn with "as many rows as the layout bank holds", their lower part is noise: their layouts sit
+  in the blocks bank ($9555, $93FD, $957F, $9453), among other tables.
+- What the game reads (`src/experiments/boss-extent.ts`, 6000 frames from the real start): level 3
+  camera X −4..322, Y 0, layout rows 0-7; level 6 X 41..256, Y 0..130, columns 0-16, rows 0-10;
+  level 9 X −66..341, Y 240..354, rows 7-18; level 12 X 437..768, Y 0..529, columns 13-32, rows
+  0-24. Rows are still 64 blocks apart.
+- The camera has no limits of its own: it follows the player (B15:$FAE1…$FCF3; one axis at a time,
+  `$2D`, switching only on the grid, `$2A` / `$2B` = 0); `$EE`, which the follow code tests, is the
+  way the player faces (B14:$CFEE / $D001 from the pad bits in `$28`). The room's walls in the
+  layout are its limits.
+- "The layout ends where the next table of a header begins" (`src/experiments/layout-end.ts`)
+  fails: level 12's would end after 22 rows, yet rows 23-24 are shown and match.
+- The check from the real start, 6000 frames each: levels 3, 6, 9, 12 — 100 %, 100 %, 100 %,
+  99.998 % (100 % with stale cells apart); every tile and attribute write matched. Level 12: the
+  palette is not the header's on 3 945 frames, and one frame's 176 field lines had other CHR banks.

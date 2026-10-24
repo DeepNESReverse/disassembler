@@ -34,5 +34,9 @@ m.hooks.step = (pc, op) => {
   seen.set(key, (prev ?? 0) + 1);
 };
 const hold = process.env.HOLD ? buttonsOf(process.env.HOLD) : 0;
-while (m.nes.frame < to) { const f = m.nes.frame; goTo(m, f + 1); if (hold && f >= 1180) { /* held from the level on */ } }
+// The path's presses up to the level, then `HOLD` from frame 1180 on.
+while (m.nes.frame < to) {
+  if (m.nes.frame < 1180) goTo(m, m.nes.frame + 1);
+  else m.frame(hold);
+}
 
