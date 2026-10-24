@@ -19,6 +19,7 @@ for n in range(1, 13):
         spaces[n] = json.load(open(f))
 objects = json.load(open(f'{D}/objects.json')) if os.path.exists(f'{D}/objects.json') else {}
 prisoners = {n: [o for o in objs if o['type'] == 6] for n, objs in objects.items()}
+sprites = json.load(open(f'{D}/prisoners.json')) if os.path.exists(f'{D}/prisoners.json') else {}
 opts = ''.join(f'<option value="{n}">Уровень {n}{" — босс" if n % 3 == 0 else ""}{" ✓" if n in checks else ""}</option>' for n in range(1, 13))
 html = '''<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Alien 3 — уровни</title>
 <style>
@@ -28,6 +29,7 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #wrap{overflow:auto;height:calc(100vh - 50px)}#stage{position:relative}
 #stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
+.psp{position:absolute;image-rendering:pixelated;pointer-events:none;filter:drop-shadow(0 0 2px #ff3cac) drop-shadow(0 0 4px #ff3cac)}
 .pri{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:3px solid #ff3cac;border-radius:50%;box-shadow:0 0 0 3px #0008,0 0 14px #ff3cac;pointer-events:none;animation:pulse 1.2s ease-in-out infinite}
 .pri b{position:absolute;left:50%;top:-22px;transform:translateX(-50%);background:#ff3cac;color:#000;font:bold 12px system-ui;padding:0 5px;border-radius:3px}
 @keyframes pulse{50%{transform:scale(1.25);opacity:.6}}
@@ -49,7 +51,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <details><summary>Цифры проверки</summary><table id="nums"></table></details>
 <div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div></div><div id="space-stage"></div></div>
 <script>
-const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__;let S=null,cur=1;
+const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let S=null,cur=1;
 function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Не проверен по кадрам</td><td></td></tr>';return}
 const f=v=>typeof v==='number'?v.toLocaleString('ru'):v;
 const rows=[["прогон",S.kind],["кадров",S.frames],["сравнений",S.samples],["совпадение, %",S.matchPercent],["без устаревших, %",S.matchPercentStaleApart],["записей тайлов: совпало / всего",f(S.writesMatched)+" / "+f(S.writesChecked)],["записей атрибутов",f(S.attributeWritesMatched)+" / "+f(S.attributeWritesChecked)],["клеток увидено",f(S.cellsSeen)+" / "+f(S.cellsOfLevel)],["клеток с расхождением",S.cellsEverDiffered]];
@@ -63,9 +65,12 @@ bLevel.onclick=()=>mode('l');bCheck.onclick=()=>mode('c');bBlend.onclick=()=>mod
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';[L,C].forEach(i=>i.style.width=L.naturalWidth*z+'px')}
 L.onload=size;document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners()});
 const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
-// Prisoners (object type 6, STATUS §14): a ring on each, at its X/Y in the world, numbered.
-function showPrisoners(){const list=PRISONERS[cur]||[];document.getElementById('prisN').textContent='('+list.length+')';
- priLayer.innerHTML=prisBox.checked?list.map((o,k)=>`<div class="pri" style="left:${o.x*z}px;top:${o.y*z}px" title="объект ${o.i}: X ${o.x}, Y ${o.y}"><b>${k+1}</b></div>`).join(''):''}
+// Prisoners (object type 6, STATUS §14): the game's own sprite, at its offset from the object's
+// X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
+function showPrisoners(){const list=PRISONERS[cur]||[],sp=SPRITES[cur],nn=String(cur).padStart(2,'0');document.getElementById('prisN').textContent='('+list.length+')';
+ priLayer.innerHTML=prisBox.checked?list.map((o,k)=>{const cx=sp?o.x+sp.dx+sp.w/2:o.x,cy=sp?o.y+sp.dy+sp.h/2:o.y;
+  return (sp?`<img class="psp" src="prisoners/${nn}.png" style="left:${(o.x+sp.dx)*z}px;top:${(o.y+sp.dy)*z}px;width:${sp.w*z}px;height:${sp.h*z}px">`:'')+
+  `<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="объект ${o.i}: X ${o.x}, Y ${o.y}"><b>${k+1}</b></div>`}).join(''):''}
 prisBox.onchange=showPrisoners;
 const ss=document.getElementById('space-stage'),spaceBox=document.getElementById('space');
 function showSpace(){const on=spaceBox.checked&&SPACES[cur];st.style.display=on?'none':'';ss.style.display=on?'block':'none';[bLevel,bCheck,bBlend].forEach(b=>b.disabled=!!on||(!S&&b!==bLevel));
@@ -83,5 +88,5 @@ st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.
  const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);
  pos.textContent=`x ${x} y ${y} · тайл ${x>>3},${ty} · блок ${x>>5}, ряд раскладки ${page*8+inPage} (стр. ${page})`};
 </script></body></html>'''
-open(f'{D}/index.html', 'w').write(html.replace('__OPTS__', opts).replace('__CHECKS__', json.dumps(checks)).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
+open(f'{D}/index.html', 'w').write(html.replace('__OPTS__', opts).replace('__CHECKS__', json.dumps(checks)).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPRITES__', json.dumps(sprites)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
 print('ok', sorted(checks), 'spaces', sorted(spaces))

@@ -235,3 +235,15 @@ $E000. Pictures: `out/levels/<nn>-space-<k>.png` (not in git: big, made again by
   brought on screen by the flight (camera stopped above them) — not tried.
 - Object X/Y are world pixels, as the camera's and the player's (the player's own start comes from
   the same table, object 0).
+
+## 15. The prisoners' sprites (`src/prisoner-sprites.ts`, on the maps under "пленники")
+
+Per level, a no-clip flight from prisoner to prisoner; the first one wholly on screen and away from
+the player is taken with the camera at rest — the player held mid-screen, in the camera's dead
+zone (screen X $68-$98, B15:$FB2D), 60 frames, and the camera checked unmoved — from the game's
+sprite buffer at $0200 (the page B15:$EC79 sends to the PPU), entries within 16 px across and
+−32…+24 px down of the object, the player's own left out; drawn with the sprite palette and the
+CHR banks of their lines. All 8 levels with prisoners: 7 sprites, 16 × 32 px, at (−8, −15) from
+the object's X/Y. Two tries before were wrong and are kept as lessons: taken on the move, the
+offset wandered with the camera's speed (−6 … −14); holding the player where he stood, the camera
+went on following and never came to rest on 4 levels.
