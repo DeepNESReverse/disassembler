@@ -59,6 +59,8 @@ Bytes $0C-$2E are copied to zero page $04-$26 (B15:$EA17, `LDA ($9E),Y` / `STA $
   block `(ty mod 30) mod 4`. (`StripUp` keeps the row in the page in `$3D`; B15:$E924 tests it
   against 7.) Read as plain 32-px rows, the map comes apart below Y = 240 (77 % on a ladder
   descent); read as pages, 100 %.
+- The layout is one array: the builder only steps its pointer by ±1 and ±64, so column 64 is
+  column 0 of the next row, column −1 column 63 of the row above (seen in no-clip: STATUS §9).
 - Size: as many rows as the layout bank holds after `$08` (at most 64 = 8 pages): level 1 is
   64 × 64 blocks, 2048 × 1920 px.
 

@@ -149,3 +149,13 @@ direction 20-120 frames, B half the time, A 5 %):
   writes): the camera went X −19..1797, Y 0..1036. Besides the playable corridor (top left) the
   layout holds a second, walled room no one can enter (X ≈ 830-1340, Y ≈ 30-390), then strips and
   noise — other tables of the bank read as layout. The game shows all of it as the decoder draws it.
+
+## 9. Past the right edge: the layout read on as one array (found by the user in the player)
+
+The user flew right past the layout's last column and the screen "came round": the level's left
+part again. `src/experiments/wrap-right.ts`: no-clip in level 1 to camera X 2146, 2304, 2546, 2816,
+3328 (Y 0, camera at rest 20 frames): every visible tile right of world X 2048, 704 of 704 at each,
+is the layout byte at (row + 1, column − 64) — the next row's start —, against 90-242 for "the same
+row again". The layout pointer `$18` is only ever stepped by ±1 and ±$40 (B15:$EFDD, $F0A8, $F01B,
+$F05E): there is no row width in the code beyond the $40, so a column past 63 is the next row's,
+as one to the left of 0 is the previous row's (§6: $7FFF).
