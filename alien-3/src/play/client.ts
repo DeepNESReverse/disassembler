@@ -234,6 +234,9 @@ function info(now: number) {
   $('iLevel').textContent = `${n + 1} ($${n.toString(16).toUpperCase().padStart(2, '0')})`;
   $('iPlayer').textContent = `${px}, ${py}`;
   $('iCamera').textContent = `${signed(0x1a, 0x1b)}, ${signed(0x1c, 0x1d)}`;
+  // The game moves the camera vertically only while the player's X high byte is odd (B15:$FAEB).
+  const band = r[0x440];
+  $('iBand').textContent = `${band}: ${band & 1 ? 'можно вверх-вниз' : 'только вбок'}`;
   const lv = levels[n];
   if (lv && px >= 0 && py >= 0 && px < lv.widthTiles * 8 && py < lv.heightTiles * 8) {
     const page = Math.floor(py / 240), row = page * 8 + Math.floor((py % 240) / 32), col = px >> 5;

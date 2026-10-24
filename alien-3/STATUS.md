@@ -183,3 +183,13 @@ builder write matched the decoder at its own place.
 Levels 10-12: the background palette is not the header's on many frames — colours changed while
 playing (not looked at; tiles and attributes are not affected). The pictures `out/levels/<nn>.png`
 use the header's palette.
+
+## 11. The camera goes up and down only in odd 256-px bands (found by the user in the player)
+
+No-clip in level 3 would not take the camera down at X 1133. The follow code (B15:$FAEB) looks at
+the vertical at all only when the player's X high byte (`$0440`) is odd; otherwise it handles X only
+(`$FB1F`). `src/experiments/camera-down.ts`: player held at camera + (124, 168) with camera X 1133
+(band 4): 240 frames, the camera stays (1135, 0), `$2E` never set. Camera led to X 1300 first
+(band 5): within 20 frames it aligns to X 1280 (`$2A` = 0), `$2D` becomes 1 and it goes down at
+3 px a frame (Y 594 at frame 220). So vertical travel happens with the camera on a multiple of 256
+in an odd band. The player shows the band and says which way the camera can go.

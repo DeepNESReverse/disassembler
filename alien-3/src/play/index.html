@@ -56,7 +56,9 @@
   <label class="sw"><input type="checkbox" id="health"> Здоровье не убывает <kbd>Q</kbd></label>
   <label class="sw"><input type="checkbox" id="timer"> Таймер стоит <kbd>T</kbd></label>
   <label class="sw"><input type="checkbox" id="noclip"> Сквозь стены (полёт) <kbd>F</kbd></label>
-  <div class="hint">Направления двигают игрока куда угодно, камера едет за ним. Shift — быстрее.</div>
+  <div class="hint">Направления двигают игрока куда угодно, камера едет за ним. Shift — быстрее.<br>
+  Вверх-вниз камера ездит только в <b>нечётных</b> полосах X (256–511, 768–1023, 1280–1535, …) — так
+  устроена сама игра (B15:$FAEB). В чётной полосе сначала отведи игрока вбок.</div>
   <label class="sw"><input type="checkbox" id="noexit"> Выход не срабатывает</label>
   <div class="hint">Чтобы пролететь мимо выхода и не закончить уровень.</div>
 
@@ -65,6 +67,7 @@
     <tr><td>уровень ($A8)</td><td id="iLevel"></td></tr>
     <tr><td>игрок X, Y</td><td id="iPlayer"></td></tr>
     <tr><td>камера X, Y</td><td id="iCamera"></td></tr>
+    <tr><td>полоса X (по 256 px)</td><td id="iBand"></td></tr>
     <tr><td>блок под игроком</td><td id="iBlock"></td></tr>
     <tr><td>выход уровня</td><td id="iExit"></td></tr>
     <tr><td>здоровье ($074A)</td><td id="iHealth"></td></tr>
