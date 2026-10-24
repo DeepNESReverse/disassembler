@@ -134,12 +134,19 @@ function objectsOf(m: Machine): object[] {
   return [m.nes, m.nes.cpu, m.nes.mapper, m.ppu];
 }
 
-/** A save state of the machine (the parts xrom-libs' classes keep as fields). */
-export function saveState(m: Machine): State {
+/** The PPU's pictures: output only, ~1 MB a state — left out of a light state. */
+const PICTURES = new Set(['pixels', 'indices', 'background', 'sprites', 'chrLines', 'bgOpaque']);
+
+/**
+ * A save state of the machine (the parts xrom-libs' classes keep as fields). `light`: without the
+ * PPU's pictures, for searches that keep thousands of states (the next frame draws them anew).
+ */
+export function saveState(m: Machine, light = false): State {
   const s: State = new Map();
   for (const o of objectsOf(m)) {
     const rec: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(o)) {
+      if (light && o === m.ppu && PICTURES.has(k)) continue;
       if (typeof v === 'function' || (typeof v === 'object' && v !== null && !ArrayBuffer.isView(v) && !Array.isArray(v))) continue;
       // Callbacks (beforeVblank, unset or not) and the sound log are the caller's, not state.
       if (k === 'writes' || k === 'beforeVblank' || v === undefined) continue;

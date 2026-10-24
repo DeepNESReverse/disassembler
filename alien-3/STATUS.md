@@ -270,3 +270,20 @@ looks the block up in header tables:
   (B14:$C497 at Y+12);
 - `$06` (the attribute table) = $FF also tested as a flag (B14:$C306, $C333, $C373).
 For the shortest paths the game itself is used as the physics (§18), not a model of these.
+
+## 18. Shortest paths: the game as the physics (`src/paths.ts`) — in progress
+
+- Moves measured (`src/experiments/moves.ts`, level 1 start): walking 2 px a frame; **B jumps**
+  (a tap: a hop of 6-12 px; held 48 frames: 44 px up, with a direction 48 px across in ~46 frames,
+  1 px a frame across while in the air); A fires; down, up, select do nothing on open ground.
+- `$DE` is the player's state: 0 standing, 1 falling, 2 landing (`src/experiments/fall.ts`).
+  Walking off the platform's end at (372, 560) the player falls onto a **lift**: standing
+  ($DE = 0) while carried between Y 560 and 672 at 1 px a frame.
+- Ladders are the header's `$0E` blocks; blocks with attribute $FF are the duct corridor to the
+  exit (`src/experiments/climb-blocks.ts`, drawn over level 1).
+- The search (walk 4-96 px, jumps of three heights each way, climbs 4-64 frames and the diagonals,
+  waits for lifts; a place settled when still 8 frames or standing 16): level 1 reaches 600
+  places, 1 prisoner of 4 (19), no exit. Not reached: beyond **doors** (e.g. X 447-480 at Y 560,
+  a barred column) — how a door opens is not known; firing at it from a no-clip-placed player
+  showed nothing (that player did not move at all there — the placing, not the door, is suspect).
+  A recorded play of level 1 is asked of the user to learn the moves the search lacks.
