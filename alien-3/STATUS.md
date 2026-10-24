@@ -255,3 +255,18 @@ Enemy contact is tested by B14:$C79F → $C78C, which lets a hit through only wh
 $64 (`src/experiments/untouchable.ts`, level 1, the same 6000-frame wander): without — 3 hits
 (B14:$C7D5 run), 6 health lost; with — 0 hits, 0 lost. Other health losses: falls (B14:$D1F1,
 $D6C6) and B14:$CBA4 (a drain every 64 frames, from $CB4E — not looked at). In the player: "E".
+
+## 17. Collision, read in the code (B14:$C1CC-$C58E; not yet checked by experiment)
+
+Every test takes a point near the player, turns it into a layout byte (B15:$EC00: column X/32;
+page = (Y/16)/15, the page's low byte from $EC58; row in page; `$8F` = Y within the block) and
+looks the block up in header tables:
+- `$0A`: a class a block → B15:$FE54 an 8-bit mask, one bit a 16 × 8 cell (bit = 2 · (Y/8 in the
+  block) + (X/16 in the block), $C1C4); walls skip classes ≥ $0E (B14:$C24E);
+- `$0E`: a list of blocks ending in $FF — ladders (B14:$C29F at Y+16, $C2CA at Y−32);
+- `$10`: pairs (block, flag) — floors to stand on, the flag set = only the block's top half
+  (B14:$C556 at Y+16);
+- `$14`: pairs (block, shape) — slopes, 4 × 4 grids of 8 px at B14:$C427, bit 7 = mirrored
+  (B14:$C497 at Y+12);
+- `$06` (the attribute table) = $FF also tested as a flag (B14:$C306, $C333, $C373).
+For the shortest paths the game itself is used as the physics (§18), not a model of these.
