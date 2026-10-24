@@ -247,3 +247,11 @@ CHR banks of their lines. All 8 levels with prisoners: 7 sprites, 16 × 32 px, a
 the object's X/Y. Two tries before were wrong and are kept as lessons: taken on the move, the
 offset wandered with the camera's speed (−6 … −14); holding the player where he stood, the camera
 went on following and never came to rest on 4 levels.
+
+## 16. Untouchable: the game's own invulnerability timer held (`$03C8`)
+
+Enemy contact is tested by B14:$C79F → $C78C, which lets a hit through only while `$03C8` is 0
+($C794); the loader sets it to $64 at a level's start (B15:$E9CA) and a hit sets it again. Held at
+$64 (`src/experiments/untouchable.ts`, level 1, the same 6000-frame wander): without — 3 hits
+(B14:$C7D5 run), 6 health lost; with — 0 hits, 0 lost. Other health losses: falls (B14:$D1F1,
+$D6C6) and B14:$CBA4 (a drain every 64 frames, from $CB4E — not looked at). In the player: "E".

@@ -3,7 +3,7 @@
  * keyboard (nes-explorer's keys) or a gamepad, the sound through @xromdev/apu, and the switches:
  *   - a level: from a save state taken on the level card, $A8 set (STATUS.md §1);
  *   - the timer's start ($07A8: header bytes $00-$0B, STATUS.md §8);
- *   - health held ($074A = $18), the timer held ($0741-$0744 = 04:00);
+ *   - health held ($074A = $18), the timer held ($0741-$0744 = 04:00), enemies' blows off ($03C8);
  *   - no-clip: the player's X/Y written each frame before the game's logic, moved by the pad,
  *     kept on the camera's screen so that the camera follows (src/noclip.ts `lead`);
  *   - the exit off: B13:$B9CB sent to its RTS at $B9CE (src/noclip.ts).
@@ -136,6 +136,8 @@ m.hooks.exec = (pc) => {
 };
 m.nes.beforeVblank = () => {
   if ($('health').checked) r[0x74a] = 0x18;
+  // The game's own invulnerability timer, held: no enemy hit gets through (B14:$C794, STATUS §16).
+  if ($('untouchable').checked) r[0x3c8] = 0x64;
   if ($('timer').checked) { r[0x741] = 0; r[0x742] = 4; r[0x743] = 0; r[0x744] = 0; }
   if ($('noclip').checked) {
     const speed = held.has('ShiftLeft') ? 4 : 2;
@@ -216,6 +218,7 @@ addEventListener('keydown', (e) => {
   if (e.code === 'KeyQ') flip('health', 'Здоровье');
   if (e.code === 'KeyT') flip('timer', 'Таймер');
   if (e.code === 'KeyF') flip('noclip', 'Сквозь стены');
+  if (e.code === 'KeyE') flip('untouchable', 'Неуязвимость');
   if (e.code === 'KeyI') save();
   if (e.code === 'KeyP') load();
   if (e.code === 'Escape') { paused = !paused; toast(paused ? 'Пауза' : 'Игра'); }
