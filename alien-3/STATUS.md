@@ -159,3 +159,27 @@ is the layout byte at (row + 1, column − 64) — the next row's start —, aga
 row again". The layout pointer `$18` is only ever stepped by ±1 and ±$40 (B15:$EFDD, $F0A8, $F01B,
 $F05E): there is no row width in the code beyond the $40, so a column past 63 is the next row's,
 as one to the left of 0 is the previous row's (§6: $7FFF).
+
+## 10. No-clip over all 12 levels (`src/noclip.ts <n>`, rows 120 px apart)
+
+Every frame compared; 0 frames left out (health held right: $18); no cell ever differed; every
+builder write matched the decoder at its own place.
+
+| level | frames | samples | match | tile writes | attribute writes | cells seen | camera X, Y | frames, other palette |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 19 593 | 12 922 290 | 100 % | 115 056 / 115 056 | 61 744 / 61 744 | 46 932 / 61 440 | -19..1797  0..1756 | 0 |
+| 2 | 19 932 | 13 145 986 | 100 % | 114 288 / 114 288 | 61 184 / 61 184 | 46 866 / 61 440 | -19..1797  0..1756 | 0 |
+| 3 (boss) | 11 317 | 7 463 958 | 100 % | 73 920 / 73 920 | 39 408 / 39 408 | 29 250 / 38 400 | -19..1797  0..1036 | 0 |
+| 4 | 20 089 | 13 250 530 | 100 % | 110 744 / 110 744 | 59 296 / 59 296 | 46 866 / 61 440 | -18..1797  0..1756 | 0 |
+| 5 | 20 269 | 13 369 418 | 100 % | 113 484 / 113 484 | 60 736 / 60 736 | 41 916 / 61 440 | -18..1797  0..1756 | 0 |
+| 6 (boss) | 13 729 | 9 054 712 | 100 % | 87 532 / 87 532 | 46 856 / 46 856 | 35 144 / 46 080 | -19..1797  0..1276 | 0 |
+| 7 | 20 062 | 13 232 864 | 100 % | 115 860 / 115 860 | 62 063 / 62 063 | 46 976 / 61 440 | -19..1797  0..1756 | 0 |
+| 8 | 20 700 | 13 653 702 | 100 % | 114 088 / 114 088 | 61 152 / 61 152 | 41 982 / 61 440 | -19..1797  -2..1756 | 0 |
+| 9 (boss) | 12 037 | 7 933 420 | 100 % | 71 104 / 71 104 | 37 800 / 37 800 | 24 366 / 38 400 | -46..1797  -4..1036 | 0 |
+| 10 | 19 781 | 13 047 272 | 100 % | 112 636 / 112 636 | 60 271 / 60 271 | 46 866 / 61 440 | -19..1797  0..1756 | 13 187 |
+| 11 | 19 542 | 12 889 510 | 100 % | 111 656 / 111 656 | 59 888 / 59 888 | 46 844 / 61 440 | -18..1797  0..1756 | 13 027 |
+| 12 (boss) | 11 690 | 7 708 796 | 100 % | 74 452 / 74 452 | 39 760 / 39 760 | 29 272 / 38 400 | -19..1797  0..1036 | 7 794 |
+
+Levels 10-12: the background palette is not the header's on many frames — colours changed while
+playing (not looked at; tiles and attributes are not affected). The pictures `out/levels/<nn>.png`
+use the header's palette.
