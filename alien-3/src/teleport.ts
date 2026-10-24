@@ -20,8 +20,7 @@ export const BUILD_FIRST_SCREEN = 0xeae1;
  * was tried: it then runs to the player faster than the builders keep up, frames of half-built
  * screens that are the teleport's, not the game's.)
  */
-export function teleportOnBuild(m: Machine, level: Level, camX: number, camY: number) {
-  const px = camX + 128, py = camY + 80;
+export function teleportOnBuild(m: Machine, level: Level, camX: number, camY: number, px = camX + 128, py = camY + 80) {
   const prev = m.hooks.exec;
   let done = false;
   m.hooks.exec = (pc) => {

@@ -5,7 +5,8 @@ const lv = new Level(m.cart.prg, 0);
 const snap = () => { m.frames(1160 - 900); return m.ram.slice(); };
 const a = snap();
 loadState(m, state);
-teleportOnBuild(m, lv, 612, 80);
+// The real start of level 1: camera (512, 0) from the header, the player (612, 80) from its object table.
+teleportOnBuild(m, lv, 512, 0, 612, 80);
 const b = snap();
 const h = (n: number) => n.toString(16).padStart(2, '0');
 const d: string[] = [];
