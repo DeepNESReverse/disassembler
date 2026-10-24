@@ -5,8 +5,9 @@
  *
  *   node --experimental-strip-types src/play/server.ts [--port 4324]
  *
- * On 127.0.0.1 only. GET / is the page; /src/… this repo's modules and /xrom-libs/nes/… the
- * emulator's (TypeScript served with its types stripped); /rom the cartridge, read in place.
+ * On 127.0.0.1 only. GET / is the page; /levels/ the level maps (out/levels); /src/… this repo's
+ * modules and /xrom-libs/nes/… the emulator's (TypeScript served with its types stripped); /rom the
+ * cartridge, read in place.
  */
 import { createServer, type ServerResponse } from 'node:http';
 import { existsSync, readFileSync, statSync } from 'node:fs';
@@ -20,6 +21,7 @@ const repo = resolve(import.meta.dirname, '../..');
 const xrom = resolve(repo, '../xrom-libs/nes');
 
 const TYPES: Record<string, string> = {
+  '.png': 'image/png',
   '.html': 'text/html; charset=utf-8',
   '.ts': 'text/javascript; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -46,6 +48,9 @@ createServer((req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost');
   const p = url.pathname;
   if (p === '/' || p === '/index.html') return file(res, resolve(repo, 'src/play'), '/index.html');
+  if (p === '/levels') { res.writeHead(301, { Location: '/levels/' }); return res.end(); }
+  if (p === '/levels/') return file(res, resolve(repo, 'out/levels'), '/index.html');
+  if (p.startsWith('/levels/')) return file(res, resolve(repo, 'out/levels'), p.slice('/levels'.length));
   if (p === '/rom') return send(res, 200, readFileSync(ROM_PATH), 'application/octet-stream');
   if (p.startsWith('/src/')) return file(res, resolve(repo, 'src'), p.slice(4));
   if (p.startsWith('/xrom-libs/nes/src/')) return file(res, resolve(xrom, 'src'), p.slice('/xrom-libs/nes/src'.length));
