@@ -217,3 +217,21 @@ of the level's first frame — those are a moment of play, not level data, and a
 The check of the model, level 3: 4 256 ROM bytes read by the builder in the descent, every one the
 cartridge's at the bank assumed; the banks seen were one each — 13 at $A000, 14 at $C000, 15 at
 $E000. Pictures: `out/levels/<nn>-space-<k>.png` (not in git: big, made again by the script).
+
+## 14. Prisoners: object type 6 (`src/objects.ts`, viewer layer "пленники", on by default, toggled)
+
+- By the code: the header's object table ($1E) gives each object X, Y and a type; the loader puts
+  the type in `$04E0,X` (B15:$EAB0). Every frame B14:$C5A3 jumps through the handler table at
+  B13:$A5D5 by type (bank 13 at $A000 there: checked, every dispatch in 1 500 frames). Type 6's
+  handler is B14:$DFBB: with the object's `$04C0` set it marks the slot (`$0400,Y` = 8), takes one
+  off `$0747` and adds one to `$068A` — the prisoners left ("Pr:" on the status bar, from header
+  $2F) and the prisoners rescued. Other decrements of `$0747` (B14:$CE3A, $CE5E) lie behind type 5's
+  handler ($CD85); type-5 objects stand only at X 3840, out of the world.
+- On every level the number of type-6 objects equals header byte $2F
+  (`src/experiments/prisoners-count.ts`): 4, 5, 0, 5, 5, 0, 6, 7, 0, 4, 5, 0 — none in boss rooms.
+- In play (`src/experiments/prisoner-look.ts`, level 1, no-clip): the player put on object 19's X/Y
+  — `$0747` 4 → 3, slot 19's flags → 8, `$068A` 0 → 1; object 17 was rescued on the way there (its
+  slot 8, `$0747` 3). On objects 1 (type 1) and 2 (type 3) nothing. Objects 20 and 21 were not
+  brought on screen by the flight (camera stopped above them) — not tried.
+- Object X/Y are world pixels, as the camera's and the player's (the player's own start comes from
+  the same table, object 0).

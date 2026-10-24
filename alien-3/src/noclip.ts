@@ -58,6 +58,18 @@ export function lead(m: Machine, goal: [number, number], speed = 2): [number, nu
   return [step(px, tx), step(py, ty)];
 }
 
+/**
+ * Camera waypoints to `goal` (its top-left) the camera can follow: vertical travel only on an odd
+ * 256-px band (B15:$FAEB, STATUS §11), so across to the nearest odd band, down or up, then across.
+ */
+export function route(from: [number, number], goal: [number, number]): [number, number][] {
+  if (Math.abs(from[1] - goal[1]) <= 2) return [goal];
+  const band = (x: number) => Math.floor((x + 128) / 256);
+  const odd = band(from[0]) % 2 ? band(from[0]) : band(from[0]) + 1 <= 7 ? band(from[0]) + 1 : band(from[0]) - 1;
+  const shaft = odd * 256;
+  return [[shaft, from[1]], [shaft, goal[1]], goal];
+}
+
 /** Health full ($18, as B15:$E9BD sets it) and the timer at 04:00 ($0741-$0744, digit a cell). */
 export function holdHealthAndTime(r: Uint8Array) {
   r[0x74a] = 0x18;
