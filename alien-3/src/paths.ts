@@ -65,10 +65,11 @@ export const ACTIONS: { name: string; seq: number[] }[] = [
 
 export interface Events { rescued: number[]; exit: boolean }
 
-/** Cheats held every frame (line 241). */
-export function cheats(m: Machine) {
+/** Cheats held every frame (line 241): untouchable, health; with `time`, the timer at 04:00 too. */
+export function cheats(m: Machine, time = false) {
   m.ram[0x3c8] = 0x64;
   m.ram[0x74a] = 0x18;
+  if (time) { m.ram[0x741] = 0; m.ram[0x742] = 4; m.ram[0x743] = 0; m.ram[0x744] = 0; }
 }
 
 export const pos = (m: Machine): [number, number] => [m.ram[0x420] | (m.ram[0x440] << 8), m.ram[0x460] | (m.ram[0x480] << 8)];
@@ -106,7 +107,7 @@ export interface Prisoner { i: number; x: number; y: number }
  * action from each. `exit()` says whether the exit fired since it was last cleared. Stops after
  * `maxNodes` expansions, when nothing is left, or — with `untilExit` — at the first edge at the exit.
  */
-export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1, near?: [number, number], radius = 16) {
+export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1, near?: [number, number], radius = 16, onFrame?: () => void) {
   const places: Place[] = [];
   const index = new Map<string, number>();
   const edges: Edge[] = [];
@@ -136,7 +137,7 @@ export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: {
       const before = prisoners.map((o) => m.ram[0x400 + o.i]);
       exit.fired = false;
       const level = m.ram[0xa8];
-      const settle = act(m, ACTIONS[a].seq, () => {});
+      const settle = act(m, ACTIONS[a].seq, onFrame ?? (() => {}));
       frames += ACTIONS[a].seq.length + Math.max(0, settle);
       if (settle < 0 || m.ram[0xa8] !== level) continue;
       const rescued = prisoners.filter((o, k) => before[k] !== 8 && m.ram[0x400 + o.i] === 8).map((o) => o.i);

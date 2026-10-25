@@ -39,6 +39,7 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #view{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #view .hid{fill:url(#hatch)}
 #view .unseen{fill:#000;fill-opacity:.72}
+#view .searchonly{fill:#3f8cff;fill-opacity:.35}
 #view .h{stroke:#5fd0ff;stroke-width:2;vector-effect:non-scaling-stroke}
 #view .v{stroke:#ffb347;stroke-width:2;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}
 #tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
@@ -68,7 +69,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
  <span id="tkLabel" class="legend"></span></span>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), сыгран в FCEUX; без прохода сквозь стены; все пленники спасены"><input type="checkbox" id="randilBox" checked> путь TAS Randil <span id="randilN" class="legend"></span></label>
 
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Затемнено всё, что ни разу не попало в кадр за весь забег TAS Randil (камера из записи, каждый кадр уровня). Это один маршрут: побочные комнаты, куда он не заходил, тоже затемнены"><input type="checkbox" id="runSeenBox"> не видно в забеге <span id="runSeenN" class="legend"></span></label>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Затемнено всё, что не попало в кадр ни в забеге TAS Randil, ни в моём обходе уровня в игре (без прохода сквозь стены; неуязвимость, здоровье, таймер). Синим — то, что увидел только обход (для сверки). Где обхода ещё нет — только забег"><input type="checkbox" id="runSeenBox"> не видно игроку <span id="runSeenN" class="legend"></span></label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Камера едет вбок только на верхней границе страницы (Y кратно 240), вверх-вниз — только в нечётной полосе X по 256 px; кадр 256×176. В чётных полосах нижние 64 px каждой страницы не видны никогда — даже сквозь стены (проверено облётом no-clip)"><input type="checkbox" id="hiddenBox"> никогда не видно (правило камеры)</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Линии центра кадра камеры: голубые — где она едет только по горизонтали (верх страниц), оранжевые — только по вертикали (нечётные полосы)"><input type="checkbox" id="railsBox"> пути камеры</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="pris" checked> пленники <span id="prisN" class="legend"></span></label>
@@ -104,15 +105,23 @@ prisBox.onchange=showPrisoners;
 // The camera's rule (STATUS §22): across only on a page top (Y = 240·k), up and down only on an odd
 // 256-px band (X = 256·(2j+1)); the field 256 × 176. Hidden: even bands' page bottoms (Y 176-239
 // in a page). Rails: where the field's middle goes.
-let RUNSEEN=null;
+let RUNSEEN=null,VISIBLE=null;
+const rowsToSet=(rows,W,H)=>{const a=new Uint8Array(W*H);rows.forEach((row,ty)=>{let x=0,s=false;for(const k of row.split(',').map(Number)){if(s)a.fill(1,ty*W+x,ty*W+x+k);x+=k;s=!s}});return a};
+const setToPath=(a,W,H,want)=>{let d='';for(let ty=0;ty<H;ty++){let tx=0;while(tx<W){if(a[ty*W+tx]===want){let k=tx;while(k<W&&a[ty*W+k]===want)k++;d+=`M${tx*8} ${ty*8}h${(k-tx)*8}v8h${-(k-tx)*8}z`;tx=k}else tx++}}return d};
 async function showView(){const v=document.getElementById('view'),W=L.naturalWidth||2048,H=L.naturalHeight||1920;
  const rs=document.getElementById('runSeenBox').checked;
- if(rs&&!RUNSEEN){try{RUNSEEN=await (await fetch('run-seen.json',{cache:'no-store'})).json()}catch(e){RUNSEEN={}}}
+ if(rs&&!RUNSEEN){try{RUNSEEN=await (await fetch('run-seen.json',{cache:'no-store'})).json()}catch(e){RUNSEEN={}}
+  try{VISIBLE=await (await fetch('visible.json',{cache:'no-store'})).json()}catch(e){VISIBLE={}}}
  v.setAttribute('viewBox',`0 0 ${W} ${H}`);v.style.width=W*z+'px';v.style.height=H*z+'px';
  let h='<defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="#000a"/><line x1="0" y1="0" x2="0" y2="12" stroke="#ff4d6d" stroke-width="3"/></pattern></defs>';
- // Not seen in the run (out/levels/run-seen.json, src/run-seen.ts): one path of 8-px tile runs.
- const R=rs&&RUNSEEN?RUNSEEN[cur]:null;document.getElementById('runSeenN').textContent=R?`(видно ${(100*R.seen/R.tiles).toFixed(0)} %)`:'';
- if(R){let d='';R.rows.forEach((row,ty)=>{let x=0,unseen=true;for(const k of row.split(',').map(Number)){if(unseen&&k)d+=`M${x*8} ${ty*8}h${k*8}v8h${-k*8}z`;x+=k;unseen=!unseen}});h+=`<path class="unseen" d="${d}"/>`}
+ // Not seen by the player: neither in Randil's run (run-seen.json) nor in the search (visible.json);
+ // what only the search saw, tinted blue.
+ const R=rs&&RUNSEEN?RUNSEEN[cur]:null,V=rs&&VISIBLE?VISIBLE[cur]:null;
+ if(R){const TW=R.w,TH=R.h,run=rowsToSet(R.rows,TW,TH),only=V?rowsToSet(V.search,TW,TH):new Uint8Array(TW*TH),seen=new Uint8Array(TW*TH);
+  let n=0;for(let i=0;i<seen.length;i++){seen[i]=run[i]|only[i];n+=seen[i]}
+  document.getElementById('runSeenN').textContent=`(видно ${(100*n/seen.length).toFixed(0)} %${V?'':', только забег'})`;
+  h+=`<path class="unseen" d="${setToPath(seen,TW,TH,0)}"/>`;if(V)h+=`<path class="searchonly" d="${setToPath(only,TW,TH,1)}"/>`}
+ else document.getElementById('runSeenN').textContent='';
  if(document.getElementById('hiddenBox').checked)
   for(let x=0;x<W;x+=512)for(let y=0;y<H;y+=240)h+=`<rect class="hid" x="${x}" y="${y+176}" width="${Math.min(256,W-x)}" height="${Math.min(64,H-y-176)}"/>`;
  if(document.getElementById('railsBox').checked){

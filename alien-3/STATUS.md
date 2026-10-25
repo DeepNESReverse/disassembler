@@ -373,3 +373,8 @@ flight saw none — level 1: 0 of 8 192 (it saw 46 932 of the other 53 248); lev
   dark too. Seen: 32.8, 44.5, 4.1, 33.9, 41.8, 6.7, 46.9, 42.5, 5.7, 47.0, 45.3, 10.5 % of levels
   1-12. Everything the player could see in any play needs every place he can reach (the search of
   §18 with the camera of each place) — not done.
+- "Seen by a player" (the user's way, `src/visible.ts`): Randil's run's view, then a search in the
+  game (no no-clip; untouchable, health and timer held; the exit off) over every place the actions
+  reach, the camera's field marked every frame. Level 1: 1 521 places; the search saw all 20 170
+  tiles the run saw and 6 602 more — 26 772 of 61 440 (43.6 %) seen. Layer "не видно игроку":
+  dark what neither saw, blue what only the search saw (to be checked by the user's eye).
