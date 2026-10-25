@@ -38,6 +38,7 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
 #view{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #view .hid{fill:url(#hatch)}
+#view .unseen{fill:#000;fill-opacity:.72}
 #view .h{stroke:#5fd0ff;stroke-width:2;vector-effect:non-scaling-stroke}
 #view .v{stroke:#ffb347;stroke-width:2;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}
 #tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
@@ -67,7 +68,8 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
  <span id="tkLabel" class="legend"></span></span>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), сыгран в FCEUX; без прохода сквозь стены; все пленники спасены"><input type="checkbox" id="randilBox" checked> путь TAS Randil <span id="randilN" class="legend"></span></label>
 
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Камера едет вбок только на верхней границе страницы (Y кратно 240), вверх-вниз — только в нечётной полосе X по 256 px; кадр 256×176. В чётных полосах нижние 64 px каждой страницы не видны никогда (проверено облётом no-clip)"><input type="checkbox" id="hiddenBox"> невидимые области</label>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Затемнено всё, что ни разу не попало в кадр за весь забег TAS Randil (камера из записи, каждый кадр уровня). Это один маршрут: побочные комнаты, куда он не заходил, тоже затемнены"><input type="checkbox" id="runSeenBox"> не видно в забеге <span id="runSeenN" class="legend"></span></label>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Камера едет вбок только на верхней границе страницы (Y кратно 240), вверх-вниз — только в нечётной полосе X по 256 px; кадр 256×176. В чётных полосах нижние 64 px каждой страницы не видны никогда — даже сквозь стены (проверено облётом no-clip)"><input type="checkbox" id="hiddenBox"> никогда не видно (правило камеры)</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Линии центра кадра камеры: голубые — где она едет только по горизонтали (верх страниц), оранжевые — только по вертикали (нечётные полосы)"><input type="checkbox" id="railsBox"> пути камеры</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="pris" checked> пленники <span id="prisN" class="legend"></span></label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="space"> всё адресное пространство (64 КБ, 128 страниц)</label>
@@ -102,16 +104,22 @@ prisBox.onchange=showPrisoners;
 // The camera's rule (STATUS §22): across only on a page top (Y = 240·k), up and down only on an odd
 // 256-px band (X = 256·(2j+1)); the field 256 × 176. Hidden: even bands' page bottoms (Y 176-239
 // in a page). Rails: where the field's middle goes.
-function showView(){const v=document.getElementById('view'),W=L.naturalWidth||2048,H=L.naturalHeight||1920;
+let RUNSEEN=null;
+async function showView(){const v=document.getElementById('view'),W=L.naturalWidth||2048,H=L.naturalHeight||1920;
+ const rs=document.getElementById('runSeenBox').checked;
+ if(rs&&!RUNSEEN){try{RUNSEEN=await (await fetch('run-seen.json',{cache:'no-store'})).json()}catch(e){RUNSEEN={}}}
  v.setAttribute('viewBox',`0 0 ${W} ${H}`);v.style.width=W*z+'px';v.style.height=H*z+'px';
  let h='<defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="#000a"/><line x1="0" y1="0" x2="0" y2="12" stroke="#ff4d6d" stroke-width="3"/></pattern></defs>';
+ // Not seen in the run (out/levels/run-seen.json, src/run-seen.ts): one path of 8-px tile runs.
+ const R=rs&&RUNSEEN?RUNSEEN[cur]:null;document.getElementById('runSeenN').textContent=R?`(видно ${(100*R.seen/R.tiles).toFixed(0)} %)`:'';
+ if(R){let d='';R.rows.forEach((row,ty)=>{let x=0,unseen=true;for(const k of row.split(',').map(Number)){if(unseen&&k)d+=`M${x*8} ${ty*8}h${k*8}v8h${-k*8}z`;x+=k;unseen=!unseen}});h+=`<path class="unseen" d="${d}"/>`}
  if(document.getElementById('hiddenBox').checked)
   for(let x=0;x<W;x+=512)for(let y=0;y<H;y+=240)h+=`<rect class="hid" x="${x}" y="${y+176}" width="${Math.min(256,W-x)}" height="${Math.min(64,H-y-176)}"/>`;
  if(document.getElementById('railsBox').checked){
   for(let y=0;y+176<=H;y+=240)h+=`<line class="h" x1="128" y1="${y+88}" x2="${W-128}" y2="${y+88}"/>`;
   for(let x=256;x+256<=W;x+=512)h+=`<line class="v" x1="${x+128}" y1="88" x2="${x+128}" y2="${H-88}"/>`}
  v.innerHTML=h}
-document.getElementById('hiddenBox').onchange=showView;document.getElementById('railsBox').onchange=showView;
+document.getElementById('hiddenBox').onchange=showView;document.getElementById('runSeenBox').onchange=showView;document.getElementById('railsBox').onchange=showView;
 
 // The TAS trail (out/levels/tas-randil.json: FCEUX playing Randil's movie, player X/Y), fetched when first shown.
 const trails={randil:{file:'tas-randil.json',data:null}};

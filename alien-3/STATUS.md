@@ -366,3 +366,10 @@ bottom 64 px of every page (Y 176-239 in it) are never on screen. Checked agains
 (`noclip.ts <n> --dump-seen`, `src/experiments/view-rule.ts`): of the cells the rule hides, the
 flight saw none — level 1: 0 of 8 192 (it saw 46 932 of the other 53 248); level 3: 0 of 5 120
 (29 250 of 33 280).
+- "Never shown" by the rule is not what the user meant (their screenshot vs the map): the big
+  walled-in areas are never on screen in play because the camera follows the player and he cannot
+  go there. Layer "не видно в забеге" (`src/run-seen.ts` → out/levels/run-seen.json): the union of
+  the camera's field over every played frame of Randil's run — one route; side rooms it skips are
+  dark too. Seen: 32.8, 44.5, 4.1, 33.9, 41.8, 6.7, 46.9, 42.5, 5.7, 47.0, 45.3, 10.5 % of levels
+  1-12. Everything the player could see in any play needs every place he can reach (the search of
+  §18 with the camera of each place) — not done.
