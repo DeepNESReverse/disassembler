@@ -348,3 +348,5 @@ from the maps at the user's word (2026-10-25), as was the user's own hand-drawn 
   from the first frame its X/Y change after `$A8` took its value to the last frame they change
   before the next (the exit); the window shows only then, the slider runs over that, and playing
   skips the tally and card.
+- ▶ starts at the start of the level the page shows (the menus, cards and tallies never shown); a
+  level's first frame is past its fade-in (all 16 background colours $0F).

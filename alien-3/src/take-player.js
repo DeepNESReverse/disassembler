@@ -60,23 +60,28 @@ async function load() {
   const raw = starts.map(([l, f], i) => [l, f, (starts[i + 1]?.[1] ?? frames) - 1]);
   const pos = new Uint8Array(nCells);
   const P = [0x420, 0x440, 0x460, 0x480].map((a) => cells.indexOf(a));
-  const posAt = [];
+  const BG = Array.from({ length: 16 }, (_, i) => cells.indexOf(0x785 + i));
+  const posAt = [], dark = new Uint8Array(frames);
   for (let f = 0; f < frames; f++) {
     let p = offsets[f];
     const count = data[p] | (data[p + 1] << 8);
     p += 2;
     for (let k = 0; k < count; k++, p += 3) pos[data[p] | (data[p + 1] << 8)] = data[p + 2];
     posAt.push(P.map((i) => pos[i]).join());
+    // The level fading in from black: every background colour still $0F.
+    dark[f] = BG.every((i) => pos[i] === 0x0f) ? 1 : 0;
   }
   spans = raw.filter(([l]) => l < 12).map(([l, a, b]) => {
     let s = a, e = b;
     while (s < b && posAt[s + 1] === posAt[a]) s++;
     while (e > s && posAt[e] === posAt[e - 1]) e--;
-    return [l, Math.min(s + 1, b), e];
+    s = Math.min(s + 1, b);
+    while (s < e && dark[s]) s++;
+    return [l, s, e];
   });
   ui.level.innerHTML = '<option value="">к уровню…</option>' + spans.map(([l, f]) => `<option value="${f}">уровень ${l + 1}</option>`).join('');
-  seek(0);
-  ui.label.textContent = '';
+  const first = spans.find(([l]) => l === Number($('lvl').value) - 1) ?? spans[0];
+  seek(first[1]);
 }
 
 /** The state after frame f. */
@@ -197,6 +202,11 @@ function tick(now) {
 
 ui.play.onclick = async () => {
   if (!data) await load();
+  // Not on a level (the menus, a card, a tally): straight to the start of the level the page shows.
+  if (!spans.some(([, a, b]) => frame >= a && frame <= b)) {
+    const span = spans.find(([l]) => l === Number($('lvl').value) - 1) ?? spans[0];
+    seek(span[1]);
+  }
   playing = !playing;
   ui.play.textContent = playing ? '⏸' : '▶';
   live.style.display = 'block';
