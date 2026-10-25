@@ -323,3 +323,18 @@ from the maps at the user's word (2026-10-25), as was the user's own hand-drawn 
   `fceux/tas_trail.lua`: 73 592 frames, every prisoner rescued on every level (`$0747` reaches 0 on
   all 12). Frames per level: 7 372 (with the menus), 9 801, 1 292, 7 488, 7 427, 1 665, 8 959,
   8 490, 1 674, 8 865, 8 660, 1 899. On the maps: "путь TAS Randil" (on by default).
+
+## 21. Randil's run played on the maps (▶ on /levels/)
+
+- The user played the TAS in FCEUX with `fceux/tas_take.lua` (record_play.lua's format without the
+  power-on): 73 592 frames of pads + RAM.
+- On this NES with the RAM laid over at line 241 (xrom-libs' replay idea, `src/take.ts`) the CPU
+  broke: laid over in the middle of long routines — the intro's bank trampoline (take frame 652,
+  B15:$FE82 → $0013), the level load (982, $FE7F → $0000). Skipping the overlay while the screen is
+  off did not save it. So the CPU is not run at all.
+- Instead the picture comes from the RAM: the sprite page ($0200-$02FF), the palette buffer
+  ($0785), the sprite banks ($0718/$0719/$071A, R4 = $7B), the camera, $A8 (`src/take-pack.ts` →
+  out/levels/take/randil.bin.gz, 2 MB); the background inside the camera from the level's data,
+  in the browser (`src/take-player.js`, src/level.ts read from the ROM). A door opening changed 2
+  nametable bytes in all (`src/experiments/door-switch.ts`), so the background from the data is
+  what the game shows, sprites and palette apart.

@@ -30,6 +30,7 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #wrap{overflow:auto;height:calc(100vh - 50px)}#stage{position:relative}
 #stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
+#live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
 #draw,#tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #randil polyline{fill:none;stroke:#b48cff;stroke-width:2.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1px #000)}
 #randil{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
@@ -59,6 +60,13 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <button id="bLevel" class="on">Карта</button><button id="bCheck">Проверка</button><button id="bBlend">Наложение</button>
 <span>Масштаб:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="marks" checked> старт и выход</label>
+<span style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="TAS Randil, как его сыграл FCEUX: в окне камеры — кадр игры (фон из данных уровня, спрайты и палитра из записи)">
+ <button id="tkPlay">▶</button>
+ <select id="tkSpeed"><option value="1">×1</option><option value="4">×4</option><option value="16">×16</option></select>
+ <input type="range" id="tkSeek" min="0" max="1" value="0" style="width:160px">
+ <select id="tkLevel"><option value="">к уровню…</option></select>
+ <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="tkFollow" checked> следить</label>
+ <span id="tkLabel" class="legend"></span></span>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), сыгран в FCEUX; без прохода сквозь стены; все пленники спасены"><input type="checkbox" id="randilBox" checked> путь TAS Randil <span id="randilN" class="legend"></span></label>
 
 <button id="drawBtn" title="Клик — точка, перетаскивание — сдвиг, правый клик — удалить точку, Esc — закончить линию, Ctrl+Z — отменить">✎ рисовать</button>
@@ -72,7 +80,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <span class="legend">адресное пространство: приглушённое — не ROM (что прочла игра или снимок RAM); проверка: тёмное — игра ни разу не показала, оранжевое — устаревшая клетка, красное — расхождение</span>
 </header>
 <details><summary>Цифры проверки</summary><table id="nums"></table></details>
-<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><div id="markLayer"></div><svg id="randil"></svg><svg id="draw"></svg></div><div id="space-stage"></div></div>
+<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><div id="markLayer"></div><svg id="randil"></svg><canvas id="live" width="256" height="176"></canvas><svg id="draw"></svg></div><div id="space-stage"></div></div>
 <script>
 const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__,MARKERS=__MARKERS__;let S=null,cur=1;
 function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Не проверен по кадрам</td><td></td></tr>';return}
@@ -158,6 +166,6 @@ lvl.onchange=()=>pick(+lvl.value);pick(1);
 st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);
  pos.textContent=`x ${x} y ${y} · тайл ${x>>3},${ty} · блок ${x>>5}, ряд раскладки ${page*8+inPage} (стр. ${page})`};
-</script></body></html>'''
+</script><script type="module" src="/src/take-player.js"></script></body></html>'''
 open(f'{D}/index.html', 'w').write(html.replace('__OPTS__', opts).replace('__CHECKS__', json.dumps(checks)).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPRITES__', json.dumps(sprites)).replace('__MARKERS__', json.dumps(markers)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
 print('ok', sorted(checks), 'spaces', sorted(spaces))

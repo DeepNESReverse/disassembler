@@ -51,3 +51,17 @@ loadState(m, s);
 for (let f = 0; f < 10; f++) m.frame(BUTTON.up);
 const row = () => Array.from({ length: 16 }, (_, k) => r[0x3e0 + k].toString(16).padStart(2, '0')).join(' ');
 for (let f = 0; f <= 1800; f++) { if (f % 300 === 0) console.log(`+${f} frames: $03E0-$03EF ${row()}`); m.frame(0); }
+// Is a door drawn in the background? The nametables before the Up and 90 frames after it (the
+// player standing still), cells that changed; and how many sprites are on screen before / after.
+{
+  loadState(m, s);
+  const ntBefore = m.ppu.snapshot().nametables.slice();
+  const oamVisible = () => { let k = 0; for (let i = 0; i < 64; i++) if (r[0x200 + i * 4] < 0xef) k++; return k; };
+  const before = oamVisible();
+  for (let f = 0; f < 10; f++) m.frame(BUTTON.up);
+  for (let f = 0; f < 90; f++) m.frame(0);
+  const ntAfter = m.ppu.snapshot().nametables;
+  let changed = 0;
+  for (let i = 0; i < ntAfter.length; i++) if (ntAfter[i] !== ntBefore[i]) changed++;
+  console.log(`door: nametable bytes changed by opening ${changed}; sprites on screen ${before} → ${oamVisible()}`);
+}
