@@ -287,3 +287,12 @@ For the shortest paths the game itself is used as the physics (§18), not a mode
   a barred column) — how a door opens is not known; firing at it from a no-clip-placed player
   showed nothing (that player did not move at all there — the placing, not the door, is suspect).
   A recorded play of level 1 is asked of the user to learn the moves the search lacks.
+- Doors: Up in front of the green-and-red panel opens one (the user; `src/experiments/door-switch.ts`:
+  at (582, 544) the player walks left only after Up, to X 374). The door cells $03E0-$03EF also
+  animate in cycles, so the opening is an action with the walk through (`openL`, `openR`). With it
+  level 1's graph has 1 429 places and all 4 prisoners; no exit edge yet.
+- Stitched from the graph, the run diverged on playback (1 of 4); searched leg by leg from the
+  real state it rescued 19 (1 908 frames) and 20 (1 592), then found no way to 17 from there.
+- **Stopped here at the user's word** (2026-10-25): the task proved bigger than it looked. To pick up:
+  why the leg 20 → 17 fails (`runs/paths/01-stuck-*.json` once written), the exit leg, then the
+  other levels; the map layer is not made.

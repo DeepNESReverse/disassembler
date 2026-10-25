@@ -46,6 +46,11 @@ export const ACTIONS: { name: string; seq: number[] }[] = [
   { name: 'up64', seq: hold(BUTTON.up, 64) },
   // Climbing: off a ladder sideways only at some heights in the block (B14:$D386 tests $8F), so
   // short climbs to stop at them, and the diagonals (the climb handler reads all four directions).
+  // A door: Up in front of its panel opens it (the user; src/experiments/door-switch.ts: from
+  // the panel at (582, 544) the player walks left through the door only after Up). The opening
+  // leaves the player where he was, so it is an action together with the walk through.
+  { name: 'openL', seq: [...hold(BUTTON.up, 8), ...hold(0, 30), ...hold(BUTTON.left, 48)] },
+  { name: 'openR', seq: [...hold(BUTTON.up, 8), ...hold(0, 30), ...hold(BUTTON.right, 48)] },
   // Waiting: a lift carries the player while he stands (src/experiments/fall.ts).
   { name: 'wait32', seq: hold(0, 32) },
   { name: 'wait96', seq: hold(0, 96) },
@@ -101,7 +106,7 @@ export interface Prisoner { i: number; x: number; y: number }
  * action from each. `exit()` says whether the exit fired since it was last cleared. Stops after
  * `maxNodes` expansions, when nothing is left, or — with `untilExit` — at the first edge at the exit.
  */
-export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true) {
+export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1) {
   const places: Place[] = [];
   const index = new Map<string, number>();
   const edges: Edge[] = [];
@@ -139,7 +144,7 @@ export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: {
       const to = add(pos(m), from.cost + cost, saveState(m, true));
       if (to === best && !rescued.length && !exit.fired) continue;
       edges.push({ from: best, to, action: a, settle, frames: cost, rescued, exit: exit.fired });
-      if (untilExit && exit.fired) return { places, edges, exitEdge: edges.length - 1 };
+      if ((untilExit && exit.fired) || (untilRescue >= 0 && rescued.includes(untilRescue))) return { places, edges, exitEdge: edges.length - 1 };
     }
     if (from !== places[0]) from.state = undefined;
     if (log && expanded % 500 === 0)
@@ -265,10 +270,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   if (plan.exitEdge >= 0) way.push(...walk(dPrev, g.edges, g.edges[plan.exitEdge].from).map((x) => g.edges[x]), g.edges[plan.exitEdge]);
   void at;
-  let inputs = inputsOf(way);
+  let inputs: number[] = inputsOf(way);
   console.log(`plan: prisoners ${plan.chain.map((k) => g.edges[k].rescued.join('+')).join(' → ')}, ${plan.exitEdge >= 0 ? 'exit in the graph' : 'exit to be searched'}, ${plan.cost} frames planned`);
 
-  // 4. Play it back from the start; if the exit was not in the graph, search for it from there.
+  // 4. Carried out leg by leg from the game's real state: the order is the plan's (the graph's
+  //    costs, from the start's history), but each leg — to the next prisoner, then to the exit —
+  //    is searched again from where the run really stands, so its inputs do what they did in the
+  //    search (stitched from the graph, the legs diverged: doors animate, enemies move).
   const play = (seq: number[]) => {
     loadState(m, start);
     exit.fired = false; exit.live = true;
@@ -277,19 +285,45 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     for (const b of seq) { m.frame(b); f++; if (f % 4 === 0) trail.push(pos(m)); if (exit.fired) break; }
     return { trail, frames: f, rescued: prisoners.filter((o) => m.ram[0x400 + o.i] === 8).map((o) => o.i), left: m.ram[0x747], exit: exit.fired };
   };
-  let r = play(inputs);
-  if (!r.exit) {
-    exit.live = false;
-    const here = saveState(m, true);
-    console.log(`playback: rescued ${r.rescued.length}/${prisoners.length}, $0747 ${r.left}; searching the exit from there`);
-    const g2 = explore(m, here, prisoners, exit, maxNodes, true);
-    if (g2.exitEdge >= 0) {
-      const d2 = dijkstra(g2.places.length, g2.edges, 0);
-      const tail = [...walk(d2.prev, g2.edges, g2.edges[g2.exitEdge].from).map((x) => g2.edges[x]), g2.edges[g2.exitEdge]];
-      inputs = [...inputs, ...inputsOf(tail)];
-      r = play(inputs);
+  const order = plan.chain.map((k) => g.edges[k].rescued[0]);
+  let here = start;
+  inputs = [];
+  const left = [...order];
+  const legLog: string[] = [];
+  /** The next leg: to the first prisoner of `left` the search reaches from `here` (the plan's order
+   *  first; another if that one cannot be reached from here), or to the exit when none is left. */
+  for (;;) {
+    let done = false;
+    const targets = left.length ? left : [-1];
+    for (const target of targets) {
+      loadState(m, here);
+      exit.live = false;
+      const leg = explore(m, here, prisoners, exit, maxNodes, target < 0, false, target);
+      const what = target < 0 ? 'the exit' : `prisoner ${target}`;
+      if (leg.exitEdge < 0) {
+        legLog.push(`${what}: not reached (${leg.places.length} places searched)`);
+        writeFileSync(`runs/paths/${nn}-stuck-${target}.json`, JSON.stringify(leg.places.map((p) => p.p)));
+        continue;
+      }
+      const d = dijkstra(leg.places.length, leg.edges, 0);
+      const end = leg.edges[leg.exitEdge];
+      const way = [...walk(d.prev, leg.edges, end.from).map((x) => leg.edges[x]), end];
+      const legInputs = inputsOf(way);
+      inputs.push(...legInputs);
+      // The next leg starts where these inputs leave the game, played from this leg's start.
+      loadState(m, here);
+      for (const b of legInputs) m.frame(b);
+      here = saveState(m, true);
+      legLog.push(`${what}: ${legInputs.length} frames (${leg.places.length} places searched)`);
+      for (const o of prisoners) { const k = left.indexOf(o.i); if (k >= 0 && m.ram[0x400 + o.i] === 8) left.splice(k, 1); }
+      done = target < 0 ? false : true;
+      if (target < 0) left.push(-2); // the exit reached: stop
+      break;
     }
+    console.log(legLog[legLog.length - 1]);
+    if (left.includes(-2) || !done) break;
   }
+  const r = play(inputs);
   console.log(`playback: ${r.frames} frames, rescued ${r.rescued.length}/${prisoners.length} (${r.rescued.join(' ')}), prisoners left $0747 = ${r.left}, exit ${r.exit ? 'reached' : 'NOT reached'}`);
   writeFileSync(`out/levels/${nn}-path.json`, JSON.stringify({
     level: n + 1, cheats: ['$03C8 = $64 (untouchable)', '$074A = $18 (health)'], startFrame: 1180 + lead,
