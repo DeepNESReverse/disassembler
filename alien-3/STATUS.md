@@ -316,3 +316,5 @@ player's X/Y, `$A8` and `$0747` every frame; `src/tas_trail.py` → out/levels/t
 the maps ("путь TAS"). Frames per level: 4 572 (with the menus), 8 112, 1 267, 3 463, 3 146,
 1 530, 8 199, 6 000, 979, 7 957, 4 349, 663. Prisoners: all rescued on every level but 5, where
 the counter only went 5 → 4 and the level ended all the same (not looked into).
+The user: this TAS walks through walls (a bug), so its trail is not a normal way through — kept as
+a layer, off by default; a glitchless run is wanted instead.
