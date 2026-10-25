@@ -15,6 +15,8 @@ const bgIndex = new Uint8Array(256 * 176);
 let rom, prg, chr, levels, data, cells, frames, offsets, keys;
 const state = new Uint8Array(512);
 let frame = -1, playing = false, debt = 0, last = 0;
+/** Each level's frames in the take: [first, last]. */
+let spans = [];
 
 async function load() {
   ui.label.textContent = 'загрузка…';
@@ -41,7 +43,6 @@ async function load() {
     for (let k = 0; k < count; k++, o += 3) s[buf[o] | (buf[o + 1] << 8)] = buf[o + 2];
     if (f % 600 === 0) keys.push(s.slice());
   }
-  ui.seek.max = frames - 1;
   // Where each level starts: the first frame with that $A8 after the previous one's.
   const starts = [];
   const ss = new Uint8Array(nCells);
@@ -54,6 +55,7 @@ async function load() {
     if (ss[0] !== lv) { lv = ss[0]; starts.push([lv, f]); }
   }
   ui.level.innerHTML = '<option value="">к уровню…</option>' + starts.filter(([l]) => l < 12).map(([l, f]) => `<option value="${f}">уровень ${l + 1}</option>`).join('');
+  spans = starts.map(([l, f], i) => [l, f, (starts[i + 1]?.[1] ?? frames) - 1]);
   seek(0);
   ui.label.textContent = '';
 }
@@ -137,8 +139,13 @@ function draw() {
   live.style.width = 256 * z + 'px';
   live.style.height = 176 * z + 'px';
   live.style.display = 'block';
-  ui.seek.value = String(frame);
-  ui.label.textContent = `кадр ${frame} · ${(frame / 60.0988).toFixed(1)} с · уровень ${n + 1}`;
+  // The slider runs over the level being played, its time from the level's first frame.
+  const span = spans.find(([, a, b]) => frame >= a && frame <= b);
+  if (span) {
+    if (ui.seek.min !== String(span[1]) || ui.seek.max !== String(span[2])) { ui.seek.min = String(span[1]); ui.seek.max = String(span[2]); }
+    ui.seek.value = String(frame);
+    ui.label.textContent = `уровень ${n + 1} · ${((frame - span[1]) / 60.0988).toFixed(1)} из ${((span[2] - span[1] + 1) / 60.0988).toFixed(0)} с`;
+  }
   // Keep the camera in view.
   if (ui.follow.checked) {
     const w = $('wrap'), cx = (camX + 128) * z, cy = (camY + 88) * z;
@@ -167,3 +174,9 @@ ui.play.onclick = async () => {
 ui.seek.oninput = () => { if (data) seek(Number(ui.seek.value)); };
 ui.level.onchange = () => { if (data && ui.level.value !== '') seek(Number(ui.level.value)); ui.level.value = ''; };
 requestAnimationFrame(tick);
+// Choosing a level in the page's list takes the run to that level's start.
+$('lvl').addEventListener('change', () => {
+  if (!data) return;
+  const span = spans.find(([l]) => l === Number($('lvl').value) - 1);
+  if (span) seek(span[1]);
+});

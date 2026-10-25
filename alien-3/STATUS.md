@@ -304,7 +304,8 @@ the first frame on all 12 levels (`src/experiments/player-start.ts`) — and the
 from out/levels/markers.json (`src/objects.ts`). The user draws lines over a map ("✎ рисовать":
 click a point, drag to move, right click to delete, Esc / "новая линия" to start another, Ctrl+Z);
 each level's lines go through the player server (POST /levels/user-path?level=n) to
-out/levels/user-paths/<nn>.json, world pixels.
+out/levels/user-paths/<nn>.json, world pixels. Both removed at the user's word (2026-10-25); the
+markers' data (out/levels/markers.json) is still written by `src/objects.ts`.
 
 ## 20. A TAS's trail (outside source, the user's; for where a player goes, not for the format)
 
@@ -338,3 +339,5 @@ from the maps at the user's word (2026-10-25), as was the user's own hand-drawn 
   in the browser (`src/take-player.js`, src/level.ts read from the ROM). A door opening changed 2
   nametable bytes in all (`src/experiments/door-switch.ts`), so the background from the data is
   what the game shows, sprites and palette apart.
+- The slider runs over the level being played (its frames in the take, from one $A8 change to the
+  next), its time from the level's start; choosing a level in the page's list takes the run there.
