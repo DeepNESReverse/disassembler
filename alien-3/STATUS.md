@@ -377,4 +377,5 @@ flight saw none — level 1: 0 of 8 192 (it saw 46 932 of the other 53 248); lev
   game (no no-clip; untouchable, health and timer held; the exit off) over every place the actions
   reach, the camera's field marked every frame. Level 1: 1 521 places; the search saw all 20 170
   tiles the run saw and 6 602 more — 26 772 of 61 440 (43.6 %) seen. Layer "не видно игроку":
-  dark what neither saw, blue what only the search saw (to be checked by the user's eye).
+  dark what neither saw (the user checked level 1 by eye: right; the blue tint for "only the search
+  saw" was dropped at the user's word).
