@@ -30,7 +30,8 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #wrap{overflow:auto;height:calc(100vh - 50px)}#stage{position:relative}
 #stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
-#draw{position:absolute;left:0;top:0;overflow:visible}
+#draw,#tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+#tas polyline{fill:none;stroke:#3dffb0;stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.9;filter:drop-shadow(0 0 1px #000)}
 #draw.on{cursor:crosshair}
 #draw polyline{fill:none;stroke:#ffe14a;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 2px #000)}
 #draw polyline.cur{stroke:#7cf}
@@ -56,6 +57,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <button id="bLevel" class="on">Карта</button><button id="bCheck">Проверка</button><button id="bBlend">Наложение</button>
 <span>Масштаб:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="marks" checked> старт и выход</label>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by J.Y (jy-alien3.fm2), сыгран в FCEUX; позиция игрока каждый 2-й кадр"><input type="checkbox" id="tasBox"> путь TAS <span id="tasN" class="legend"></span></label>
 <button id="drawBtn" title="Клик — точка, перетаскивание — сдвиг, правый клик — удалить точку, Esc — закончить линию, Ctrl+Z — отменить">✎ рисовать</button>
 <button id="newLine" title="Следующий клик начнёт новую линию (Esc)">новая линия</button>
 <button id="undo" title="Ctrl+Z">отменить</button>
@@ -67,7 +69,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <span class="legend">адресное пространство: приглушённое — не ROM (что прочла игра или снимок RAM); проверка: тёмное — игра ни разу не показала, оранжевое — устаревшая клетка, красное — расхождение</span>
 </header>
 <details><summary>Цифры проверки</summary><table id="nums"></table></details>
-<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><div id="markLayer"></div><svg id="draw"></svg></div><div id="space-stage"></div></div>
+<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><div id="markLayer"></div><svg id="tas"></svg><svg id="draw"></svg></div><div id="space-stage"></div></div>
 <script>
 const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__,MARKERS=__MARKERS__;let S=null,cur=1;
 function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Не проверен по кадрам</td><td></td></tr>';return}
@@ -81,7 +83,7 @@ function mode(x){m=x;[bLevel,bCheck,bBlend].forEach(b=>b.classList.remove('on'))
  ({l:bLevel,c:bCheck,b:bBlend})[x].classList.add('on')}
 bLevel.onclick=()=>mode('l');bCheck.onclick=()=>mode('c');bBlend.onclick=()=>mode('b');
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';[L,C].forEach(i=>i.style.width=L.naturalWidth*z+'px')}
-L.onload=()=>{size();drawLines()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showMarks();drawLines()});
+L.onload=()=>{size();drawLines();showTas()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showMarks();drawLines();showTas()});
 const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
 // Prisoners (object type 6, STATUS §14): the game's own sprite, at its offset from the object's
 // X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
@@ -96,6 +98,14 @@ function showMarks(){const M=MARKERS[cur];markLayer.innerHTML=marksBox.checked&&
  `<div class="mark start" style="left:${M.start[0]*z}px;top:${(M.start[1]-16)*z}px" title="старт игрока: X ${M.start[0]}, Y ${M.start[1]}">старт</div>`+
  (M.exit[0]>=0?`<div class="mark exit" style="left:${M.exit[0]*z}px;top:${(M.exit[1]-16)*z}px" title="выход: X ${M.exit[0]}, Y ${M.exit[1]} (срабатывает в квадрате 32×32)">выход</div>`:''):''}
 marksBox.onchange=showMarks;
+// The TAS's trail (out/levels/tas.json, from FCEUX playing J.Y's movie), fetched when first shown.
+const tasSvg=document.getElementById('tas'),tasBox=document.getElementById('tasBox');let TAS=null;
+async function showTas(){if(!tasBox.checked){tasSvg.innerHTML='';document.getElementById('tasN').textContent='';return}
+ if(!TAS){try{TAS=(await (await fetch('tas.json',{cache:'no-store'})).json()).levels}catch(e){TAS={}}}
+ const T=TAS[cur],W=L.naturalWidth||2048,H=L.naturalHeight||1920;tasSvg.setAttribute('viewBox',`0 0 ${W} ${H}`);tasSvg.style.width=W*z+'px';tasSvg.style.height=H*z+'px';
+ document.getElementById('tasN').textContent=T?`(${(T.frames/60.0988).toFixed(0)} с)`:'(нет)';
+ tasSvg.innerHTML=T?T.segments.map(sg=>`<polyline points="${sg.map(p=>p.join(',')).join(' ')}"/>`).join(''):''}
+tasBox.onchange=showTas;
 
 // The user's lines: points in world pixels, saved to out/levels/user-paths/<nn>.json through the server.
 const svg=document.getElementById('draw'),drawBtn=document.getElementById('drawBtn'),savedEl=document.getElementById('saved');
@@ -138,7 +148,7 @@ spaceBox.onchange=showSpace;
 ss.onmousemove=e=>{const P=SPACES[cur];if(!P)return;const r=ss.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),inPage=Math.min(7,Math.floor((y%240)/32)),row=page*8+inPage,col=x>>5,a=(P.layout+row*64+col)&0xffff;
  pos.textContent=`x ${x} y ${y} · страница ${page} · адрес $${a.toString(16).toUpperCase().padStart(4,'0')}`};
-function pick(n){cur=n;const nn=String(n).padStart(2,'0');S=CHECKS[n]||null;L.src=nn+'.png';bCheck.disabled=bBlend.disabled=!S;if(S)C.src=S.image;else mode('l');nums();showSpace();showPrisoners();showMarks();loadLines();document.title='Alien 3 — уровень '+n}
+function pick(n){cur=n;const nn=String(n).padStart(2,'0');S=CHECKS[n]||null;L.src=nn+'.png';bCheck.disabled=bBlend.disabled=!S;if(S)C.src=S.image;else mode('l');nums();showSpace();showPrisoners();showMarks();loadLines();showTas();document.title='Alien 3 — уровень '+n}
 lvl.onchange=()=>pick(+lvl.value);pick(1);
 st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);

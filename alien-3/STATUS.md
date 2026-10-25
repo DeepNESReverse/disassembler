@@ -305,3 +305,14 @@ from out/levels/markers.json (`src/objects.ts`). The user draws lines over a map
 click a point, drag to move, right click to delete, Esc / "новая линия" to start another, Ctrl+Z);
 each level's lines go through the player server (POST /levels/user-path?level=n) to
 out/levels/user-paths/<nn>.json, world pixels.
+
+## 20. A TAS's trail (outside source, the user's; for where a player goes, not for the format)
+
+J.Y's TAS (jy-alien3.fm2, 50 237 frames from power-on, no resets): its romChecksum is this ROM's
+(MD5 of PRG+CHR, `src/tas.ts`). Played on this NES it goes through the menu right (difficulty 2)
+but falls out of step in level 1 (stuck at X ≈ 920 by frame 2400) — this NES's timing is not
+FCEUX's to the frame. So the user played it in FCEUX with `fceux/tas_trail.lua` logging the
+player's X/Y, `$A8` and `$0747` every frame; `src/tas_trail.py` → out/levels/tas.json, drawn on
+the maps ("путь TAS"). Frames per level: 4 572 (with the menus), 8 112, 1 267, 3 463, 3 146,
+1 530, 8 199, 6 000, 979, 7 957, 4 349, 663. Prisoners: all rescued on every level but 5, where
+the counter only went 5 → 4 and the level ended all the same (not looked into).
