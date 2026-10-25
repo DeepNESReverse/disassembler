@@ -2,7 +2,6 @@
 out/levels/<out>.json. A line breaks where the player jumps more than 64 px in a frame (a card, a
 death, the level's change); points every 2 frames.
 python3 src/tas_trail.py <trail.txt> <out name> "<source>"
-  J.Y (jy-alien3.fm2, walks through doors):  … fceux/tas_trail.txt tas "TAS by J.Y …"
   Randil (tasvideos 2713M, no wall clip):     … fceux/tas_trail-randil.txt tas-randil "TAS by Randil …"""
 import json, sys
 src, name, source = sys.argv[1], sys.argv[2], sys.argv[3]

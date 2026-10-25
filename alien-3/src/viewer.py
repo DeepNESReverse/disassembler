@@ -60,7 +60,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <span>Масштаб:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="marks" checked> старт и выход</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), сыгран в FCEUX; без прохода сквозь стены; все пленники спасены"><input type="checkbox" id="randilBox" checked> путь TAS Randil <span id="randilN" class="legend"></span></label>
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by J.Y (jy-alien3.fm2), сыгран в FCEUX; позиция игрока каждый 2-й кадр. Использует баг с проходом сквозь стены"><input type="checkbox" id="tasBox"> путь TAS (с багом стен) <span id="tasN" class="legend"></span></label>
+
 <button id="drawBtn" title="Клик — точка, перетаскивание — сдвиг, правый клик — удалить точку, Esc — закончить линию, Ctrl+Z — отменить">✎ рисовать</button>
 <button id="newLine" title="Следующий клик начнёт новую линию (Esc)">новая линия</button>
 <button id="undo" title="Ctrl+Z">отменить</button>
@@ -72,7 +72,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <span class="legend">адресное пространство: приглушённое — не ROM (что прочла игра или снимок RAM); проверка: тёмное — игра ни разу не показала, оранжевое — устаревшая клетка, красное — расхождение</span>
 </header>
 <details><summary>Цифры проверки</summary><table id="nums"></table></details>
-<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><div id="markLayer"></div><svg id="randil"></svg><svg id="tas"></svg><svg id="draw"></svg></div><div id="space-stage"></div></div>
+<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><div id="markLayer"></div><svg id="randil"></svg><svg id="draw"></svg></div><div id="space-stage"></div></div>
 <script>
 const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__,MARKERS=__MARKERS__;let S=null,cur=1;
 function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Не проверен по кадрам</td><td></td></tr>';return}
@@ -101,16 +101,16 @@ function showMarks(){const M=MARKERS[cur];markLayer.innerHTML=marksBox.checked&&
  `<div class="mark start" style="left:${M.start[0]*z}px;top:${(M.start[1]-16)*z}px" title="старт игрока: X ${M.start[0]}, Y ${M.start[1]}">старт</div>`+
  (M.exit[0]>=0?`<div class="mark exit" style="left:${M.exit[0]*z}px;top:${(M.exit[1]-16)*z}px" title="выход: X ${M.exit[0]}, Y ${M.exit[1]} (срабатывает в квадрате 32×32)">выход</div>`:''):''}
 marksBox.onchange=showMarks;
-// TAS trails (out/levels/tas-randil.json, tas.json: FCEUX playing the movies, player X/Y), fetched when first shown.
-const trails={randil:{file:'tas-randil.json',data:null},tas:{file:'tas.json',data:null}};
+// The TAS trail (out/levels/tas-randil.json: FCEUX playing Randil's movie, player X/Y), fetched when first shown.
+const trails={randil:{file:'tas-randil.json',data:null}};
 async function showTrail(id,box,label){const svgT=document.getElementById(id),T0=trails[id];
  if(!document.getElementById(box).checked){svgT.innerHTML='';document.getElementById(label).textContent='';return}
  if(!T0.data){try{T0.data=(await (await fetch(T0.file,{cache:'no-store'})).json()).levels}catch(e){T0.data={}}}
  const T=T0.data[cur],W=L.naturalWidth||2048,H=L.naturalHeight||1920;svgT.setAttribute('viewBox',`0 0 ${W} ${H}`);svgT.style.width=W*z+'px';svgT.style.height=H*z+'px';
  document.getElementById(label).textContent=T?`(${(T.frames/60.0988).toFixed(0)} с)`:'(нет)';
  svgT.innerHTML=T?T.segments.map(sg=>`<polyline points="${sg.map(p=>p.join(',')).join(' ')}"/>`).join(''):''}
-function showTas(){showTrail('randil','randilBox','randilN');showTrail('tas','tasBox','tasN')}
-document.getElementById('tasBox').onchange=showTas;document.getElementById('randilBox').onchange=showTas;
+function showTas(){showTrail('randil','randilBox','randilN')}
+document.getElementById('randilBox').onchange=showTas;
 
 // The user's lines: points in world pixels, saved to out/levels/user-paths/<nn>.json through the server.
 const svg=document.getElementById('draw'),drawBtn=document.getElementById('drawBtn'),savedEl=document.getElementById('saved');

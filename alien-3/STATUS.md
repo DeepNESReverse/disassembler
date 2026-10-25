@@ -316,8 +316,8 @@ player's X/Y, `$A8` and `$0747` every frame; `src/tas_trail.py` → out/levels/t
 the maps ("путь TAS"). Frames per level: 4 572 (with the menus), 8 112, 1 267, 3 463, 3 146,
 1 530, 8 199, 6 000, 979, 7 957, 4 349, 663. Prisoners: all rescued on every level but 5, where
 the counter only went 5 → 4 and the level ended all the same (not looked into).
-The user: this TAS walks through walls (a bug), so its trail is not a normal way through — kept as
-a layer, off by default; a glitchless run is wanted instead.
+The user: this TAS walks through walls (a bug), so its trail is not a normal way through; removed
+from the maps at the user's word (2026-10-25), as was the user's own hand-drawn route of level 1.
 - Randil's TAS instead (tasvideos.org 2713M, 20:24.52, FCEUX; its page names no glitch — the one
   J.Y's beat by 6:28 with the door clip). The user downloaded and played it in FCEUX with
   `fceux/tas_trail.lua`: 73 592 frames, every prisoner rescued on every level (`$0747` reaches 0 on
