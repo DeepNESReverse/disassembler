@@ -54,8 +54,27 @@ async function load() {
     for (let k = 0; k < count; k++, p += 3) ss[data[p] | (data[p + 1] << 8)] = data[p + 2];
     if (ss[0] !== lv) { lv = ss[0]; starts.push([lv, f]); }
   }
-  ui.level.innerHTML = '<option value="">к уровню…</option>' + starts.filter(([l]) => l < 12).map(([l, f]) => `<option value="${f}">уровень ${l + 1}</option>`).join('');
-  spans = starts.map(([l, f], i) => [l, f, (starts[i + 1]?.[1] ?? frames) - 1]);
+  // A level is played from the first frame the player's X/Y changes after $A8 took its value (the
+  // loader puts him on the start once the card is over) to the last frame it changes before the
+  // next level (the exit: then the tally and the next card, the player frozen).
+  const raw = starts.map(([l, f], i) => [l, f, (starts[i + 1]?.[1] ?? frames) - 1]);
+  const pos = new Uint8Array(nCells);
+  const P = [0x420, 0x440, 0x460, 0x480].map((a) => cells.indexOf(a));
+  const posAt = [];
+  for (let f = 0; f < frames; f++) {
+    let p = offsets[f];
+    const count = data[p] | (data[p + 1] << 8);
+    p += 2;
+    for (let k = 0; k < count; k++, p += 3) pos[data[p] | (data[p + 1] << 8)] = data[p + 2];
+    posAt.push(P.map((i) => pos[i]).join());
+  }
+  spans = raw.filter(([l]) => l < 12).map(([l, a, b]) => {
+    let s = a, e = b;
+    while (s < b && posAt[s + 1] === posAt[a]) s++;
+    while (e > s && posAt[e] === posAt[e - 1]) e--;
+    return [l, Math.min(s + 1, b), e];
+  });
+  ui.level.innerHTML = '<option value="">к уровню…</option>' + spans.map(([l, f]) => `<option value="${f}">уровень ${l + 1}</option>`).join('');
   seek(0);
   ui.label.textContent = '';
 }
@@ -82,7 +101,13 @@ const rgb = (i) => { const c = NES_RGB[i & 0x3f]; return 0xff000000 | ((c & 0xff
 
 function draw() {
   const n = get(0xa8);
-  if (n > 11) return;
+  const span = spans.find(([l, a, b]) => l === n && frame >= a && frame <= b);
+  if (n > 11 || !span) {
+    // A card, a tally, the menus: the game shows no level now.
+    live.style.display = 'none';
+    ui.label.textContent = `между уровнями (кадр ${frame})`;
+    return;
+  }
   const level = levels[n];
   // The map follows the level the run is on.
   if (cur !== n + 1) { const sel = $('lvl'); sel.value = String(n + 1); pick(n + 1); }
@@ -140,8 +165,7 @@ function draw() {
   live.style.height = 176 * z + 'px';
   live.style.display = 'block';
   // The slider runs over the level being played, its time from the level's first frame.
-  const span = spans.find(([, a, b]) => frame >= a && frame <= b);
-  if (span) {
+  {
     if (ui.seek.min !== String(span[1]) || ui.seek.max !== String(span[2])) { ui.seek.min = String(span[1]); ui.seek.max = String(span[2]); }
     ui.seek.value = String(frame);
     ui.label.textContent = `уровень ${n + 1} · ${((frame - span[1]) / 60.0988).toFixed(1)} из ${((span[2] - span[1] + 1) / 60.0988).toFixed(0)} с`;
@@ -157,7 +181,13 @@ function draw() {
 function tick(now) {
   if (playing) {
     debt += Math.min(0.25, (now - last) / 1000) * 60.0988 * Number(ui.speed.value);
-    while (debt >= 1 && frame < frames - 1) { apply(++frame); debt -= 1; }
+    while (debt >= 1 && frame < frames - 1) {
+      apply(++frame);
+      debt -= 1;
+      // Past a level's end (its exit): on to the next level's first frame, the tally and card skipped.
+      const ended = spans.findIndex(([, , b]) => frame === b + 1);
+      if (ended >= 0 && spans[ended + 1]) { seek(spans[ended + 1][1]); debt = 0; break; }
+    }
     if (frame >= frames - 1) { playing = false; ui.play.textContent = '▶'; }
     draw();
   }

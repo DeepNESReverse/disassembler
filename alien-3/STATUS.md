@@ -341,3 +341,10 @@ from the maps at the user's word (2026-10-25), as was the user's own hand-drawn 
   what the game shows, sprites and palette apart.
 - The slider runs over the level being played (its frames in the take, from one $A8 change to the
   next), its time from the level's start; choosing a level in the page's list takes the run there.
+- Between levels the window showed the map in the card's palette (the user). `$A8` changes before
+  the card; through the tally and the card the player's X/Y stay frozen at the exit, and the loader
+  sets them anew when the level starts (`fceux/tas_trail-randil.txt`; RAM flags like `$A3/$A4`
+  were tried — `src/experiments/play-flag*.ts` — and did not hold on level 1). So a level is played
+  from the first frame its X/Y change after `$A8` took its value to the last frame they change
+  before the next (the exit); the window shows only then, the slider runs over that, and playing
+  skips the tally and card.
