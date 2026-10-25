@@ -19,7 +19,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { BUTTON, loadState, saveState, type Machine } from './machine.ts';
 import { cardState } from './teleport.ts';
 
-const EXIT_JUMP = 0xb9cb, EXIT_RTS = 0xb9ce;
+export const EXIT_JUMP = 0xb9cb, EXIT_RTS = 0xb9ce;
 
 /** The actions tried from every place: pad inputs held, a frame each. */
 const hold = (b: number, n: number) => Array<number>(n).fill(b);
@@ -71,7 +71,7 @@ export function cheats(m: Machine) {
   m.ram[0x74a] = 0x18;
 }
 
-const pos = (m: Machine): [number, number] => [m.ram[0x420] | (m.ram[0x440] << 8), m.ram[0x460] | (m.ram[0x480] << 8)];
+export const pos = (m: Machine): [number, number] => [m.ram[0x420] | (m.ram[0x440] << 8), m.ram[0x460] | (m.ram[0x480] << 8)];
 /** A place: 8 px across (a ladder wants the player lined up), 8 px down. */
 const keyOf = ([x, y]: [number, number]) => `${x >> 3},${y >> 3}`;
 
@@ -106,7 +106,7 @@ export interface Prisoner { i: number; x: number; y: number }
  * action from each. `exit()` says whether the exit fired since it was last cleared. Stops after
  * `maxNodes` expansions, when nothing is left, or — with `untilExit` — at the first edge at the exit.
  */
-export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1) {
+export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1, near?: [number, number], radius = 16) {
   const places: Place[] = [];
   const index = new Map<string, number>();
   const edges: Edge[] = [];
@@ -144,7 +144,9 @@ export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: {
       const to = add(pos(m), from.cost + cost, saveState(m, true));
       if (to === best && !rescued.length && !exit.fired) continue;
       edges.push({ from: best, to, action: a, settle, frames: cost, rescued, exit: exit.fired });
-      if ((untilExit && exit.fired) || (untilRescue >= 0 && rescued.includes(untilRescue))) return { places, edges, exitEdge: edges.length - 1 };
+      const [px, py] = pos(m);
+      const arrived = near !== undefined && Math.abs(px - near[0]) <= radius && Math.abs(py - near[1]) <= radius;
+      if ((untilExit && exit.fired) || (untilRescue >= 0 && rescued.includes(untilRescue)) || arrived) return { places, edges, exitEdge: edges.length - 1 };
     }
     if (from !== places[0]) from.state = undefined;
     if (log && expanded % 500 === 0)
@@ -172,7 +174,7 @@ export function dijkstra(count: number, edges: Edge[], src: number) {
   return { dist, prev };
 }
 
-const walk = (prev: Int32Array, edges: Edge[], to: number) => {
+export const walk = (prev: Int32Array, edges: Edge[], to: number) => {
   const way: number[] = [];
   for (let v = to; prev[v] >= 0; v = edges[prev[v]].from) way.unshift(prev[v]);
   return way;
