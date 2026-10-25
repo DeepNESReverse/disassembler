@@ -139,6 +139,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const nn = String(n + 1).padStart(2, '0');
   mkdirSync('out/levels', { recursive: true });
   writeFileSync(`out/levels/${nn}-noclip.json`, JSON.stringify(s, null, 2) + '\n');
+  if (args.includes('--dump-seen')) {
+    mkdirSync('runs', { recursive: true });
+    writeFileSync(`runs/noclip-seen-${nn}.json`, JSON.stringify({ width: level.widthTiles, height: level.heightTiles, seen: [...checker.seen].map((v) => (v ? 1 : 0)).join('') }));
+  }
   const { pixels, width, height } = renderLevel(level, cart.chr);
   const W = level.widthTiles;
   for (let y = 0; y < height; y++)

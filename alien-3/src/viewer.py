@@ -36,6 +36,10 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
 #live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
+#view{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+#view .hid{fill:url(#hatch)}
+#view .h{stroke:#5fd0ff;stroke-width:2;vector-effect:non-scaling-stroke}
+#view .v{stroke:#ffb347;stroke-width:2;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}
 #tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #randil polyline{fill:none;stroke:#b48cff;stroke-width:2.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1px #000)}
 #randil{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
@@ -63,13 +67,15 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
  <span id="tkLabel" class="legend"></span></span>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), сыгран в FCEUX; без прохода сквозь стены; все пленники спасены"><input type="checkbox" id="randilBox" checked> путь TAS Randil <span id="randilN" class="legend"></span></label>
 
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Камера едет вбок только на верхней границе страницы (Y кратно 240), вверх-вниз — только в нечётной полосе X по 256 px; кадр 256×176. В чётных полосах нижние 64 px каждой страницы не видны никогда (проверено облётом no-clip)"><input type="checkbox" id="hiddenBox"> невидимые области</label>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Линии центра кадра камеры: голубые — где она едет только по горизонтали (верх страниц), оранжевые — только по вертикали (нечётные полосы)"><input type="checkbox" id="railsBox"> пути камеры</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="pris" checked> пленники <span id="prisN" class="legend"></span></label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="space"> всё адресное пространство (64 КБ, 128 страниц)</label>
 <span id="pos"></span>
 <span class="legend">адресное пространство: приглушённое — не ROM (что прочла игра или снимок RAM); проверка: тёмное — игра ни разу не показала, оранжевое — устаревшая клетка, красное — расхождение</span>
 </header>
 <details><summary>Цифры проверки</summary><table id="nums"></table></details>
-<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
+<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><svg id="view"></svg><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
 <script>
 const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let S=null,cur=1;
 function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Не проверен по кадрам</td><td></td></tr>';return}
@@ -83,7 +89,7 @@ function mode(x){m=x;[bLevel,bCheck,bBlend].forEach(b=>b.classList.remove('on'))
  ({l:bLevel,c:bCheck,b:bBlend})[x].classList.add('on')}
 bLevel.onclick=()=>mode('l');bCheck.onclick=()=>mode('c');bBlend.onclick=()=>mode('b');
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';[L,C].forEach(i=>i.style.width=L.naturalWidth*z+'px')}
-L.onload=()=>{size();showTas()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showTas()});
+L.onload=()=>{size();showTas();showView()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showView();showTas()});
 const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
 // Prisoners (object type 6, STATUS §14), numbered in the order Randil's run rescues them: the game's own sprite, at its offset from the object's
 // X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
@@ -93,6 +99,19 @@ function showPrisoners(){const done=window.takeRescued,list=(PRISONERS[cur]||[])
   return (sp?`<img class="psp" src="prisoners/${nn}.png" style="left:${(o.x+sp.dx)*z}px;top:${(o.y+sp.dy)*z}px;width:${sp.w*z}px;height:${sp.h*z}px">`:'')+
   `<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="объект ${o.i}: X ${o.x}, Y ${o.y}"><b>${o.num}</b></div>`}).join(''):''}
 prisBox.onchange=showPrisoners;
+// The camera's rule (STATUS §22): across only on a page top (Y = 240·k), up and down only on an odd
+// 256-px band (X = 256·(2j+1)); the field 256 × 176. Hidden: even bands' page bottoms (Y 176-239
+// in a page). Rails: where the field's middle goes.
+function showView(){const v=document.getElementById('view'),W=L.naturalWidth||2048,H=L.naturalHeight||1920;
+ v.setAttribute('viewBox',`0 0 ${W} ${H}`);v.style.width=W*z+'px';v.style.height=H*z+'px';
+ let h='<defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="#000a"/><line x1="0" y1="0" x2="0" y2="12" stroke="#ff4d6d" stroke-width="3"/></pattern></defs>';
+ if(document.getElementById('hiddenBox').checked)
+  for(let x=0;x<W;x+=512)for(let y=0;y<H;y+=240)h+=`<rect class="hid" x="${x}" y="${y+176}" width="${Math.min(256,W-x)}" height="${Math.min(64,H-y-176)}"/>`;
+ if(document.getElementById('railsBox').checked){
+  for(let y=0;y+176<=H;y+=240)h+=`<line class="h" x1="128" y1="${y+88}" x2="${W-128}" y2="${y+88}"/>`;
+  for(let x=256;x+256<=W;x+=512)h+=`<line class="v" x1="${x+128}" y1="88" x2="${x+128}" y2="${H-88}"/>`}
+ v.innerHTML=h}
+document.getElementById('hiddenBox').onchange=showView;document.getElementById('railsBox').onchange=showView;
 
 // The TAS trail (out/levels/tas-randil.json: FCEUX playing Randil's movie, player X/Y), fetched when first shown.
 const trails={randil:{file:'tas-randil.json',data:null}};
@@ -118,7 +137,7 @@ spaceBox.onchange=showSpace;
 ss.onmousemove=e=>{const P=SPACES[cur];if(!P)return;const r=ss.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),inPage=Math.min(7,Math.floor((y%240)/32)),row=page*8+inPage,col=x>>5,a=(P.layout+row*64+col)&0xffff;
  pos.textContent=`x ${x} y ${y} · страница ${page} · адрес $${a.toString(16).toUpperCase().padStart(4,'0')}`};
-function pick(n){cur=n;const nn=String(n).padStart(2,'0');S=CHECKS[n]||null;L.src=nn+'.png';bCheck.disabled=bBlend.disabled=!S;if(S)C.src=S.image;else mode('l');nums();showSpace();showPrisoners();showTas();document.title='Alien 3 — уровень '+n}
+function pick(n){cur=n;const nn=String(n).padStart(2,'0');S=CHECKS[n]||null;L.src=nn+'.png';bCheck.disabled=bBlend.disabled=!S;if(S)C.src=S.image;else mode('l');nums();showSpace();showPrisoners();showView();showTas();document.title='Alien 3 — уровень '+n}
 lvl.onchange=()=>pick(+lvl.value);pick(1);
 st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);

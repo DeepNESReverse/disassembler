@@ -357,3 +357,11 @@ from the maps at the user's word (2026-10-25), as was the user's own hand-drawn 
   the take's frame each prisoner's slot flags turn 8 → out/levels/rescue-order.json); all rescued
   on all 8 levels with prisoners. While the run plays, the rescued ones leave the map's layer (the
   take's $0400-$041F packed too) — before, the layer drew them again once the camera moved on.
+
+## 22. What the camera can never show; its rails (viewer layers "невидимые области", "пути камеры")
+
+From the camera's rule (§11; the axis changes only on the grid — across on a page top, Y = 240·k;
+up and down on an odd 256-px band, X = 256·(2j+1); the field 256 × 176): in the even bands the
+bottom 64 px of every page (Y 176-239 in it) are never on screen. Checked against no-clip flights
+(`noclip.ts <n> --dump-seen`, `src/experiments/view-rule.ts`): of the cells the rule hides, the
+flight saw none.
