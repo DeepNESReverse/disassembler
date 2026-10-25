@@ -1,9 +1,12 @@
-"""The TAS's trail per level, from FCEUX (fceux/tas_trail.lua while it played the user's movie, J.Y's
-jy-alien3.fm2): out/levels/tas.json. A line breaks where the player jumps more than 64 px in a frame
-(a card, a death, the level's change); points every 2 frames.
-python3 src/tas_trail.py"""
-import json
-rows = [tuple(map(int, l.split())) for l in open('fceux/tas_trail.txt')]
+"""A TAS's trail per level, from FCEUX (fceux/tas_trail.lua while it played a movie the user has):
+out/levels/<out>.json. A line breaks where the player jumps more than 64 px in a frame (a card, a
+death, the level's change); points every 2 frames.
+python3 src/tas_trail.py <trail.txt> <out name> "<source>"
+  J.Y (jy-alien3.fm2, walks through doors):  … fceux/tas_trail.txt tas "TAS by J.Y …"
+  Randil (tasvideos 2713M, no wall clip):     … fceux/tas_trail-randil.txt tas-randil "TAS by Randil …"""
+import json, sys
+src, name, source = sys.argv[1], sys.argv[2], sys.argv[3]
+rows = [tuple(map(int, l.split())) for l in open(src)]
 levels = {}
 prev = None
 for f, lv, x, y, left in rows:
@@ -19,7 +22,6 @@ for f, lv, x, y, left in rows:
 for L in levels.values():
     L['segments'] = [s for s in L['segments'] if len(s) > 1]
     L['frames'] = L['to'] - L['from'] + 1
-json.dump({'source': "TAS by J.Y (jy-alien3.fm2), played in the user's FCEUX; positions from RAM $0420-$0480",
-           'levels': levels}, open('out/levels/tas.json', 'w'))
+json.dump({'source': source, 'levels': levels}, open(f'out/levels/{name}.json', 'w'))
 for n, L in levels.items():
     print(n, L['frames'], 'frames', len(L['segments']), 'segments', 'prisoners left at the end', L['prisonersLeft'])

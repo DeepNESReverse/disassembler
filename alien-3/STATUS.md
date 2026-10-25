@@ -318,3 +318,8 @@ the maps ("путь TAS"). Frames per level: 4 572 (with the menus), 8 112, 1 26
 the counter only went 5 → 4 and the level ended all the same (not looked into).
 The user: this TAS walks through walls (a bug), so its trail is not a normal way through — kept as
 a layer, off by default; a glitchless run is wanted instead.
+- Randil's TAS instead (tasvideos.org 2713M, 20:24.52, FCEUX; its page names no glitch — the one
+  J.Y's beat by 6:28 with the door clip). The user downloaded and played it in FCEUX with
+  `fceux/tas_trail.lua`: 73 592 frames, every prisoner rescued on every level (`$0747` reaches 0 on
+  all 12). Frames per level: 7 372 (with the menus), 9 801, 1 292, 7 488, 7 427, 1 665, 8 959,
+  8 490, 1 674, 8 865, 8 660, 1 899. On the maps: "путь TAS Randil" (on by default).
