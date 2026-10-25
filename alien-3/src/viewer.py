@@ -68,7 +68,6 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
  <span id="tkLabel" class="legend"></span></span>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), сыгран в FCEUX; без прохода сквозь стены; все пленники спасены"><input type="checkbox" id="randilBox" checked> путь TAS Randil <span id="randilN" class="legend"></span></label>
 
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Карта vgmaps.de (скачана пользователем; склейка скриншотов), совмещена со сдвигом (+241, +15) — на него ложится каждая страница уровня. Их чёрное прозрачно. Только где файл есть (уровень 1)"><input type="checkbox" id="vgBox"> карта vgmaps <input type="range" id="vgOp" min="0" max="1" step="0.05" value="0.6" style="width:70px"></label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Затемнено всё, что ни разу не попало в кадр за весь забег TAS Randil (камера из записи, каждый кадр уровня). Это один маршрут: побочные комнаты, куда он не заходил, тоже затемнены"><input type="checkbox" id="runSeenBox"> не видно в забеге <span id="runSeenN" class="legend"></span></label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Камера едет вбок только на верхней границе страницы (Y кратно 240), вверх-вниз — только в нечётной полосе X по 256 px; кадр 256×176. В чётных полосах нижние 64 px каждой страницы не видны никогда — даже сквозь стены (проверено облётом no-clip)"><input type="checkbox" id="hiddenBox"> никогда не видно (правило камеры)</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Линии центра кадра камеры: голубые — где она едет только по горизонтали (верх страниц), оранжевые — только по вертикали (нечётные полосы)"><input type="checkbox" id="railsBox"> пути камеры</label>
@@ -78,7 +77,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <span class="legend">адресное пространство: приглушённое — не ROM (что прочла игра или снимок RAM); проверка: тёмное — игра ни разу не показала, оранжевое — устаревшая клетка, красное — расхождение</span>
 </header>
 <details><summary>Цифры проверки</summary><table id="nums"></table></details>
-<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><img id="iVg" style="display:none"><svg id="view"></svg><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
+<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><svg id="view"></svg><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
 <script>
 const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let S=null,cur=1;
 function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Не проверен по кадрам</td><td></td></tr>';return}
@@ -92,7 +91,7 @@ function mode(x){m=x;[bLevel,bCheck,bBlend].forEach(b=>b.classList.remove('on'))
  ({l:bLevel,c:bCheck,b:bBlend})[x].classList.add('on')}
 bLevel.onclick=()=>mode('l');bCheck.onclick=()=>mode('c');bBlend.onclick=()=>mode('b');
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';[L,C].forEach(i=>i.style.width=L.naturalWidth*z+'px')}
-L.onload=()=>{size();showTas();showView()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showView();showVg();showTas()});
+L.onload=()=>{size();showTas();showView()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showView();showTas()});
 const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
 // Prisoners (object type 6, STATUS §14), numbered in the order Randil's run rescues them: the game's own sprite, at its offset from the object's
 // X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
@@ -102,13 +101,6 @@ function showPrisoners(){const done=window.takeRescued,list=(PRISONERS[cur]||[])
   return (sp?`<img class="psp" src="prisoners/${nn}.png" style="left:${(o.x+sp.dx)*z}px;top:${(o.y+sp.dy)*z}px;width:${sp.w*z}px;height:${sp.h*z}px">`:'')+
   `<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="объект ${o.i}: X ${o.x}, Y ${o.y}"><b>${o.num}</b></div>`}).join(''):''}
 prisBox.onchange=showPrisoners;
-// vgmaps' map of the level, aligned (out/levels/vgmaps/<nn>.png, made from the user's download; not in git).
-function showVg(){const i=document.getElementById('iVg'),on=document.getElementById('vgBox').checked;
- if(!on){i.style.display='none';return}const nn=String(cur).padStart(2,'0');
- i.onerror=()=>{i.style.display='none'};i.onload=()=>{i.style.width=i.naturalWidth*z+'px';i.style.display=''};
- if(!i.src.endsWith('vgmaps/'+nn+'.png'))i.src='vgmaps/'+nn+'.png';else{i.style.width=i.naturalWidth*z+'px';i.style.display=''}
- i.style.opacity=document.getElementById('vgOp').value}
-document.getElementById('vgBox').onchange=showVg;document.getElementById('vgOp').oninput=showVg;
 // The camera's rule (STATUS §22): across only on a page top (Y = 240·k), up and down only on an odd
 // 256-px band (X = 256·(2j+1)); the field 256 × 176. Hidden: even bands' page bottoms (Y 176-239
 // in a page). Rails: where the field's middle goes.
@@ -153,7 +145,7 @@ spaceBox.onchange=showSpace;
 ss.onmousemove=e=>{const P=SPACES[cur];if(!P)return;const r=ss.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),inPage=Math.min(7,Math.floor((y%240)/32)),row=page*8+inPage,col=x>>5,a=(P.layout+row*64+col)&0xffff;
  pos.textContent=`x ${x} y ${y} · страница ${page} · адрес $${a.toString(16).toUpperCase().padStart(4,'0')}`};
-function pick(n){cur=n;const nn=String(n).padStart(2,'0');S=CHECKS[n]||null;L.src=nn+'.png';bCheck.disabled=bBlend.disabled=!S;if(S)C.src=S.image;else mode('l');nums();showSpace();showPrisoners();showView();showVg();showTas();document.title='Alien 3 — уровень '+n}
+function pick(n){cur=n;const nn=String(n).padStart(2,'0');S=CHECKS[n]||null;L.src=nn+'.png';bCheck.disabled=bBlend.disabled=!S;if(S)C.src=S.image;else mode('l');nums();showSpace();showPrisoners();showView();showTas();document.title='Alien 3 — уровень '+n}
 lvl.onchange=()=>pick(+lvl.value);pick(1);
 st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);
