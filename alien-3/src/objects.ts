@@ -29,4 +29,16 @@ for (let n = 0; n < LEVELS; n++) {
   }
 }
 writeFileSync('out/levels/objects.json', JSON.stringify(out) + '\n');
+
+// Markers for the maps: the player's start = object 0 (all 12 levels: the player's X/Y on the first
+// frame, src/experiments/player-start.ts) and the exit (fixed-bank tables $FE24/$FE3C by $A8,
+// B13:$B99F; STATUS §8). Signed: level 6's exit X is −32.
+const fixed = (a: number) => prg[0x1c000 + (a - 0xc000)];
+const word = (a: number) => (((fixed(a) | (fixed(a + 1) << 8)) << 16) >> 16);
+const markers: Record<number, { start: [number, number]; exit: [number, number] }> = {};
+for (let n = 0; n < LEVELS; n++) {
+  const p0 = out[n + 1].find((o) => o.i === 0)!;
+  markers[n + 1] = { start: [p0.x, p0.y], exit: [word(0xfe24 + 2 * n), word(0xfe3c + 2 * n)] };
+}
+writeFileSync('out/levels/markers.json', JSON.stringify(markers) + '\n');
 console.log(Object.entries(out).map(([n, o]) => `${n}: ${o.filter((x) => x.type === PRISONER).length} prisoners`).join(', '));

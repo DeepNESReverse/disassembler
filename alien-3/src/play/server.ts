@@ -5,12 +5,13 @@
  *
  *   node --experimental-strip-types src/play/server.ts [--port 4324]
  *
- * On 127.0.0.1 only. GET / is the page; /levels/ the level maps (out/levels); /src/… this repo's
+ * On 127.0.0.1 only. GET / is the page; /levels/ the level maps (out/levels), POST
+ * /levels/user-path?level=n the user's lines drawn on one (out/levels/user-paths); /src/… this repo's
  * modules and /xrom-libs/nes/… the emulator's (TypeScript served with its types stripped); /rom the
  * cartridge, read in place.
  */
 import { createServer, type ServerResponse } from 'node:http';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { extname, resolve, sep } from 'node:path';
 import { stripTypeScriptTypes } from 'node:module';
 import { ROM_PATH } from '../rom.ts';
@@ -44,9 +45,28 @@ function file(res: ServerResponse, root: string, rel: string) {
   return send(res, 200, readFileSync(path), TYPES[ext] ?? 'application/octet-stream');
 }
 
+/** The lines the user draws on a level's map (/levels/): out/levels/user-paths/<nn>.json. */
+function saveUserPath(res: ServerResponse, n: number, body: string) {
+  if (!(n >= 1 && n <= 12)) return send(res, 400, 'level 1-12');
+  let data: unknown;
+  try { data = JSON.parse(body); } catch { return send(res, 400, 'not JSON'); }
+  const lines = (data as { lines?: unknown }).lines;
+  const ok = Array.isArray(lines) && lines.every((l) => Array.isArray(l) && l.every((pt) => Array.isArray(pt) && pt.length === 2 && pt.every(Number.isFinite)));
+  if (!ok) return send(res, 400, 'lines: [[[x, y], …], …]');
+  mkdirSync(resolve(repo, 'out/levels/user-paths'), { recursive: true });
+  writeFileSync(resolve(repo, `out/levels/user-paths/${String(n).padStart(2, '0')}.json`), JSON.stringify({ lines }) + '\n');
+  send(res, 200, 'saved');
+}
+
 createServer((req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost');
   const p = url.pathname;
+  if (req.method === 'POST' && p === '/levels/user-path') {
+    let body = '';
+    req.on('data', (c) => { body += c; if (body.length > 1e6) req.destroy(); });
+    req.on('end', () => saveUserPath(res, Number(url.searchParams.get('level')), body));
+    return;
+  }
   if (p === '/' || p === '/index.html') return file(res, resolve(repo, 'src/play'), '/index.html');
   if (p === '/levels') { res.writeHead(301, { Location: '/levels/' }); return res.end(); }
   if (p === '/levels/') return file(res, resolve(repo, 'out/levels'), '/index.html');

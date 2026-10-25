@@ -296,3 +296,12 @@ For the shortest paths the game itself is used as the physics (§18), not a mode
 - **Stopped here at the user's word** (2026-10-25): the task proved bigger than it looked. To pick up:
   why the leg 20 → 17 fails (`runs/paths/01-stuck-*.json` once written), the exit leg, then the
   other levels; the map layer is not made.
+
+## 19. The user's own lines on the maps; start and exit markers
+
+The viewer draws the player's start — object 0 of the level's table, which is the player's X/Y on
+the first frame on all 12 levels (`src/experiments/player-start.ts`) — and the exit ($FE24/$FE3C),
+from out/levels/markers.json (`src/objects.ts`). The user draws lines over a map ("✎ рисовать":
+click a point, drag to move, right click to delete, Esc / "новая линия" to start another, Ctrl+Z);
+each level's lines go through the player server (POST /levels/user-path?level=n) to
+out/levels/user-paths/<nn>.json, world pixels.
