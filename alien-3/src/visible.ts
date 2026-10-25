@@ -7,6 +7,8 @@
  * → out/levels/visible.json: {level: {w, h, run: rows, search: rows}} (rows as run-seen.json's);
  *   the search's rows hold only what it saw that the run did not.
  *   node --experimental-strip-types src/visible.ts <level 1-12> [--nodes 30000]
+ *   … --target tx,ty   only until the camera shows that 8-px tile; what it saw is added to the
+ *                      level's search rows already in visible.json (a place the user saw in play)
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { saveState } from './machine.ts';
@@ -41,14 +43,24 @@ const mark = () => {
   if (key === lastCam) return;
   lastCam = key;
   const x0 = Math.floor(cx / 8), y0 = Math.floor(cy / 8);
-  for (let ty = Math.max(0, y0); ty < Math.min(H, y0 + 22); ty++) for (let tx = Math.max(0, x0); tx < Math.min(W, x0 + 32); tx++) search[ty * W + tx] = 1;
+  // Every tile the 256 × 176 field touches: 33 × 23 when the camera is not on a tile's edge.
+  const x1 = Math.ceil((cx + 256) / 8), y1 = Math.ceil((cy + 176) / 8);
+  for (let ty = Math.max(0, y0); ty < Math.min(H, y1); ty++) for (let tx = Math.max(0, x0); tx < Math.min(W, x1); tx++) search[ty * W + tx] = 1;
 };
 m.nes.beforeVblank = () => cheats(m, true);
 const exit = { fired: false };
 m.hooks.exec = (pc) => { if (pc === EXIT_JUMP && m.bankAt(pc) === 13) { exit.fired = true; m.cpu.pc = EXIT_RTS; } };
 m.frames(1180 - 900);
 const prisoners = (JSON.parse(readFileSync('out/levels/objects.json', 'utf8'))[n + 1] as (Prisoner & { type: number })[]).filter((o) => o.type === 6);
-const g = explore(m, saveState(m, true), prisoners, exit, maxNodes, false, true, -1, undefined, 16, mark);
+const target = args.includes('--target') ? args[args.indexOf('--target') + 1].split(',').map(Number) : null;
+const stop = target ? () => search[target[1] * W + target[0]] === 1 : undefined;
+const g = explore(m, saveState(m, true), prisoners, exit, maxNodes, false, true, -1, undefined, 16, mark, stop);
+if (target) {
+  // Only adds: the rest of the level's search is what the full search found.
+  const prev = existsSync('out/levels/visible.json') ? JSON.parse(readFileSync('out/levels/visible.json', 'utf8'))[n + 1] : null;
+  if (prev) decode(prev.search).forEach((v, i) => { if (v) search[i] = 1; });
+  console.log(`target ${target}: ${search[target[1] * W + target[0]] ? 'shown' : 'NOT shown'} after ${g.places.length} places`);
+}
 const only = new Uint8Array(W * H);
 let both = 0, onlyN = 0, runN = 0;
 for (let i = 0; i < W * H; i++) { if (run[i]) runN++; if (search[i] && !run[i]) { only[i] = 1; onlyN++; } if (search[i] && run[i]) both++; }

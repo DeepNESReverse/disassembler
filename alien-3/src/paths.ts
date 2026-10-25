@@ -107,7 +107,7 @@ export interface Prisoner { i: number; x: number; y: number }
  * action from each. `exit()` says whether the exit fired since it was last cleared. Stops after
  * `maxNodes` expansions, when nothing is left, or — with `untilExit` — at the first edge at the exit.
  */
-export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1, near?: [number, number], radius = 16, onFrame?: () => void) {
+export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1, near?: [number, number], radius = 16, onFrame?: () => void, stopWhen?: () => boolean) {
   const places: Place[] = [];
   const index = new Map<string, number>();
   const edges: Edge[] = [];
@@ -147,7 +147,7 @@ export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: {
       edges.push({ from: best, to, action: a, settle, frames: cost, rescued, exit: exit.fired });
       const [px, py] = pos(m);
       const arrived = near !== undefined && Math.abs(px - near[0]) <= radius && Math.abs(py - near[1]) <= radius;
-      if ((untilExit && exit.fired) || (untilRescue >= 0 && rescued.includes(untilRescue)) || arrived) return { places, edges, exitEdge: edges.length - 1 };
+      if ((untilExit && exit.fired) || (untilRescue >= 0 && rescued.includes(untilRescue)) || arrived || stopWhen?.()) return { places, edges, exitEdge: edges.length - 1 };
     }
     if (from !== places[0]) from.state = undefined;
     if (log && expanded % 500 === 0)

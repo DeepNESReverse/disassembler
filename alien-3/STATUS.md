@@ -379,3 +379,9 @@ flight saw none — level 1: 0 of 8 192 (it saw 46 932 of the other 53 248); lev
   tiles the run saw and 6 602 more — 26 772 of 61 440 (43.6 %) seen. Layer "не видно игроку":
   dark what neither saw (the user checked level 1 by eye: right; the blue tint for "only the search
   saw" was dropped at the user's word).
+- Rounding: the field was marked as 32 × 22 tiles; off a tile's edge it touches 33 × 23 (fixed in
+  `run-seen.ts` and `visible.ts`; run-seen recomputed; the search is not re-run).
+- The user's way to a missed place (`src/experiments/walk-left.ts`): ladder at X 860 down to
+  (868, 224), right, ladder at X 900 down to (900, 320), left — a 16-px step up (a jump), a door
+  opened by Up at its panel (X 807), on to X 615 where a full-height column stops him: 44 tiles the
+  search had not seen, added to level 1's search rows.

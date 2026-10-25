@@ -37,7 +37,9 @@ for (let f = 0; f < n; ) {
     const seen = (out[l + 1]?.rows ? null : new Uint8Array(W * H)) ?? new Uint8Array(W * H);
     for (let g = s + 1; g <= e; g++) {
       const x0 = Math.floor(cam[g * 2] / 8), y0 = Math.floor(cam[g * 2 + 1] / 8);
-      for (let ty = Math.max(0, y0); ty < Math.min(H, y0 + 22); ty++) for (let tx = Math.max(0, x0); tx < Math.min(W, x0 + 32); tx++) seen[ty * W + tx] = 1;
+      // Every tile the 256 × 176 field touches: 33 × 23 when the camera is not on a tile's edge.
+      const x1 = Math.ceil((cam[g * 2] + 256) / 8), y1 = Math.ceil((cam[g * 2 + 1] + 176) / 8);
+      for (let ty = Math.max(0, y0); ty < Math.min(H, y1); ty++) for (let tx = Math.max(0, x0); tx < Math.min(W, x1); tx++) seen[ty * W + tx] = 1;
     }
     const rows: string[] = [];
     let total = 0;

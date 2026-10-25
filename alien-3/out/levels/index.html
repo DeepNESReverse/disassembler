@@ -9,7 +9,7 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
 #view{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #view .hid{fill:url(#hatch)}
-#view .unseen{fill:#000;fill-opacity:.72}
+#view .unseen{fill:var(--unseen,#000);fill-opacity:var(--unseen-op,1)}
 #view .h{stroke:#5fd0ff;stroke-width:2;vector-effect:non-scaling-stroke}
 #view .v{stroke:#ffb347;stroke-width:2;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}
 #tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
@@ -39,7 +39,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
  <span id="tkLabel" class="legend"></span></span>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), сыгран в FCEUX; без прохода сквозь стены; все пленники спасены"><input type="checkbox" id="randilBox" checked> путь TAS Randil <span id="randilN" class="legend"></span></label>
 
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Затемнено всё, что не попало в кадр ни в забеге TAS Randil, ни в моём обходе уровня в игре (без прохода сквозь стены; неуязвимость, здоровье, таймер). Где обхода ещё нет — только забег"><input type="checkbox" id="runSeenBox"> не видно игроку <span id="runSeenN" class="legend"></span></label>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Затемнено всё, что не попало в кадр ни в забеге TAS Randil, ни в моём обходе уровня в игре (без прохода сквозь стены; неуязвимость, здоровье, таймер). Где обхода ещё нет — только забег"><input type="checkbox" id="runSeenBox"> не видно игроку <input type="color" id="unseenColor" value="#000000" title="цвет недоступного" style="width:26px;height:20px;padding:0;border:none;background:none"><input type="range" id="unseenOp" min="0.1" max="1" step="0.05" value="1" title="непрозрачность" style="width:60px"> <span id="runSeenN" class="legend"></span></label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Камера едет вбок только на верхней границе страницы (Y кратно 240), вверх-вниз — только в нечётной полосе X по 256 px; кадр 256×176. В чётных полосах нижние 64 px каждой страницы не видны никогда — даже сквозь стены (проверено облётом no-clip)"><input type="checkbox" id="hiddenBox"> никогда не видно (правило камеры)</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Линии центра кадра камеры: голубые — где она едет только по горизонтали (верх страниц), оранжевые — только по вертикали (нечётные полосы)"><input type="checkbox" id="railsBox"> пути камеры</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="pris" checked> пленники <span id="prisN" class="legend"></span></label>
@@ -97,7 +97,13 @@ async function showView(){const v=document.getElementById('view'),W=L.naturalWid
   for(let y=0;y+176<=H;y+=240)h+=`<line class="h" x1="128" y1="${y+88}" x2="${W-128}" y2="${y+88}"/>`;
   for(let x=256;x+256<=W;x+=512)h+=`<line class="v" x1="${x+128}" y1="88" x2="${x+128}" y2="${H-88}"/>`}
  v.innerHTML=h}
-document.getElementById('hiddenBox').onchange=showView;document.getElementById('runSeenBox').onchange=showView;document.getElementById('railsBox').onchange=showView;
+document.getElementById('hiddenBox').onchange=showView;document.getElementById('runSeenBox').onchange=showView;
+// The unseen's colour and opacity (kept in this browser).
+const uc=document.getElementById('unseenColor'),uo=document.getElementById('unseenOp');
+try{uc.value=localStorage.getItem('a3-unseen-color')||uc.value;uo.value=localStorage.getItem('a3-unseen-op')||uo.value}catch(e){}
+function unseenStyle(){const v=document.getElementById('view');v.style.setProperty('--unseen',uc.value);v.style.setProperty('--unseen-op',uo.value);
+ try{localStorage.setItem('a3-unseen-color',uc.value);localStorage.setItem('a3-unseen-op',uo.value)}catch(e){}}
+uc.oninput=unseenStyle;uo.oninput=unseenStyle;unseenStyle();document.getElementById('railsBox').onchange=showView;
 
 // The TAS trail (out/levels/tas-randil.json: FCEUX playing Randil's movie, player X/Y), fetched when first shown.
 const trails={randil:{file:'tas-randil.json',data:null}};
