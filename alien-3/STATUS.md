@@ -373,3 +373,25 @@ flight saw none — level 1: 0 of 8 192 (it saw 46 932 of the other 53 248); lev
   dark too. Seen: 32.8, 44.5, 4.1, 33.9, 41.8, 6.7, 46.9, 42.5, 5.7, 47.0, 45.3, 10.5 % of levels
   1-12. Everything the player could see in any play needs every place he can reach (the search of
   §18 with the camera of each place) — not done.
+
+## 23. Against vgmaps.de's map of level 1 (outside source, the user's download; a comparison only)
+
+The user downloaded vgmaps' picture (alien-3-level-1-mission-nes-map.webp, 2294 × 1586, lossy, its
+own palette; the site's Cloudflare check kept us from fetching it). `src/experiments/vgmaps-align.py`:
+by luminance correlation, a window of each page of ours — taken where Randil's run showed the
+level — lands at the same offset (+241, +15), NCC 0.94-0.99 on pages 1-6 (0.67 on page 0, the
+sky): their stitched screenshots have our pages, our half rows, our layout. Tile by tile
+(`vgmaps-compare.py`, their luminance mapped to ours by a fitted line):
+
+| 8 × 8 tiles | in the run's view | outside it |
+|---|---|---|
+| same picture | 12 908 | 4 160 |
+| differ | 105 | 65 |
+| black on theirs, drawn on ours | 36 | 7 115 |
+| drawn on theirs, black on ours | 20 | 8 |
+
+The differing tiles are small spots (sprites in their screenshots — prisoners, doors, items — were
+not looked at one by one). What they leave black is the walled-in areas the user pointed at; what
+they show beyond the run's view (4 160 tiles) are side rooms the TAS never looked into — so
+"не видно в забеге" is short of what a player can see. Viewer layer "карта vgmaps": their picture
+aligned, their black transparent (out/levels/vgmaps/, not in git).

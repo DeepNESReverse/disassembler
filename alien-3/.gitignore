@@ -7,3 +7,4 @@ out/levels/*-space-*.png
 fceux/tas_trail.txt
 fceux/tas_trail-*.txt
 fceux/*.play.txt
+out/levels/vgmaps/
