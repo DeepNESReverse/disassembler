@@ -364,4 +364,5 @@ From the camera's rule (§11; the axis changes only on the grid — across on a 
 up and down on an odd 256-px band, X = 256·(2j+1); the field 256 × 176): in the even bands the
 bottom 64 px of every page (Y 176-239 in it) are never on screen. Checked against no-clip flights
 (`noclip.ts <n> --dump-seen`, `src/experiments/view-rule.ts`): of the cells the rule hides, the
-flight saw none.
+flight saw none — level 1: 0 of 8 192 (it saw 46 932 of the other 53 248); level 3: 0 of 5 120
+(29 250 of 33 280).
