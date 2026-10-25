@@ -3,7 +3,7 @@
  * maps' player: per frame only the RAM the picture needs — the level ($A8), the camera ($1A-$1D),
  * the sprite page the NMI sends to the PPU ($0200-$02FF, B15:$EC79), the palette buffer
  * ($0785-$07A4, B15:$EC81) and the sprite CHR banks ($0718, $0719, $071A; R4 is the constant $7B,
- * B15:$ECDF-$ED02), the player's X/Y. Frame k's RAM is the state drawn in frame k + 1: the sprites were laid out with
+ * B15:$ECDF-$ED02), the player's X/Y, the objects' flags ($0400-$041F). Frame k's RAM is the state drawn in frame k + 1: the sprites were laid out with
  * this camera. Our NES is not run: overlaid on it, the take broke long routines (STATUS §21).
  * Out: out/levels/take/randil.bin.gz — "A3TK", u32 frames, u16 cells, the cells' addresses (u16
  * each), then a frame at a time: u16 count, count × (u16 cell index, u8 value) since the frame before.
@@ -21,6 +21,8 @@ export const CELLS = [
   // The player's X/Y: frozen through the tally and the next level's card, set anew by the loader
   // when the level starts (fceux/tas_trail-randil.txt) — the player shows the level only between.
   0x420, 0x440, 0x460, 0x480,
+  // The objects' flags: a prisoner's is 8 once rescued (B14:$DFC2, STATUS §14).
+  ...Array.from({ length: 32 }, (_, i) => 0x400 + i),
 ];
 const [src = 'fceux/tas_take.play.txt', out = 'out/levels/take/randil.bin.gz'] = process.argv.slice(2);
 const take = parseTake(src);

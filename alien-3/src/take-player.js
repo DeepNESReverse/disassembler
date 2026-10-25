@@ -17,7 +17,7 @@ const state = new Uint8Array(512);
 let frame = -1, playing = false, debt = 0, last = 0;
 /** Each level's frames in the take: [first, last]. */
 let spans = [];
-let lastTrail = -1e9;
+let lastTrail = -1e9, lastRescued = '';
 
 async function load() {
   ui.label.textContent = 'загрузка…';
@@ -167,6 +167,11 @@ function draw() {
   ctx.putImageData(image, 0, 0);
   // The purple way: eaten by the player as he goes (the page redraws it from window.takeFrame).
   window.takeFrame = frame;
+  // Prisoners rescued so far (their slot's flags 8): gone from the map's layer too.
+  const rescued = [];
+  for (let i = 0; i < 32; i++) if (get(0x400 + i) === 8) rescued.push(i);
+  const key = n + ':' + rescued.join();
+  if (key !== lastRescued) { lastRescued = key; window.takeRescued = new Set(rescued); showPrisoners(); }
   if (frame - lastTrail >= 4 || frame < lastTrail) { lastTrail = frame; showTas(); }
   live.style.left = camX * z + 'px';
   live.style.top = camY * z + 'px';

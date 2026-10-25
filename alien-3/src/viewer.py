@@ -20,6 +20,12 @@ for n in range(1, 13):
 objects = json.load(open(f'{D}/objects.json')) if os.path.exists(f'{D}/objects.json') else {}
 prisoners = {n: [o for o in objs if o['type'] == 6] for n, objs in objects.items()}
 sprites = json.load(open(f'{D}/prisoners.json')) if os.path.exists(f'{D}/prisoners.json') else {}
+# The order Randil's run rescues them in (src/rescue-order.ts): a prisoner's number on the map.
+order = json.load(open(f'{D}/rescue-order.json')) if os.path.exists(f'{D}/rescue-order.json') else {}
+for n, objs in prisoners.items():
+    seq = order.get(n, [])
+    for k, o in enumerate(objs):
+        o['num'] = seq.index(o['i']) + 1 if o['i'] in seq else len(seq) + k + 1
 opts = ''.join(f'<option value="{n}">Уровень {n}{" — босс" if n % 3 == 0 else ""}{" ✓" if n in checks else ""}</option>' for n in range(1, 13))
 html = '''<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Alien 3 — уровни</title>
 <style>
@@ -79,12 +85,13 @@ bLevel.onclick=()=>mode('l');bCheck.onclick=()=>mode('c');bBlend.onclick=()=>mod
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';[L,C].forEach(i=>i.style.width=L.naturalWidth*z+'px')}
 L.onload=()=>{size();showTas()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showTas()});
 const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
-// Prisoners (object type 6, STATUS §14): the game's own sprite, at its offset from the object's
+// Prisoners (object type 6, STATUS §14), numbered in the order Randil's run rescues them: the game's own sprite, at its offset from the object's
 // X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
-function showPrisoners(){const list=PRISONERS[cur]||[],sp=SPRITES[cur],nn=String(cur).padStart(2,'0');document.getElementById('prisN').textContent='('+list.length+')';
+// While the run plays, the prisoners it has rescued are left out (window.takeRescued, by object slot).
+function showPrisoners(){const done=window.takeRescued,list=(PRISONERS[cur]||[]).filter(o=>!(done&&done.has(o.i))),sp=SPRITES[cur],nn=String(cur).padStart(2,'0');document.getElementById('prisN').textContent='('+list.length+')';
  priLayer.innerHTML=prisBox.checked?list.map((o,k)=>{const cx=sp?o.x+sp.dx+sp.w/2:o.x,cy=sp?o.y+sp.dy+sp.h/2:o.y;
   return (sp?`<img class="psp" src="prisoners/${nn}.png" style="left:${(o.x+sp.dx)*z}px;top:${(o.y+sp.dy)*z}px;width:${sp.w*z}px;height:${sp.h*z}px">`:'')+
-  `<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="объект ${o.i}: X ${o.x}, Y ${o.y}"><b>${k+1}</b></div>`}).join(''):''}
+  `<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="объект ${o.i}: X ${o.x}, Y ${o.y}"><b>${o.num}</b></div>`}).join(''):''}
 prisBox.onchange=showPrisoners;
 
 // The TAS trail (out/levels/tas-randil.json: FCEUX playing Randil's movie, player X/Y), fetched when first shown.

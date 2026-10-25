@@ -353,3 +353,7 @@ from the maps at the user's word (2026-10-25), as was the user's own hand-drawn 
 - The purple way was hidden under the camera's window before the player reached it (the user):
   it is now drawn over the window, and while the run plays only the part still ahead of the player
   (its points carry their movie frame; the take's frame = movie frame − 1).
+- Prisoners on the maps are numbered in the order Randil's run rescues them (`src/rescue-order.ts`:
+  the take's frame each prisoner's slot flags turn 8 → out/levels/rescue-order.json); all rescued
+  on all 8 levels with prisoners. While the run plays, the rescued ones leave the map's layer (the
+  take's $0400-$041F packed too) — before, the layer drew them again once the camera moved on.
