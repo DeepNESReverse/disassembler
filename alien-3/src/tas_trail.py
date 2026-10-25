@@ -1,6 +1,7 @@
 """A TAS's trail per level, from FCEUX (fceux/tas_trail.lua while it played a movie the user has):
 out/levels/<out>.json. A line breaks where the player jumps more than 64 px in a frame (a card, a
-death, the level's change); points every 2 frames.
+death, the level's change); points every 2 frames, as [x, y, movie frame] (the take's frame index is
+the movie frame − 1).
 python3 src/tas_trail.py <trail.txt> <out name> "<source>"
   Randil (tasvideos 2713M, no wall clip):     … fceux/tas_trail-randil.txt tas-randil "TAS by Randil …"""
 import json, sys
@@ -16,7 +17,7 @@ for f, lv, x, y, left in rows:
         if L['segments'][-1]:
             L['segments'].append([])
     if not (x == 0 and y == 0) and (f % 2 == 0 or not L['segments'][-1]):
-        L['segments'][-1].append([x, y])
+        L['segments'][-1].append([x, y, f])
     prev = (lv, x, y)
 for L in levels.values():
     L['segments'] = [s for s in L['segments'] if len(s) > 1]

@@ -63,7 +63,7 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <span class="legend">адресное пространство: приглушённое — не ROM (что прочла игра или снимок RAM); проверка: тёмное — игра ни разу не показала, оранжевое — устаревшая клетка, красное — расхождение</span>
 </header>
 <details><summary>Цифры проверки</summary><table id="nums"></table></details>
-<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><svg id="randil"></svg><canvas id="live" width="256" height="176"></canvas></div><div id="space-stage"></div></div>
+<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><img id="iCheck" style="display:none"><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
 <script>
 const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let S=null,cur=1;
 function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Не проверен по кадрам</td><td></td></tr>';return}
@@ -89,12 +89,14 @@ prisBox.onchange=showPrisoners;
 
 // The TAS trail (out/levels/tas-randil.json: FCEUX playing Randil's movie, player X/Y), fetched when first shown.
 const trails={randil:{file:'tas-randil.json',data:null}};
+// While the run plays (window.takeFrame set by the player), only the way still ahead of the player.
 async function showTrail(id,box,label){const svgT=document.getElementById(id),T0=trails[id];
  if(!document.getElementById(box).checked){svgT.innerHTML='';document.getElementById(label).textContent='';return}
  if(!T0.data){try{T0.data=(await (await fetch(T0.file,{cache:'no-store'})).json()).levels}catch(e){T0.data={}}}
  const T=T0.data[cur],W=L.naturalWidth||2048,H=L.naturalHeight||1920;svgT.setAttribute('viewBox',`0 0 ${W} ${H}`);svgT.style.width=W*z+'px';svgT.style.height=H*z+'px';
  document.getElementById(label).textContent=T?`(${(T.frames/60.0988).toFixed(0)} с)`:'(нет)';
- svgT.innerHTML=T?T.segments.map(sg=>`<polyline points="${sg.map(p=>p.join(',')).join(' ')}"/>`).join(''):''}
+ const tf=window.takeFrame;const ahead=sg=>tf==null?sg:sg.filter(p=>p[2]-1>=tf);
+ svgT.innerHTML=T?T.segments.map(sg=>ahead(sg)).filter(sg=>sg.length>1).map(sg=>`<polyline points="${sg.map(p=>p[0]+','+p[1]).join(' ')}"/>`).join(''):''}
 function showTas(){showTrail('randil','randilBox','randilN')}
 document.getElementById('randilBox').onchange=showTas;
 

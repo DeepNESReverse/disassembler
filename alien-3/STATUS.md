@@ -350,3 +350,6 @@ from the maps at the user's word (2026-10-25), as was the user's own hand-drawn 
   skips the tally and card.
 - ▶ starts at the start of the level the page shows (the menus, cards and tallies never shown); a
   level's first frame is past its fade-in (all 16 background colours $0F).
+- The purple way was hidden under the camera's window before the player reached it (the user):
+  it is now drawn over the window, and while the run plays only the part still ahead of the player
+  (its points carry their movie frame; the take's frame = movie frame − 1).
