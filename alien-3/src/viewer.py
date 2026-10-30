@@ -46,7 +46,7 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 #randil polyline{fill:none;stroke:#b48cff;stroke-width:2.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1px #000)}
 #randil{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #tas polyline{fill:none;stroke:#3dffb0;stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.9;filter:drop-shadow(0 0 1px #000)}
-.psp{position:absolute;image-rendering:pixelated;pointer-events:none;filter:drop-shadow(0 0 2px #ff3cac) drop-shadow(0 0 4px #ff3cac)}
+.psp{position:absolute;image-rendering:pixelated;pointer-events:none}.psp.glow{filter:drop-shadow(0 0 2px #ff3cac) drop-shadow(0 0 4px #ff3cac)}
 .pri{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:3px solid #ff3cac;border-radius:50%;box-shadow:0 0 0 3px #0008,0 0 14px #ff3cac;pointer-events:none;animation:pulse 1.2s ease-in-out infinite}
 .pri b{position:absolute;left:50%;top:-22px;transform:translateX(-50%);background:#ff3cac;color:#000;font:bold 12px system-ui;padding:0 5px;border-radius:3px}
 @keyframes pulse{50%{transform:scale(1.25);opacity:.6}}
@@ -103,9 +103,11 @@ const priLayer=document.getElementById('priLayer'),prisBox=document.getElementBy
 // X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
 // While the run plays, the prisoners it has rescued are left out (window.takeRescued, by object slot).
 function showPrisoners(){const done=window.takeRescued,list=(PRISONERS[cur]||[]).filter(o=>!(done&&done.has(o.i))),sp=SPRITES[cur],nn=String(cur).padStart(2,'0');document.getElementById('prisN').textContent='('+list.length+')';
- priLayer.innerHTML=prisBox.checked?list.map((o,k)=>{const cx=sp?o.x+sp.dx+sp.w/2:o.x,cy=sp?o.y+sp.dy+sp.h/2:o.y;
-  return (sp?`<img class="psp" src="prisoners/${nn}.png" style="left:${(o.x+sp.dx)*z}px;top:${(o.y+sp.dy)*z}px;width:${sp.w*z}px;height:${sp.h*z}px">`:'')+
-  `<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="object ${o.i}: X ${o.x}, Y ${o.y}"><b>${o.num}</b></div>`}).join(''):''}
+ // The prisoners themselves always; the box marks them (glow, ring, the rescue number).
+ const mark=prisBox.checked;
+ priLayer.innerHTML=list.map((o,k)=>{const cx=sp?o.x+sp.dx+sp.w/2:o.x,cy=sp?o.y+sp.dy+sp.h/2:o.y;
+  return (sp?`<img class="psp${mark?' glow':''}" src="prisoners/${nn}.png" style="left:${(o.x+sp.dx)*z}px;top:${(o.y+sp.dy)*z}px;width:${sp.w*z}px;height:${sp.h*z}px">`:'')+
+  (mark?`<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="object ${o.i}: X ${o.x}, Y ${o.y}"><b>${o.num}</b></div>`:'')}).join('')}
 prisBox.onchange=showPrisoners;
 // The camera's rule (STATUS §22): across only on a page top (Y = 240·k), up and down only on an odd
 // 256-px band (X = 256·(2j+1)); the field 256 × 176. Hidden: even bands' page bottoms (Y 176-239
