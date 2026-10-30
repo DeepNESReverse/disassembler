@@ -7,10 +7,11 @@
  *
  * On 127.0.0.1 only. GET / is the page; /levels/ the level maps (out/levels); /src/… this repo's
  * modules and /xrom-libs/nes/… the emulator's (TypeScript served with its types stripped); /rom the
- * cartridge, read in place.
+ * cartridge, read in place. POST /seen: the camera positions the page saw while played (appended to
+ * runs/play-seen.jsonl).
  */
 import { createServer, type ServerResponse } from 'node:http';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, resolve, sep } from 'node:path';
 import { stripTypeScriptTypes } from 'node:module';
 import { ROM_PATH } from '../rom.ts';
@@ -51,6 +52,18 @@ createServer((req, res) => {
   if (p === '/levels') { res.writeHead(301, { Location: '/levels/' }); return res.end(); }
   if (p === '/levels/') return file(res, resolve(repo, 'out/levels'), '/index.html');
   if (p.startsWith('/levels/')) return file(res, resolve(repo, 'out/levels'), p.slice('/levels'.length));
+  // The camera positions the player's page saw (src/play/client.ts): appended, a JSON line a post.
+  if (p === '/seen' && req.method === 'POST') {
+    let body = '';
+    req.on('data', (c) => (body += c));
+    req.on('end', () => {
+      try { JSON.parse(body); } catch { return send(res, 400, 'bad'); }
+      mkdirSync(resolve(repo, 'runs'), { recursive: true });
+      appendFileSync(resolve(repo, 'runs/play-seen.jsonl'), body + '\n');
+      send(res, 204, '');
+    });
+    return;
+  }
   if (p === '/rom') return send(res, 200, readFileSync(ROM_PATH), 'application/octet-stream');
   if (p.startsWith('/src/')) return file(res, resolve(repo, 'src'), p.slice(4));
   if (p.startsWith('/xrom-libs/nes/src/')) return file(res, resolve(xrom, 'src'), p.slice('/xrom-libs/nes/src'.length));

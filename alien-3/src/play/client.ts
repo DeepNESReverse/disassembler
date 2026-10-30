@@ -169,7 +169,35 @@ function step(quiet = false) {
   const dirs = BUTTON.up | BUTTON.down | BUTTON.left | BUTTON.right;
   m.frame($('noclip').checked ? buttons & ~dirs : buttons);
   sound(frameStart, quiet);
+  if ($('noclip').checked) flown = true;
+  look();
 }
+
+// What the camera shows while the player plays (for the maps' "hidden from the player" layer):
+// every camera position ($1A-$1D) per level, from the first move of the player after the level
+// starts, sent to the server (runs/play-seen.jsonl) every 2 s. Not while flying through walls, nor
+// after it until a level is started anew (a state saved in flight, loaded, counts as flight).
+let flown = false, startPos = '', moved = false, lookLevel = -1;
+const cams = new Map<number, Set<string>>(), fresh: [number, number, number][] = [];
+function look() {
+  const level = r[0xa8];
+  if (level !== lookLevel) { lookLevel = level; startPos = ''; moved = false; }
+  if (flown || level >= LEVELS) return;
+  const p = `${r[0x420]},${r[0x440]},${r[0x460]},${r[0x480]}`;
+  if (!moved) { if (!startPos) startPos = p; if (p === startPos) return; moved = true; }
+  const cx = ((r[0x1a] | (r[0x1b] << 8)) << 16) >> 16, cy = ((r[0x1c] | (r[0x1d] << 8)) << 16) >> 16;
+  const k = `${cx},${cy}`;
+  let set = cams.get(level);
+  if (!set) cams.set(level, (set = new Set()));
+  if (set.has(k)) return;
+  set.add(k);
+  fresh.push([level + 1, cx, cy]);
+}
+setInterval(() => {
+  if (!fresh.length) return;
+  const body = JSON.stringify(fresh.splice(0));
+  fetch('/seen', { method: 'POST', body }).catch(() => {});
+}, 2000);
 
 // Levels: a state on the level card, $A8 and the timer's choice set there (as the tools do).
 for (let n = 0; n < LEVELS; n++) {
@@ -187,22 +215,25 @@ function startLevel(n: number) {
   r[0x7a8] = Number($('difficulty').value);
   m.nes.writes.length = 0;
   if ($('noclip').checked) { $('noclip').checked = false; }
+  flown = false; startPos = ''; moved = false;
   toast(`Level ${n + 1}`);
 }
 $('go').onclick = () => { startLevel(Number($('level').value)); $('go').blur(); };
 $('power').onclick = () => {
   loadState(m, powerOn);
   $('noclip').checked = false;
+  flown = false;
   toast('From power-on: Start, then Start on the menu');
   $('power').blur();
 };
 let slot: ReturnType<typeof saveState> | null = null;
-let slotFly: [number, number] = [0, 0];
-function save() { slot = saveState(m); slotFly = [flyX, flyY]; toast('Saved'); }
+let slotFly: [number, number] = [0, 0], slotFlown = false;
+function save() { slot = saveState(m); slotFly = [flyX, flyY]; slotFlown = flown; toast('Saved'); }
 function load() {
   if (!slot) return toast('The slot is empty');
   loadState(m, slot);
   [flyX, flyY] = slotFly;
+  flown = slotFlown;
   toast('Loaded');
 }
 $('save').onclick = save;
