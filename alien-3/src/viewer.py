@@ -33,6 +33,7 @@ html = '''<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Alie
 header{position:sticky;top:0;background:#1b1b1b;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:2;border-bottom:1px solid #333}
 button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 10px;cursor:pointer;font:inherit}button.on{background:#3d5a80;border-color:#5b7fb0}button:disabled{opacity:.4}
 #wrap{overflow:auto;height:calc(100vh - var(--head,50px))}
+html:fullscreen header{display:none}
 #fsBtn{position:fixed;right:14px;bottom:14px;z-index:3;width:34px;height:34px;padding:0;display:grid;place-items:center;opacity:.75}#fsBtn:hover{opacity:1}#stage{position:relative}
 #stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
@@ -78,7 +79,7 @@ table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1p
 <span id="pos"></span>
 <span class="legend">address space: dimmed — not ROM (what the game read, or a RAM snapshot)</span>
 </header>
-<button id="fsBtn" title="Full screen"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5"/></svg></button>
+<button id="fsBtn" title="Full screen (Space plays and pauses the run)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5"/></svg></button>
 <div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><svg id="view"></svg><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
 <script>
 const SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let cur=1;

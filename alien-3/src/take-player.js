@@ -320,3 +320,10 @@ $('lvl').addEventListener('change', () => {
   const span = spans.find(([l]) => l === Number($('lvl').value) - 1);
   if (span) seek(span[1]);
 });
+
+// Space plays and pauses — the only way to in full screen, where the header is hidden.
+addEventListener('keydown', (e) => {
+  if (e.code !== 'Space' || e.target.closest?.('input, select, textarea')) return;
+  e.preventDefault();
+  ui.play.click();
+});
