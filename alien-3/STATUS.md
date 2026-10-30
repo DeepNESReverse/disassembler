@@ -471,6 +471,7 @@ the next games.
   "идеально", 2026-10-30. src/experiments/l8-roof.ts: with the camera at (400, 720) the game's
   frame starts exactly at map row Y 720 (rows compared line by line), so the roof tops and vines
   from Y 720 down stay seen and the row above them does not.
+- Level 11 (56.8 %: Randil's run + the search, no play by hand): "тоже идеально", 2026-10-30.
 - Level 10 (58.2 %, after the user's two plays) and level 5 (63.7 %, Randil's run + the search):
   "в идеале" / "идеально" — what is still dark there cannot be reached. Level 4: all of it (§27).
 - Level 4, later: the user played it through in the browser player (+2 362 tiles). With the play,
