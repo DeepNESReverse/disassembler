@@ -64,7 +64,7 @@ table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1p
 </style></head><body>
 <header>
 <select id="lvl">__OPTS__</select>
-<span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button><button data-z="fit" title="The whole level in the window">fit</button>
+<span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button><button data-z="fitw" title="The level's width in the window">fit width</button><button data-z="fith" title="The level's height in the window">fit height</button>
 <span id="tkBar" style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="Randil's TAS as FCEUX played it: the camera window shows the game's frame (background from the level data, sprites and palette from the take)">
  <button id="tkPlay">▶</button>
  <select id="tkSpeed"><option value="1">×1</option><option value="4">×4</option><option value="16">×16</option></select>
@@ -91,14 +91,14 @@ const SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let cur=1;
 const L=iLevel,st=stage;let z=1;
 
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';L.style.width=L.naturalWidth*z+'px'}
-// Zoom: a fixed scale, or "fit" — the whole level in the window, worked out again as the window, the
-// level or full screen change.
+// Zoom: a fixed scale, or "fit width" / "fit height" — the level's width or height in the window,
+// worked out again as the window, the level or full screen change.
 let fit=false;
-function fitZoom(){const w=wrap,W=L.naturalWidth||2048,H=L.naturalHeight||1920;return Math.min((w.clientWidth-2)/W,(w.clientHeight-2)/H)}
+function fitZoom(){const w=wrap,W=L.naturalWidth||2048,H=L.naturalHeight||1920;return fit==='fith'?(w.clientHeight-2)/H:(w.clientWidth-2)/W}
 function zoomed(){size();showSpace();showPrisoners();showView();showTas()}
 function refit(){if(fit&&L.naturalWidth){const f=fitZoom();if(f!==z){z=f;zoomed()}}}
 L.onload=()=>{if(fit)z=fitZoom();size();showTas();showView();showPrisoners()};
-document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{fit=b.dataset.z==='fit';z=fit?fitZoom():+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));zoomed()});
+document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{fit=b.dataset.z.startsWith('fit')&&b.dataset.z;z=fit?fitZoom():+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));zoomed()});
 addEventListener('resize',refit);
 // The map takes the window below the header, however many lines the header wraps to.
 new ResizeObserver(()=>{document.documentElement.style.setProperty('--head',document.querySelector('header').offsetHeight+'px');refit()}).observe(document.querySelector('header'));
