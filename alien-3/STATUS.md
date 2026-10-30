@@ -462,3 +462,7 @@ the next games.
 
 - Level 10 (58.2 %, after the user's two plays) and level 5 (63.7 %, Randil's run + the search):
   "в идеале" / "идеально" — what is still dark there cannot be reached. Level 4: all of it (§27).
+- Level 4, later: the user played it through in the browser player (+2 362 tiles). With the play,
+  every drawn tile is seen but the left ducts (not crawled; kept by the user's word above), the
+  central column's wall ends, and the level's last 32 px at its right end, past the exit — which
+  the user says must not be seen, and which the `drawn` rule had opened. `drawn` dropped: 72.4 %.
