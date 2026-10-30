@@ -8,3 +8,4 @@ fceux/tas_trail.txt
 fceux/tas_trail-*.txt
 fceux/*.play.txt
 fceux/movie_sound.txt
+out/public/

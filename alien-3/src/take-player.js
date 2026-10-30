@@ -3,6 +3,8 @@
 // (src/take-pack.ts); the background inside the camera is drawn from the level's data (src/level.ts,
 // read from the ROM here) with that frame's palette, the sprites from the sprite page with their
 // banks. Nothing outside the camera moves: the game draws nothing there.
+// The public build (src/public.ts, window.CART_PACK set) reads no ROM: cart.bin.gz gives each
+// level's tiles and palettes, the CHR banks the run draws with and the DMC's samples.
 import { Level } from '/src/level.ts';
 import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
@@ -22,10 +24,13 @@ let lastTrail = -1e9, lastRescued = '';
 
 async function load() {
   ui.label.textContent = 'loading…';
-  rom = new Uint8Array(await (await fetch('/rom')).arrayBuffer());
-  prg = rom.subarray(16, 16 + rom[4] * 0x4000);
-  chr = rom.subarray(16 + rom[4] * 0x4000);
-  levels = Array.from({ length: 12 }, (_, n) => new Level(prg, n));
+  if (window.CART_PACK) await loadPack(window.CART_PACK);
+  else {
+    rom = new Uint8Array(await (await fetch('/rom')).arrayBuffer());
+    prg = rom.subarray(16, 16 + rom[4] * 0x4000);
+    chr = rom.subarray(16 + rom[4] * 0x4000);
+    levels = Array.from({ length: 12 }, (_, n) => new Level(prg, n));
+  }
   const gz = await fetch('take/randil.bin.gz');
   const buf = new Uint8Array(await new Response(gz.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
   data = buf;
@@ -83,6 +88,27 @@ async function load() {
   });
   const first = spans.find(([l]) => l === Number($('lvl').value) - 1) ?? spans[0];
   seek(first[1]);
+}
+
+/**
+ * cart.bin.gz (src/public.ts): u32 CHR size, u32 PRG size, the CHR and the PRG — zero but for the
+ * banks the run draws with and the DMC's samples — then per level the CHR bank of its tiles (u8),
+ * its width and height in tiles (u16 each), a tile number and a palette byte per tile, row by row.
+ */
+async function loadPack(url) {
+  const gz = await fetch(url);
+  const b = new Uint8Array(await new Response(gz.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+  const u32 = (o) => b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] * 0x1000000);
+  let o = 8;
+  chr = b.subarray(o, o + u32(0)); o += u32(0);
+  prg = b.subarray(o, o + u32(4)); o += u32(4);
+  levels = [];
+  for (let n = 0; n < 12; n++) {
+    const bank = b[o], w = b[o + 1] | (b[o + 2] << 8), h = b[o + 3] | (b[o + 4] << 8);
+    const tiles = b.subarray(o + 5, o + 5 + w * h), pals = b.subarray(o + 5 + w * h, o + 5 + 2 * w * h);
+    o += 5 + 2 * w * h;
+    levels.push({ header: { chr: bank }, widthTiles: w, heightTiles: h, tile: (x, y) => ({ tile: tiles[y * w + x], palette: pals[y * w + x] }) });
+  }
 }
 
 /** The state after frame f. */
@@ -228,7 +254,7 @@ async function startAudio() {
   if (snd || !$('tkSound').checked) return;
   if (!sdata) await loadSound();
   const context = new AudioContext({ latencyHint: 'interactive' });
-  await context.audioWorklet.addModule('/src/play/sound.js');
+  await context.audioWorklet.addModule(new URL('play/sound.js', import.meta.url));
   const node = new AudioWorkletNode(context, 'feed', { outputChannelCount: [1] });
   node.connect(context.destination);
   const rate = context.sampleRate, k = Math.ceil(rate / HZ) + 2;

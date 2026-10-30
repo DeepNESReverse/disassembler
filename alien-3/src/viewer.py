@@ -1,7 +1,10 @@
 """out/levels/index.html: every level's picture and its check (no-clip run preferred), numbers inline.
-python3 src/viewer.py"""
-import json, os
+python3 src/viewer.py
+python3 src/viewer.py --public <dir>   the page for xrom.dev (src/public.ts): no address space, no
+                                       checkmarks, the run player bundled and fed without the ROM"""
+import json, os, re, sys
 D = 'out/levels'
+PUBLIC = sys.argv[sys.argv.index('--public') + 1] if '--public' in sys.argv else None
 checks = {}
 for n in range(1, 13):
     for kind in ('noclip', 'check'):
@@ -176,5 +179,18 @@ st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.
  const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);
  pos.textContent=`x ${x} y ${y} · tile ${x>>3},${ty} · block ${x>>5}, layout row ${page*8+inPage} (page ${page})`};
 </script><script type="module" src="/src/take-player.js"></script></body></html>'''
-open(f'{D}/index.html', 'w').write(html.replace('__OPTS__', opts).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPRITES__', json.dumps(sprites)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
+page = (html.replace('__OPTS__', opts).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPRITES__', json.dumps(sprites)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
+if PUBLIC:
+    # The address space is the workshop's alone; the levels' checkmarks too.
+    page = page.replace(' ✓</option>', '</option>')
+    page = re.sub(r'<label[^\n]*id="space"[^\n]*</label>\n', '', page)
+    page = re.sub(r'<span class="legend">address space:[^\n]*</span>\n', '', page)
+    page = page.replace("spaceBox=document.getElementById('space')", "spaceBox={checked:false}")
+    page = re.sub(r'const SPACES=\{.*?\},PRISONERS=', 'const SPACES={},PRISONERS=', page, count=1)
+    page = page.replace('<script type="module" src="/src/take-player.js"></script>',
+                        '<script>window.CART_PACK=\'cart.bin.gz\'</script><script type="module" src="take-player.js"></script>')
+    assert 'id="space"' not in page and 'take-player.js"' in page
+    open(f'{PUBLIC}/index.html', 'w').write(page)
+else:
+    open(f'{D}/index.html', 'w').write(page)
 print('ok', sorted(checks), 'spaces', sorted(spaces))
