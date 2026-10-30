@@ -184,12 +184,26 @@ function draw() {
     ui.seek.value = String(frame);
     ui.label.textContent = `level ${n + 1} · ${((frame - span[1]) / 60.0988).toFixed(1)} of ${((span[2] - span[1] + 1) / 60.0988).toFixed(0)} s`;
   }
-  // Keep the camera in view.
+  // Keep the camera's field in view with room around it: on each axis the field stays inside the
+  // middle of the window (a margin of 40 % of the space left over), the view easing after it rather
+  // than jumping once the field has reached the edge. A seek or a new level: straight there.
   if (ui.follow.checked) {
-    const w = $('wrap'), cx = (camX + 128) * z, cy = (camY + 88) * z;
-    const left = w.scrollLeft, top = w.scrollTop, W = w.clientWidth, H = w.clientHeight;
-    if (cx < left + W * 0.25 || cx > left + W * 0.75 || cy < top + H * 0.25 || cy > top + H * 0.75) w.scrollTo(cx - W / 2, cy - H / 2);
+    const w = $('wrap');
+    const x = follow(w.scrollLeft, w.clientWidth, camX * z, 256 * z), y = follow(w.scrollTop, w.clientHeight, camY * z, 176 * z);
+    if (x !== w.scrollLeft || y !== w.scrollTop) w.scrollTo(x, y);
   }
+}
+/** The scroll on one axis: `at` now, `size` the window, the field from `from`, `span` long. */
+function follow(at, size, from, span) {
+  const room = Math.max(0, size - span), margin = room * 0.4;
+  if (room === 0) return from + span / 2 - size / 2;
+  const lo = from + span + margin - size, hi = from - margin; // the scrolls that keep the margin
+  if (at >= lo && at <= hi) return at;
+  const want = at < lo ? lo : hi;
+  if (Math.abs(want - at) > size) return want;
+  // Ease, but never so slowly that the field itself leaves the window.
+  const eased = at + (want - at) * 0.2;
+  return Math.min(Math.max(eased, from + span - size), from);
 }
 
 // The sound: the run's writes to the sound chip (out/levels/take/randil-sound.bin.gz, src/sound-pack.ts,
