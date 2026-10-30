@@ -451,8 +451,12 @@ the next games.
   at X 1341-1367) and, for every tile of the way left of X 1342, adds the camera's field centred on
   it. 1 448 tiles of way, 9 389 tiles more seen: level 4 53.3 % → 68.5 %. The camera's rails are
   not applied there — the field is centred on the player, an approximation.
-- Level 4, the same day: "there are no blind spots for the player at all" (the user) — the whole
-  level is marked seen (`"all": true`): 100 %.
+- Level 4, the same day: "there are no blind spots for the player at all" — then taken back by the
+  user: the empty space between the blocks cannot be reached, but everything a player can explore
+  along the floor is seen. So every tile with something drawn on it (out/levels/04.png not black)
+  is marked seen (`"drawn": true`, +1 602 tiles: rooms at the top, the right room and the right
+  corridor at X ~1880-1940): 71.2 %. Empty space stays as the run, the search and the ducts' fields
+  have it.
 
 ## 28. Visibility confirmed by the user
 

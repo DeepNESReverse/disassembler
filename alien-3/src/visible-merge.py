@@ -56,7 +56,8 @@ for k, seen in cams.items():
 # Places the user says a player reaches (data/user-reachable.json): from a point, every tile drawn
 # on the map (out/levels/<nn>.png, not black) joined to it through such tiles inside `box`
 # ([x0, y0, x1, y1]); for each of them left of xMax the camera's field (256 x 176) centred on it is
-# added, as the camera shows it around the player. `all`: the whole level seen.
+# added, as the camera shows it around the player. `all`: the whole level seen;
+# `drawn`: every tile with something drawn on it.
 from PIL import Image
 for spot in json.load(open('data/user-reachable.json')) if os.path.exists('data/user-reachable.json') else []:
     k = str(spot['level']); v = all_.get(k)
@@ -75,7 +76,19 @@ for spot in json.load(open('data/user-reachable.json')) if os.path.exists('data/
     drawn = bytearray(W * H)
     for ty in range(H):
         for tx in range(W):
-            if any(px[x, y] != (0, 0, 0) for y in range(ty * 8, ty * 8 + 8, 2) for x in range(tx * 8, tx * 8 + 8, 2)): drawn[ty * W + tx] = 1
+            if any(px[x, y] != (0, 0, 0) for y in range(ty * 8, ty * 8 + 8) for x in range(tx * 8, tx * 8 + 8)): drawn[ty * W + tx] = 1
+    if spot.get('drawn'):
+        # Every tile with something drawn on it (rooms, corridors, ducts) seen; the empty space
+        # between the blocks left as the run and the search have it.
+        run, search = decode(v['run'], W, H), decode(v['search'], W, H)
+        added = 0
+        for i in range(W * H):
+            if drawn[i] and not run[i] and not search[i]: search[i] = 1; added += 1
+        v['search'] = encode(search, W, H)
+        v['searchOnly'] += added; v['total'] += added
+        v['userSaid'] = v.get('userSaid', 0) + added
+        print(f"level {k}: the user's word ({spot['said'][:10]}): every drawn tile, {added} tiles more seen")
+        continue
     xm = spot['xMax'] // 8
     bx0, by0, bx1, by1 = (c // 8 for c in spot.get('box', [0, 0, W * 8, H * 8]))
     start = (spot['from'][1] // 8) * W + spot['from'][0] // 8
