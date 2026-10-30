@@ -437,3 +437,8 @@ the next games.
   the search goes on from there (4000 places each at most, places already gone out from not again;
   up to 80 seeds). A spot the player does not stay on (within 16 px) is skipped. A trial with tiny
   budgets took level 10 from 48.2 % to 51.5 %.
+- **Level 10 by hand** (2026-10-30): the user played it twice in the browser player
+  (runs/play-seen.jsonl, src/play/client.ts — camera positions from the first move, no no-clip);
+  +6 172 tiles, 48.2 % → 58.2 %. The user: level 10 is now complete — what is still dark cannot be
+  reached. The seeded search was stopped before it finished (one seed in 55 min); `--seeds` stays
+  as a tool, not used for the published layer.
