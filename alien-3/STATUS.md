@@ -478,3 +478,6 @@ the next games.
   every drawn tile is seen but the left ducts (not crawled; kept by the user's word above), the
   central column's wall ends, and the level's last 32 px at its right end, past the exit — which
   the user says must not be seen, and which the `drawn` rule had opened. `drawn` dropped: 72.4 %.
+- All twelve levels, 2026-10-30: "все уровни идеально" — the user's word for the rest too
+  (levels 1-4, 6, 7, 9 and 12 as they stand: Randil's run, the search, the user's plays and the
+  spots of §27). The visibility layer is done.
