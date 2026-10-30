@@ -52,7 +52,7 @@ button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:
 .reg{position:absolute;left:0;right:0;border-top:2px solid #e0b040;pointer-events:none}
 .reg span{position:sticky;left:4px;background:#000c;color:#f0c050;padding:1px 6px;font-size:12px;white-space:nowrap}
 #pos{font-variant-numeric:tabular-nums;color:#aaa}
-details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1px solid #2a2a2a}td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1px solid #2a2a2a}td:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .legend{color:#888}
 </style></head><body>
 <header>
@@ -77,15 +77,9 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
 <span id="pos"></span>
 <span class="legend">address space: dimmed — not ROM (what the game read, or a RAM snapshot)</span>
 </header>
-<details><summary>Check figures</summary><table id="nums"></table></details>
 <div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><svg id="view"></svg><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
 <script>
-const CHECKS=__CHECKS__,SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let S=null,cur=1;
-function nums(){const t=document.getElementById('nums');if(!S){t.innerHTML='<tr><td>Not checked against frames</td><td></td></tr>';return}
-const f=v=>typeof v==='number'?v.toLocaleString('ru'):v;
-const rows=[["run",S.kind],["frames",S.frames],["comparisons",S.samples],["match, %",S.matchPercent],["stale apart, %",S.matchPercentStaleApart],["tile writes: matched / all",f(S.writesMatched)+" / "+f(S.writesChecked)],["attribute writes",f(S.attributeWritesMatched)+" / "+f(S.attributeWritesChecked)],["tiles seen",f(S.cellsSeen)+" / "+f(S.cellsOfLevel)],["tiles that differed",S.cellsEverDiffered]];
-if(S.noclip)rows.push(["camera went X",S.noclip.camera.minX+".."+S.noclip.camera.maxX],["camera went Y",S.noclip.camera.minY+".."+S.noclip.camera.maxY]);
-t.innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${f(r[1])}</td></tr>`).join('')}
+const SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let cur=1;
 const L=iLevel,st=stage;let z=1;
 
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';L.style.width=L.naturalWidth*z+'px'}
@@ -156,11 +150,11 @@ spaceBox.onchange=showSpace;
 ss.onmousemove=e=>{const P=SPACES[cur];if(!P)return;const r=ss.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),inPage=Math.min(7,Math.floor((y%240)/32)),row=page*8+inPage,col=x>>5,a=(P.layout+row*64+col)&0xffff;
  pos.textContent=`x ${x} y ${y} · page ${page} · address $${a.toString(16).toUpperCase().padStart(4,'0')}`};
-function pick(n){cur=n;const nn=String(n).padStart(2,'0');S=CHECKS[n]||null;L.src=nn+'.png';nums();showSpace();showPrisoners();showView();showTas();document.title='Alien 3 — level '+n}
+function pick(n){cur=n;const nn=String(n).padStart(2,'0');L.src=nn+'.png';showSpace();showPrisoners();showView();showTas();document.title='Alien 3 — level '+n}
 lvl.onchange=()=>pick(+lvl.value);pick(1);
 st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);
  pos.textContent=`x ${x} y ${y} · tile ${x>>3},${ty} · block ${x>>5}, layout row ${page*8+inPage} (page ${page})`};
 </script><script type="module" src="/src/take-player.js"></script></body></html>'''
-open(f'{D}/index.html', 'w').write(html.replace('__OPTS__', opts).replace('__CHECKS__', json.dumps(checks)).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPRITES__', json.dumps(sprites)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
+open(f'{D}/index.html', 'w').write(html.replace('__OPTS__', opts).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPRITES__', json.dumps(sprites)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
 print('ok', sorted(checks), 'spaces', sorted(spaces))
