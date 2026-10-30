@@ -37,6 +37,7 @@ const encode = (a: Uint8Array) => Array.from({ length: H }, (_, ty) => {
 });
 const run = decode(runSeen.rows);
 const search = new Uint8Array(W * H);
+const target = args.includes('--target') ? args[args.indexOf('--target') + 1].split(',').map(Number) : null;
 let lastCam = '';
 const mark = () => {
   const r = m.ram;
@@ -47,6 +48,7 @@ const mark = () => {
   const x0 = Math.floor(cx / 8), y0 = Math.floor(cy / 8);
   // Every tile the 256 × 176 field touches: 33 × 23 when the camera is not on a tile's edge.
   const x1 = Math.ceil((cx + 256) / 8), y1 = Math.ceil((cy + 176) / 8);
+  if (target && !search[target[1] * W + target[0]] && target[0] >= x0 && target[0] < x1 && target[1] >= y0 && target[1] < y1) console.log(`target ${target} marked: player ${pos(m)}, camera ${cx},${cy}`);
   for (let ty = Math.max(0, y0); ty < Math.min(H, y1); ty++) for (let tx = Math.max(0, x0); tx < Math.min(W, x1); tx++) search[ty * W + tx] = 1;
 };
 m.nes.beforeVblank = () => cheats(m, true);
@@ -54,8 +56,7 @@ const exit = { fired: false };
 m.hooks.exec = (pc) => { if (pc === EXIT_JUMP && m.bankAt(pc) === 13) { exit.fired = true; m.cpu.pc = EXIT_RTS; } };
 m.frames(1180 - 900);
 const prisoners = (JSON.parse(readFileSync('out/levels/objects.json', 'utf8'))[n + 1] as (Prisoner & { type: number })[]).filter((o) => o.type === 6);
-const target = args.includes('--target') ? args[args.indexOf('--target') + 1].split(',').map(Number) : null;
-const stop = target ? () => search[target[1] * W + target[0]] === 1 : undefined;
+const stop = target ? () => { if (search[target[1] * W + target[0]] !== 1) return false; console.log(`target ${target} first shown: player ${pos(m)}, camera ${m.ram[0x1a] | (m.ram[0x1b] << 8)},${m.ram[0x1c] | (m.ram[0x1d] << 8)}`); return true; } : undefined;
 const g = explore(m, saveState(m, true), prisoners, exit, maxNodes, false, true, -1, undefined, 16, mark, stop);
 if (target) {
   // Only adds: the rest of the level's search is what the full search found.

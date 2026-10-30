@@ -57,12 +57,26 @@ for k, seen in cams.items():
 # on the map (out/levels/<nn>.png, not black) joined to it through such tiles inside `box`
 # ([x0, y0, x1, y1]); for each of them left of xMax the camera's field (256 x 176) centred on it is
 # added, as the camera shows it around the player. `all`: the whole level seen;
-# `drawn`: every tile with something drawn on it.
+# `drawn`: every tile with something drawn on it; `hide`: the search's tiles in a box not seen.
 from PIL import Image
 for spot in json.load(open('data/user-reachable.json')) if os.path.exists('data/user-reachable.json') else []:
     k = str(spot['level']); v = all_.get(k)
     if not v: continue
     W, H = v['w'], v['h']
+    if spot.get('hide'):
+        # Not seen, on the user's word: the search's tiles inside `hide` ([x0, y0, x1, y1]) dropped
+        # (the run's tiles stay: the run is what the game showed).
+        run, search = decode(v['run'], W, H), decode(v['search'], W, H)
+        x0, y0, x1, y1 = (c // 8 for c in spot['hide'])
+        dropped = 0
+        for ty in range(y0, y1):
+            for tx in range(x0, x1):
+                j = ty * W + tx
+                if search[j] and not run[j]: search[j] = 0; dropped += 1
+        v['search'] = encode(search, W, H)
+        v['searchOnly'] -= dropped; v['total'] -= dropped
+        print(f"level {k}: the user's word ({spot['said'][:10]}): {dropped} tiles hidden")
+        continue
     if spot.get('all'):
         # The whole level, on the user's word: every tile not seen yet goes to the search's rows.
         run, search = decode(v['run'], W, H), decode(v['search'], W, H)

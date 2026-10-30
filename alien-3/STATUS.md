@@ -457,6 +457,13 @@ the next games.
   is marked seen (`"drawn": true`, +1 602 tiles: rooms at the top, the right room and the right
   corridor at X ~1880-1940): 71.2 %. Empty space stays as the run, the search and the ducts' fields
   have it.
+- Level 8, 2026-10-30: the green row at the page seam (Y 712-719, X 256-511) "a player never
+  sees" (the user, standing in the room below with the camera at (119, 720)). Experiment:
+  `node src/visible.ts 8 --target 33,89` logs the frame that first marks tile (33, 89): camera
+  (256, 719), player (343, 757) falling — a single frame showing one pixel line of the row; the
+  place the move ends on has the camera back at (256, 720). The user's play in this band (camera
+  X 64-736) never had the camera above Y 720. `"hide": [256, 712, 512, 720]` drops the search's
+  32 tiles there (the run's tiles are never dropped): level 8 65.0 % → 64.9 %.
 
 ## 28. Visibility confirmed by the user
 
