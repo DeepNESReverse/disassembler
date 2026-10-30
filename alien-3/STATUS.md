@@ -442,3 +442,12 @@ the next games.
   +6 172 tiles, 48.2 % → 58.2 %. The user: level 10 is now complete — what is still dark cannot be
   reached. The seeded search was stopped before it finished (one seed in 55 min); `--seeds` stays
   as a tool, not used for the published layer.
+
+## 27. Places opened by the user's word (data/user-reachable.json)
+
+- Level 4, 2026-10-30: the ducts left of X 1342, Y 1286 — "the player can crawl there" (the user;
+  not checked by a run here). src/visible-merge.py walks the map's drawn tiles from that point inside
+  a box (X 400-1400, Y 1240-1800: the left ducts join the right ones only through the vertical duct
+  at X 1341-1367) and, for every tile of the way left of X 1342, adds the camera's field centred on
+  it. 1 448 tiles of way, 9 389 tiles more seen: level 4 53.3 % → 68.5 %. The camera's rails are
+  not applied there — the field is centred on the player, an approximation.
