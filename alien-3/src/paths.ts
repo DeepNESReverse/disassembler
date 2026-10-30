@@ -74,7 +74,7 @@ export function cheats(m: Machine, time = false) {
 
 export const pos = (m: Machine): [number, number] => [m.ram[0x420] | (m.ram[0x440] << 8), m.ram[0x460] | (m.ram[0x480] << 8)];
 /** A place: 8 px across (a ladder wants the player lined up), 8 px down. */
-const keyOf = ([x, y]: [number, number]) => `${x >> 3},${y >> 3}`;
+export const keyOf = ([x, y]: [number, number]) => `${x >> 3},${y >> 3}`;
 
 /**
  * Run inputs, then let the player settle: no input until X and Y have not changed for 8 frames, or
@@ -106,8 +106,9 @@ export interface Prisoner { i: number; x: number; y: number }
  * Explore from `start` (a light state with the cheats' hook set on `m`): places cheapest first, every
  * action from each. `exit()` says whether the exit fired since it was last cleared. Stops after
  * `maxNodes` expansions, when nothing is left, or — with `untilExit` — at the first edge at the exit.
+ * `known`: places (their keys) another search has gone out from already; not gone out from again.
  */
-export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1, near?: [number, number], radius = 16, onFrame?: () => void, stopWhen?: () => boolean) {
+export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: { fired: boolean }, maxNodes: number, untilExit = false, log = true, untilRescue = -1, near?: [number, number], radius = 16, onFrame?: () => void, stopWhen?: () => boolean, known?: Set<string>) {
   const places: Place[] = [];
   const index = new Map<string, number>();
   const edges: Edge[] = [];
@@ -118,7 +119,8 @@ export function explore(m: Machine, start: State, prisoners: Prisoner[], exit: {
       if (cost < places[at].cost && !places[at].done) { places[at].cost = cost; places[at].state = state; }
       return at;
     }
-    places.push({ key, p, cost, state, done: false });
+    // A place an earlier search already went out from: kept, not gone out from again.
+    places.push({ key, p, cost, state, done: known?.has(key) ?? false });
     index.set(key, places.length - 1);
     return places.length - 1;
   };

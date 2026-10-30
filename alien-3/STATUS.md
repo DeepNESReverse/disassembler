@@ -418,3 +418,22 @@ the next games.
   229 943 / 3 312, noise 215 685 / 3 276; $4015/$4017 and 25 DMC writes belong to neither.
   src/sound-pack.ts marks each write so (bit 7 effect, bit 6 music); the maps' player drops what
   its "music" / "effects" boxes switch off and silences that channel once, so no note hangs.
+
+## 26. Level 10: the search walled off in the left half; seeds from Randil's spots
+
+- Level 10's search stopped at 740 places, all in X 134-889 (runs/visible/10-dump.json, `--dump`):
+  48 % visible, while Randil's run alone showed 28 878 tiles to the search's 9 310.
+- Randil leaves the left half along Y 560: from (410, 416) he steps left off the ledge into the
+  water column for 15 frames and then holds Right as he falls, landing on (423, 560); on from there
+  he walks right (tas_trail 55300-55760, his pads from tas_take). The search has no move that turns
+  back in a fall, and never stood on (423, 560). Teleported there, the player walks right past
+  X 480 within 31 frames (src/experiments/l10-door-cycle.ts) — nothing shut there.
+- The same fall-and-steer from a teleport did not land on the ledge (l10-drop-steer.ts: the
+  player came back to Y 416); replaying his pads with all his RAM laid over ours did not climb his
+  later ladder either (l10-overlay.ts) — the teleports and overlays differ from his game somewhere
+  not found; not chased further.
+- **Seeds** (`src/visible.ts --seeds`): where the search never stood within 48 px, but Randil stood
+  on the ground (his Y unchanged from the frame before), the player is teleported onto his spot and
+  the search goes on from there (4000 places each at most, places already gone out from not again;
+  up to 80 seeds). A spot the player does not stay on (within 16 px) is skipped. A trial with tiny
+  budgets took level 10 from 48.2 % to 51.5 %.
