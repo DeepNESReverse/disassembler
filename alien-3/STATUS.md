@@ -395,3 +395,26 @@ The maps' player sends a frame's writes to @xromdev/apu and plays a frame of sam
 read from the fixed banks 14/15), at ×1 only; after a seek or speed change the 3 s before are run
 through a fresh chip silently. `fceux/movie_capture.lua` takes pads, RAM and sound in one pass for
 the next games.
+
+## 25. Music apart from the sound effects
+
+- **The menu's switches are $07A5**: bit 1 (2) "Music OFF", bit 2 (4) "Sound effects OFF"; the
+  menu's text read with each press (src/experiments/sound-switches.ts, four presses per line, the
+  only cell that alternates with every press).
+- **Held off mid-level they change the game**, not just the sound: 1500 frames of level 1 with the
+  same pads and $07A5 held at 2 or at 4 part from the run with both on in ~760-790 non-sound cells
+  (health $074A, objects, sprites) from the 2nd hundred frames on. A TAS played that way would not
+  stay in step, so the switches are not used for taking the sound apart.
+- **What they gate**: B15:$EF04 takes a sound's number in Y; below $12 a song (checked against bit
+  1), $12 and up an effect (bit 2); the number waits in $A7 (src/experiments/sound-flag-reads.ts,
+  sound-requests.ts). B15:$EDD4 deals it out over four slots by the tables at $EE3A/$EE6D/$EEA0/$EED3
+  (one per slot, $FF = slot untouched), each slot's stream ×2 into $03D8+X via $8003.
+- **The streams don't overlap**: sounds $00-$11 use streams 0-$2F, $13-$32 streams $30-$51; 0 is
+  silence ($12 sets every slot to it). Slot 0 is pulse 1, 1 pulse 2, 2 triangle, 3 noise: in level 1
+  the song (sound $05, streams 5-7) sits in slots 1-3 and pulse 1 is written only while slot 0 holds
+  a shot's stream (sound-owner.ts). $03D8+X keeps the last stream after it has ended.
+- **Randil's run, every chip write against its slot's stream at the end of the frame**
+  (sound-owner-take.ts): pulse 1 94 318 effect / 1 103 music, pulse 2 208 767 / 12 098, triangle
+  229 943 / 3 312, noise 215 685 / 3 276; $4015/$4017 and 25 DMC writes belong to neither.
+  src/sound-pack.ts marks each write so (bit 7 effect, bit 6 music); the maps' player drops what
+  its "music" / "effects" boxes switch off and silences that channel once, so no note hangs.

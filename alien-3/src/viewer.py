@@ -65,6 +65,8 @@ details{padding:0 12px}table{border-collapse:collapse;margin:8px 0}td{padding:2p
  <select id="tkLevel"><option value="">go to level…</option></select>
  <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="tkFollow" checked> follow</label>
  <label style="display:flex;gap:4px;align-items:center" title="The run's music and sound effects: the game's sound-chip writes taken in FCEUX (movie_sound.lua), played through @xromdev/apu. At ×1 only"><input type="checkbox" id="tkSound" checked> sound <input type="range" id="tkVol" min="0" max="1" step="0.05" value="0.6" style="width:60px"></label>
+ <label style="display:flex;gap:4px;align-items:center" title="The songs: writes from the driver's slots playing a song's stream (1-$2F)"><input type="checkbox" id="tkMusic" checked> music</label>
+ <label style="display:flex;gap:4px;align-items:center" title="The sound effects: writes from the driver's slots playing an effect's stream ($30 and up) — the shots and the rest"><input type="checkbox" id="tkEffects" checked> effects</label>
  <span id="tkLabel" class="legend"></span></span>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), played in FCEUX; no wall clips; every prisoner rescued"><input type="checkbox" id="randilBox" checked> Randil's TAS path <span id="randilN" class="legend"></span></label>
 

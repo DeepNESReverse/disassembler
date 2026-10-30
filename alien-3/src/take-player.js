@@ -197,6 +197,9 @@ function draw() {
 // taken in FCEUX by fceux/movie_sound.lua), a frame's writes then a frame of samples through
 // @xromdev/apu, an AudioWorklet (src/play/sound.js) playing the blocks. Only at ×1; after a seek or
 // a change of speed, the 3 s before are run through the chip silently so it stands as it would.
+// Each write carries its owner (src/sound-pack.ts): $80 an effect's, $40 the music's, 0 both's. A
+// write whose owner is switched off is dropped, and its channel silenced once, so that a note the
+// other owner left on it does not hang.
 const HZ = 60.0988;
 let sdata = null, soffs = null, snd = null, sampleDebt = 0, soundAt = -1;
 async function loadSound() {
@@ -224,7 +227,19 @@ function writesOf(f, each) {
   let p = soffs[f];
   const count = sdata[p] | (sdata[p + 1] << 8);
   p += 2;
-  for (let i = 0; i < count; i++, p += 2) each(0x4000 + sdata[p], sdata[p + 1]);
+  for (let i = 0; i < count; i++, p += 2) each(0x4000 + (sdata[p] & 0x3f), sdata[p + 1], sdata[p] & 0xc0);
+}
+/** Silenced: the channels (0-3) a dropped write left quiet, until a heard write comes to them. */
+const quiet = new Set();
+function hear(a, v, owner) {
+  const music = $('tkMusic').checked, effects = $('tkEffects').checked;
+  const ch = (a - 0x4000) >> 2;
+  if ((owner === 0x40 && !music) || (owner === 0x80 && !effects)) {
+    if (!quiet.has(ch)) { quiet.add(ch); snd.chip.write(0x4000 + ch * 4, ch === 2 ? 0x80 : 0x30); }
+    return;
+  }
+  if (owner) quiet.delete(ch);
+  snd.chip.write(a, v);
 }
 /** A fresh chip brought to frame f: the writes of the 3 s before, rendered and thrown away. */
 function preroll(f) {
@@ -232,14 +247,15 @@ function preroll(f) {
   snd.chip = new Apu(snd.rate, { memory: dmcRead });
   snd.filters = new OutputFilters(snd.rate, false);
   const per = Math.round(snd.rate / HZ);
-  for (let g = Math.max(0, f - 180); g <= f; g++) { writesOf(g, (a, v) => snd.chip.write(a, v)); snd.chip.render(per, snd.lv, 0); }
+  quiet.clear();
+  for (let g = Math.max(0, f - 180); g <= f; g++) { writesOf(g, hear); snd.chip.render(per, snd.lv, 0); }
   soundAt = f;
 }
 function soundFrame(f) {
   if (!snd || !snd.chip) return;
   if (!$('tkSound').checked || Number(ui.speed.value) !== 1) { soundAt = -1; return; }
   if (soundAt !== f - 1) preroll(f - 1);
-  writesOf(f, (a, v) => snd.chip.write(a, v));
+  writesOf(f, hear);
   sampleDebt += snd.rate / HZ;
   const count = Math.floor(sampleDebt);
   sampleDebt -= count;
@@ -250,6 +266,8 @@ function soundFrame(f) {
   soundAt = f;
 }
 $('tkSound').addEventListener('change', () => { if ($('tkSound').checked) startAudio(); });
+// Switching music or effects back on: the chip brought anew to this frame, so a held note returns.
+for (const id of ['tkMusic', 'tkEffects']) $(id).addEventListener('change', () => { soundAt = -1; });
 
 function tick(now) {
   if (playing) {
