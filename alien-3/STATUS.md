@@ -453,3 +453,8 @@ the next games.
   not applied there — the field is centred on the player, an approximation.
 - Level 4, the same day: "there are no blind spots for the player at all" (the user) — the whole
   level is marked seen (`"all": true`): 100 %.
+
+## 28. Visibility confirmed by the user
+
+- Level 10 (58.2 %, after the user's two plays) and level 5 (63.7 %, Randil's run + the search):
+  "в идеале" / "идеально" — what is still dark there cannot be reached. Level 4: all of it (§27).
