@@ -385,3 +385,13 @@ flight saw none — level 1: 0 of 8 192 (it saw 46 932 of the other 53 248); lev
   (868, 224), right, ladder at X 900 down to (900, 320), left — a 16-px step up (a jump), a door
   opened by Up at its panel (X 807), on to X 615 where a full-height column stops him: 44 tiles the
   search had not seen, added to level 1's search rows.
+
+## 24. The run's sound on the maps
+
+`fceux/movie_sound.lua` (the user's FCEUX playing Randil's TAS): every sound-chip write ($4000-
+$4017 but $4014/$4016) frame by frame — 73 592 frames, writes on 73 030 of them, 1 014 475 writes;
+the frames are the take's. `src/sound-pack.ts` → out/levels/take/randil-sound.bin.gz (0.24 MB).
+The maps' player sends a frame's writes to @xromdev/apu and plays a frame of samples (DMC samples
+read from the fixed banks 14/15), at ×1 only; after a seek or speed change the 3 s before are run
+through a fresh chip silently. `fceux/movie_capture.lua` takes pads, RAM and sound in one pass for
+the next games.

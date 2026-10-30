@@ -5,6 +5,7 @@
 // banks. Nothing outside the camera moves: the game draws nothing there.
 import { Level } from '/src/level.ts';
 import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
+import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
 
 const $ = (id) => document.getElementById(id);
 const ui = { play: $('tkPlay'), speed: $('tkSpeed'), seek: $('tkSeek'), level: $('tkLevel'), label: $('tkLabel'), follow: $('tkFollow') };
@@ -192,11 +193,70 @@ function draw() {
   }
 }
 
+// The sound: the run's writes to the sound chip (out/levels/take/randil-sound.bin.gz, src/sound-pack.ts,
+// taken in FCEUX by fceux/movie_sound.lua), a frame's writes then a frame of samples through
+// @xromdev/apu, an AudioWorklet (src/play/sound.js) playing the blocks. Only at ×1; after a seek or
+// a change of speed, the 3 s before are run through the chip silently so it stands as it would.
+const HZ = 60.0988;
+let sdata = null, soffs = null, snd = null, sampleDebt = 0, soundAt = -1;
+async function loadSound() {
+  const gz = await fetch('take/randil-sound.bin.gz');
+  sdata = new Uint8Array(await new Response(gz.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+  const n = sdata[4] | (sdata[5] << 8) | (sdata[6] << 16) | (sdata[7] << 24);
+  soffs = new Uint32Array(n);
+  for (let f = 0, o = 8; f < n; f++) { soffs[f] = o; o += 2 + 2 * (sdata[o] | (sdata[o + 1] << 8)); }
+}
+/** The DMC's samples: the fixed banks at $C000 (14) and $E000 (15). */
+const dmcRead = (a) => (a >= 0xc000 ? prg[(a >= 0xe000 ? 15 : 14) * 0x2000 + (a & 0x1fff)] : 0);
+async function startAudio() {
+  if (snd || !$('tkSound').checked) return;
+  if (!sdata) await loadSound();
+  const context = new AudioContext({ latencyHint: 'interactive' });
+  await context.audioWorklet.addModule('/src/play/sound.js');
+  const node = new AudioWorkletNode(context, 'feed', { outputChannelCount: [1] });
+  node.connect(context.destination);
+  const rate = context.sampleRate, k = Math.ceil(rate / HZ) + 2;
+  snd = { context, node, rate, chip: null, filters: null, lv: { pulse1: new Uint8Array(k), pulse2: new Uint8Array(k), triangle: new Uint8Array(k), noise: new Float64Array(k), dmc: new Uint8Array(k) } };
+  preroll(frame);
+}
+function writesOf(f, each) {
+  if (!soffs || f < 0 || f >= soffs.length) return;
+  let p = soffs[f];
+  const count = sdata[p] | (sdata[p + 1] << 8);
+  p += 2;
+  for (let i = 0; i < count; i++, p += 2) each(0x4000 + sdata[p], sdata[p + 1]);
+}
+/** A fresh chip brought to frame f: the writes of the 3 s before, rendered and thrown away. */
+function preroll(f) {
+  if (!snd) return;
+  snd.chip = new Apu(snd.rate, { memory: dmcRead });
+  snd.filters = new OutputFilters(snd.rate, false);
+  const per = Math.round(snd.rate / HZ);
+  for (let g = Math.max(0, f - 180); g <= f; g++) { writesOf(g, (a, v) => snd.chip.write(a, v)); snd.chip.render(per, snd.lv, 0); }
+  soundAt = f;
+}
+function soundFrame(f) {
+  if (!snd || !snd.chip) return;
+  if (!$('tkSound').checked || Number(ui.speed.value) !== 1) { soundAt = -1; return; }
+  if (soundAt !== f - 1) preroll(f - 1);
+  writesOf(f, (a, v) => snd.chip.write(a, v));
+  sampleDebt += snd.rate / HZ;
+  const count = Math.floor(sampleDebt);
+  sampleDebt -= count;
+  snd.chip.render(count, snd.lv, 0);
+  const vol = Number($('tkVol').value), lv = snd.lv, out = new Float32Array(count);
+  for (let i = 0; i < count; i++) out[i] = vol * 2.2 * snd.filters.step(mixApu(lv.pulse1[i], lv.pulse2[i], lv.triangle[i], lv.noise[i], lv.dmc[i]));
+  snd.node.port.postMessage(out, [out.buffer]);
+  soundAt = f;
+}
+$('tkSound').addEventListener('change', () => { if ($('tkSound').checked) startAudio(); });
+
 function tick(now) {
   if (playing) {
     debt += Math.min(0.25, (now - last) / 1000) * 60.0988 * Number(ui.speed.value);
     while (debt >= 1 && frame < frames - 1) {
       apply(++frame);
+      soundFrame(frame);
       debt -= 1;
       // Past a level's end (its exit): on to the next level's first frame, the tally and card skipped.
       const ended = spans.findIndex(([, , b]) => frame === b + 1);
@@ -211,6 +271,7 @@ function tick(now) {
 
 ui.play.onclick = async () => {
   if (!data) await load();
+  startAudio();
   // Not on a level (the menus, a card, a tally): straight to the start of the level the page shows.
   if (!spans.some(([, a, b]) => frame >= a && frame <= b)) {
     const span = spans.find(([l]) => l === Number($('lvl').value) - 1) ?? spans[0];
