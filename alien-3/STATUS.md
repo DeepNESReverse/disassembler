@@ -451,3 +451,5 @@ the next games.
   at X 1341-1367) and, for every tile of the way left of X 1342, adds the camera's field centred on
   it. 1 448 tiles of way, 9 389 tiles more seen: level 4 53.3 % → 68.5 %. The camera's rails are
   not applied there — the field is centred on the player, an approximation.
+- Level 4, the same day: "there are no blind spots for the player at all" (the user) — the whole
+  level is marked seen (`"all": true`): 100 %.

@@ -56,12 +56,21 @@ for k, seen in cams.items():
 # Places the user says a player reaches (data/user-reachable.json): from a point, every tile drawn
 # on the map (out/levels/<nn>.png, not black) joined to it through such tiles inside `box`
 # ([x0, y0, x1, y1]); for each of them left of xMax the camera's field (256 x 176) centred on it is
-# added, as the camera shows it around the player.
+# added, as the camera shows it around the player. `all`: the whole level seen.
 from PIL import Image
 for spot in json.load(open('data/user-reachable.json')) if os.path.exists('data/user-reachable.json') else []:
     k = str(spot['level']); v = all_.get(k)
     if not v: continue
     W, H = v['w'], v['h']
+    if spot.get('all'):
+        # The whole level, on the user's word: every tile not seen yet goes to the search's rows.
+        run, search = decode(v['run'], W, H), decode(v['search'], W, H)
+        added = sum(1 for i in range(W * H) if not run[i] and not search[i])
+        v['search'] = encode(bytes(0 if run[i] else 1 for i in range(W * H)), W, H)
+        v['searchOnly'] += added; v['total'] += added
+        v['userSaid'] = v.get('userSaid', 0) + added
+        print(f"level {k}: the user's word ({spot['said'][:10]}): the whole level, {added} tiles more seen")
+        continue
     im = Image.open(f"out/levels/{int(k):02d}.png").convert('RGB'); px = im.load()
     drawn = bytearray(W * H)
     for ty in range(H):
