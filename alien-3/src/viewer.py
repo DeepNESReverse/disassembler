@@ -32,7 +32,8 @@ html = '''<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Alie
 :root{color-scheme:dark}body{margin:0;background:#111;color:#ddd;font:14px system-ui,sans-serif}
 header{position:sticky;top:0;background:#1b1b1b;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:2;border-bottom:1px solid #333}
 button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 10px;cursor:pointer;font:inherit}button.on{background:#3d5a80;border-color:#5b7fb0}button:disabled{opacity:.4}
-#wrap{overflow:auto;height:calc(100vh - 50px)}#stage{position:relative}
+#wrap{overflow:auto;height:calc(100vh - var(--head,50px))}
+#fsBtn{position:fixed;right:14px;bottom:14px;z-index:3;width:34px;height:34px;padding:0;display:grid;place-items:center;opacity:.75}#fsBtn:hover{opacity:1}#stage{position:relative}
 #stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
 #live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
@@ -57,7 +58,7 @@ table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1p
 </style></head><body>
 <header>
 <select id="lvl">__OPTS__</select>
-<span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button>
+<span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button><button data-z="fit" title="The whole level in the window">fit</button>
 <span style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="Randil's TAS as FCEUX played it: the camera window shows the game's frame (background from the level data, sprites and palette from the take)">
  <button id="tkPlay">▶</button>
  <select id="tkSpeed"><option value="1">×1</option><option value="4">×4</option><option value="16">×16</option></select>
@@ -77,13 +78,26 @@ table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1p
 <span id="pos"></span>
 <span class="legend">address space: dimmed — not ROM (what the game read, or a RAM snapshot)</span>
 </header>
+<button id="fsBtn" title="Full screen"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5"/></svg></button>
 <div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><svg id="view"></svg><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
 <script>
 const SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let cur=1;
 const L=iLevel,st=stage;let z=1;
 
 function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';L.style.width=L.naturalWidth*z+'px'}
-L.onload=()=>{size();showTas();showView()};document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{z=+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));size();showSpace();showPrisoners();showView();showTas()});
+// Zoom: a fixed scale, or "fit" — the whole level in the window, worked out again as the window, the
+// level or full screen change.
+let fit=false;
+function fitZoom(){const w=wrap,W=L.naturalWidth||2048,H=L.naturalHeight||1920;return Math.min((w.clientWidth-2)/W,(w.clientHeight-2)/H)}
+function zoomed(){size();showSpace();showPrisoners();showView();showTas()}
+function refit(){if(fit&&L.naturalWidth){const f=fitZoom();if(f!==z){z=f;zoomed()}}}
+L.onload=()=>{if(fit)z=fitZoom();size();showTas();showView();showPrisoners()};
+document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{fit=b.dataset.z==='fit';z=fit?fitZoom():+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));zoomed()});
+addEventListener('resize',refit);
+// The map takes the window below the header, however many lines the header wraps to.
+new ResizeObserver(()=>{document.documentElement.style.setProperty('--head',document.querySelector('header').offsetHeight+'px');refit()}).observe(document.querySelector('header'));
+fsBtn.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+document.addEventListener('fullscreenchange',()=>{fsBtn.classList.toggle('on',!!document.fullscreenElement);setTimeout(refit,50)});
 const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
 // Prisoners (object type 6, STATUS §14), numbered in the order Randil's run rescues them: the game's own sprite, at its offset from the object's
 // X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
