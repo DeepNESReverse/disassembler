@@ -10,7 +10,7 @@
  *   … --target tx,ty   only until the camera shows that 8-px tile; what it saw is added to the
  *                      level's search rows already in visible.json (a place the user saw in play)
  */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { saveState } from './machine.ts';
 import { cardState } from './teleport.ts';
 import { cheats, explore, EXIT_JUMP, EXIT_RTS, type Prisoner } from './paths.ts';
@@ -64,8 +64,11 @@ if (target) {
 const only = new Uint8Array(W * H);
 let both = 0, onlyN = 0, runN = 0;
 for (let i = 0; i < W * H; i++) { if (run[i]) runN++; if (search[i] && !run[i]) { only[i] = 1; onlyN++; } if (search[i] && run[i]) both++; }
-const file = 'out/levels/visible.json';
+// With --part, a level's own file (runs/visible/<nn>.json) — several levels run at once and
+// src/visible-merge.py gathers them into out/levels/visible.json.
+const file = args.includes('--part') ? `runs/visible/${String(n + 1).padStart(2, '0')}.json` : 'out/levels/visible.json';
 const all = existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : {};
 all[n + 1] = { w: W, h: H, run: runSeen.rows, search: encode(only), places: g.places.length, runTiles: runN, searchOnly: onlyN, total: runN + onlyN, tiles: W * H };
+mkdirSync('runs/visible', { recursive: true });
 writeFileSync(file, JSON.stringify(all) + '\n');
 console.log(`level ${n + 1}: ${g.places.length} places searched; run saw ${runN} tiles, the search ${both + onlyN} (${onlyN} the run did not); visible ${runN + onlyN} of ${W * H} (${((100 * (runN + onlyN)) / (W * H)).toFixed(1)} %)`);

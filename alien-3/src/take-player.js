@@ -21,7 +21,7 @@ let spans = [];
 let lastTrail = -1e9, lastRescued = '';
 
 async function load() {
-  ui.label.textContent = 'загрузка…';
+  ui.label.textContent = 'loading…';
   rom = new Uint8Array(await (await fetch('/rom')).arrayBuffer());
   prg = rom.subarray(16, 16 + rom[4] * 0x4000);
   chr = rom.subarray(16 + rom[4] * 0x4000);
@@ -81,7 +81,7 @@ async function load() {
     while (s < e && dark[s]) s++;
     return [l, s, e];
   });
-  ui.level.innerHTML = '<option value="">к уровню…</option>' + spans.map(([l, f]) => `<option value="${f}">уровень ${l + 1}</option>`).join('');
+  ui.level.innerHTML = '<option value="">go to level…</option>' + spans.map(([l, f]) => `<option value="${f}">level ${l + 1}</option>`).join('');
   const first = spans.find(([l]) => l === Number($('lvl').value) - 1) ?? spans[0];
   seek(first[1]);
 }
@@ -112,7 +112,7 @@ function draw() {
   if (n > 11 || !span) {
     // A card, a tally, the menus: the game shows no level now.
     live.style.display = 'none';
-    ui.label.textContent = `между уровнями (кадр ${frame})`;
+    ui.label.textContent = `between levels (frame ${frame})`;
     return;
   }
   const level = levels[n];
@@ -183,7 +183,7 @@ function draw() {
   {
     if (ui.seek.min !== String(span[1]) || ui.seek.max !== String(span[2])) { ui.seek.min = String(span[1]); ui.seek.max = String(span[2]); }
     ui.seek.value = String(frame);
-    ui.label.textContent = `уровень ${n + 1} · ${((frame - span[1]) / 60.0988).toFixed(1)} из ${((span[2] - span[1] + 1) / 60.0988).toFixed(0)} с`;
+    ui.label.textContent = `level ${n + 1} · ${((frame - span[1]) / 60.0988).toFixed(1)} of ${((span[2] - span[1] + 1) / 60.0988).toFixed(0)} s`;
   }
   // Keep the camera in view.
   if (ui.follow.checked) {

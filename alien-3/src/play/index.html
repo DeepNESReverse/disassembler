@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alien 3 — плеер</title>
+<title>Alien 3 — player</title>
 <script type="importmap">
 { "imports": {
   "@xromdev/cpu6502": "/xrom-libs/nes/node_modules/@xromdev/cpu6502/dist/index.js",
@@ -37,61 +37,61 @@
 <body>
 <main><canvas id="screen" width="256" height="240"></canvas></main>
 <aside>
-  <h2>Уровень</h2>
+  <h2>Level</h2>
   <div class="row">
     <select id="level"></select>
-    <button id="go">Начать</button>
+    <button id="go">Start</button>
   </div>
   <div class="row">
-    <span class="muted">Таймер</span>
+    <span class="muted">Timer</span>
     <select id="difficulty">
-      <option value="0">лёгкий</option>
-      <option value="1" selected>обычный</option>
-      <option value="2">трудный</option>
+      <option value="0">easy</option>
+      <option value="1" selected>normal</option>
+      <option value="2">hard</option>
     </select>
   </div>
-  <div class="row"><button id="power">С самого начала (заставка)</button></div>
+  <div class="row"><button id="power">From power-on (title screen)</button></div>
 
-  <h2>Читы</h2>
-  <label class="sw"><input type="checkbox" id="health"> Здоровье не убывает <kbd>Q</kbd></label>
-  <label class="sw"><input type="checkbox" id="timer"> Таймер стоит <kbd>T</kbd></label>
-  <label class="sw"><input type="checkbox" id="untouchable"> Неуязвимость (враги не бьют) <kbd>E</kbd></label>
-  <label class="sw"><input type="checkbox" id="noclip"> Сквозь стены (полёт) <kbd>F</kbd></label>
-  <div class="hint">Направления двигают игрока куда угодно, камера едет за ним. Shift — быстрее.<br>
-  Вверх-вниз камера ездит только в <b>нечётных</b> полосах X (256–511, 768–1023, 1280–1535, …) — так
-  устроена сама игра (B15:$FAEB). В чётной полосе сначала отведи игрока вбок.</div>
-  <label class="sw"><input type="checkbox" id="noexit"> Выход не срабатывает</label>
-  <div class="hint">Чтобы пролететь мимо выхода и не закончить уровень.</div>
+  <h2>Cheats</h2>
+  <label class="sw"><input type="checkbox" id="health"> Health held <kbd>Q</kbd></label>
+  <label class="sw"><input type="checkbox" id="timer"> Timer stopped <kbd>T</kbd></label>
+  <label class="sw"><input type="checkbox" id="untouchable"> Untouchable (enemies do no harm) <kbd>E</kbd></label>
+  <label class="sw"><input type="checkbox" id="noclip"> Through walls (flying) <kbd>F</kbd></label>
+  <div class="hint">The arrows move the player anywhere, the camera follows. Shift — faster.<br>
+  The camera goes up and down only in <b>odd</b> X bands (256–511, 768–1023, 1280–1535, …) — that is
+  the game itself (B15:$FAEB). In an even band move the player sideways first.</div>
+  <label class="sw"><input type="checkbox" id="noexit"> Exit switched off</label>
+  <div class="hint">To fly past the exit without ending the level.</div>
 
-  <h2>Где я</h2>
+  <h2>Where am I</h2>
   <table>
-    <tr><td>уровень ($A8)</td><td id="iLevel"></td></tr>
-    <tr><td>игрок X, Y</td><td id="iPlayer"></td></tr>
-    <tr><td>камера X, Y</td><td id="iCamera"></td></tr>
-    <tr><td>полоса X (по 256 px)</td><td id="iBand"></td></tr>
-    <tr><td>блок под игроком</td><td id="iBlock"></td></tr>
-    <tr><td>выход уровня</td><td id="iExit"></td></tr>
-    <tr><td>здоровье ($074A)</td><td id="iHealth"></td></tr>
-    <tr><td>таймер</td><td id="iTimer"></td></tr>
-    <tr><td>кадр</td><td id="iFrame"></td></tr>
+    <tr><td>level ($A8)</td><td id="iLevel"></td></tr>
+    <tr><td>player X, Y</td><td id="iPlayer"></td></tr>
+    <tr><td>camera X, Y</td><td id="iCamera"></td></tr>
+    <tr><td>X band (256 px each)</td><td id="iBand"></td></tr>
+    <tr><td>block under the player</td><td id="iBlock"></td></tr>
+    <tr><td>level exit</td><td id="iExit"></td></tr>
+    <tr><td>health ($074A)</td><td id="iHealth"></td></tr>
+    <tr><td>timer</td><td id="iTimer"></td></tr>
+    <tr><td>frame</td><td id="iFrame"></td></tr>
   </table>
 
-  <h2>Сохранение</h2>
-  <div class="row"><button id="save">Сохранить <kbd>I</kbd></button><button id="load">Загрузить <kbd>P</kbd></button></div>
+  <h2>Save state</h2>
+  <div class="row"><button id="save">Save <kbd>I</kbd></button><button id="load">Load <kbd>P</kbd></button></div>
 
-  <h2>Звук</h2>
-  <div class="row"><label class="sw"><input type="checkbox" id="sound" checked> звук</label><input type="range" id="volume" min="0" max="1" step="0.05" value="0.6"></div>
+  <h2>Sound</h2>
+  <div class="row"><label class="sw"><input type="checkbox" id="sound" checked> sound</label><input type="range" id="volume" min="0" max="1" step="0.05" value="0.6"></div>
 
-  <h2>Управление</h2>
+  <h2>Controls</h2>
   <table class="muted">
-    <tr><td>движение</td><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></td></tr>
-    <tr><td>A — выстрел</td><td><kbd>J</kbd></td></tr>
-    <tr><td>B — прыжок (держать — выше)</td><td><kbd>K</kbd></td></tr>
+    <tr><td>move</td><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></td></tr>
+    <tr><td>A — fire</td><td><kbd>J</kbd></td></tr>
+    <tr><td>B — jump (hold — higher)</td><td><kbd>K</kbd></td></tr>
     <tr><td>Start / Select</td><td><kbd>Enter</kbd> <kbd>Shift</kbd>→</td></tr>
-    <tr><td>ускорение ×4 (держать)</td><td><kbd>Tab</kbd></td></tr>
-    <tr><td>пауза</td><td><kbd>Esc</kbd></td></tr>
+    <tr><td>speed ×4 (hold)</td><td><kbd>Tab</kbd></td></tr>
+    <tr><td>pause</td><td><kbd>Esc</kbd></td></tr>
   </table>
-  <p class="muted" style="font-size:12px">Геймпад тоже работает (стандартная раскладка).</p>
+  <p class="muted" style="font-size:12px">A gamepad works too (standard mapping).</p>
 </aside>
 <div id="toast"></div>
 <script type="module" src="/src/play/client.ts"></script>

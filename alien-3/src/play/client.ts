@@ -69,7 +69,7 @@ async function startSound() {
       levels: { pulse1: new Uint8Array(n), pulse2: new Uint8Array(n), triangle: new Uint8Array(n), noise: new Float64Array(n), dmc: new Uint8Array(n) },
     };
   } catch (e) {
-    toast(`Звук не включился: ${e}`);
+    toast(`Sound did not start: ${e}`);
   }
 }
 function sound(frameStart: number, quiet: boolean) {
@@ -175,7 +175,7 @@ function step(quiet = false) {
 for (let n = 0; n < LEVELS; n++) {
   const o = document.createElement('option');
   o.value = String(n);
-  o.textContent = `${n + 1}${(n + 1) % 3 === 0 ? ' — босс' : ''}`;
+  o.textContent = `${n + 1}${(n + 1) % 3 === 0 ? ' — boss' : ''}`;
   $('level').append(o);
 }
 const powerOn = saveState(m);
@@ -187,23 +187,23 @@ function startLevel(n: number) {
   r[0x7a8] = Number($('difficulty').value);
   m.nes.writes.length = 0;
   if ($('noclip').checked) { $('noclip').checked = false; }
-  toast(`Уровень ${n + 1}`);
+  toast(`Level ${n + 1}`);
 }
 $('go').onclick = () => { startLevel(Number($('level').value)); $('go').blur(); };
 $('power').onclick = () => {
   loadState(m, powerOn);
   $('noclip').checked = false;
-  toast('С включения: Start, потом Start на меню');
+  toast('From power-on: Start, then Start on the menu');
   $('power').blur();
 };
 let slot: ReturnType<typeof saveState> | null = null;
 let slotFly: [number, number] = [0, 0];
-function save() { slot = saveState(m); slotFly = [flyX, flyY]; toast('Сохранено'); }
+function save() { slot = saveState(m); slotFly = [flyX, flyY]; toast('Saved'); }
 function load() {
-  if (!slot) return toast('Слот пуст');
+  if (!slot) return toast('The slot is empty');
   loadState(m, slot);
   [flyX, flyY] = slotFly;
-  toast('Загружено');
+  toast('Loaded');
 }
 $('save').onclick = save;
 $('load').onclick = load;
@@ -214,14 +214,14 @@ addEventListener('keydown', (e) => {
   if (e.code === 'Tab' || e.code in KEYS || e.code.startsWith('Shift')) e.preventDefault();
   if (e.repeat) return;
   held.add(e.code);
-  const flip = (id: string, name: string) => { $(id).checked = !$(id).checked; $(id).dispatchEvent(new Event('change')); toast(`${name}: ${$(id).checked ? 'вкл' : 'выкл'}`); };
-  if (e.code === 'KeyQ') flip('health', 'Здоровье');
-  if (e.code === 'KeyT') flip('timer', 'Таймер');
-  if (e.code === 'KeyF') flip('noclip', 'Сквозь стены');
-  if (e.code === 'KeyE') flip('untouchable', 'Неуязвимость');
+  const flip = (id: string, name: string) => { $(id).checked = !$(id).checked; $(id).dispatchEvent(new Event('change')); toast(`${name}: ${$(id).checked ? 'on' : 'off'}`); };
+  if (e.code === 'KeyQ') flip('health', 'Health');
+  if (e.code === 'KeyT') flip('timer', 'Timer');
+  if (e.code === 'KeyF') flip('noclip', 'Through walls');
+  if (e.code === 'KeyE') flip('untouchable', 'Untouchable');
   if (e.code === 'KeyI') save();
   if (e.code === 'KeyP') load();
-  if (e.code === 'Escape') { paused = !paused; toast(paused ? 'Пауза' : 'Игра'); }
+  if (e.code === 'Escape') { paused = !paused; toast(paused ? 'Paused' : 'Playing'); }
 });
 addEventListener('keyup', (e) => held.delete(e.code));
 addEventListener('blur', () => held.clear());
@@ -239,7 +239,7 @@ function info(now: number) {
   $('iCamera').textContent = `${signed(0x1a, 0x1b)}, ${signed(0x1c, 0x1d)}`;
   // The game moves the camera vertically only while the player's X high byte is odd (B15:$FAEB).
   const band = r[0x440];
-  $('iBand').textContent = `${band}: ${band & 1 ? 'можно вверх-вниз' : 'только вбок'}`;
+  $('iBand').textContent = `${band}: ${band & 1 ? 'up and down too' : 'sideways only'}`;
   const lv = levels[n];
   if (lv && px >= 0 && py >= 0 && px < lv.widthTiles * 8 && py < lv.heightTiles * 8) {
     const page = Math.floor(py / 240), row = page * 8 + Math.floor((py % 240) / 32), col = px >> 5;
