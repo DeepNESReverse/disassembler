@@ -15,7 +15,6 @@ html:fullscreen.idle header,html:fullscreen.idle #fsBtn{opacity:0}html:fullscree
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
 #live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
 #view{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
-#view .hid{fill:url(#hatch)}
 #view .unseen{fill:var(--unseen,#000);fill-opacity:var(--unseen-op,1)}
 #view .h{stroke:#5fd0ff;stroke-width:2;vector-effect:non-scaling-stroke}
 #view .v{stroke:#ffb347;stroke-width:2;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}
@@ -48,7 +47,6 @@ table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1p
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), played in FCEUX; no wall clips; every prisoner rescued"><input type="checkbox" id="randilBox" checked> Randil's TAS path <span id="randilN" class="legend"></span></label>
 
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Covered: whatever never came on screen, neither in Randil's run nor in a search of the level in the game (no wall clips; untouchable, health, timer held). Where no search was made yet, the run alone"><input type="checkbox" id="runSeenBox"> hidden from the player <input type="color" id="unseenColor" value="#000000" title="colour of the hidden" style="width:26px;height:20px;padding:0;border:none;background:none"><input type="range" id="unseenOp" min="0.1" max="1" step="0.05" value="1" title="opacity" style="width:60px"> <span id="runSeenN" class="legend"></span></label>
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="The camera moves sideways only on a page top (Y a multiple of 240), up and down only in an odd 256-px X band; the field is 256×176. In even bands the bottom 64 px of every page are never on screen — not even flying through walls (checked with no-clip)"><input type="checkbox" id="hiddenBox"> never on screen (camera rule)</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Where the middle of the camera's field goes: blue — sideways only (page tops), orange — up and down only (odd bands)"><input type="checkbox" id="railsBox"> camera rails</label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="pris" checked> prisoners <span id="prisN" class="legend"></span></label>
 <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="space"> whole address space (64 KB, 128 pages)</label>
@@ -90,8 +88,7 @@ function showPrisoners(){const done=window.takeRescued,list=(PRISONERS[cur]||[])
   (mark?`<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="object ${o.i}: X ${o.x}, Y ${o.y}"><b>${o.num}</b></div>`:'')}).join('')}
 prisBox.onchange=showPrisoners;
 // The camera's rule (STATUS §22): across only on a page top (Y = 240·k), up and down only on an odd
-// 256-px band (X = 256·(2j+1)); the field 256 × 176. Hidden: even bands' page bottoms (Y 176-239
-// in a page). Rails: where the field's middle goes.
+// 256-px band (X = 256·(2j+1)); the field 256 × 176. Rails: where the field's middle goes.
 let RUNSEEN=null,VISIBLE=null;
 const rowsToSet=(rows,W,H)=>{const a=new Uint8Array(W*H);rows.forEach((row,ty)=>{let x=0,s=false;for(const k of row.split(',').map(Number)){if(s)a.fill(1,ty*W+x,ty*W+x+k);x+=k;s=!s}});return a};
 const setToPath=(a,W,H,want)=>{let d='';for(let ty=0;ty<H;ty++){let tx=0;while(tx<W){if(a[ty*W+tx]===want){let k=tx;while(k<W&&a[ty*W+k]===want)k++;d+=`M${tx*8} ${ty*8}h${(k-tx)*8}v8h${-(k-tx)*8}z`;tx=k}else tx++}}return d};
@@ -100,7 +97,7 @@ async function showView(){const v=document.getElementById('view'),W=L.naturalWid
  if(rs&&!RUNSEEN){try{RUNSEEN=await (await fetch('run-seen.json',{cache:'no-store'})).json()}catch(e){RUNSEEN={}}
   try{VISIBLE=await (await fetch('visible.json',{cache:'no-store'})).json()}catch(e){VISIBLE={}}}
  v.setAttribute('viewBox',`0 0 ${W} ${H}`);v.style.width=W*z+'px';v.style.height=H*z+'px';
- let h='<defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="#000a"/><line x1="0" y1="0" x2="0" y2="12" stroke="#ff4d6d" stroke-width="3"/></pattern></defs>';
+ let h='';
  // Not seen by the player: neither in Randil's run (run-seen.json) nor in the search (visible.json).
  const R=rs&&RUNSEEN?RUNSEEN[cur]:null,V=rs&&VISIBLE?VISIBLE[cur]:null;
  if(R){const TW=R.w,TH=R.h,run=rowsToSet(R.rows,TW,TH),only=V?rowsToSet(V.search,TW,TH):new Uint8Array(TW*TH),seen=new Uint8Array(TW*TH);
@@ -108,13 +105,11 @@ async function showView(){const v=document.getElementById('view'),W=L.naturalWid
   document.getElementById('runSeenN').textContent=`(${(100*n/seen.length).toFixed(0)} % visible${V?'':', the run only'})`;
   h+=`<path class="unseen" d="${setToPath(seen,TW,TH,0)}"/>`}
  else document.getElementById('runSeenN').textContent='';
- if(document.getElementById('hiddenBox').checked)
-  for(let x=0;x<W;x+=512)for(let y=0;y<H;y+=240)h+=`<rect class="hid" x="${x}" y="${y+176}" width="${Math.min(256,W-x)}" height="${Math.min(64,H-y-176)}"/>`;
  if(document.getElementById('railsBox').checked){
   for(let y=0;y+176<=H;y+=240)h+=`<line class="h" x1="128" y1="${y+88}" x2="${W-128}" y2="${y+88}"/>`;
   for(let x=256;x+256<=W;x+=512)h+=`<line class="v" x1="${x+128}" y1="88" x2="${x+128}" y2="${H-88}"/>`}
  v.innerHTML=h}
-document.getElementById('hiddenBox').onchange=showView;document.getElementById('runSeenBox').onchange=showView;
+document.getElementById('runSeenBox').onchange=showView;
 // The unseen's colour and opacity (kept in this browser).
 const uc=document.getElementById('unseenColor'),uo=document.getElementById('unseenOp');
 try{uc.value=localStorage.getItem('a3-unseen-color')||uc.value;uo.value=localStorage.getItem('a3-unseen-op')||uo.value}catch(e){}
