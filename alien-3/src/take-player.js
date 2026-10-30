@@ -8,7 +8,7 @@ import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
 
 const $ = (id) => document.getElementById(id);
-const ui = { play: $('tkPlay'), speed: $('tkSpeed'), seek: $('tkSeek'), level: $('tkLevel'), label: $('tkLabel'), follow: $('tkFollow') };
+const ui = { play: $('tkPlay'), speed: $('tkSpeed'), seek: $('tkSeek'), label: $('tkLabel'), follow: $('tkFollow') };
 const live = $('live'), ctx = live.getContext('2d');
 const image = ctx.createImageData(256, 176), px = new Uint32Array(image.data.buffer);
 const bgIndex = new Uint8Array(256 * 176);
@@ -81,7 +81,6 @@ async function load() {
     while (s < e && dark[s]) s++;
     return [l, s, e];
   });
-  ui.level.innerHTML = '<option value="">go to level…</option>' + spans.map(([l, f]) => `<option value="${f}">level ${l + 1}</option>`).join('');
   const first = spans.find(([l]) => l === Number($('lvl').value) - 1) ?? spans[0];
   seek(first[1]);
 }
@@ -300,7 +299,6 @@ ui.play.onclick = async () => {
   live.style.display = 'block';
 };
 ui.seek.oninput = () => { if (data) seek(Number(ui.seek.value)); };
-ui.level.onchange = () => { if (data && ui.level.value !== '') seek(Number(ui.level.value)); ui.level.value = ''; };
 requestAnimationFrame(tick);
 // Choosing a level in the page's list takes the run to that level's start.
 $('lvl').addEventListener('change', () => {
