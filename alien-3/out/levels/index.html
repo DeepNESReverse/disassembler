@@ -4,7 +4,12 @@
 header{position:sticky;top:0;background:#1b1b1b;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:2;border-bottom:1px solid #333}
 button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 10px;cursor:pointer;font:inherit}button.on{background:#3d5a80;border-color:#5b7fb0}button:disabled{opacity:.4}
 #wrap{overflow:auto;height:calc(100vh - var(--head,50px))}
-html:fullscreen header{display:none}
+/* Full screen: the map alone, the run's controls in a bar at the bottom that hides while the mouse rests */
+html:fullscreen #wrap{height:100vh}
+html:fullscreen header{position:fixed;top:auto;bottom:0;left:0;right:0;justify-content:center;background:#1b1b1bd9;border:0;border-top:1px solid #333;padding:8px 64px 8px 12px;transition:opacity .3s}
+html:fullscreen header>:not(#tkBar){display:none!important}
+html:fullscreen #tkBar{border:0}html:fullscreen #tkSeek{width:min(40vw,520px)!important}
+html:fullscreen.idle header,html:fullscreen.idle #fsBtn{opacity:0}html:fullscreen.idle{cursor:none}
 #fsBtn{position:fixed;right:14px;bottom:14px;z-index:3;width:34px;height:34px;padding:0;display:grid;place-items:center;opacity:.75}#fsBtn:hover{opacity:1}#stage{position:relative}
 #stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
 #space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
@@ -31,7 +36,7 @@ table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1p
 <header>
 <select id="lvl"><option value="1">Level 1 ✓</option><option value="2">Level 2 ✓</option><option value="3">Level 3 — boss ✓</option><option value="4">Level 4 ✓</option><option value="5">Level 5 ✓</option><option value="6">Level 6 — boss ✓</option><option value="7">Level 7 ✓</option><option value="8">Level 8 ✓</option><option value="9">Level 9 — boss ✓</option><option value="10">Level 10 ✓</option><option value="11">Level 11 ✓</option><option value="12">Level 12 — boss ✓</option></select>
 <span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button><button data-z="fit" title="The whole level in the window">fit</button>
-<span style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="Randil's TAS as FCEUX played it: the camera window shows the game's frame (background from the level data, sprites and palette from the take)">
+<span id="tkBar" style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="Randil's TAS as FCEUX played it: the camera window shows the game's frame (background from the level data, sprites and palette from the take)">
  <button id="tkPlay">▶</button>
  <select id="tkSpeed"><option value="1">×1</option><option value="4">×4</option><option value="16">×16</option></select>
  <input type="range" id="tkSeek" min="0" max="1" value="0" style="width:200px">
@@ -69,7 +74,10 @@ addEventListener('resize',refit);
 // The map takes the window below the header, however many lines the header wraps to.
 new ResizeObserver(()=>{document.documentElement.style.setProperty('--head',document.querySelector('header').offsetHeight+'px');refit()}).observe(document.querySelector('header'));
 fsBtn.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
-document.addEventListener('fullscreenchange',()=>{fsBtn.classList.toggle('on',!!document.fullscreenElement);setTimeout(refit,50)});
+// In full screen the bar and the button fade out after 2.5 s without the mouse moving.
+let idleT=0;const awake=()=>{document.documentElement.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(()=>{if(document.fullscreenElement)document.documentElement.classList.add('idle')},2500)};
+addEventListener('mousemove',awake);
+document.addEventListener('fullscreenchange',()=>{awake();fsBtn.classList.toggle('on',!!document.fullscreenElement);setTimeout(refit,50)});
 const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
 // Prisoners (object type 6, STATUS §14), numbered in the order Randil's run rescues them: the game's own sprite, at its offset from the object's
 // X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
