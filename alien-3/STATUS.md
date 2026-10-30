@@ -481,3 +481,13 @@ the next games.
 - All twelve levels, 2026-10-30: "все уровни идеально" — the user's word for the rest too
   (levels 1-4, 6, 7, 9 and 12 as they stand: Randil's run, the search, the user's plays and the
   spots of §27). The visibility layer is done.
+
+## 29. The bit in the camera's top-left corner: parked sprites, hidden by PPUMASK
+
+The map player drew a small green bit in the camera window's top-left corner. The game parks the
+sprites it does not use at X 0, Y 0 — four of them with tile $34, palette 2, the rest tile $00 — and
+during play writes PPUMASK $18: no background and no sprites in the leftmost 8 pixels, so the TV
+never shows them. Experiment: src/experiments/corner-sprite.ts (level 1, three times over 9 s: mask
+$18 each time, the same sprites in the corner). The player (src/take-player.js) and the xrom
+preview (src/preview.ts) now draw no sprite pixel left of X 8; the background there is kept, as
+the map has it.

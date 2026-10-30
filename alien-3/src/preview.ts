@@ -70,6 +70,7 @@ for (let f = 0; f < frames && f < end; f++) {
       for (let col = 0; col < 8; col++) {
         const sx = x + col;
         if (sx >= 256) break;
+        if (sx < 8) continue; // PPUMASK $18: no sprites in the leftmost 8 pixels
         const bit = attr & 0x40 ? col : 7 - col;
         const c = ((lo >> bit) & 1) | (((hi >> bit) & 1) << 1);
         if (!c || (attr & 0x20 && bgIndex[sy * 256 + sx])) continue;
