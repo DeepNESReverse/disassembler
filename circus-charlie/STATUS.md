@@ -83,9 +83,10 @@ Each write is tagged by the number its slot holds (in the request, the new numbe
 write while the slot is empty (a stop, the power-on set-up) is both's. Music 9 147 writes, effects
 4 140, both 390. Our writes equal FCEUX's on every frame. No DMC is used.
 
-## 5. The page (`src/play/server.ts` → http://127.0.0.1:4325/, `src/play/index.html`, `player.js`)
-Laid out and behaving as ~/alien3-levels' page (`src/viewer.py`, `src/take-player.js`): the stage
-select, zoom ¼/½/1×/2×/fit width/fit height, the run bar (▶, ×1/×4/×16, the slider over the stage,
+## 5. The page (`src/play/server.ts` → http://127.0.0.1:4325/, `src/play/player.js`)
+The page is the shared one, `~/xrom-libs/maps-run` (linked here as `src/maps-run`): `player.js` is
+only Circus Charlie's run adapter and its own switch. Laid out and behaving as ~/alien3-levels' page (`src/viewer.py`, `src/take-player.js`): the stage
+select with ◀ prev / next ▶, zoom ¼/½/1×/2×/fit width/fit height, the run bar (▶, ×1/×4/×16, the slider over the stage,
 follow, sound with volume, music, effects, the time), the TAS path (`out/stages/tas.json`, only the
 way ahead while the run plays), the full-screen button in the corner (only the run bar, fading after
 2.5 s), Space to play. Extra here: "drawn by play" tints the cells the game writes during play.
