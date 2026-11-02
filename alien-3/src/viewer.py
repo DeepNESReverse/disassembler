@@ -1,8 +1,8 @@
-"""out/levels/index.html: every level's picture and its check (no-clip run preferred), numbers inline.
+"""out/levels/index.html: the maps page — the shared one (src/maps-run), mounted by src/take-player.js — with its data inline.
 python3 src/viewer.py
 python3 src/viewer.py --public <dir>   the page for xrom.dev (src/public.ts): no address space, no
                                        checkmarks, the run player bundled and fed without the ROM"""
-import json, os, re, sys
+import json, os, sys
 D = 'out/levels'
 PUBLIC = sys.argv[sys.argv.index('--public') + 1] if '--public' in sys.argv else None
 checks = {}
@@ -29,167 +29,24 @@ for n, objs in prisoners.items():
     seq = order.get(n, [])
     for k, o in enumerate(objs):
         o['num'] = seq.index(o['i']) + 1 if o['i'] in seq else len(seq) + k + 1
-opts = ''.join(f'<option value="{n}">Level {n}{" — boss" if n % 3 == 0 else ""}{" ✓" if n in checks else ""}</option>' for n in range(1, 13))
-html = '''<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Alien 3 — levels</title>
-<style>
-:root{color-scheme:dark}body{margin:0;background:#111;color:#ddd;font:14px system-ui,sans-serif}
-header{position:sticky;top:0;background:#1b1b1b;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:2;border-bottom:1px solid #333}
-button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 10px;cursor:pointer;font:inherit}button.on{background:#3d5a80;border-color:#5b7fb0}button:disabled{opacity:.4}
-#wrap{overflow:auto;height:calc(100vh - var(--head,50px))}
-/* Full screen: the map alone, the run's controls in a bar at the bottom that hides while the mouse rests */
-html:fullscreen #wrap{height:100vh}
-html:fullscreen header{position:fixed;top:auto;bottom:0;left:0;right:0;justify-content:center;background:#1b1b1bd9;border:0;border-top:1px solid #333;padding:8px 64px 8px 12px;transition:opacity .3s}
-html:fullscreen header>:not(#tkBar){display:none!important}
-html:fullscreen #tkBar{border:0}html:fullscreen #tkSeek{width:min(40vw,520px)!important}
-html:fullscreen.idle header,html:fullscreen.idle #fsBtn{opacity:0}html:fullscreen.idle{cursor:none}
-#fsBtn{position:fixed;right:14px;bottom:14px;z-index:3;width:34px;height:34px;padding:0;display:grid;place-items:center;opacity:.75}#fsBtn:hover{opacity:1}#stage{position:relative}
-#stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
-#space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
-#live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
-#view{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
-#view .unseen{fill:var(--unseen,#000);fill-opacity:var(--unseen-op,1)}
-#view .h{stroke:#5fd0ff;stroke-width:2;vector-effect:non-scaling-stroke}
-#view .v{stroke:#ffb347;stroke-width:2;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}
-#tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
-#randil polyline{fill:none;stroke:#b48cff;stroke-width:2.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1px #000)}
-#randil{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
-#tas polyline{fill:none;stroke:#3dffb0;stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.9;filter:drop-shadow(0 0 1px #000)}
-.psp{position:absolute;image-rendering:pixelated;pointer-events:none}.psp.glow{filter:drop-shadow(0 0 2px #ff3cac) drop-shadow(0 0 4px #ff3cac)}
-.pri{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:3px solid #ff3cac;border-radius:50%;box-shadow:0 0 0 3px #0008,0 0 14px #ff3cac;pointer-events:none;animation:pulse 1.2s ease-in-out infinite}
-.pri b{position:absolute;left:50%;top:-22px;transform:translateX(-50%);background:#ff3cac;color:#000;font:bold 12px system-ui;padding:0 5px;border-radius:3px}
-@keyframes pulse{50%{transform:scale(1.25);opacity:.6}}
-.reg{position:absolute;left:0;right:0;border-top:2px solid #e0b040;pointer-events:none}
-.reg span{position:sticky;left:4px;background:#000c;color:#f0c050;padding:1px 6px;font-size:12px;white-space:nowrap}
-#pos{font-variant-numeric:tabular-nums;color:#aaa}
-table{border-collapse:collapse;margin:8px 0}td{padding:2px 10px;border-bottom:1px solid #2a2a2a}td:last-child{text-align:right;font-variant-numeric:tabular-nums}
-.legend{color:#888}
-</style></head><body>
-<header>
-<select id="lvl">__OPTS__</select>
-<span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button><button data-z="fitw" title="The level's width in the window">fit width</button><button data-z="fith" title="The level's height in the window">fit height</button>
-<span id="tkBar" style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="Randil's TAS as FCEUX played it: the camera window shows the game's frame (background from the level data, sprites and palette from the take)">
- <button id="tkPlay">▶</button>
- <select id="tkSpeed"><option value="1">×1</option><option value="4">×4</option><option value="16">×16</option></select>
- <input type="range" id="tkSeek" min="0" max="1" value="0" style="width:200px">
- <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="tkFollow" checked> follow</label>
- <label style="display:flex;gap:4px;align-items:center" title="The run's music and sound effects: the game's sound-chip writes taken in FCEUX (movie_sound.lua), played through @xromdev/apu. At ×1 only"><input type="checkbox" id="tkSound" checked> sound <input type="range" id="tkVol" min="0" max="1" step="0.05" value="0.6" style="width:60px"></label>
- <label style="display:flex;gap:4px;align-items:center" title="The songs: writes from the driver's slots playing a song's stream (1-$2F)"><input type="checkbox" id="tkMusic" checked> music</label>
- <label style="display:flex;gap:4px;align-items:center" title="The sound effects: writes from the driver's slots playing an effect's stream ($30 and up) — the shots and the rest"><input type="checkbox" id="tkEffects" checked> effects</label>
- <span id="tkLabel" class="legend"></span></span>
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS by Randil (tasvideos 2713M, 20:24.52), played in FCEUX; no wall clips; every prisoner rescued"><input type="checkbox" id="randilBox" checked> Randil's TAS path <span id="randilN" class="legend"></span></label>
-
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Covered: whatever never came on screen, neither in Randil's run nor in a search of the level in the game (no wall clips; untouchable, health, timer held). Where no search was made yet, the run alone"><input type="checkbox" id="runSeenBox"> hidden from the player <input type="color" id="unseenColor" value="#000000" title="colour of the hidden" style="width:26px;height:20px;padding:0;border:none;background:none"><input type="range" id="unseenOp" min="0.1" max="1" step="0.05" value="1" title="opacity" style="width:60px"> <span id="runSeenN" class="legend"></span></label>
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Where the middle of the camera's field goes: blue — sideways only (page tops), orange — up and down only (odd bands)"><input type="checkbox" id="railsBox"> camera rails</label>
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="pris" checked> prisoners <span id="prisN" class="legend"></span></label>
-<label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="space"> whole address space (64 KB, 128 pages)</label>
-<span id="pos"></span>
-<span class="legend">address space: dimmed — not ROM (what the game read, or a RAM snapshot)</span>
-</header>
-<button id="fsBtn" title="Full screen (Space plays and pauses the run)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5"/></svg></button>
-<div id="wrap"><div id="stage"><img id="iLevel" src="01.png"><svg id="view"></svg><div id="priLayer"></div><canvas id="live" width="256" height="176"></canvas><svg id="randil"></svg></div><div id="space-stage"></div></div>
-<script>
-const SPACES=__SPACES__,PRISONERS=__PRISONERS__,SPRITES=__SPRITES__;let cur=1;
-const L=iLevel,st=stage;let z=1;
-
-function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';L.style.width=L.naturalWidth*z+'px'}
-// Zoom: a fixed scale, or "fit width" / "fit height" — the level's width or height in the window,
-// worked out again as the window, the level or full screen change.
-let fit=false;
-function fitZoom(){const w=wrap,W=L.naturalWidth||2048,H=L.naturalHeight||1920;return fit==='fith'?(w.clientHeight-2)/H:(w.clientWidth-2)/W}
-function zoomed(){size();showSpace();showPrisoners();showView();showTas()}
-function refit(){if(fit&&L.naturalWidth){const f=fitZoom();if(f!==z){z=f;zoomed()}}}
-L.onload=()=>{if(fit)z=fitZoom();size();showTas();showView();showPrisoners()};
-document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{fit=b.dataset.z.startsWith('fit')&&b.dataset.z;z=fit?fitZoom():+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));zoomed()});
-addEventListener('resize',refit);
-// The map takes the window below the header, however many lines the header wraps to.
-new ResizeObserver(()=>{document.documentElement.style.setProperty('--head',document.querySelector('header').offsetHeight+'px');refit()}).observe(document.querySelector('header'));
-fsBtn.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
-// In full screen the bar and the button fade out after 2.5 s without the mouse moving.
-let idleT=0;const awake=()=>{document.documentElement.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(()=>{if(document.fullscreenElement)document.documentElement.classList.add('idle')},2500)};
-addEventListener('mousemove',awake);
-document.addEventListener('fullscreenchange',()=>{awake();fsBtn.classList.toggle('on',!!document.fullscreenElement);setTimeout(refit,50)});
-const priLayer=document.getElementById('priLayer'),prisBox=document.getElementById('pris');
-// Prisoners (object type 6, STATUS §14), numbered in the order Randil's run rescues them: the game's own sprite, at its offset from the object's
-// X/Y (taken from the game at rest, src/prisoner-sprites.ts), and a ring on it, numbered.
-// While the run plays, the prisoners it has rescued are left out (window.takeRescued, by object slot).
-function showPrisoners(){const done=window.takeRescued,list=(PRISONERS[cur]||[]).filter(o=>!(done&&done.has(o.i))),sp=SPRITES[cur],nn=String(cur).padStart(2,'0');document.getElementById('prisN').textContent='('+list.length+')';
- // The prisoners themselves always; the box marks them (glow, ring, the rescue number).
- const mark=prisBox.checked;
- priLayer.innerHTML=list.map((o,k)=>{const cx=sp?o.x+sp.dx+sp.w/2:o.x,cy=sp?o.y+sp.dy+sp.h/2:o.y;
-  return (sp?`<img class="psp${mark?' glow':''}" src="prisoners/${nn}.png" style="left:${(o.x+sp.dx)*z}px;top:${(o.y+sp.dy)*z}px;width:${sp.w*z}px;height:${sp.h*z}px">`:'')+
-  (mark?`<div class="pri" style="left:${cx*z}px;top:${cy*z}px;width:${Math.max(44,48*z)}px;height:${Math.max(44,48*z)}px;margin:${-Math.max(22,24*z)}px 0 0 ${-Math.max(22,24*z)}px" title="object ${o.i}: X ${o.x}, Y ${o.y}"><b>${o.num}</b></div>`:'')}).join('')}
-prisBox.onchange=showPrisoners;
-// The camera's rule (STATUS §22): across only on a page top (Y = 240·k), up and down only on an odd
-// 256-px band (X = 256·(2j+1)); the field 256 × 176. Rails: where the field's middle goes.
-let RUNSEEN=null,VISIBLE=null;
-const rowsToSet=(rows,W,H)=>{const a=new Uint8Array(W*H);rows.forEach((row,ty)=>{let x=0,s=false;for(const k of row.split(',').map(Number)){if(s)a.fill(1,ty*W+x,ty*W+x+k);x+=k;s=!s}});return a};
-const setToPath=(a,W,H,want)=>{let d='';for(let ty=0;ty<H;ty++){let tx=0;while(tx<W){if(a[ty*W+tx]===want){let k=tx;while(k<W&&a[ty*W+k]===want)k++;d+=`M${tx*8} ${ty*8}h${(k-tx)*8}v8h${-(k-tx)*8}z`;tx=k}else tx++}}return d};
-async function showView(){const v=document.getElementById('view'),W=L.naturalWidth||2048,H=L.naturalHeight||1920;
- const rs=document.getElementById('runSeenBox').checked;
- if(rs&&!RUNSEEN){try{RUNSEEN=await (await fetch('run-seen.json',{cache:'no-store'})).json()}catch(e){RUNSEEN={}}
-  try{VISIBLE=await (await fetch('visible.json',{cache:'no-store'})).json()}catch(e){VISIBLE={}}}
- v.setAttribute('viewBox',`0 0 ${W} ${H}`);v.style.width=W*z+'px';v.style.height=H*z+'px';
- let h='';
- // Not seen by the player: neither in Randil's run (run-seen.json) nor in the search (visible.json).
- const R=rs&&RUNSEEN?RUNSEEN[cur]:null,V=rs&&VISIBLE?VISIBLE[cur]:null;
- if(R){const TW=R.w,TH=R.h,run=rowsToSet(R.rows,TW,TH),only=V?rowsToSet(V.search,TW,TH):new Uint8Array(TW*TH),seen=new Uint8Array(TW*TH);
-  let n=0;for(let i=0;i<seen.length;i++){seen[i]=run[i]|only[i];n+=seen[i]}
-  document.getElementById('runSeenN').textContent=`(${(100*n/seen.length).toFixed(0)} % visible${V?'':', the run only'})`;
-  h+=`<path class="unseen" d="${setToPath(seen,TW,TH,0)}"/>`}
- else document.getElementById('runSeenN').textContent='';
- if(document.getElementById('railsBox').checked){
-  for(let y=0;y+176<=H;y+=240)h+=`<line class="h" x1="128" y1="${y+88}" x2="${W-128}" y2="${y+88}"/>`;
-  for(let x=256;x+256<=W;x+=512)h+=`<line class="v" x1="${x+128}" y1="88" x2="${x+128}" y2="${H-88}"/>`}
- v.innerHTML=h}
-document.getElementById('runSeenBox').onchange=showView;
-// The unseen's colour and opacity (kept in this browser).
-const uc=document.getElementById('unseenColor'),uo=document.getElementById('unseenOp');
-try{uc.value=localStorage.getItem('a3-unseen-color')||uc.value;uo.value=localStorage.getItem('a3-unseen-op')||uo.value}catch(e){}
-function unseenStyle(){const v=document.getElementById('view');v.style.setProperty('--unseen',uc.value);v.style.setProperty('--unseen-op',uo.value);
- try{localStorage.setItem('a3-unseen-color',uc.value);localStorage.setItem('a3-unseen-op',uo.value)}catch(e){}}
-uc.oninput=unseenStyle;uo.oninput=unseenStyle;unseenStyle();document.getElementById('railsBox').onchange=showView;
-
-// The TAS trail (out/levels/tas-randil.json: FCEUX playing Randil's movie, player X/Y), fetched when first shown.
-const trails={randil:{file:'tas-randil.json',data:null}};
-// While the run plays (window.takeFrame set by the player), only the way still ahead of the player.
-async function showTrail(id,box,label){const svgT=document.getElementById(id),T0=trails[id];
- if(!document.getElementById(box).checked){svgT.innerHTML='';document.getElementById(label).textContent='';return}
- if(!T0.data){try{T0.data=(await (await fetch(T0.file,{cache:'no-store'})).json()).levels}catch(e){T0.data={}}}
- const T=T0.data[cur],W=L.naturalWidth||2048,H=L.naturalHeight||1920;svgT.setAttribute('viewBox',`0 0 ${W} ${H}`);svgT.style.width=W*z+'px';svgT.style.height=H*z+'px';
- document.getElementById(label).textContent=T?`(${(T.frames/60.0988).toFixed(0)} s)`:'(none)';
- const tf=window.takeFrame;const ahead=sg=>tf==null?sg:sg.filter(p=>p[2]-1>=tf);
- svgT.innerHTML=T?T.segments.map(sg=>ahead(sg)).filter(sg=>sg.length>1).map(sg=>`<polyline points="${sg.map(p=>p[0]+','+p[1]).join(' ')}"/>`).join(''):''}
-function showTas(){showTrail('randil','randilBox','randilN')}
-document.getElementById('randilBox').onchange=showTas;
-
-
-const ss=document.getElementById('space-stage'),spaceBox=document.getElementById('space');
-function showSpace(){const on=spaceBox.checked&&SPACES[cur];st.style.display=on?'none':'';ss.style.display=on?'block':'none';
- if(!on)return;const P=SPACES[cur],nn=String(cur).padStart(2,'0');let h='';
- for(let k=0;k<P.chunks;k++)h+=`<img src="${nn}-space-${k}.png" style="top:${k*P.chunkHeight*z}px;width:${2048*z}px">`;
- for(const g of P.regions)h+=`<div class="reg" style="top:${g.y*z}px"><span>Y ${g.y}: $${g.from.toString(16).toUpperCase().padStart(4,'0')}… ${g.name}</span></div>`;
- ss.innerHTML=h;ss.style.width=2048*z+'px';ss.style.height=P.chunks*P.chunkHeight*z+'px'}
-spaceBox.onchange=showSpace;
-ss.onmousemove=e=>{const P=SPACES[cur];if(!P)return;const r=ss.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
- const page=Math.floor(y/240),inPage=Math.min(7,Math.floor((y%240)/32)),row=page*8+inPage,col=x>>5,a=(P.layout+row*64+col)&0xffff;
- pos.textContent=`x ${x} y ${y} · page ${page} · address $${a.toString(16).toUpperCase().padStart(4,'0')}`};
-function pick(n){cur=n;const nn=String(n).padStart(2,'0');L.src=nn+'.png';showSpace();showPrisoners();showView();showTas();document.title='Alien 3 — level '+n}
-lvl.onchange=()=>pick(+lvl.value);pick(1);
-st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
- const page=Math.floor(y/240),ty=Math.floor(y/8),inPage=Math.floor((ty%30)/4);
- pos.textContent=`x ${x} y ${y} · tile ${x>>3},${ty} · block ${x>>5}, layout row ${page*8+inPage} (page ${page})`};
-</script><script type="module" src="/src/take-player.js"></script></body></html>'''
-page = (html.replace('__OPTS__', opts).replace('__PRISONERS__', json.dumps(prisoners)).replace('__SPRITES__', json.dumps(sprites)).replace('__SPACES__', json.dumps({k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()})))
+# The level list: boss levels named, the checked ones ticked (the workshop's only).
+level_list = [{'n': n, 'label': f'Level {n}{" — boss" if n % 3 == 0 else ""}{"" if PUBLIC or n not in checks else " ✓"}'} for n in range(1, 13)]
+# The page is the shared maps page (src/maps-run → ~/xrom-libs/maps-run), mounted by src/take-player.js
+# with Alien 3's run and layers; here only the data it needs. The public page reads no ROM (CART_PACK)
+# and has no address space.
+a3 = {
+    'levels': level_list,
+    'spaces': {} if PUBLIC else {k: {kk: v[kk] for kk in ('layout', 'chunks', 'chunkHeight', 'regions')} for k, v in spaces.items()},
+    'prisoners': prisoners,
+    'sprites': sprites,
+    'public': bool(PUBLIC),
+}
+script = ('<script>window.CART_PACK=\'cart.bin.gz\'</script><script type="module" src="take-player.js"></script>' if PUBLIC
+          else '<script type="module" src="/src/take-player.js"></script>')
+page = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Alien 3 — levels</title></head><body>
+<script>window.A3={json.dumps(a3)}</script>{script}</body></html>'''
 if PUBLIC:
-    # The address space is the workshop's alone; the levels' checkmarks too.
-    page = page.replace(' ✓</option>', '</option>')
-    page = re.sub(r'<label[^\n]*id="space"[^\n]*</label>\n', '', page)
-    page = re.sub(r'<span class="legend">address space:[^\n]*</span>\n', '', page)
-    page = page.replace("spaceBox=document.getElementById('space')", "spaceBox={checked:false}")
-    page = re.sub(r'const SPACES=\{.*?\},PRISONERS=', 'const SPACES={},PRISONERS=', page, count=1)
-    page = page.replace('<script type="module" src="/src/take-player.js"></script>',
-                        '<script>window.CART_PACK=\'cart.bin.gz\'</script><script type="module" src="take-player.js"></script>')
-    assert 'id="space"' not in page and 'take-player.js"' in page
+    assert 'address space' not in page and 'take-player.js"' in page
     open(f'{PUBLIC}/index.html', 'w').write(page)
 else:
     open(f'{D}/index.html', 'w').write(page)

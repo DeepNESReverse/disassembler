@@ -491,3 +491,16 @@ never shows them. Experiment: src/experiments/corner-sprite.ts (level 1, three t
 $18 each time, the same sprites in the corner). The player (src/take-player.js) and the xrom
 preview (src/preview.ts) now draw no sprite pixel left of X 8; the background there is kept, as
 the map has it.
+
+## 30. The maps page is the shared one (`src/maps-run` → ~/xrom-libs/maps-run)
+The header, zoom, the run bar, the run's path, full screen, following and the sound moved, as they
+were, into `~/xrom-libs/maps-run/src/run-page.js` (`mountRunPage`), shared with Circus Charlie and
+every game to come; it adds ◀ prev / next ▶ beside the level list. `src/take-player.js` is now
+Alien 3's run adapter (the take, the level data, the sound file) and its own layers (prisoners,
+hidden from the player, camera rails, the whole address space); `src/viewer.py` writes only the
+data (`window.A3`). The link `src/maps-run` lets the old servers serve it through `/src/…`.
+The public build (`src/public.ts`) bundles it; its worklet now sits at `maps-run/sound.js` (was
+`play/sound.js`: drop that folder from xrom's copy when the page is next published).
+Checked in the browser: the workshop page (:4326) and the public build served statically — the
+run, the sound (RMS 0.051), the path, prisoners, rails, hidden, address space (workshop only), prev
+/ next.

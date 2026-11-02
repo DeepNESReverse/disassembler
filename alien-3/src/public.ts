@@ -2,7 +2,7 @@
  * The maps for xrom.dev: out/public/alien-3, a page of static files with no ROM in it.
  *   node --experimental-strip-types src/public.ts [dir]
  * The page is src/viewer.py's without the workshop's parts (--public); the run player
- * (src/take-player.js) is bundled into one module and fed cart.bin.gz instead of the ROM: each
+ * (src/take-player.js, with the shared maps page src/maps-run it mounts) is bundled into one module and fed cart.bin.gz instead of the ROM: each
  * level's tile numbers and palettes (what src/level.ts reads from the layout and the blocks), the
  * CHR banks the run draws with — the levels' background banks and every sprite bank the take sets
  * ($0718, $0719, $071A and the fixed $7B) — and the DMC's samples the run's sound plays; the rest of
@@ -20,7 +20,7 @@ const repo = resolve(import.meta.dirname, '..');
 const out = resolve(process.argv[2] ?? resolve(repo, 'out/public/alien-3'));
 const levelsDir = resolve(repo, 'out/levels');
 mkdirSync(resolve(out, 'take'), { recursive: true });
-mkdirSync(resolve(out, 'play'), { recursive: true });
+mkdirSync(resolve(out, 'maps-run'), { recursive: true });
 
 const rom = readFileSync(ROM_PATH);
 const prg = rom.subarray(16, 16 + rom[4] * 0x4000);
@@ -85,7 +85,8 @@ console.log(`cart.bin.gz: ${levels.length} levels, sprite banks ${[...banks].sor
 for (let n = 1; n <= LEVELS; n++) copyFileSync(resolve(levelsDir, `${String(n).padStart(2, '0')}.png`), resolve(out, `${String(n).padStart(2, '0')}.png`));
 cpSync(resolve(levelsDir, 'prisoners'), resolve(out, 'prisoners'), { recursive: true });
 for (const f of ['tas-randil.json', 'run-seen.json', 'visible.json', 'take/randil.bin.gz', 'take/randil-sound.bin.gz']) copyFileSync(resolve(levelsDir, f), resolve(out, f));
-copyFileSync(resolve(repo, 'src/play/sound.js'), resolve(out, 'play/sound.js'));
+// The sound's worklet, beside the bundled player as in the workshop (src/maps-run/sound.js).
+copyFileSync(resolve(repo, 'src/maps-run/sound.js'), resolve(out, 'maps-run/sound.js'));
 
 // The run player in one module: '/src/…' is this repo's, '/xrom-libs/…' the libraries'.
 const esbuild = createRequire(resolve(repo, '../xrom-libs/nes/package.json'))('esbuild');
