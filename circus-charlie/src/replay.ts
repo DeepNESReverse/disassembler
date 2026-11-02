@@ -51,5 +51,9 @@ export function replay(): Replay {
   return r;
 }
 
+/** The play field: from line 44 down; plane rows 5 (its last four lines only) to 29. */
+export const FIELD_TOP = 44;
+export const FIELD_ROWS = { first: 5, last: 29 };
+
 /** The camera, $006B:$006A. */
 export const cameraOf = (ram: Uint8Array) => ram[0x6b] * 256 + ram[0x6a];

@@ -59,3 +59,39 @@ The 4 frames a stage not drawn at the camera are the card → play hand-over. St
 background cells that move a column every 48 frames: on the still map the most frequent value is
 the floor, so they vanish there; the player draws each frame's own nametables.
 Row 5 is shown only from line 44 (its last 4 lines).
+
+## 4. The run packed with its sound (`src/take-pack.ts` → `out/stages/take.bin.gz`, 0.29 MB)
+Per frame, from our replay: the stage, the phase, the field's camera, PPUCTRL/PPUMASK, Charlie's
+screen X/Y, the sprite memory as drawn, the palette and both nametable pages (only the cells that
+changed). So the player draws the game's own field, the balls of stage 3 and the pressed
+springboards of stage 4 included.
+
+The sound driver ($F87C, NMI) keeps one slot per channel (X = $10 + $11·channel, the sound's
+number at $02,X); a request ($F80D) is a byte, top two bits the channel, low six the number; a
+higher number takes the slot (`runs/probe-sfx.ts`: every request of the run with its caller):
+
+| number (channel) | requested from | when | owner |
+|---|---|---|---|
+| 14/15 (pulse 2/triangle) | $CBB1/$C82D | stages 1 and 4 start | music |
+| 16/17 | same | stages 2 and 3 start | music |
+| 18/19 | same | stage 5 starts | music |
+| 20 (pulse 2) + 21 (noise) | $CBDC + $C274/$CE5E | the game starts, each goal | music (jingle) |
+| 1, 2, 3, 5, 6 (pulse 1) | $DB06, $DA3E, $F4C0, $D488, $C737 | in play | effects |
+| 7 (pulse 2) | $C18E, 1 462 times | the bonus counted at each goal | effect |
+
+Each write is tagged by the number its slot holds (in the request, the new number in $2F); a
+write while the slot is empty (a stop, the power-on set-up) is both's. Music 9 147 writes, effects
+4 140, both 390. Our writes equal FCEUX's on every frame. No DMC is used.
+
+## 5. The page (`src/play/server.ts` → http://127.0.0.1:4325/, `src/play/index.html`, `player.js`)
+Stage select, zoom ¼-3× / fit width / fit height, full screen with bars hiding, ▶ with speed, seek
+over the stage, follow, sound with music/effects switches and volume, Charlie's path ahead, the map
+with the cells drawn by play tinted ("drawn by play"). The field is drawn as the PPU draws it
+(the first eight sprites a line, behind-background priority). `/chr` serves the pattern tables read
+in place.
+
+## 6. What a player never sees: nothing on these maps
+The field is the whole height of the stage (no vertical scroll), and PPUMASK in play is $1E (the
+left 8 pixels shown, background and sprites): every cell of a map was on screen in the run —
+the maps are made of exactly what the camera showed (§3). What lies outside them (left of
+camera 0, past the goal's board) the camera never shows.

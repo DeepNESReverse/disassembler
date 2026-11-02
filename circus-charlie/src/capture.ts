@@ -11,12 +11,9 @@
  *   node --experimental-strip-types src/capture.ts   → out/stages/stageN.json, a report
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { replay, cameraOf } from './replay.ts';
+import { replay, cameraOf, FIELD_TOP, FIELD_ROWS } from './replay.ts';
 import { decodeArena, STAGE_NAMES } from './level.ts';
 
-/** The play field: plane rows 5 (from line 44, its last four lines) to 29. */
-export const FIELD_TOP = 44;
-export const FIELD_ROWS = { first: 5, last: 29 };
 
 const r = replay();
 const { core } = r;

@@ -1,5 +1,6 @@
 /**
- * The stage maps drawn: out/stages/stageN.png from capture.ts' cells, the CHR ROM's background
+ * The stage maps drawn: out/stages/stageN.png from capture.ts' cells, from line 44 (the field's
+ * top: plane y 44, 4 lines into row 5) down, the CHR ROM's background
  * pattern table the field was drawn with and the stage palette (PRG $0CE8, written at each stage
  * card by $C4B1). `--marks`: also stageN-marks.png, the cells that differ from the arena tinted red,
  * those shown more than one way blue.
@@ -12,6 +13,7 @@ import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
 import { parseRom } from '../../nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { cpuByte } from './level.ts';
+import { FIELD_TOP } from './replay.ts';
 
 const rom = parseRom(romFile());
 const palette = Array.from({ length: 16 }, (_, i) => cpuByte(rom.prg, 0xcce8 + i) & 0x3f);
@@ -21,7 +23,9 @@ for (const file of readdirSync('out/stages').filter((f) => /^stage\d\.json$/.tes
   const m = JSON.parse(readFileSync(`out/stages/${file}`, 'utf8'));
   const bg = Number(Object.entries(m.bgTables as Record<string, number>).sort((a, b) => b[1] - a[1])[0][0]);
   const W = m.width * 8;
-  const H = m.rows * 8;
+  // The cells start at plane y 8·firstRow; the field at FIELD_TOP.
+  const skip = FIELD_TOP - m.firstRow * 8;
+  const H = m.rows * 8 - skip;
   const px = new Int32Array(W * H);
   const mk = marks ? new Int32Array(W * H) : undefined;
   for (let r = 0; r < m.rows; r++)
@@ -30,7 +34,8 @@ for (const file of readdirSync('out/stages').filter((f) => /^stage\d\.json$/.tes
       const tile = m.tiles[i];
       for (let y = 0; y < 8; y++)
         for (let x = 0; x < 8; x++) {
-          const o = (r * 8 + y) * W + c * 8 + x;
+          if (r * 8 + y < skip) continue;
+          const o = (r * 8 + y - skip) * W + c * 8 + x;
           if (tile < 0) {
             px[o] = 0x202020;
             if (mk) mk[o] = 0x202020;

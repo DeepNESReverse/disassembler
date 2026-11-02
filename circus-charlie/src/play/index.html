@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Circus Charlie maps</title>
+<style>
+  :root { --bg: #14161a; --panel: #1f2329; --line: #343a42; --text: #e6e8eb; --muted: #9aa3ad; --accent: #f2b33d; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, sans-serif; }
+  body { display: flex; flex-direction: column; }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+  .bar.bottom { border-bottom: 0; border-top: 1px solid var(--line); }
+  .bar h1 { font-size: 15px; margin: 0 8px 0 0; font-weight: 600; }
+  .bar label { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); white-space: nowrap; }
+  select, button { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; font: inherit; }
+  button { cursor: pointer; }
+  button#tkPlay { min-width: 44px; font-size: 16px; }
+  #tkSeek { flex: 1 1 200px; min-width: 120px; accent-color: var(--accent); }
+  #tkLabel { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 150px; }
+  #wrap { flex: 1; overflow: auto; position: relative; }
+  #stage { position: relative; margin: 16px 0; }
+  #stage img, #stage canvas, #stage svg { position: absolute; left: 0; top: 0; image-rendering: pixelated; }
+  #live { display: none; outline: 2px solid var(--accent); }
+  #path { pointer-events: none; overflow: visible; }
+  .credit { color: var(--muted); font-size: 12px; margin-left: auto; }
+  .credit a { color: var(--muted); }
+  body.full .bar { position: fixed; left: 0; right: 0; z-index: 5; transition: opacity .3s; }
+  body.full .bar.top { top: 0; }
+  body.full .bar.bottom { bottom: 0; }
+  body.full.idle .bar { opacity: 0; pointer-events: none; }
+  body.full #stage { margin: 0; }
+</style>
+</head>
+<body>
+<div class="bar top">
+  <h1>Circus Charlie</h1>
+  <label>Stage <select id="lvl">
+    <option value="1">1 · lion and fire rings</option>
+    <option value="2">2 · tightrope</option>
+    <option value="3">3 · balls</option>
+    <option value="4">4 · horse</option>
+    <option value="5">5 · trapeze</option>
+  </select></label>
+  <label>Zoom <select id="zoom">
+    <option value="0.25">¼×</option><option value="0.5">½×</option><option value="1">1×</option>
+    <option value="1.5">1½×</option><option value="2">2×</option><option value="3">3×</option>
+    <option value="fitw">fit width</option><option value="fith" selected>fit height</option>
+  </select></label>
+  <label><input type="checkbox" id="marks"> drawn by play</label>
+  <label><input type="checkbox" id="showPath" checked> path ahead</label>
+  <button id="full" title="Full screen">⛶</button>
+  <span class="credit">TAS: <a href="https://tasvideos.org/5270M" target="_blank" rel="noopener">TASVideos 5270M</a></span>
+</div>
+<div id="wrap">
+  <div id="stage">
+    <img id="map" alt="">
+    <svg id="path"></svg>
+    <canvas id="live" width="256" height="196"></canvas>
+  </div>
+</div>
+<div class="bar bottom">
+  <button id="tkPlay" title="Play (Space)">▶</button>
+  <label>Speed <select id="tkSpeed">
+    <option value="0.25">¼×</option><option value="0.5">½×</option><option value="1" selected>1×</option>
+    <option value="2">2×</option><option value="4">4×</option>
+  </select></label>
+  <input type="range" id="tkSeek" min="0" max="0" value="0">
+  <span id="tkLabel">press ▶</span>
+  <label><input type="checkbox" id="tkFollow" checked> follow</label>
+  <label><input type="checkbox" id="tkSound" checked> sound</label>
+  <label><input type="checkbox" id="tkMusic" checked> music</label>
+  <label><input type="checkbox" id="tkEffects" checked> effects</label>
+  <label>Volume <input type="range" id="tkVol" min="0" max="1" step="0.05" value="0.6"></label>
+</div>
+<script type="module" src="/src/play/player.js"></script>
+</body>
+</html>
