@@ -136,7 +136,7 @@ const page = mountRunPage({
   run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
-  trail: { url: STAGES + 'tas.json', label: 'TAS path', title: 'TAS: tasvideos.org/5270M, played from power-on in FCEUX and replayed here frame for frame; Charlie&#39;s way through each stage' },
+  trail: { url: STAGES + 'tas.json', label: 'TAS path', title: 'TAS by klmz (tasvideos 5270M, 3:21.35), played from power-on in FCEUX and replayed here frame for frame; Charlie&#39;s way through each stage' },
   runTitle: 'TASVideos 5270M as the game plays it: the camera window shows the game&#39;s frame (the field as the PPU draws it, from our replay of the movie)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The songs: writes from the driver&#39;s slots playing a stage theme or the start/goal jingle (numbers 14-21)',
