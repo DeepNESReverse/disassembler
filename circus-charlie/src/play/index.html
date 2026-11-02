@@ -21,7 +21,7 @@ html:fullscreen.idle header,html:fullscreen.idle #fsBtn{opacity:0}html:fullscree
 .legend{color:#888}
 </style></head><body>
 <header>
-<select id="lvl"><option value="1">Stage 1 — lion and fire rings</option><option value="2">Stage 2 — tightrope</option><option value="3">Stage 3 — balls</option><option value="4">Stage 4 — horse</option><option value="5">Stage 5 — trapeze</option></select>
+<button id="prevLvl" title="The stage before">◀ prev</button><select id="lvl"><option value="1">Stage 1 — lion and fire rings</option><option value="2">Stage 2 — tightrope</option><option value="3">Stage 3 — balls</option><option value="4">Stage 4 — horse</option><option value="5">Stage 5 — trapeze</option></select><button id="nextLvl" title="The stage after">next ▶</button>
 <span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button><button data-z="fitw" title="The stage's width in the window">fit width</button><button data-z="fith" title="The stage's height in the window">fit height</button>
 <span id="tkBar" style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="TASVideos 5270M as the game plays it: the camera window shows the game's frame (the field as the PPU draws it, from our replay of the movie)">
  <button id="tkPlay">▶</button>
@@ -72,9 +72,13 @@ async function showTas(){const svgT=document.getElementById('tas');
  svgT.innerHTML=T?T.segments.map(sg=>ahead(sg)).filter(sg=>sg.length>1).map(sg=>`<polyline points="${sg.map(p=>p[0]+','+p[1]).join(' ')}"/>`).join(''):''}
 tasBox.onchange=showTas;
 
-function pick(n){cur=n;L.src=`/stages/stage${n}${marksBox.checked?'-marks':''}.png`;showTas();document.title='Circus Charlie — stage '+n}
+function pick(n){cur=n;L.src=`/stages/stage${n}${marksBox.checked?'-marks':''}.png`;showTas();document.title='Circus Charlie — stage '+n;
+ prevLvl.disabled=n<=1;nextLvl.disabled=n>=lvl.options.length}
 marksBox.onchange=()=>pick(cur);
 lvl.onchange=()=>pick(+lvl.value);pick(1);
+// Prev / next: as choosing the stage in the list (the run, once loaded, goes to that stage's start).
+const step=d=>{const n=+lvl.value+d;if(n<1||n>lvl.options.length)return;lvl.value=String(n);lvl.dispatchEvent(new Event('change'))};
+prevLvl.onclick=()=>step(-1);nextLvl.onclick=()=>step(1);
 st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
  pos.textContent=`x ${x} y ${y} · tile ${x>>3},${(y+44)>>3}`};
 </script><script type="module" src="/src/play/player.js"></script></body></html>
