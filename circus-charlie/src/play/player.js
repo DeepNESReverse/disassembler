@@ -3,6 +3,8 @@
 // the field's camera, the sprite memory, the palette and both nametable pages, and the sound chip's
 // writes with their owner. The field is drawn as the PPU draws it (from line 44: plane x = camera
 // mod 512, y = the line, STATUS §3) and laid on the map at the camera.
+// The public build (src/public.ts, window.CART_PACK set) reads no ROM: cart.bin.gz holds the pattern
+// tables with only the tiles the maps and the run draw; the files sit beside the bundled player.
 import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
 import { mountRunPage } from '/src/maps-run/run-page.js';
@@ -13,6 +15,9 @@ const NAMES = ['lion and fire rings', 'tightrope', 'balls', 'horse', 'trapeze'];
 let image, px;
 const bgOpaque = new Uint8Array(256 * H);
 let chr, data, frames, size, offsets, keys, state;
+const PUBLIC = !!window.CART_PACK;
+/** The maps, the run and the path: out/stages in the workshop, beside the page when public. */
+const STAGES = PUBLIC ? '' : '/stages/';
 
 async function gunzip(url) {
   const res = await fetch(url);
@@ -24,8 +29,8 @@ const pal = (i) => state[PAL + ((i & 0x13) === 0x10 ? i & 0x0f : i)];
 
 const run = {
   async load() {
-    chr = new Uint8Array(await (await fetch('/chr')).arrayBuffer());
-    data = await gunzip('/stages/take.bin.gz');
+    chr = PUBLIC ? await gunzip(window.CART_PACK) : new Uint8Array(await (await fetch('/chr')).arrayBuffer());
+    data = await gunzip(STAGES + 'take.bin.gz');
     frames = data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] * 0x1000000);
     size = data[8] | (data[9] << 8);
     state = new Uint8Array(size);
@@ -126,12 +131,12 @@ const page = mountRunPage({
   title: 'Circus Charlie',
   levelWord: 'stage',
   levels: NAMES.map((name, i) => ({ n: i + 1, label: `Stage ${i + 1} — ${name}` })),
-  image: (n) => `/stages/stage${n}${document.getElementById('marksBox')?.checked ? '-marks' : ''}.png`,
+  image: (n) => `${STAGES}stage${n}${document.getElementById('marksBox')?.checked ? '-marks' : ''}.png`,
   field: { w: 256, h: H },
   run,
   apu: { Apu, mixApu, OutputFilters },
-  soundWorklet: '/src/maps-run/sound.js',
-  trail: { url: '/stages/tas.json', label: 'TAS path', title: 'TAS: tasvideos.org/5270M, played from power-on in FCEUX and replayed here frame for frame; Charlie&#39;s way through each stage' },
+  soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
+  trail: { url: STAGES + 'tas.json', label: 'TAS path', title: 'TAS: tasvideos.org/5270M, played from power-on in FCEUX and replayed here frame for frame; Charlie&#39;s way through each stage' },
   runTitle: 'TASVideos 5270M as the game plays it: the camera window shows the game&#39;s frame (the field as the PPU draws it, from our replay of the movie)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The songs: writes from the driver&#39;s slots playing a stage theme or the start/goal jingle (numbers 14-21)',
