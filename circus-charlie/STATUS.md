@@ -19,3 +19,43 @@ the RAM differs on every frame after): not used for the run.
 
 Stages over the run (`$0063`): 1 from frame 10, 2 from 3 139, 3 from 5 998, 4 from 8 571, 5 from
 10 943.
+
+## 2. The arena: decoded from the cartridge (`src/level.ts`, `src/check-arena.ts`)
+`src/vram-origins.ts` (the run with nes-explorer's taint shadow; `--palette` for $3F00) names every
+nametable writer: at each stage card the nametables are cleared ($C3E0, tile 0) and two screen
+scripts run ($D2FD → $D342 → $D389, writes at $D395 and $D3A2); during play only the buffer at
+$0700 is flushed ($D280, writes at $D2BA/$D2C3) and the status bar is updated ($C529/$C647/$D590).
+The palette is one for every stage: 32 bytes at PRG $0CE8 ($C4B1 at the card); only the goal's
+flash ($D618/$D62D) changes it.
+
+The script format is in `level.ts`' header (table $D32E by `$0064`; per strip an address — the
+first strip always, the rest unless bit 7 of the head — and a stream; $57 n v a run, $5A the end).
+Stages 1, 3, 4 run $D3AA + $D3B9; stage 2 $D3E1 + $D3C8; stage 5 $D3EA + $D3C8.
+Check, on the frame each stage was built in the run: **every cell the scripts write equals the
+console's video RAM**; the only other cells (140-141 of 2 048) are the status bar (page 0 rows
+2-5) and the distance boards (rows 26-28, 6 cells a page), written after the scripts.
+
+## 3. The stage maps: the arena placed along the world by the run (`src/replay.ts`, `src/capture.ts`, `src/render.ts`)
+The field's scroll, read off the core per visible line (`replay.ts` wraps its line drawer): on play
+frames the screen splits at line 44 (43 on one frame); below it the field is the nametable plane
+at **x = the camera of the frame before ($006B:$006A) mod 512, y = the line** (no vertical scroll).
+So a world column c is plane column c mod 64.
+
+In play the game writes shapes into the nametables through the $0700 buffer ($D1C4 draws shape
+`$8F` from the table at $D2DD at a nametable address): the distance boards, the fire pots, stage 4's
+springboards and obstacles, stage 3's balls, the goal. Where they stand in the world is taken from
+the run: every play frame (`$0000` 5 or 8) every field cell is read into world coordinates; a cell
+keeps every value it was shown with; the map shows the most frequent one.
+
+| stage | play frames | camera | map (columns × rows 5-29) | as the arena | shown more than one way |
+|---|---|---|---|---|---|
+| 1 lion, fire rings | 2 881 | 2-2 369 | 329 × 25 | 94.25 % | 49 (the pots' flames) |
+| 2 tightrope | 2 693 | 1-1 601 | 233 × 25 | 95.30 % | 1 |
+| 3 balls | 2 406 | 2-1 857 | 265 × 25 | 95.32 % | 525 (the rolling balls) |
+| 4 horse | 2 205 | 6-4 931 | 649 × 25 | 93.55 % | 108 (the springboards pressed) |
+| 5 trapeze | 989 | 1-936 | 149 × 25 | 93.26 % | 0 |
+
+The 4 frames a stage not drawn at the camera are the card → play hand-over. Stage 3's balls are
+background cells that move a column every 48 frames: on the still map the most frequent value is
+the floor, so they vanish there; the player draws each frame's own nametables.
+Row 5 is shown only from line 44 (its last 4 lines).
