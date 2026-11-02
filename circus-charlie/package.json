@@ -1,0 +1,7 @@
+{
+  "name": "circus-charlie-levels",
+  "private": true,
+  "type": "module",
+  "description": "Circus Charlie (Japan): the stages drawn whole from the cartridge, with a TAS played over them.",
+  "scripts": {}
+}
