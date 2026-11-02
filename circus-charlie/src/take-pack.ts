@@ -21,6 +21,10 @@
  * u16 count, count × (u16 cell, u8 value); u16 count, count × (u8 register | owner, u8 value) with
  * the register $00-$17 and the owner $40 music, $80 effect, 0 both.
  *
+ * Also out/stages/tas.json: per stage Charlie's way through the run as the maps' TAS path —
+ * [world x, map y, frame] each time it moves (x = the field's camera + his screen X, y = his Y less
+ * the field's top), broken where he jumps more than 24 px in a frame (a restart, the goal).
+ *
  *   node --experimental-strip-types src/take-pack.ts
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -55,6 +59,8 @@ out.push(n & 255, (n >> 8) & 255, (n >> 16) & 255, n >>> 24);
 u16(STATE_SIZE);
 let prevCam = 0;
 let soundDiff = 0;
+/** Per stage: the way's segments and the frames played. */
+const ways: { segments: [number, number, number][][]; frames: number }[] = [0, 1, 2, 3, 4].map(() => ({ segments: [], frames: 0 }));
 const owners = [0, 0, 0];
 for (const f of r.movie) {
   writes = [];
@@ -77,6 +83,15 @@ for (const f of r.movie) {
   state.set(c.oam, 16);
   state.set(c.palette.subarray(0, 32), 272);
   state.set(c.ciram, 304);
+  if ((ram[0] === 5 || ram[0] === 8) && ok) {
+    const way = ways[ram[0x64]];
+    way.frames++;
+    const p: [number, number, number] = [cam + ram[0x74], ram[0x73] - FIELD_TOP + 16, f.frame - 1];
+    const seg = way.segments[way.segments.length - 1];
+    const q = seg?.[seg.length - 1];
+    if (!q || Math.abs(q[0] - p[0]) > 24 || Math.abs(q[1] - p[1]) > 24) way.segments.push([p]);
+    else if (q[0] !== p[0] || q[1] !== p[1]) seg.push(p);
+  }
   const diff: number[] = [];
   for (let i = 0; i < STATE_SIZE; i++) if (prev[i] !== state[i]) { prev[i] = state[i]; diff.push(i); }
   u16(diff.length);
@@ -92,4 +107,5 @@ const raw = Uint8Array.from(out);
 mkdirSync('out/stages', { recursive: true });
 const gz = gzipSync(raw, { level: 9 });
 writeFileSync('out/stages/take.bin.gz', gz);
+writeFileSync('out/stages/tas.json', JSON.stringify({ levels: Object.fromEntries(ways.map((w, i) => [i + 1, w])) }));
 console.log(`${n} frames: ${(raw.length / 1e6).toFixed(1)} MB, gzip ${(gz.length / 1e6).toFixed(2)} MB; sound writes music ${owners[0]}, effects ${owners[1]}, both ${owners[2]}; frames whose writes differ from FCEUX's: ${soundDiff}`);

@@ -84,11 +84,18 @@ write while the slot is empty (a stop, the power-on set-up) is both's. Music 9 1
 4 140, both 390. Our writes equal FCEUX's on every frame. No DMC is used.
 
 ## 5. The page (`src/play/server.ts` → http://127.0.0.1:4325/, `src/play/index.html`, `player.js`)
-Stage select, zoom ¼-3× / fit width / fit height, full screen with bars hiding, ▶ with speed, seek
-over the stage, follow, sound with music/effects switches and volume, Charlie's path ahead, the map
-with the cells drawn by play tinted ("drawn by play"). The field is drawn as the PPU draws it
-(the first eight sprites a line, behind-background priority). `/chr` serves the pattern tables read
-in place.
+Laid out and behaving as ~/alien3-levels' page (`src/viewer.py`, `src/take-player.js`): the stage
+select, zoom ¼/½/1×/2×/fit width/fit height, the run bar (▶, ×1/×4/×16, the slider over the stage,
+follow, sound with volume, music, effects, the time), the TAS path (`out/stages/tas.json`, only the
+way ahead while the run plays), the full-screen button in the corner (only the run bar, fading after
+2.5 s), Space to play. Extra here: "drawn by play" tints the cells the game writes during play.
+The field is drawn as the PPU draws it (the first eight sprites a line, behind-background priority).
+`/chr` serves the pattern tables read in place.
+
+**The sound needs the power-on enable.** The game writes $4015 once, on frame 4 (`runs/probe-sound.ts`):
+a chip brought anew from the 3 s before a frame stayed silent on every channel. The player now gives
+it the last $4015/$4017 written before, then the 3 s. Checked in the page: the blocks it sends to the
+audio worklet, RMS 0.088 with everything, 0.042 with music alone (was 0).
 
 ## 6. What a player never sees: nothing on these maps
 The field is the whole height of the stage (no vertical scroll), and PPUMASK in play is $1E (the

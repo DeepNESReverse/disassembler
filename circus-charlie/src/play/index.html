@@ -1,78 +1,80 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Circus Charlie maps</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Circus Charlie — stages</title>
+<!-- The stage maps with TASVideos 5270M played over them. Laid out and behaving as ~/alien3-levels'
+     page (src/viewer.py → out/levels/index.html): the same header, zoom, run bar and full screen. -->
 <style>
-  :root { --bg: #14161a; --panel: #1f2329; --line: #343a42; --text: #e6e8eb; --muted: #9aa3ad; --accent: #f2b33d; }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, sans-serif; }
-  body { display: flex; flex-direction: column; }
-  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
-  .bar.bottom { border-bottom: 0; border-top: 1px solid var(--line); }
-  .bar h1 { font-size: 15px; margin: 0 8px 0 0; font-weight: 600; }
-  .bar label { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); white-space: nowrap; }
-  select, button { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; font: inherit; }
-  button { cursor: pointer; }
-  button#tkPlay { min-width: 44px; font-size: 16px; }
-  #tkSeek { flex: 1 1 200px; min-width: 120px; accent-color: var(--accent); }
-  #tkLabel { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 150px; }
-  #wrap { flex: 1; overflow: auto; position: relative; }
-  #stage { position: relative; margin: 16px 0; }
-  #stage img, #stage canvas, #stage svg { position: absolute; left: 0; top: 0; image-rendering: pixelated; }
-  #live { display: none; outline: 2px solid var(--accent); }
-  #path { pointer-events: none; overflow: visible; }
-  .credit { color: var(--muted); font-size: 12px; margin-left: auto; }
-  .credit a { color: var(--muted); }
-  body.full .bar { position: fixed; left: 0; right: 0; z-index: 5; transition: opacity .3s; }
-  body.full .bar.top { top: 0; }
-  body.full .bar.bottom { bottom: 0; }
-  body.full.idle .bar { opacity: 0; pointer-events: none; }
-  body.full #stage { margin: 0; }
-</style>
-</head>
-<body>
-<div class="bar top">
-  <h1>Circus Charlie</h1>
-  <label>Stage <select id="lvl">
-    <option value="1">1 · lion and fire rings</option>
-    <option value="2">2 · tightrope</option>
-    <option value="3">3 · balls</option>
-    <option value="4">4 · horse</option>
-    <option value="5">5 · trapeze</option>
-  </select></label>
-  <label>Zoom <select id="zoom">
-    <option value="0.25">¼×</option><option value="0.5">½×</option><option value="1">1×</option>
-    <option value="1.5">1½×</option><option value="2">2×</option><option value="3">3×</option>
-    <option value="fitw">fit width</option><option value="fith" selected>fit height</option>
-  </select></label>
-  <label><input type="checkbox" id="marks"> drawn by play</label>
-  <label><input type="checkbox" id="showPath" checked> path ahead</label>
-  <button id="full" title="Full screen">⛶</button>
-  <span class="credit">TAS: <a href="https://tasvideos.org/5270M" target="_blank" rel="noopener">TASVideos 5270M</a></span>
-</div>
-<div id="wrap">
-  <div id="stage">
-    <img id="map" alt="">
-    <svg id="path"></svg>
-    <canvas id="live" width="256" height="196"></canvas>
-  </div>
-</div>
-<div class="bar bottom">
-  <button id="tkPlay" title="Play (Space)">▶</button>
-  <label>Speed <select id="tkSpeed">
-    <option value="0.25">¼×</option><option value="0.5">½×</option><option value="1" selected>1×</option>
-    <option value="2">2×</option><option value="4">4×</option>
-  </select></label>
-  <input type="range" id="tkSeek" min="0" max="0" value="0">
-  <span id="tkLabel">press ▶</span>
-  <label><input type="checkbox" id="tkFollow" checked> follow</label>
-  <label><input type="checkbox" id="tkSound" checked> sound</label>
-  <label><input type="checkbox" id="tkMusic" checked> music</label>
-  <label><input type="checkbox" id="tkEffects" checked> effects</label>
-  <label>Volume <input type="range" id="tkVol" min="0" max="1" step="0.05" value="0.6"></label>
-</div>
-<script type="module" src="/src/play/player.js"></script>
-</body>
-</html>
+:root{color-scheme:dark}body{margin:0;background:#111;color:#ddd;font:14px system-ui,sans-serif}
+header{position:sticky;top:0;background:#1b1b1b;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:2;border-bottom:1px solid #333}
+button,select{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 10px;cursor:pointer;font:inherit}button.on{background:#3d5a80;border-color:#5b7fb0}button:disabled{opacity:.4}
+#wrap{overflow:auto;height:calc(100vh - var(--head,50px))}
+/* Full screen: the map alone, the run's controls in a bar at the bottom that hides while the mouse rests */
+html:fullscreen #wrap{height:100vh}
+html:fullscreen header{position:fixed;top:auto;bottom:0;left:0;right:0;justify-content:center;background:#1b1b1bd9;border:0;border-top:1px solid #333;padding:8px 64px 8px 12px;transition:opacity .3s}
+html:fullscreen header>:not(#tkBar){display:none!important}
+html:fullscreen #tkBar{border:0}html:fullscreen #tkSeek{width:min(40vw,520px)!important}
+html:fullscreen.idle header,html:fullscreen.idle #fsBtn{opacity:0}html:fullscreen.idle{cursor:none}
+#fsBtn{position:fixed;right:14px;bottom:14px;z-index:3;width:34px;height:34px;padding:0;display:grid;place-items:center;opacity:.75}#fsBtn:hover{opacity:1}#stage{position:relative}
+#stage img{display:block;image-rendering:pixelated;position:absolute;left:0;top:0}
+#live{position:absolute;image-rendering:pixelated;pointer-events:none;outline:2px solid #fff8;box-shadow:0 0 12px #000;display:none}
+#tas{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+#tas polyline{fill:none;stroke:#b48cff;stroke-width:2.5;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1px #000)}
+#pos{font-variant-numeric:tabular-nums;color:#aaa}
+.legend{color:#888}
+</style></head><body>
+<header>
+<select id="lvl"><option value="1">Stage 1 — lion and fire rings</option><option value="2">Stage 2 — tightrope</option><option value="3">Stage 3 — balls</option><option value="4">Stage 4 — horse</option><option value="5">Stage 5 — trapeze</option></select>
+<span>Zoom:</span><button data-z="0.25">¼</button><button data-z="0.5">½</button><button data-z="1" class="on">1×</button><button data-z="2">2×</button><button data-z="fitw" title="The stage's width in the window">fit width</button><button data-z="fith" title="The stage's height in the window">fit height</button>
+<span id="tkBar" style="display:flex;gap:6px;align-items:center;border:1px solid #444;border-radius:6px;padding:2px 8px" title="TASVideos 5270M as the game plays it: the camera window shows the game's frame (the field as the PPU draws it, from our replay of the movie)">
+ <button id="tkPlay">▶</button>
+ <select id="tkSpeed"><option value="1">×1</option><option value="4">×4</option><option value="16">×16</option></select>
+ <input type="range" id="tkSeek" min="0" max="1" value="0" style="width:200px">
+ <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="tkFollow" checked> follow</label>
+ <label style="display:flex;gap:4px;align-items:center" title="The run's music and sound effects: the game's sound-chip writes (the same as FCEUX's), played through @xromdev/apu. At ×1 only"><input type="checkbox" id="tkSound" checked> sound <input type="range" id="tkVol" min="0" max="1" step="0.05" value="0.6" style="width:60px"></label>
+ <label style="display:flex;gap:4px;align-items:center" title="The songs: writes from the driver's slots playing a stage theme or the start/goal jingle (numbers 14-21)"><input type="checkbox" id="tkMusic" checked> music</label>
+ <label style="display:flex;gap:4px;align-items:center" title="The sound effects: writes from the driver's slots playing an effect (1-7) — the jumps, the bonus count and the rest"><input type="checkbox" id="tkEffects" checked> effects</label>
+ <span id="tkLabel" class="legend"></span></span>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="TAS: tasvideos.org/5270M, played from power-on in FCEUX and replayed here frame for frame; Charlie's way through each stage"><input type="checkbox" id="tasBox" checked> TAS path <span id="tasN" class="legend"></span></label>
+<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Tinted: the cells the game writes during play (boards, fire pots, balls, obstacles) red; those shown more than one way blue"><input type="checkbox" id="marksBox"> drawn by play</label>
+<span id="pos"></span>
+</header>
+<button id="fsBtn" title="Full screen (Space plays and pauses the run)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5"/></svg></button>
+<div id="wrap"><div id="stage"><img id="iLevel" src="/stages/stage1.png"><canvas id="live" width="256" height="196"></canvas><svg id="tas"></svg></div></div>
+<script>
+let cur=1;
+const L=iLevel,st=stage;let z=1;
+
+function size(){st.style.width=L.naturalWidth*z+'px';st.style.height=L.naturalHeight*z+'px';L.style.width=L.naturalWidth*z+'px'}
+// Zoom: a fixed scale, or "fit width" / "fit height" — the stage's width or height in the window,
+// worked out again as the window, the stage or full screen change.
+let fit=false;
+function fitZoom(){const w=wrap,W=L.naturalWidth||2048,H=L.naturalHeight||196;return fit==='fith'?(w.clientHeight-2)/H:(w.clientWidth-2)/W}
+function zoomed(){size();showTas();window.takeRedraw?.()}
+function refit(){if(fit&&L.naturalWidth){const f=fitZoom();if(f!==z){z=f;zoomed()}}}
+L.onload=()=>{if(fit)z=fitZoom();size();showTas()};
+document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{fit=b.dataset.z.startsWith('fit')&&b.dataset.z;z=fit?fitZoom():+b.dataset.z;document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));zoomed()});
+addEventListener('resize',refit);
+// The map takes the window below the header, however many lines the header wraps to.
+new ResizeObserver(()=>{document.documentElement.style.setProperty('--head',document.querySelector('header').offsetHeight+'px');refit()}).observe(document.querySelector('header'));
+fsBtn.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+// In full screen the bar and the button fade out after 2.5 s without the mouse moving.
+let idleT=0;const awake=()=>{document.documentElement.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(()=>{if(document.fullscreenElement)document.documentElement.classList.add('idle')},2500)};
+addEventListener('mousemove',awake);
+document.addEventListener('fullscreenchange',()=>{awake();fsBtn.classList.toggle('on',!!document.fullscreenElement);setTimeout(refit,50)});
+
+// The TAS path (out/stages/tas.json, from our replay of the movie: Charlie's X/Y), fetched when first shown.
+// While the run plays (window.takeFrame set by the player), only the way still ahead of him.
+let TAS=null;
+async function showTas(){const svgT=document.getElementById('tas');
+ if(!tasBox.checked){svgT.innerHTML='';tasN.textContent='';return}
+ if(!TAS){try{TAS=(await (await fetch('/stages/tas.json',{cache:'no-store'})).json()).levels}catch(e){TAS={}}}
+ const T=TAS[cur],W=L.naturalWidth||2048,H=L.naturalHeight||196;svgT.setAttribute('viewBox',`0 0 ${W} ${H}`);svgT.style.width=W*z+'px';svgT.style.height=H*z+'px';
+ tasN.textContent=T?`(${(T.frames/60.0988).toFixed(0)} s)`:'(none)';
+ const tf=window.takeFrame;const ahead=sg=>tf==null?sg:sg.filter(p=>p[2]>=tf);
+ svgT.innerHTML=T?T.segments.map(sg=>ahead(sg)).filter(sg=>sg.length>1).map(sg=>`<polyline points="${sg.map(p=>p[0]+','+p[1]).join(' ')}"/>`).join(''):''}
+tasBox.onchange=showTas;
+
+function pick(n){cur=n;L.src=`/stages/stage${n}${marksBox.checked?'-marks':''}.png`;showTas();document.title='Circus Charlie — stage '+n}
+marksBox.onchange=()=>pick(cur);
+lvl.onchange=()=>pick(+lvl.value);pick(1);
+st.onmousemove=e=>{const r=st.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/z),y=Math.floor((e.clientY-r.top)/z);
+ pos.textContent=`x ${x} y ${y} · tile ${x>>3},${(y+44)>>3}`};
+</script><script type="module" src="/src/play/player.js"></script></body></html>
