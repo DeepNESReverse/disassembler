@@ -88,6 +88,23 @@ for (const f of ['tas-randil.json', 'run-seen.json', 'visible.json', 'take/randi
 // The sound's worklet, beside the bundled player as in the workshop (src/maps-run/sound.js).
 copyFileSync(resolve(repo, 'src/maps-run/sound.js'), resolve(out, 'maps-run/sound.js'));
 
+// levels.json: what the site's page says of each level, as text and for search engines — its map
+// and size, the time Randil's run spends on it, the prisoners to free (object type 6).
+const objects = JSON.parse(readFileSync(resolve(levelsDir, 'objects.json'), 'utf8')) as Record<string, { type: number }[]>;
+const trail = JSON.parse(readFileSync(resolve(levelsDir, 'tas-randil.json'), 'utf8')).levels as Record<string, { frames: number }>;
+const pngSize = (f: string) => { const b = readFileSync(f); return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) }; };
+writeFileSync(resolve(out, 'levels.json'), JSON.stringify({
+  word: 'level',
+  levels: Array.from({ length: LEVELS }, (_, i) => {
+    const n = i + 1, image = `${String(n).padStart(2, '0')}.png`;
+    return {
+      n, ...(n % 3 === 0 ? { name: 'boss' } : {}), image, ...pngSize(resolve(out, image)),
+      ...(trail[n] ? { run: Math.round(trail[n].frames / 60.0988) } : {}),
+      prisoners: (objects[n] ?? []).filter((o) => o.type === 6).length,
+    };
+  }),
+}, null, 1));
+
 // The run player in one module: '/src/…' is this repo's, '/xrom-libs/…' the libraries'.
 const esbuild = createRequire(resolve(repo, '../xrom-libs/nes/package.json'))('esbuild');
 await esbuild.build({
