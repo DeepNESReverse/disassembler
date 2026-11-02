@@ -103,3 +103,11 @@ The field is the whole height of the stage (no vertical scroll), and PPUMASK in 
 left 8 pixels shown, background and sprites): every cell of a map was on screen in the run —
 the maps are made of exactly what the camera showed (§3). What lies outside them (left of
 camera 0, past the goal's board) the camera never shows.
+
+## 7. On xrom.dev (2026-11-02, xrom 6b31337)
+https://xrom.dev/games/circus-charlie/maps — `src/public.ts ~/xrom/public/maps/circus-charlie`: the
+shared page and the run bundled, no ROM: `cart.bin.gz` holds only the 341 of 512 pattern-table
+tiles the maps and the run's shown frames draw (no PRG; the game uses no DMC). The card's preview
+(`src/preview.ts` → `src/preview.py`, `art/circus-charlie/maps.mp4`, 692 × 392, 15 s): the run over
+stage 1 from frame 300, the core's own picture. Credit: the TAS by klmz (TASVideos 5270M, 3:21.35,
+FCEUX 2.2.2, Circus Charlie (Japan)).
