@@ -61,6 +61,19 @@ for (let n = 1; n <= 5; n++) for (const kind of ['', '-marks']) copyFileSync(res
 for (const f of ['take.bin.gz', 'tas.json']) copyFileSync(resolve(stages, f), resolve(out, f));
 copyFileSync(resolve(repo, 'src/maps-run/sound.js'), resolve(out, 'maps-run/sound.js'));
 
+// levels.json: what the site's page says of each stage, as text and for search engines — its map
+// and size, its name, the time klmz's run spends on it.
+const NAMES = ['lion and fire rings', 'tightrope', 'balls', 'horse', 'trapeze'];
+const ways = JSON.parse(readFileSync(resolve(stages, 'tas.json'), 'utf8')).levels as Record<string, { frames: number }>;
+const pngSize = (f: string) => { const b = readFileSync(f); return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) }; };
+writeFileSync(resolve(out, 'levels.json'), JSON.stringify({
+  word: 'stage',
+  levels: NAMES.map((name, i) => ({
+    n: i + 1, name, image: `stage${i + 1}.png`, ...pngSize(resolve(out, `stage${i + 1}.png`)),
+    run: Math.round(ways[i + 1].frames / 60.0988),
+  })),
+}, null, 1));
+
 // The player in one module: '/src/…' is this repo's, '/xrom-libs/…' the libraries'.
 const esbuild = createRequire(resolve(repo, '../xrom-libs/nes/package.json'))('esbuild');
 await esbuild.build({
