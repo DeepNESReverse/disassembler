@@ -222,6 +222,8 @@ page = mountRunPage({
   levels: LEVEL_LIST,
   image: (n) => String(n).padStart(2, '0') + '.png',
   field: { w: 256, h: 176 },
+  // A level's whole width in the window: no scrolling sideways (the user's wish, 2026-11-02).
+  zoom: 'fitw',
   run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: new URL('maps-run/sound.js', import.meta.url).href,
