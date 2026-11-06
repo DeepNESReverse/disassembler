@@ -41,3 +41,22 @@ differ, every one accounted for:
 | 0 → $0B | 22 247 | the start lift's cable, column 3 ($BCE6, by $41/$42) |
 | another screen's row | 1 278 | a row at the screen's edge not rebuilt yet |
 | others | ~60 | one-frame writes in play ($9A-$9D, $C0-$C3, $86-$8B …): things drawn at the spot |
+
+## 4. The sound: music and effects told apart from the code (`src/sound-sites.ts`)
+The driver keeps one slot a channel, its stream at ($D4+c, $D8+c); it writes every channel through
+$DB1D/$DB28/$DB97-$DBAB (X = the channel). A sound starts where the game sets a stream pointer to an
+immediate: `LDA #lo / STA $D4+c / LDA #hi / STA $D8+c`, scanned over the PRG. Back to back (8 bytes
+apart) they are one start; a start of two or more channels is a song, one channel an effect: **10
+songs** (Title $8092, BGM $8380, Invincibility $8422, Power-Up $8434, Multiplier $8446, Ghost $935F,
+Lose a Life $954E, Checkpoint $9CDE, Ending $AABA/$AB64, Game Over $ABBC) and **22 effects** — the
+same split as the "with SFX" NSF rip (32 songs, 1-10 on two or three channels, 11-32 on one), read
+here from the cartridge alone.
+
+## 5. The run packed, the page (`src/take-pack.ts`, `src/play/`)
+`take-pack.ts` → `out/cave/take.bin.gz` (0.55 MB): per frame the camera (world x = plane x; world y
+= 240·screen + plane y, the screen whose rows the plane holds at line 0), the plane scroll, sprite
+memory, palette, both nametables; the sound writes with their owner. **The writes equal FCEUX's on
+every frame.** 16 122 frames show the cave. `out/cave/tas.json`: the spelunker's way (top-left of
+the palette-0 sprites below the status bar; his left-right wiggle on the first lift is the TAS's).
+`src/play/server.ts` → http://127.0.0.1:4326/: the shared page (`src/maps-run`) with the cave
+(`out/cave/cave.png`), the run window, the path, sound with music/effects apart.
