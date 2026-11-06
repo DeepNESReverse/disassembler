@@ -65,3 +65,14 @@ the palette-0 sprites below the status bar, tiles under $D0 — the ceiling's dr
 palette 0 too and pulled the path up to them; 6 pieces, broken at the five lives lost; his left-right wiggle on the first lift is the TAS's).
 `src/play/server.ts` → http://127.0.0.1:4326/: the shared page (`src/maps-run`) with the cave
 (`out/cave/cave.png`), the run window, the path, sound with music/effects apart.
+
+## 6. The items (`src/items.py` → `out/cave/items.json`, the page's "items" layer)
+The object table: 251 entries of 8 bytes at $AE46 — world y, world x, width, height, a parameter, the
+type — ending at $B61E (y 2400, x $FFFF); the reader ($96B4-$9781) walks it 8 bytes at a time with
+the index in $17, a flag per entry at $0500 + index ($96EE); an object's sprite stands at its world
+x, y less the camera (`runs/objects.ts`). Over the run the flags of types 0-7 go from 255 to 0 (taken:
+0 ×9, 1 ×6, 2 ×9, 3 ×17, 4 ×9, 5 ×8, 6 ×5, 7 ×3), of other types never that way — 0-7 are the
+pick-ups, plus $0F (drawn behind the background, never taken). 166 items; each type's look is read
+off the run (the sprites at the same place in at least 60 % of its objects first on screen; type 6
+flickers, its commonest pose kept). The page draws them all on the cave from the start, under the
+run's window, and takes each away from the frame its flag goes 255 → 0 — only what the TAS picked up.

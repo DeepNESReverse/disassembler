@@ -23,9 +23,42 @@ async function gunzip(url) {
 const rgb = (i) => { const c = NES_RGB[i & 0x3f]; return 0xff000000 | ((c & 0xff) << 16) | (c & 0xff00) | ((c >> 16) & 0xff); };
 const pal = (i) => state[PAL + ((i & 0x13) === 0x10 ? i & 0x0f : i)];
 
+// The items (src/items.py → items.json): every pick-up of the object table drawn on the cave with its
+// own sprites, under the run's window, and each gone from the frame the game marks it taken ($0500 +
+// its index going to 0 — so only those the spelunker really picked up, when he picked them up).
+let items, itemCtx, itemFlags = '', takenAt;
+const FLAGS = 2352;
+let curFrame = 0;
+function drawItems(force) {
+  if (!items || !itemCtx || !chr) return;
+  // Taken: the flag has gone from 255 to 0 by this frame (before the game sets them all, at power-on,
+  // they are 0 and nothing is taken).
+  const flags = items.items.map((it) => (takenAt && curFrame >= takenAt[it.i] ? 0 : 1)).join('');
+  if (!force && flags === itemFlags) return;
+  itemFlags = flags;
+  const cv = itemCtx.canvas, img = itemCtx.createImageData(cv.width, cv.height), out = new Uint32Array(img.data.buffer);
+  // The sprite colours of the cave (the palette as the run has it 600 frames in, items.json).
+  const pals = items.palette;
+  items.items.forEach((it, n) => {
+    if (flags[n] === '0') return;
+    for (const [dx, dy, tile, attr] of items.looks[it.type]) {
+      const base = items.spriteTable | (tile << 4);
+      for (let r = 0; r < 8; r++)
+        for (let j = 0; j < 8; j++) {
+          const rr = attr & 0x80 ? 7 - r : r, bit = attr & 0x40 ? j : 7 - j;
+          const c = ((chr[base + rr] >> bit) & 1) | (((chr[base + rr + 8] >> bit) & 1) << 1);
+          const x = it.x + dx + j, y = it.y + dy + r;
+          if (!c || x < 0 || y < 0 || x >= cv.width || y >= cv.height) continue;
+          out[y * cv.width + x] = rgb(pals[(attr & 3) * 4 + c]);
+        }
+    }
+  });
+  itemCtx.putImageData(img, 0, 0);
+}
+
 const run = {
   async load() {
-    chr = PUBLIC ? await gunzip(window.CART_PACK) : new Uint8Array(await (await fetch('/chr')).arrayBuffer());
+    await ready;
     data = await gunzip(DIR + 'take.bin.gz');
     frames = data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] * 0x1000000);
     size = data[8] | (data[9] << 8);
@@ -34,6 +67,8 @@ const run = {
     keys = [];
     const s = new Uint8Array(size);
     let first = -1, last = -1, o = 10;
+    takenAt = new Array(256).fill(Infinity);
+    const armed = new Uint8Array(256);
     for (let f = 0; f < frames; f++) {
       offsets[f] = o;
       const count = data[o] | (data[o + 1] << 8);
@@ -41,6 +76,10 @@ const run = {
       for (let k = 0; k < count; k++, o += 3) s[data[o] | (data[o + 1] << 8)] = data[o + 2];
       o += 2 + 2 * (data[o] | (data[o + 1] << 8));
       if (f % 600 === 0) keys.push(s.slice());
+      for (let i = 0; i < 256; i++) {
+        if (s[FLAGS + i] === 255) armed[i] = 1;
+        else if (s[FLAGS + i] === 0 && armed[i] && takenAt[i] === Infinity) takenAt[i] = f;
+      }
       if (s[4]) { if (first < 0) first = f; last = f; }
     }
     return { frames, spans: [[1, first, last]] };
@@ -108,6 +147,7 @@ const run = {
     ctx.putImageData(image, 0, 0);
     return { x: camX, y: camY };
   },
+  onFrame(f) { curFrame = f; drawItems(false); },
   writesOf(f, each) {
     let p = offsets[f];
     p += 2 + 3 * (data[p] | (data[p + 1] << 8));
@@ -132,5 +172,18 @@ mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The songs: sounds the game starts on two or more channels at once (the ten tunes)',
   effectsTitle: 'The sound effects: sounds the game starts on one channel (22 of them)',
+  layersBelow: '<canvas id="items" width="448" height="2400" style="position:absolute;left:0;top:0;image-rendering:pixelated;pointer-events:none"></canvas>',
+  headerHtml: '<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Every pick-up of the cave drawn where the game keeps it, each gone once the TAS has picked it up"><input type="checkbox" id="itemsBox" checked> items</label>',
+  // The stage is the map's size at the zoom (set before onZoom; `page` is not there yet on the first call).
+  onZoom: () => { const cv = document.getElementById('items'), st = document.getElementById('stage'); cv.style.width = st.style.width; cv.style.height = st.style.height; },
   onMouse: (x, y) => { document.getElementById('pos').textContent = `x ${x} y ${y} · tile ${x >> 3},${y >> 3}`; },
 });
+
+itemCtx = document.getElementById('items').getContext('2d');
+// The pattern tables and the items before the run: the items are on the cave from the start.
+const ready = (async () => {
+  chr = PUBLIC ? await gunzip(window.CART_PACK) : new Uint8Array(await (await fetch('/chr')).arrayBuffer());
+  items = await (await fetch(DIR + 'items.json')).json();
+  drawItems(true);
+})();
+document.getElementById('itemsBox').onchange = (e) => { document.getElementById('items').style.display = e.target.checked ? '' : 'none'; };

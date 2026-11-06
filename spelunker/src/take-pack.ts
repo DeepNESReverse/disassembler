@@ -8,7 +8,8 @@
  *   4 1 if the frame shows the cave (background on, its rows the world's)   5 PPUCTRL   6 PPUMASK
  *   7-8 the plane x (0-511) and 9-10 plane y (0-239) every line starts from (no split, §3)
  *   11 the spelunker's screen x, 12 his y (255: not found) — the top-left of the palette-0 sprites
- *   below the status bar, tiles under $D0 (the ceiling's drops are $DA-$DF)   16-271 the sprite memory   272-303 the palette   304-2351 both nametables.
+ *   below the status bar, tiles under $D0 (the ceiling's drops are $DA-$DF)   16-271 the sprite memory   272-303 the palette   304-2351 both nametables
+ *   2352-2607 RAM $0500-$05FF: per object of the table at $AE46 (`objects.ts`) whether it is still there.
  *
  * Sound — every write to $4000-$4013/$4015/$4017, in order, with its owner: the driver has one slot
  * a channel, its stream at ($D4+c, $D8+c); a sound starts where the game sets that pointer to an
@@ -30,7 +31,7 @@ import { readMovie } from './movie.ts';
 import { decode } from './level.ts';
 import { soundSites } from './sound-sites.ts';
 
-export const STATE_SIZE = 2352;
+export const STATE_SIZE = 2608;
 const rom = parseRom(romFile());
 const sites = soundSites(rom.prg);
 const core = new Core(rom);
@@ -114,6 +115,7 @@ for (const f of movie) {
   state.set(c.oam, 16);
   state.set(c.palette.subarray(0, 32), 272);
   state.set(c.ciram, 304);
+  state.set(c.ram.subarray(0x500, 0x600), 2352);
   if (ok) {
     shown++;
     if (sy !== 255) {
