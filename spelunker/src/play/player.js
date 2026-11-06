@@ -65,7 +65,10 @@ const run = {
       const py = (planeY + line) % 240, row = py >> 3, fy = py & 7;
       for (let x = 0; x < W; x++) {
         const i = line * W + x;
-        if (!(mask & 0x08) || (x < 8 && !(mask & 0x02))) { px[i] = backdrop; bgOpaque[i] = 0; continue; }
+        // The left 8 pixels the game hides (PPUMASK bit 1 off, as it plays): left clear, so the
+        // map shows through instead of a black strip down the window's edge.
+        if (x < 8 && !(mask & 0x02)) { px[i] = 0; bgOpaque[i] = 0; continue; }
+        if (!(mask & 0x08)) { px[i] = backdrop; bgOpaque[i] = 0; continue; }
         const pxl = (planeX + x) & 511, col = pxl >> 3, page = col >> 5, cx = col & 31;
         const tile = state[CIRAM + page * 0x400 + row * 32 + cx];
         const attr = state[CIRAM + page * 0x400 + 0x3c0 + (row >> 2) * 8 + (cx >> 2)];
