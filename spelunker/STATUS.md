@@ -4,7 +4,7 @@ Same plan as ~/alien3-levels and ~/circus-charlie-levels. Format only from the c
 claim below with the tool that shows it. The ROM is read in place from `~/spelunker-tas/` (`src/rom.ts`),
 never copied here.
 
-The TAS: yuigenron2's (TASVideos, FCEUX 2.1.4a, Spelunker (J) [!], 16 141 frames, 7 900 rerecords),
+The TAS: yuigenron's, TASVideos 2313M (4:28.57, FCEUX 2.2.0, Spelunker (J) [!], 16 141 frames, 7 900 rerecords),
 captured in FCEUX by the user with `fceux/movie_capture.lua` (2026-11-07) → `fceux/movie_capture.play.txt`.
 
 ## 1. The TAS replays here exactly — with both pads (`src/sync-explorer.ts`, `src/movie.ts`)
@@ -76,3 +76,12 @@ pick-ups, plus $0F (drawn behind the background, never taken). 166 items; each t
 off the run (the sprites at the same place in at least 60 % of its objects first on screen; type 6
 flickers, its commonest pose kept). The page draws them all on the cave from the start, under the
 run's window, and takes each away from the frame its flag goes 255 → 0 — only what the TAS picked up.
+
+## 7. On xrom.dev (2026-11-07, xrom e19199b)
+https://xrom.dev/games/spelunker/maps — `src/public.ts ~/xrom/public/maps/spelunker`: the shared page
+and the run bundled, no ROM: `cart.bin.gz` holds the 307 of 512 pattern tiles the cave, the run's shown
+frames and the items draw (no PRG; no DMC). The card's preview (`src/preview.ts` → `src/preview.py`,
+`art/spelunker/maps.mp4`, 896 × 508, 15 s from frame 2200): the cave's width, following the camera
+down, the items and the path as on the page. Art: logo/hero/cover from ~/xrom-art-prep, the font
+(digits $30-$39, A-Z $3A-$53, '-' $54, '.' $5E of the background table), the share image laid out as
+Alien 3's. Credit: the TAS by yuigenron (TASVideos 2313M).
