@@ -59,15 +59,16 @@ writeFileSync(resolve(out, 'cart.bin.gz'), gzipSync(chrOut, { level: 9 }));
 const kept = keep.reduce((a, b) => a + b, 0);
 console.log(`cart.bin.gz: ${kept} of ${keep.length} tiles kept (${((100 * kept) / keep.length).toFixed(0)} % of the pattern tables), no PRG`);
 
-for (const f of ['cave.png', 'take.bin.gz', 'tas.json', 'items.json']) copyFileSync(resolve(cave, f), resolve(out, f));
+for (const f of ['cave.png', 'cave-items.png', 'take.bin.gz', 'tas.json', 'items.json']) copyFileSync(resolve(cave, f), resolve(out, f));
 copyFileSync(resolve(repo, 'src/maps-run/sound.js'), resolve(out, 'maps-run/sound.js'));
 
 // levels.json: what the site's page says of the cave, as text and for search engines.
 const way = JSON.parse(readFileSync(resolve(cave, 'tas.json'), 'utf8')).levels['1'] as { frames: number };
-const png = readFileSync(resolve(out, 'cave.png'));
+// The picture is the cave with its items (items.py); the site knows the words `level` and `stage`.
+const png = readFileSync(resolve(out, 'cave-items.png'));
 writeFileSync(resolve(out, 'levels.json'), JSON.stringify({
-  word: 'cave',
-  levels: [{ n: 1, name: 'the cave', image: 'cave.png', width: png.readUInt32BE(16), height: png.readUInt32BE(20), run: Math.round(way.frames / 60.0988) }],
+  word: 'level',
+  levels: [{ n: 1, name: 'the cave', image: 'cave-items.png', width: png.readUInt32BE(16), height: png.readUInt32BE(20), run: Math.round(way.frames / 60.0988) }],
 }, null, 1));
 
 const esbuild = createRequire(resolve(repo, '../xrom-libs/nes/package.json'))('esbuild');

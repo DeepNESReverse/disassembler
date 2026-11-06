@@ -66,3 +66,25 @@ items = [dict(i=o['i'], type=o['type'], x=o['x'], y=o['y']) for o in objs if o['
 json.dump(dict(palette=palette, spriteTable=sprites, looks={str(t): v for t, v in looks.items()}, items=items), open('out/cave/items.json', 'w'))
 print(len(items), 'items;', {hex(t): len(v) for t, v in looks.items()}, 'sprites a look; never seen in the run:',
       [o['i'] for o in objs if o['type'] in ITEMS and o['i'] not in first])
+
+# The cave with every item where the game keeps it (none taken): out/cave/cave-items.png, the
+# picture the site's page shows under the player (levels.json).
+from PIL import Image
+rgb = json.loads(__import__('subprocess').check_output(['node', '--experimental-strip-types', '--no-warnings', '--input-type=module', '-e',
+    "import { NES_RGB } from '/Users/alex.m/xrom-libs/nes/src/palette.ts'; console.log(JSON.stringify(NES_RGB))"]))
+chr_ = open(ROM, 'rb').read()[16 + 0x8000:16 + 0xA000]
+cave = Image.open('out/cave/cave.png').convert('RGB')
+for it in items:
+    for dx, dy, tile, attr in looks[it['type']]:
+        base = sprites + tile * 16
+        for r in range(8):
+            rr = 7 - r if attr & 0x80 else r
+            for j in range(8):
+                bit = j if attr & 0x40 else 7 - j
+                v = ((chr_[base + rr] >> bit) & 1) | (((chr_[base + rr + 8] >> bit) & 1) << 1)
+                x, y = it['x'] + dx + j, it['y'] + dy + r
+                if v and 0 <= x < cave.width and 0 <= y < cave.height:
+                    c = rgb[palette[(attr & 3) * 4 + v] & 0x3F]
+                    cave.putpixel((x, y), (c >> 16 & 255, c >> 8 & 255, c & 255))
+cave.save('out/cave/cave-items.png', optimize=True)
+print('out/cave/cave-items.png')
