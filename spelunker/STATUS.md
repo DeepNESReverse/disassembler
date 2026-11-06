@@ -55,7 +55,11 @@ here from the cartridge alone.
 ## 5. The run packed, the page (`src/take-pack.ts`, `src/play/`)
 `take-pack.ts` → `out/cave/take.bin.gz` (0.55 MB): per frame the camera (world x = plane x; world y
 = 240·screen + plane y, the screen whose rows the plane holds at line 0), the plane scroll, sprite
-memory, palette, both nametables; the sound writes with their owner. **The writes equal FCEUX's on
+memory, palette, both nametables; the sound writes with their owner. The screen is chosen over the
+whole picture (30 rows), a tie to the nearest of the frame before: chosen by line 0's row alone it
+flipped 240 px on 904 frames (rows alike in two screens) and the page's view shook; now the camera
+moves more than 8 px in a frame 5 times, each a life lost and the spelunker back at a checkpoint
+(`runs/cam-jumps.py`). **The writes equal FCEUX's on
 every frame.** 16 122 frames show the cave. `out/cave/tas.json`: the spelunker's way (top-left of
 the palette-0 sprites below the status bar; his left-right wiggle on the first lift is the TAS's).
 `src/play/server.ts` → http://127.0.0.1:4326/: the shared page (`src/maps-run`) with the cave

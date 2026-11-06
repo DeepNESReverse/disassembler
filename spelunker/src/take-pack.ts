@@ -74,21 +74,29 @@ out.push(n & 255, (n >> 8) & 255, (n >> 16) & 255, n >>> 24);
 u16(STATE_SIZE);
 const way: { segments: [number, number, number][][]; frames: number } = { segments: [], frames: 0 };
 const owners = [0, 0, 0];
-let soundDiff = 0, shown = 0;
+let soundDiff = 0, shown = 0, lastCamY = 0;
 for (const f of movie) {
   writes = [];
   core.buttons = f.buttons; core.buttons2 = f.buttons2; core.runFrame();
   const key = Buffer.from(c.ram.subarray(0x7c0, 0x800)).toString('hex');
   if (key !== worldKey) { world = decode(cart, c.ram); worldKey = key; }
-  // The screen whose rows the plane holds at line 0: the best of the ten, over the row's 56 cells.
-  const R = planeY >> 3;
+  // The camera: the screen k for which the whole picture (30 rows from line 0, wrapping in the plane)
+  // is the world's from 240·k + plane y — matched over every row, not one (a row can be the same in
+  // two screens); a tie goes to the k nearest the frame before.
+  const R0 = planeY >> 3;
   let k = 0, miss = 1e9;
   for (let s = 0; s < 10; s++) {
+    const top = (240 * s + planeY) >> 3;
     let m = 0;
-    for (let col = 0; col < 56; col++) if (world.tiles[30 * s + R][col] !== c.ciram[(col >> 5) * 0x400 + R * 32 + (col & 31)]) m++;
-    if (m < miss) { miss = m; k = s; }
+    for (let j = 0; j < 30; j++) {
+      if (top + j >= 300) { m += 56; continue; } // past the cave's bottom: nothing of it there
+      const R = (R0 + j) % 30;
+      for (let col = 0; col < 56; col++) if (world.tiles[top + j][col] !== c.ciram[(col >> 5) * 0x400 + R * 32 + (col & 31)]) m++;
+    }
+    if (m < miss || (m === miss && Math.abs(240 * s + planeY - lastCamY) < Math.abs(240 * k + planeY - lastCamY))) { miss = m; k = s; }
   }
-  const ok = lineMask & 0x08 && miss <= 8 ? 1 : 0;
+  lastCamY = 240 * k + planeY;
+  const ok = lineMask & 0x08 && miss <= 240 ? 1 : 0;
   const camX = planeX, camY = 240 * k + planeY;
   // The spelunker: palette-0 sprites below the status bar (sprite y ≥ 32).
   let sx = 255, sy = 255;
