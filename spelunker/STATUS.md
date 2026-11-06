@@ -61,6 +61,7 @@ flipped 240 px on 904 frames (rows alike in two screens) and the page's view sho
 moves more than 8 px in a frame 5 times, each a life lost and the spelunker back at a checkpoint
 (`runs/cam-jumps.py`). **The writes equal FCEUX's on
 every frame.** 16 122 frames show the cave. `out/cave/tas.json`: the spelunker's way (top-left of
-the palette-0 sprites below the status bar; his left-right wiggle on the first lift is the TAS's).
+the palette-0 sprites below the status bar, tiles under $D0 — the ceiling's drops $DA-$DF are
+palette 0 too and pulled the path up to them; 6 pieces, broken at the five lives lost; his left-right wiggle on the first lift is the TAS's).
 `src/play/server.ts` → http://127.0.0.1:4326/: the shared page (`src/maps-run`) with the cave
 (`out/cave/cave.png`), the run window, the path, sound with music/effects apart.

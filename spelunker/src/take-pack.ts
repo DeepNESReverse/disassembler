@@ -8,7 +8,7 @@
  *   4 1 if the frame shows the cave (background on, its rows the world's)   5 PPUCTRL   6 PPUMASK
  *   7-8 the plane x (0-511) and 9-10 plane y (0-239) every line starts from (no split, §3)
  *   11 the spelunker's screen x, 12 his y (255: not found) — the top-left of the palette-0 sprites
- *   below the status bar   16-271 the sprite memory   272-303 the palette   304-2351 both nametables.
+ *   below the status bar, tiles under $D0 (the ceiling's drops are $DA-$DF)   16-271 the sprite memory   272-303 the palette   304-2351 both nametables.
  *
  * Sound — every write to $4000-$4013/$4015/$4017, in order, with its owner: the driver has one slot
  * a channel, its stream at ($D4+c, $D8+c); a sound starts where the game sets that pointer to an
@@ -98,11 +98,12 @@ for (const f of movie) {
   lastCamY = 240 * k + planeY;
   const ok = lineMask & 0x08 && miss <= 240 ? 1 : 0;
   const camX = planeX, camY = 240 * k + planeY;
-  // The spelunker: palette-0 sprites below the status bar (sprite y ≥ 32).
+  // The spelunker: palette-0 sprites below the status bar (sprite y ≥ 32), not the drops from the
+  // ceiling (tiles $DA-$DF, palette 0 too: taken for him, the path jumped up to them).
   let sx = 255, sy = 255;
   for (let i = 0; i < 64; i++) {
     const y = c.oam[i * 4], a = c.oam[i * 4 + 2];
-    if (y >= 0xef || y < 32 || (a & 3) !== 0) continue;
+    if (y >= 0xef || y < 32 || (a & 3) !== 0 || c.oam[i * 4 + 1] >= 0xd0) continue;
     if (y + 1 < sy || sy === 255) sy = y + 1;
     if (c.oam[i * 4 + 3] < sx) sx = c.oam[i * 4 + 3];
   }
@@ -138,5 +139,7 @@ const raw = Uint8Array.from(out);
 mkdirSync('out/cave', { recursive: true });
 const gz = gzipSync(raw, { level: 9 });
 writeFileSync('out/cave/take.bin.gz', gz);
+// A lone point (the frame he reappears at a checkpoint, before the camera has come) is no way.
+way.segments = way.segments.filter((seg) => seg.length > 1);
 writeFileSync('out/cave/tas.json', JSON.stringify({ levels: { 1: way } }));
 console.log(`${n} frames (${shown} show the cave): ${(raw.length / 1e6).toFixed(1)} MB, gzip ${(gz.length / 1e6).toFixed(2)} MB; sound writes music ${owners[0]}, effects ${owners[1]}, both ${owners[2]}; frames whose writes differ from FCEUX's: ${soundDiff}; path ${way.segments.length} segments`);
