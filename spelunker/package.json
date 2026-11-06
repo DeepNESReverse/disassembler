@@ -1,0 +1,7 @@
+{
+  "name": "spelunker-levels",
+  "private": true,
+  "type": "module",
+  "description": "Spelunker (Japan): the cave drawn whole from the cartridge, with a TAS played over it.",
+  "scripts": {}
+}
