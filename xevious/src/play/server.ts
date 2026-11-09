@@ -23,11 +23,13 @@ const TYPES: Record<string, string> = {
 
 const LAYOUT = resolve(repo, 'data/puzzle.json');
 
-/** A layout is sixteen `{ n, x, y }` of whole numbers; anything else is refused. */
+/** A layout is sixteen `{ n, x, y, group, locked, z }`; anything else is refused. */
 function layoutOf(body: string) {
-  const pieces = (JSON.parse(body) as { pieces: { n: number; x: number; y: number }[] }).pieces;
-  if (pieces.length !== 16 || !pieces.every((p) => [p.n, p.x, p.y].every(Number.isInteger))) throw new Error('not a layout');
-  return { pieces: pieces.map(({ n, x, y }) => ({ n, x, y })) };
+  type Piece = { n: number; x: number; y: number; group: number; locked: boolean; z: number };
+  const pieces = (JSON.parse(body) as { pieces: Piece[] }).pieces;
+  if (pieces.length !== 16 || !pieces.every((p) => [p.n, p.x, p.y, p.group, p.z].every(Number.isInteger) && typeof p.locked === 'boolean'))
+    throw new Error('not a layout');
+  return { pieces: pieces.map(({ n, x, y, group, locked, z }) => ({ n, x, y, group, locked, z })) };
 }
 
 function send(res: ServerResponse, status: number, body: string | Uint8Array, type = 'text/plain; charset=utf-8') {

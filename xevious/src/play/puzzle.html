@@ -28,6 +28,7 @@ label{display:flex;gap:6px;align-items:center;cursor:pointer}
 body.lines .piece{outline:1px solid #fff5;outline-offset:-1px}
 .piece.sel{outline:2px solid var(--pick)!important;outline-offset:-2px}
 .tag{position:absolute;left:3px;background:#000c;color:#fff;font:700 15px/1 ui-monospace,monospace;padding:3px 6px;border-radius:3px;pointer-events:none}
+body.lines .piece.locked{outline-color:#ffd166}
 .tag.top{top:3px}
 .tag.bottom{bottom:3px}
 body.notags .tag{display:none}
@@ -43,22 +44,25 @@ body.notags .tag{display:none}
   <label><input type="checkbox" id="lines" checked> Outlines</label>
   <label><input type="checkbox" id="snap" checked> Snap</label>
   <label>Opacity <input type="range" id="alpha" min="30" max="100" value="100" style="width:90px"></label>
-  <button id="reset" title="Back to the game's order">Reset</button>
+  <button id="lock" title="Pin the picked pieces where they are, or let them go">Lock</button>
+  <button id="reset" title="The pieces that are not locked go back to the game's order">Reset</button>
   <span id="info"></span>
   <span id="saved"></span>
 </header>
-<div id="hint">Drag a piece. Shift-click picks several, and they move together. Arrow keys move the picked pieces by a tile (8 px), with Shift by 1 px. Alt while dragging turns snapping off. Drag the empty space to pan; Ctrl or Cmd with the wheel zooms.</div>
+<div id="hint">Drag a piece. Ctrl-click (or Cmd-click) adds a piece to the last picked one's group, and a group drags as one; Ctrl-click a member to take it out. Shift-click picks several for one move. Lock pins the picked pieces (gold). Arrow keys move the picked pieces by a tile (8 px), with Shift by 1 px. Alt while dragging turns snapping off. Drag the empty space to pan; Ctrl or Cmd with the wheel zooms.</div>
 <div id="wrap"><div id="world"></div></div>
 <script type="module">
 const AREAS = 16, W = 256, H = 2080, TILE = 8, WORLD_W = 12000, WORLD_H = 7000, MAGNET = 10;
 const ZOOMS = [[0.125, '⅛'], [0.25, '¼'], [0.5, '½'], [1, '1×'], [2, '2×']];
 const $ = (id) => document.getElementById(id);
 const wrap = $('wrap'), world = $('world');
-const home = (i) => ({ n: i + 1, x: 16 + i * (W + 40), y: 40 });
+const home = (i) => ({ n: i + 1, x: 16 + i * (W + 40), y: 40, group: 0, locked: false, z: 0 });
 
 let pieces = Array.from({ length: AREAS }, (_, i) => home(i));
 let zoom = 0.25;
 const picked = new Set();
+/** The piece the next Ctrl-click joins. */
+let anchor = 0;
 const nodes = new Map();
 let top = 1;
 
@@ -83,7 +87,7 @@ async function load() {
     const data = await res.json();
     for (const p of pieces) {
       const kept = data.pieces.find((q) => q.n === p.n);
-      if (kept) Object.assign(p, { x: kept.x, y: kept.y });
+      if (kept) Object.assign(p, { x: kept.x, y: kept.y, group: kept.group ?? 0, locked: kept.locked ?? false, z: kept.z ?? 0 });
     }
   } catch {
     // No layout yet: the game's order.
@@ -103,6 +107,7 @@ function build() {
     el.append(img, tag(p.n, 'top'), tag(p.n, 'bottom'));
     world.append(el);
     nodes.set(p.n, el);
+    top = Math.max(top, p.z);
   }
 }
 function tag(n, where) {
@@ -115,7 +120,46 @@ function place(p) {
   const el = nodes.get(p.n);
   el.style.left = `${p.x * zoom}px`;
   el.style.top = `${p.y * zoom}px`;
+  el.style.zIndex = p.z;
   el.classList.toggle('sel', picked.has(p.n));
+  el.classList.toggle('locked', p.locked);
+  // A group shows as one colour behind the numbers; a locked piece as a gold number and outline.
+  el.querySelectorAll('.tag').forEach((t) => {
+    t.style.background = p.group ? `hsl(${(p.group * 67 + 190) % 360} 75% 32%)` : '';
+    t.style.color = p.locked ? '#ffd166' : '';
+  });
+}
+/** A piece with the rest of its group. */
+const withGroup = (n) => {
+  const p = pieces.find((q) => q.n === n);
+  return p.group ? pieces.filter((q) => q.group === p.group) : [p];
+};
+const pick = (n) => withGroup(n).forEach((p) => picked.add(p.n));
+/** Ctrl-click: into the anchor's group, whole group and all; out again if already in it. */
+function toggleGroup(n) {
+  const p = pieces.find((q) => q.n === n);
+  const lead = pieces.find((q) => q.n === anchor);
+  if (!lead || p.locked || lead.locked) {
+    picked.clear();
+    pick(n);
+    anchor = n;
+    return;
+  }
+  if (p !== lead && (!p.group || p.group !== lead.group)) {
+    if (!lead.group) lead.group = Math.max(0, ...pieces.map((q) => q.group)) + 1;
+    for (const q of withGroup(n)) q.group = lead.group;
+  } else if (p.group) {
+    const was = p.group;
+    p.group = 0;
+    const left = pieces.filter((q) => q.group === was);
+    if (left.length === 1) left[0].group = 0;
+    if (p === lead) anchor = left[0]?.n ?? 0;
+    picked.delete(n);
+  }
+  picked.clear();
+  if (anchor) pick(anchor);
+  if (!picked.has(n) && p.group) pick(n);
+  save();
 }
 function layout() {
   world.style.width = `${WORLD_W * zoom}px`;
@@ -133,7 +177,9 @@ function layout() {
 }
 function info() {
   const list = pieces.filter((p) => picked.has(p.n));
-  $('info').textContent = list.length === 1 ? `Area ${list[0].n} · x ${list[0].x} y ${list[0].y}` : list.length ? `${list.length} pieces` : '';
+  const state = list.some((p) => p.locked) ? ' · locked' : '';
+  const group = list[0]?.group ? ` · group ${list[0].group}` : '';
+  $('info').textContent = list.length === 1 ? `Area ${list[0].n}${state} · x ${list[0].x} y ${list[0].y}` : list.length ? `${list.length} pieces${group}${state}` : '';
 }
 
 function setZoom(z, cx = wrap.clientWidth / 2, cy = wrap.clientHeight / 2) {
@@ -172,14 +218,22 @@ world.addEventListener('pointerdown', (e) => {
   if (!el) return;
   e.stopPropagation();
   const n = Number(el.dataset.n);
-  if (e.shiftKey) picked.has(n) ? picked.delete(n) : picked.add(n);
-  else if (!picked.has(n)) { picked.clear(); picked.add(n); }
+  if (e.ctrlKey || e.metaKey) {
+    toggleGroup(n);
+    pieces.forEach(place);
+    info();
+    return;
+  }
+  if (e.shiftKey) picked.has(n) ? withGroup(n).forEach((p) => picked.delete(p.n)) : pick(n);
+  else if (!picked.has(n)) { picked.clear(); pick(n); }
+  anchor = n;
   pieces.forEach(place);
   info();
   if (!picked.has(n)) return;
-  el.setPointerCapture(e.pointerId);
   const moving = pieces.filter((p) => picked.has(p.n));
-  for (const p of moving) nodes.get(p.n).style.zIndex = ++top;
+  if (moving.some((p) => p.locked)) return;
+  el.setPointerCapture(e.pointerId);
+  for (const p of moving) { p.z = ++top; place(p); }
   drag = { n, sx: e.clientX, sy: e.clientY, left: wrap.scrollLeft, up: wrap.scrollTop, from: moving.map((p) => ({ p, x: p.x, y: p.y })), moved: false };
 });
 window.addEventListener('pointermove', (e) => {
@@ -199,6 +253,7 @@ window.addEventListener('pointermove', (e) => {
   drag.moved = true;
   info();
 });
+world.addEventListener('contextmenu', (e) => e.preventDefault());
 const drop = () => {
   if (drag?.moved) save();
   drag = null;
@@ -210,6 +265,7 @@ window.addEventListener('pointercancel', drop);
 let pan = null;
 wrap.addEventListener('pointerdown', (e) => {
   picked.clear();
+  anchor = 0;
   pieces.forEach(place);
   info();
   pan = { x: e.clientX, y: e.clientY, left: wrap.scrollLeft, up: wrap.scrollTop };
@@ -237,6 +293,7 @@ window.addEventListener('keydown', (e) => {
   const step = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
   if (!step || !picked.size || e.target.matches('input[type=range]')) return;
   e.preventDefault();
+  if (pieces.some((p) => picked.has(p.n) && p.locked)) return;
   const by = e.shiftKey ? 1 : TILE;
   for (const p of pieces.filter((q) => picked.has(q.n))) {
     p.x = Math.max(0, p.x + step[0] * by);
@@ -255,13 +312,22 @@ for (const [z, label] of ZOOMS) {
   b.onclick = () => setZoom(z);
   $('zooms').append(b);
 }
+$('lock').onclick = () => {
+  const list = pieces.filter((p) => picked.has(p.n));
+  if (!list.length) return;
+  const to = !list.every((p) => p.locked);
+  for (const p of list) p.locked = to;
+  pieces.forEach(place);
+  save();
+};
 $('fit').onclick = fit;
 $('tags').onchange = (e) => document.body.classList.toggle('notags', !e.target.checked);
 $('lines').onchange = (e) => document.body.classList.toggle('lines', e.target.checked);
 $('alpha').oninput = (e) => { for (const el of nodes.values()) el.style.opacity = e.target.value / 100; };
 $('reset').onclick = () => {
-  pieces.forEach((p, i) => Object.assign(p, home(i)));
+  pieces.forEach((p, i) => { if (!p.locked) Object.assign(p, home(i)); });
   picked.clear();
+  anchor = 0;
   layout();
   info();
   save();
