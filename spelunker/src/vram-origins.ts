@@ -5,8 +5,8 @@
  *
  *   node --experimental-strip-types src/vram-origins.ts [--from F] [--to F]
  */
-import { Core, parseRom } from '../../nes-explorer/src/core/core.ts';
-import { Taint, originOffset, isDerived, isImmediate } from '../../nes-explorer/src/core/taint.ts';
+import { Core, parseRom } from '../libs/nes-explorer/src/core/core.ts';
+import { Taint, originOffset, isDerived, isImmediate } from '../libs/nes-explorer/src/core/taint.ts';
 import { romFile } from './rom.ts';
 import { readMovie } from './movie.ts';
 

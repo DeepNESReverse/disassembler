@@ -7,7 +7,7 @@
  *
  *   node --experimental-strip-types src/check.ts [--to F]
  */
-import { Core, parseRom } from '../../nes-explorer/src/core/core.ts';
+import { Core, parseRom } from '../libs/nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { readMovie } from './movie.ts';
 import { decode, TILE_COLS } from './level.ts';

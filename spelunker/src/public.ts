@@ -12,7 +12,7 @@ import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { gunzipSync, gzipSync } from 'node:zlib';
 import { resolve } from 'node:path';
 import { createRequire } from 'node:module';
-import { parseRom } from '../../nes-explorer/src/core/core.ts';
+import { parseRom } from '../libs/nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { decode, TILE_COLS, TILE_ROWS } from './level.ts';
 
@@ -71,7 +71,7 @@ writeFileSync(resolve(out, 'levels.json'), JSON.stringify({
   levels: [{ n: 1, name: 'the cave', image: 'cave-items.png', width: png.readUInt32BE(16), height: png.readUInt32BE(20), run: Math.round(way.frames / 60.0988) }],
 }, null, 1));
 
-const esbuild = createRequire(resolve(repo, '../xrom-libs/nes/package.json'))('esbuild');
+const esbuild = createRequire(resolve(repo, 'libs/nes/package.json'))('esbuild');
 await esbuild.build({
   entryPoints: [resolve(repo, 'src/play/player.js')],
   bundle: true, format: 'esm', minify: true, outfile: resolve(out, 'player.js'), logLevel: 'warning',

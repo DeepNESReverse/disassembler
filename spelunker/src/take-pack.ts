@@ -25,7 +25,7 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
-import { Core, parseRom } from '../../nes-explorer/src/core/core.ts';
+import { Core, parseRom } from '../libs/nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { readMovie } from './movie.ts';
 import { decode } from './level.ts';

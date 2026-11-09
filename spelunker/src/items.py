@@ -71,7 +71,7 @@ print(len(items), 'items;', {hex(t): len(v) for t, v in looks.items()}, 'sprites
 # picture the site's page shows under the player (levels.json).
 from PIL import Image
 rgb = json.loads(__import__('subprocess').check_output(['node', '--experimental-strip-types', '--no-warnings', '--input-type=module', '-e',
-    "import { NES_RGB } from '/Users/alex.m/xrom-libs/nes/src/palette.ts'; console.log(JSON.stringify(NES_RGB))"]))
+    "import { NES_RGB } from './libs/nes/src/palette.ts'; console.log(JSON.stringify(NES_RGB))"]))
 chr_ = open(ROM, 'rb').read()[16 + 0x8000:16 + 0xA000]
 cave = Image.open('out/cave/cave.png').convert('RGB')
 for it in items:

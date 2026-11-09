@@ -7,9 +7,9 @@
  *   node --experimental-strip-types src/render.ts [--frame F] [--out out/cave.png]
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
-import { Core, parseRom } from '../../nes-explorer/src/core/core.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
+import { Core, parseRom } from '../libs/nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { readMovie } from './movie.ts';
 import { decode, TILE_COLS, TILE_ROWS } from './level.ts';

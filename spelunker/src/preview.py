@@ -16,7 +16,7 @@ rom = open(__import__('os').path.expanduser('~/spelunker-tas/Spelunker (Japan).n
 chr_ = rom[16 + 0x8000:16 + 0xA000]
 # The NES colours, the same table the page uses.
 NES = json.loads(subprocess.check_output(['node', '--experimental-strip-types', '--no-warnings', '--input-type=module', '-e',
-    "import { NES_RGB } from '/Users/alex.m/xrom-libs/nes/src/palette.ts'; console.log(JSON.stringify(NES_RGB))"]))
+    "import { NES_RGB } from './libs/nes/src/palette.ts'; console.log(JSON.stringify(NES_RGB))"]))
 
 # When each item is taken: its flag going 255 → 0 in the packed run.
 d = gzip.open('out/cave/take.bin.gz').read()
