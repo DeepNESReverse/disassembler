@@ -7,7 +7,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import { replay, cameraOf, FIELD_TOP } from './replay.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
 
 const [first, count, step, outPath] = process.argv.slice(2);
 const start = Number(first), end = start + Number(count);

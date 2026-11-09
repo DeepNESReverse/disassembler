@@ -8,9 +8,9 @@
  *   node --experimental-strip-types src/render.ts [--marks]
  */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
-import { parseRom } from '../../nes-explorer/src/core/core.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
+import { parseRom } from '../libs/nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { cpuByte } from './level.ts';
 import { FIELD_TOP } from './replay.ts';

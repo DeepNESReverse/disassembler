@@ -1,0 +1,3 @@
+level01: runs/cc-seek-1 13 paths; 15 segments of play; the play field on nametable page 0
+  sweep of 006-l1.txt from frame 1212: camera moved by the game after 0 frames; 0 frames without a split placed, 0 skipped
+  level01-0: 006-l1.txt frames 1203-1635, K 44, camera X 0..253 Y 0..0; 2750 tiles 1000×176; seen 1364 (49.6%), 2285580/2285580 = 100.00% on 3463 frames (0 of other places), 0 cells ever differed — verified

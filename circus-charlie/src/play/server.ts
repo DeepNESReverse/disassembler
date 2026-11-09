@@ -16,7 +16,7 @@ import { romFile } from '../rom.ts';
 const args = process.argv.slice(2);
 const port = Number(args.includes('--port') ? args[args.indexOf('--port') + 1] : 4325);
 const repo = resolve(import.meta.dirname, '../..');
-const xrom = resolve(repo, '../xrom-libs/nes');
+const xrom = resolve(repo, 'libs/nes');
 
 const TYPES: Record<string, string> = {
   '.png': 'image/png',

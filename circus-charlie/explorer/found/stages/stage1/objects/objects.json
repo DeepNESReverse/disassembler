@@ -1,0 +1,3189 @@
+{
+ "method": "6 records of 16 bytes from $0070 (the game's layout, game.json); kind in field 0, what it is in field 1; each slot with a non-zero kind matched by screen X to the nearest group of visible sprites",
+ "run": "runs/cc-stage1",
+ "level": 1,
+ "paths": [
+  "000-605db3fd.txt",
+  "006-605db3fd.txt",
+  "007-605db3fd.txt",
+  "003-605db3fd.txt",
+  "005-605db3fd.txt",
+  "002-605db3fd.txt"
+ ],
+ "matched": 100302,
+ "unmatched": 21324,
+ "screenXOffset": {
+  "pixels": 4,
+  "share": 0.166
+ },
+ "arrays": [
+  {
+   "array": 0,
+   "address": "$0070",
+   "samples": 100302,
+   "values": 1,
+   "constantOverLife": 1,
+   "followsScreenX": 0,
+   "followsScreenY": 0
+  },
+  {
+   "array": 1,
+   "address": "$0071",
+   "samples": 100302,
+   "values": 3,
+   "constantOverLife": 1,
+   "followsScreenX": 0.647,
+   "followsScreenY": -0.467
+  },
+  {
+   "array": 2,
+   "address": "$0072",
+   "samples": 100302,
+   "values": 6,
+   "constantOverLife": 1,
+   "followsScreenX": 0.059,
+   "followsScreenY": -0.084
+  },
+  {
+   "array": 3,
+   "address": "$0073",
+   "samples": 100302,
+   "values": 52,
+   "constantOverLife": 0.824,
+   "followsScreenX": -0.487,
+   "followsScreenY": 0.583
+  },
+  {
+   "array": 4,
+   "address": "$0074",
+   "samples": 100302,
+   "values": 256,
+   "constantOverLife": 0.235,
+   "followsScreenX": 0.997,
+   "followsScreenY": -0.539
+  },
+  {
+   "array": 5,
+   "address": "$0075",
+   "samples": 100302,
+   "values": 1,
+   "constantOverLife": 1,
+   "followsScreenX": 0,
+   "followsScreenY": 0
+  },
+  {
+   "array": 6,
+   "address": "$0076",
+   "samples": 100302,
+   "values": 11,
+   "constantOverLife": 0,
+   "followsScreenX": -0.12,
+   "followsScreenY": 0.087
+  },
+  {
+   "array": 7,
+   "address": "$0077",
+   "samples": 100302,
+   "values": 5,
+   "constantOverLife": 0.882,
+   "followsScreenX": 0.605,
+   "followsScreenY": -0.443
+  },
+  {
+   "array": 8,
+   "address": "$0078",
+   "samples": 100302,
+   "values": 3,
+   "constantOverLife": 0.912,
+   "followsScreenX": -0.385,
+   "followsScreenY": 0.279
+  },
+  {
+   "array": 9,
+   "address": "$0079",
+   "samples": 100302,
+   "values": 3,
+   "constantOverLife": 0.941,
+   "followsScreenX": 0.318,
+   "followsScreenY": -0.117
+  },
+  {
+   "array": 10,
+   "address": "$007A",
+   "samples": 100302,
+   "values": 256,
+   "constantOverLife": 0.588,
+   "followsScreenX": 0.107,
+   "followsScreenY": -0.149
+  },
+  {
+   "array": 11,
+   "address": "$007B",
+   "samples": 100302,
+   "values": 5,
+   "constantOverLife": 0.765,
+   "followsScreenX": -0.386,
+   "followsScreenY": 0.277
+  },
+  {
+   "array": 12,
+   "address": "$007C",
+   "samples": 100302,
+   "values": 9,
+   "constantOverLife": 0.735,
+   "followsScreenX": -0.423,
+   "followsScreenY": 0.306
+  },
+  {
+   "array": 13,
+   "address": "$007D",
+   "samples": 100302,
+   "values": 7,
+   "constantOverLife": 0.765,
+   "followsScreenX": -0.645,
+   "followsScreenY": 0.466
+  },
+  {
+   "array": 14,
+   "address": "$007E",
+   "samples": 100302,
+   "values": 4,
+   "constantOverLife": 0.882,
+   "followsScreenX": 0.146,
+   "followsScreenY": 0.009
+  },
+  {
+   "array": 15,
+   "address": "$007F",
+   "samples": 100302,
+   "values": 6,
+   "constantOverLife": 0.824,
+   "followsScreenX": -0.184,
+   "followsScreenY": 0.134
+  }
+ ],
+ "kinds": {
+  "6": {
+   "frames": 26445,
+   "slots": [
+    0
+   ],
+   "pictures": 48
+  },
+  "8": {
+   "frames": 26445,
+   "slots": [
+    1
+   ],
+   "pictures": 48
+  },
+  "255": {
+   "frames": 68736,
+   "slots": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "pictures": 48
+  }
+ },
+ "sequences": {
+  "6": [
+   {
+    "slot": 0,
+    "path": "000-605db3fd.txt",
+    "from": 306,
+    "looks": "0×456 1×21 2×11 3×11 4×1 5×2 6×2 7×3 8×1 9×2 10×2 11×3 12×1 13×2 14×1 15×211"
+   },
+   {
+    "slot": 0,
+    "path": "000-605db3fd.txt",
+    "from": 1200,
+    "looks": "0×1 16×6 17×68 18×1 0×6 17×68 0×1 19×2 17×26 20×6 21×1 22×3 23×1 24×2 25×1 26×1 27×1 28×1 29×1 30×1 31×1 32×1 33×1 34×1 ?×1 35×1 36×1 37×1 38×2 39×1 40×1 41×1 42×1 43×1 44×1 45×1 46×1 47×1 ?×13 17×2 ?×1 17×57 18×2 19×3 17×38 20×6 21×1 22×5 ?×220"
+   },
+   {
+    "slot": 0,
+    "path": "000-605db3fd.txt",
+    "from": 1929,
+    "looks": "0×1 16×3 17×68 18×1 0×5 17×68 0×1 19×3 17×28 20×6 21×2 22×2 23×1 ?×40 17×63 0×7 17×68 0×1 16×5 17×26 20×6 21×1 22×3 23×2 24×1 25×1 ?×1 27×1 28×1 29×1 ?×3 33×1 34×1 ?×2 36×1 ?×3 39×1 ?×1 41×1 42×1 43×1 ?×3 47×1 ?×13 17×2 ?×1 17×42 20×6 22×1 ?×2 22×3 ?×4 13×2 12×1 ?×212"
+   },
+   {
+    "slot": 0,
+    "path": "000-605db3fd.txt",
+    "from": 2819,
+    "looks": "0×1 ?×2 0×1 17×68 18×1 0×9 17×68 0×1 16×8 17×68 18×1 19×3 17×20 20×6 21×2 ?×1 22×1 ?×20 38×1 ?×22 17×1 ?×6 17×68 0×1 17×68 18×4 17×68 0×2 19×8 17×75 18×3 ?×7 17×68 0×5 17×66 20×2 1×1 ?×3 22×5 ?×212"
+   },
+   {
+    "slot": 0,
+    "path": "000-605db3fd.txt",
+    "from": 3960,
+    "looks": "0×1 17×68 0×1 ?×5 17×68 0×8 ?×3 17×68 0×7 ?×2 17×68 0×5 17×143 0×1 16×1 17×25 20×5 21×2 ?×1 22×2 ?×554"
+   },
+   {
+    "slot": 0,
+    "path": "006-605db3fd.txt",
+    "from": 306,
+    "looks": "0×456 1×21 2×11 3×11 4×1 5×2 6×2 7×3 8×1 9×2 10×2 11×3 12×1 13×2 14×1 15×211"
+   }
+  ],
+  "8": [
+   {
+    "slot": 1,
+    "path": "000-605db3fd.txt",
+    "from": 306,
+    "looks": "0×456 1×21 2×11 3×11 4×1 5×2 6×2 7×3 8×1 9×2 10×2 11×3 12×1 13×2 14×1 15×211"
+   },
+   {
+    "slot": 1,
+    "path": "000-605db3fd.txt",
+    "from": 1200,
+    "looks": "0×1 16×6 17×68 18×1 0×6 17×68 0×1 19×2 17×26 20×6 21×1 22×3 23×1 24×2 25×1 26×1 27×1 28×1 29×1 30×1 31×1 32×1 33×1 34×1 ?×1 35×5 36×1 37×2 38×1 39×1 40×1 41×1 42×1 43×1 44×1 45×1 46×1 47×1 ?×9 17×2 ?×1 17×57 18×2 19×3 17×38 20×6 21×1 22×5 ?×220"
+   },
+   {
+    "slot": 1,
+    "path": "000-605db3fd.txt",
+    "from": 1929,
+    "looks": "0×1 16×3 17×68 18×1 0×5 17×68 0×1 19×3 17×28 20×6 21×2 22×2 23×1 ?×11 35×1 36×5 ?×23 17×63 0×7 17×68 0×1 16×5 17×26 20×6 21×1 22×3 23×2 24×1 25×1 ?×1 27×1 28×1 29×1 ?×3 33×1 34×1 ?×1 35×2 36×4 ?×1 37×1 38×1 39×1 ?×3 43×1 44×1 45×1 ?×1 47×1 ?×9 17×2 ?×1 17×42 20×6 22×1 ?×2 22×3 ?×4 13×2 12×1 ?×212"
+   },
+   {
+    "slot": 1,
+    "path": "000-605db3fd.txt",
+    "from": 2819,
+    "looks": "0×1 ?×2 0×1 17×68 18×1 0×9 17×68 0×1 16×8 17×68 18×1 19×3 17×20 20×6 21×2 ?×1 22×1 ?×20 35×2 ?×21 17×1 ?×6 17×68 0×1 17×68 18×4 17×68 0×2 19×8 17×75 18×3 ?×7 17×68 0×5 17×66 20×2 1×1 ?×3 22×5 ?×212"
+   },
+   {
+    "slot": 1,
+    "path": "000-605db3fd.txt",
+    "from": 3960,
+    "looks": "0×1 17×68 0×1 ?×5 17×68 0×8 ?×3 17×68 0×7 ?×2 17×68 0×5 17×143 0×1 16×1 17×25 20×5 21×2 ?×1 22×2 ?×481 35×1 36×5 ?×1 37×1 ?×31 37×1 ?×33"
+   },
+   {
+    "slot": 1,
+    "path": "006-605db3fd.txt",
+    "from": 306,
+    "looks": "0×456 1×21 2×11 3×11 4×1 5×2 6×2 7×3 8×1 9×2 10×2 11×3 12×1 13×2 14×1 15×211"
+   }
+  ],
+  "255": [
+   {
+    "slot": 2,
+    "path": "000-605db3fd.txt",
+    "from": 307,
+    "looks": "?×1 0×3 2×2 4×2 ?×36 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×4 8×3 9×1 10×1 11×3 12×3 13×1 14×1 15×3 16×3 17×1 18×1 19×3 20×3 21×1 22×2 23×2 24×3 25×1 28×2 29×2 30×3 31×1 32×2 33×2 34×3 35×1 36×2 37×2 38×3 39×1 40×2 41×1 42×211"
+   },
+   {
+    "slot": 3,
+    "path": "000-605db3fd.txt",
+    "from": 307,
+    "looks": "?×1 1×3 3×2 5×5 6×1 7×8 6×8 7×8 6×5 ?×20 7×1 ?×2 7×4 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×214"
+   },
+   {
+    "slot": 4,
+    "path": "000-605db3fd.txt",
+    "from": 793,
+    "looks": "?×1 0×4 26×1 4×1 ?×237"
+   },
+   {
+    "slot": 5,
+    "path": "000-605db3fd.txt",
+    "from": 793,
+    "looks": "?×1 1×4 27×1 5×4 6×4 7×8 6×8 7×214"
+   },
+   {
+    "slot": 2,
+    "path": "000-605db3fd.txt",
+    "from": 1201,
+    "looks": "?×12 6×4 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×3 43×1 44×1 46×1 47×1 ?×47 7×2"
+   },
+   {
+    "slot": 3,
+    "path": "000-605db3fd.txt",
+    "from": 1201,
+    "looks": "?×1 1×1 27×1 7×5 6×4 ?×3 6×1 ?×1 7×7 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×8 6×8 7×4 45×4 ?×8 45×2 ?×24 6×6 ?×3 7×5"
+   }
+  ]
+ },
+ "appearances": [
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 306,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 306,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 307,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 307,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 793,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 793,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1200,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1200,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1201,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1201,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1410,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1410,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1506,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1506,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1929,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1929,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1930,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 1930,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2150,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2150,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2301,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2301,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2819,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2819,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2892,
+   "slot": 2,
+   "kind": 255,
+   "x": 242,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 2892,
+   "slot": 3,
+   "kind": 255,
+   "x": 254,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3092,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3092,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3340,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3340,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3571,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3571,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3960,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3960,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3961,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 3961,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 4183,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 4183,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 4455,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    228,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "000-605db3fd.txt",
+   "frame": 4455,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    228,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 306,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 306,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 307,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 307,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 793,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 793,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1200,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1200,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1201,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1201,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1410,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1410,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1506,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1506,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1929,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1929,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1930,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 1930,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2150,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2150,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2301,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2301,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2819,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2819,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2892,
+   "slot": 2,
+   "kind": 255,
+   "x": 242,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 2892,
+   "slot": 3,
+   "kind": 255,
+   "x": 254,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3092,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3092,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3340,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3340,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3571,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3571,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3960,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3960,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3961,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 3961,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 4183,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 4183,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 4455,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    228,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "006-605db3fd.txt",
+   "frame": 4455,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    228,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 306,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 306,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 307,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 307,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 793,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 793,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1200,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1200,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1201,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1201,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1410,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1410,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1506,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1506,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1929,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1929,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1930,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 1930,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2150,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2150,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2301,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2301,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2819,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2819,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2892,
+   "slot": 2,
+   "kind": 255,
+   "x": 242,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 2892,
+   "slot": 3,
+   "kind": 255,
+   "x": 254,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3092,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3092,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3340,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3340,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3571,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3571,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3960,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3960,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3961,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 3961,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 4183,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 4183,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 4455,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    228,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "007-605db3fd.txt",
+   "frame": 4455,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    228,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 306,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 306,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 307,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 307,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 793,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 793,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1200,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1200,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1201,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1201,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1410,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1410,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1506,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1506,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1929,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1929,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1930,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 1930,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2150,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2150,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2301,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2301,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2819,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2819,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2892,
+   "slot": 2,
+   "kind": 255,
+   "x": 242,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 2892,
+   "slot": 3,
+   "kind": 255,
+   "x": 254,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3092,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3092,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3340,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3340,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3571,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3571,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3960,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3960,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3961,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 3961,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 4254,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    33,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 4254,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    33,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 4450,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    158,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "003-605db3fd.txt",
+   "frame": 4450,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    158,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 306,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 306,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 307,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 307,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 793,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 793,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1200,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1200,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1201,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1201,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1410,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1410,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1506,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1506,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1929,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1929,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1930,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 1930,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2150,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2150,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2301,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2301,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2819,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2819,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2892,
+   "slot": 2,
+   "kind": 255,
+   "x": 242,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 2892,
+   "slot": 3,
+   "kind": 255,
+   "x": 254,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3092,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3092,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3340,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3340,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3571,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3571,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3960,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3960,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3961,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 3961,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 4183,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 4183,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    104,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 4329,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    247,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "005-605db3fd.txt",
+   "frame": 4329,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    247,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 306,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 306,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 307,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 307,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 793,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 793,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1200,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1200,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    0,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1201,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1201,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    1,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1410,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1410,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    135,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1506,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1506,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    231,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1929,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1929,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1930,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 1930,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    257,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2150,
+   "slot": 4,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2150,
+   "slot": 5,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    403,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2301,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2301,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    479,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2819,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2819,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    512,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2892,
+   "slot": 2,
+   "kind": 255,
+   "x": 242,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 2892,
+   "slot": 3,
+   "kind": 255,
+   "x": 254,
+   "camera": [
+    440,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3092,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3092,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    563,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3340,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3340,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    391,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3571,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3571,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    466,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3960,
+   "slot": 0,
+   "kind": 6,
+   "x": 48,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3960,
+   "slot": 1,
+   "kind": 8,
+   "x": 40,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3961,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 3961,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    256,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 4254,
+   "slot": 2,
+   "kind": 255,
+   "x": 243,
+   "camera": [
+    33,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 4254,
+   "slot": 3,
+   "kind": 255,
+   "x": 255,
+   "camera": [
+    33,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 4450,
+   "slot": 4,
+   "kind": 255,
+   "x": 241,
+   "camera": [
+    158,
+    0
+   ],
+   "depth": 0
+  },
+  {
+   "path": "002-605db3fd.txt",
+   "frame": 4450,
+   "slot": 5,
+   "kind": 255,
+   "x": 253,
+   "camera": [
+    158,
+    0
+   ],
+   "depth": 0
+  }
+ ]
+}

@@ -3,5 +3,7 @@
   "private": true,
   "type": "module",
   "description": "Circus Charlie (Japan): the stages drawn whole from the cartridge, with a TAS played over them.",
-  "scripts": {}
+  "scripts": {
+    "setup": "npm --prefix libs/nes ci && npm --prefix libs/nes-explorer/libs/nes ci && ln -sfn libs/nes/node_modules node_modules"
+  }
 }

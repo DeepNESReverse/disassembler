@@ -5,7 +5,7 @@
  *
  *   node --experimental-strip-types src/check-arena.ts
  */
-import { Core, parseRom } from '../../nes-explorer/src/core/core.ts';
+import { Core, parseRom } from '../libs/nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { readMovie } from './movie.ts';
 import { decodeArena, STAGE_NAMES } from './level.ts';

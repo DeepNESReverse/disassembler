@@ -1,0 +1,1 @@
+230 subroutines, 95 named; by rule: writes PPU control/scroll: 5; an entry of a jump table after a call: 33; reads the pad ports: 3; addresses PPUADDR/PPUDATA: 16; writes the score digits: 1; writes the level cells: 1; writes the camera: 4; writes the APU channel registers: 6; entered with an object slot in X, works on its fields: 26

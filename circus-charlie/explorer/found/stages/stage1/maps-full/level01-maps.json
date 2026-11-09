@@ -1,0 +1,150 @@
+{
+ "level": 1,
+ "runs": [
+  {
+   "run": "runs/cc-seek-1",
+   "paths": 13,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      1
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-stage1",
+   "paths": 11,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      1
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-free",
+   "paths": 11,
+   "interventions": {
+    "at": 64,
+    "pokes": [],
+    "pins": [],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-seek2-1",
+   "paths": 16,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      1
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-seek2-3",
+   "paths": 15,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 62,
+ "page": 0,
+ "results": [
+  {
+   "name": "level01-0",
+   "level": 1,
+   "from": {
+    "run": "runs/cc-free",
+    "path": "006-605db3fd.txt",
+    "frames": [
+     1203,
+     2486
+    ],
+    "sweepStart": 1212
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     3,
+     419
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    2800,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 1
+   },
+   "tiles": 7700,
+   "animatedCells": 15,
+   "check": {
+    "frames": 37912,
+    "framesOfOtherPlaces": 0,
+    "compared": 25021920,
+    "equal": 24881632,
+    "score": 0.9943933958705008,
+    "cellsSeen": 7172,
+    "cellsThatDiffered": 86,
+    "cellsPlayDependent": 93,
+    "cellsMapDiffers": 0,
+    "fixedCompared": 24752947,
+    "fixedScore": 1
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 113
+  }
+ ]
+}

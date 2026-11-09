@@ -1,0 +1,1 @@
+level 4: 10 paths, 58840 frames on the level; camera X 0..4712, Y 0..0

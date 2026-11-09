@@ -1,0 +1,1223 @@
+{
+ "method": "subroutines named by evidence; see src/profile/name.ts",
+ "subroutines": 230,
+ "named": 110,
+ "names": [
+  {
+   "at": "B0:C0B8",
+   "offset": "000B8",
+   "name": "screen_off",
+   "rule": "writes PPU control/scroll (values seen)",
+   "evidence": [
+    "hardware PPUCTRL PPUMASK",
+    "entered 572719× on 572685 frames; levels 3,5,2,1,4; with an object slot in X 99% (kinds 6 charlie)",
+    "seen: PPUMASK $0"
+   ]
+  },
+  {
+   "at": "B0:C0C5",
+   "offset": "000C5",
+   "name": "set_ppuctrl",
+   "rule": "writes PPU control/scroll (values seen)",
+   "evidence": [
+    "hardware PPUCTRL",
+    "entered 1146734× on 572663 frames; levels 3,5,2,1,4; with an object slot in X 69% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:C0E9",
+   "offset": "000E9",
+   "name": "game_phase_a_02",
+   "rule": "entry 2 of the jump table after the call at B0:C0D4, indexed by game_phase (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C0F9",
+   "offset": "000F9",
+   "name": "game_phase_a_03_add_score",
+   "rule": "entry 3 of the jump table after the call at B0:C0D4, indexed by game_phase (table a of 2); writes the score digits; runs in one level only",
+   "evidence": [
+    "writes game_phase",
+    "writes score_lo",
+    "writes score_mid",
+    "writes score_hi",
+    "writes lives",
+    "writes stage_shown",
+    "writes stage",
+    "writes stage_index",
+    "writes distance_frac",
+    "writes distance_tens",
+    "writes camera_x_lo",
+    "writes camera_x_hi",
+    "writes pad_e",
+    "reads score_hi",
+    "writes object fields in_use,kind,2,y,screen_x,5,6,7,8,9,10,11,12,13,14,15",
+    "entered 2106× on 2106 frames; levels 1; with an object slot in X 0%",
+    "seen: cleared 156 cells from $64 on 26 of 2106 calls"
+   ]
+  },
+  {
+   "at": "B0:C100",
+   "offset": "00100",
+   "name": "game_phase_a_06_set_scroll",
+   "rule": "entry 6 of the jump table after the call at B0:C0D4, indexed by game_phase (table a of 2); writes PPU control/scroll (values seen)",
+   "evidence": [
+    "runs on into B0:CA63, B0:C107",
+    "hardware PPUSTATUS PPUSCROLL PPUCTRL",
+    "reads camera_x_lo",
+    "reads camera_x_hi",
+    "entered 668× on 668 frames; levels 3,5,2,1,4; with an object slot in X 100% (kinds 6 charlie)",
+    "seen: PPUSCROLL writes 898398"
+   ]
+  },
+  {
+   "at": "B0:C107",
+   "offset": "00107",
+   "name": "game_phase_a_00_01_04_07",
+   "rule": "entry 0, 1, 4, 7 of the jump table after the call at B0:C0D4, indexed by game_phase (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C108",
+   "offset": "00108",
+   "name": "game_phase_a_08_set_lives",
+   "rule": "entry 8 of the jump table after the call at B0:C0D4, indexed by game_phase (table a of 2); writes a player's lives",
+   "evidence": [
+    "writes stage",
+    "writes lives",
+    "writes game_phase",
+    "reads stage",
+    "reads stage_index",
+    "reads frame_counter",
+    "writes object fields in_use,6,12",
+    "entered 5334× on 5334 frames; levels 4,2,1,3; with an object slot in X 0%"
+   ]
+  },
+  {
+   "at": "B0:C1EA",
+   "offset": "001EA",
+   "name": "game_phase_b_00",
+   "rule": "entry 0 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C212",
+   "offset": "00212",
+   "name": "game_phase_b_01",
+   "rule": "entry 1 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C23A",
+   "offset": "0023A",
+   "name": "game_phase_b_02",
+   "rule": "entry 2 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C25D",
+   "offset": "0025D",
+   "name": "game_phase_b_03",
+   "rule": "entry 3 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C27D",
+   "offset": "0027D",
+   "name": "game_phase_b_04_set_lives_2",
+   "rule": "entry 4 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2); writes a player's lives",
+   "evidence": [
+    "writes lives",
+    "reads stage_shown",
+    "entered 112808× on 112808 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes through its callees 2454556 (pattern 0, nametable 2253820, attributes 178432, palette 22304)"
+   ]
+  },
+  {
+   "at": "B0:C2F5",
+   "offset": "002F5",
+   "name": "game_phase_b_05",
+   "rule": "entry 5 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C303",
+   "offset": "00303",
+   "name": "game_phase_b_06_add_score",
+   "rule": "entry 6 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2); writes the score digits",
+   "evidence": [
+    "writes game_phase",
+    "writes score_hi",
+    "writes lives",
+    "writes stage_shown",
+    "writes stage",
+    "writes stage_index",
+    "writes distance_frac",
+    "writes distance_tens",
+    "writes camera_x_lo",
+    "writes camera_x_hi",
+    "reads game_phase",
+    "reads score_hi",
+    "reads lives",
+    "writes object fields in_use,kind,2,y,screen_x,5,6,7,8,9,10,11,12,13,14,15",
+    "entered 668× on 668 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes through its callees 1434616 (pattern 0, nametable 1349368, attributes 85248, palette 0)"
+   ]
+  },
+  {
+   "at": "B0:C360",
+   "offset": "00360",
+   "name": "game_phase_b_07_add_score_2",
+   "rule": "entry 7 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2); writes the score digits; runs in one level only",
+   "evidence": [
+    "writes score_hi",
+    "writes lives",
+    "writes stage_shown",
+    "writes stage",
+    "writes stage_index",
+    "writes distance_frac",
+    "writes distance_tens",
+    "writes camera_x_lo",
+    "writes camera_x_hi",
+    "writes game_phase",
+    "reads score_hi",
+    "reads pad_a",
+    "reads game_phase",
+    "writes object fields in_use,kind,2,y,screen_x,5,6,7,8,9,10,11,12,13,14,15",
+    "entered 512× on 512 frames; levels 1; with an object slot in X 0%"
+   ]
+  },
+  {
+   "at": "B0:C38B",
+   "offset": "0038B",
+   "name": "game_phase_b_08_set_level",
+   "rule": "entry 8 of the jump table after the call at B0:C1D5, indexed by game_phase (table b of 2); writes the level cells",
+   "evidence": [
+    "writes stage_shown",
+    "reads game_phase",
+    "reads stage_shown",
+    "entered 5322× on 5322 frames; levels 4,2,1,3; with an object slot in X 0%",
+    "seen: $2007 writes through its callees 50560 (pattern 0, nametable 0, attributes 0, palette 50560)"
+   ]
+  },
+  {
+   "at": "B0:C3B8",
+   "offset": "003B8",
+   "name": "read_pads",
+   "rule": "reads the pad ports",
+   "evidence": [
+    "hardware APUSTATUS JOY2 PPUCTRL",
+    "entered 26× on 26 frames; levels —; with an object slot in X 0%",
+    "seen: $2007 writes through its callees 53248 (pattern 0, nametable 49920, attributes 3328, palette 0)"
+   ]
+  },
+  {
+   "at": "B0:C3BE",
+   "offset": "003BE",
+   "name": "read_pads_2",
+   "rule": "reads the pad ports",
+   "evidence": [
+    "hardware APUSTATUS JOY2 PPUCTRL",
+    "entered 30× on 30 frames; levels 1,4; with an object slot in X 13% (kinds 6 charlie)",
+    "seen: $2007 writes through its callees 960 (pattern 0, nametable 0, attributes 0, palette 960)"
+   ]
+  },
+  {
+   "at": "B0:C3F5",
+   "offset": "003F5",
+   "name": "clear_nametable_256_bytes",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUDATA",
+    "entered 11696× on 1488 frames; levels 3,5,2,1,4; with an object slot in X 93% (kinds 6 charlie)",
+    "seen: $2007 writes 2994176 (pattern 0, nametable 2807040, attributes 187136, palette 0; zeros 2994176)"
+   ]
+  },
+  {
+   "at": "B0:C402",
+   "offset": "00402",
+   "name": "read_pads_3",
+   "rule": "reads the pad ports",
+   "evidence": [
+    "hardware JOY1 JOY2",
+    "writes pad_e",
+    "writes pad_a",
+    "writes pad_b",
+    "reads pad_a",
+    "reads pad_e",
+    "reads pad_b",
+    "entered 572659× on 572659 frames; levels 3,5,2,1,4; with an object slot in X 0%"
+   ]
+  },
+  {
+   "at": "B0:C4AA",
+   "offset": "004AA",
+   "name": "load_palette_32_bytes",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUDATA",
+    "entered 769× on 769 frames; levels 3,5,2,1,4; with an object slot in X 88% (kinds 6 charlie)",
+    "seen: $2007 writes 24608 (pattern 0, nametable 0, attributes 0, palette 24608; zeros 0)"
+   ]
+  },
+  {
+   "at": "B0:C4BA",
+   "offset": "004BA",
+   "name": "vram_write",
+   "rule": "addresses PPUADDR/PPUDATA",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR",
+    "entered 1056860× on 456311 frames; levels 3,5,1,2,4; with an object slot in X 7% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:C4E3",
+   "offset": "004E3",
+   "name": "write_nametable",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUDATA",
+    "writes pad_e",
+    "reads pad_e",
+    "entered 123409× on 117315 frames; levels 3,5,1,2,4; with an object slot in X 2% (kinds 6 charlie)",
+    "seen: $2007 writes 525251 (pattern 0, nametable 523619, attributes 1632, palette 0; zeros 200813)"
+   ]
+  },
+  {
+   "at": "B0:C58F",
+   "offset": "0058F",
+   "name": "copy_rom_table",
+   "rule": "stores a run of cells just read from a run of cells, on most calls",
+   "evidence": [
+    "entered 4214× on 4214 frames; levels 4,2,1; with an object slot in X 11% (kinds 6 charlie)",
+    "seen: copied 8 cells from ROM on 4214 of 4214 calls"
+   ]
+  },
+  {
+   "at": "B0:C5F5",
+   "offset": "005F5",
+   "name": "frame_counter_and3_01",
+   "rule": "entry 1 of the jump table after the call at B0:C657, indexed by frame_counter_and3",
+   "evidence": []
+  },
+  {
+   "at": "B0:C606",
+   "offset": "00606",
+   "name": "frame_counter_and3_00",
+   "rule": "entry 0 of the jump table after the call at B0:C657, indexed by frame_counter_and3",
+   "evidence": []
+  },
+  {
+   "at": "B0:C643",
+   "offset": "00643",
+   "name": "write_nametable_2",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUDATA",
+    "entered 1371150× on 226466 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes 1371150 (pattern 0, nametable 1371150, attributes 0, palette 0; zeros 0)"
+   ]
+  },
+  {
+   "at": "B0:C662",
+   "offset": "00662",
+   "name": "frame_counter_and3_03",
+   "rule": "entry 3 of the jump table after the call at B0:C657, indexed by frame_counter_and3",
+   "evidence": []
+  },
+  {
+   "at": "B0:C67B",
+   "offset": "0067B",
+   "name": "frame_counter_and3_02_write_nametable_6_bytes",
+   "rule": "entry 2 of the jump table after the call at B0:C657, indexed by frame_counter_and3; writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUDATA",
+    "writes game_phase",
+    "reads lives",
+    "reads game_phase",
+    "entered 113962× on 113962 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes 683772 (pattern 0, nametable 683772, attributes 0, palette 0; zeros 346931)"
+   ]
+  },
+  {
+   "at": "B0:C6AD",
+   "offset": "006AD",
+   "name": "l1_write_nametable_18_bytes",
+   "rule": "writes $2007 through what it calls (where, how many: seen); runs in one level only",
+   "evidence": [
+    "hardware PPUDATA",
+    "entered 2× on 2 frames; levels 1; with an object slot in X 0%",
+    "seen: $2007 writes through its callees 36 (pattern 0, nametable 36, attributes 0, palette 0)"
+   ]
+  },
+  {
+   "at": "B0:C6C4",
+   "offset": "006C4",
+   "name": "add_score_2",
+   "rule": "writes the score digits",
+   "evidence": [
+    "writes score_lo",
+    "writes score_mid",
+    "writes score_hi",
+    "writes lives",
+    "entered 5684× on 5684 frames; levels 4,2,3,1,5; with an object slot in X 78% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:C81A",
+   "offset": "0081A",
+   "name": "game_phase_a_05",
+   "rule": "entry 5 of the jump table after the call at B0:C0D4, indexed by game_phase (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:C835",
+   "offset": "00835",
+   "name": "clear_ram",
+   "rule": "stores one value to a run of consecutive RAM cells on most calls",
+   "evidence": [
+    "writes stage_index",
+    "reads stage",
+    "writes object fields in_use,kind,2,y,screen_x,5,6,7,9,12,13",
+    "entered 696× on 696 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes through its callees 913328 (pattern 0, nametable 824240, attributes 89088, palette 0); cleared 768 cells from $400 on 696 of 696 calls"
+   ]
+  },
+  {
+   "at": "B0:C889",
+   "offset": "00889",
+   "name": "update_camera",
+   "rule": "writes the camera, once a frame",
+   "evidence": [
+    "writes camera_x_hi",
+    "writes camera_x_lo",
+    "reads stage_index",
+    "reads distance_tens",
+    "reads stage",
+    "writes object fields 8,11,13,15",
+    "entered 696× on 696 frames; levels 3,5,2,1,4; with an object slot in X 9% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:C991",
+   "offset": "00991",
+   "name": "sound_update",
+   "rule": "writes the APU channel registers, once a frame",
+   "evidence": [
+    "hardware APU",
+    "reads stage",
+    "reads stage_index",
+    "writes object fields y,6,12",
+    "entered 440185× on 440185 frames; levels 3,5,2,1,4; with an object slot in X 88% (kinds 6 charlie)",
+    "seen: APU channel writes 4152"
+   ]
+  },
+  {
+   "at": "B0:CA63",
+   "offset": "00A63",
+   "name": "set_scroll_2",
+   "rule": "writes PPU control/scroll (values seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUSCROLL PPUCTRL",
+    "reads camera_x_lo",
+    "reads camera_x_hi",
+    "entered 3469404× on 451983 frames; levels 3,5,2,1,4; with an object slot in X 0% (kinds 6 charlie)",
+    "seen: PPUSCROLL writes 898398"
+   ]
+  },
+  {
+   "at": "B0:CAB1",
+   "offset": "00AB1",
+   "name": "obj_charlie_update",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "reads frame_counter",
+    "writes object fields 9,12,14",
+    "entered 445983× on 445983 frames; levels 3,5,2,1,4; with an object slot in X 99% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:CBDA",
+   "offset": "00BDA",
+   "name": "sound",
+   "rule": "writes the APU channel registers",
+   "evidence": [
+    "runs on into B0:F80D",
+    "hardware APU",
+    "writes game_phase",
+    "entered 38× on 38 frames; levels 1,2,4,3; with an object slot in X 0%",
+    "seen: APU channel writes 25358"
+   ]
+  },
+  {
+   "at": "B0:CC62",
+   "offset": "00C62",
+   "name": "obj_any_check",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "runs on into B0:CC6C",
+    "reads object fields y,screen_x",
+    "entered 763327× on 274476 frames; levels 3,1,2,5,4; with an object slot in X 89% (kinds 6 charlie,9 ball,255 fire_ring,8 lion,1 trapeze_bar,4 monkey)"
+   ]
+  },
+  {
+   "at": "B0:CC6C",
+   "offset": "00C6C",
+   "name": "obj_any_check_2",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "reads object fields y,screen_x",
+    "entered 852715× on 274476 frames; levels 3,1,2,5,4; with an object slot in X 90% (kinds 6 charlie,9 ball,255 fire_ring,4 monkey,8 lion,1 trapeze_bar)"
+   ]
+  },
+  {
+   "at": "B0:CCD0",
+   "offset": "00CD0",
+   "name": "load_palette_32_bytes_2",
+   "rule": "writes $2007 through what it calls (where, how many: seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR",
+    "entered 701× on 701 frames; levels 3,5,2,1,4; with an object slot in X 96% (kinds 6 charlie)",
+    "seen: $2007 writes through its callees 22432 (pattern 0, nametable 0, attributes 0, palette 22432)"
+   ]
+  },
+  {
+   "at": "B0:CCD9",
+   "offset": "00CD9",
+   "name": "load_palette_32_bytes_3",
+   "rule": "writes $2007 through what it calls (where, how many: seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR",
+    "entered 68× on 68 frames; levels 4,1,2; with an object slot in X 6% (kinds 6 charlie)",
+    "seen: $2007 writes through its callees 2176 (pattern 0, nametable 0, attributes 0, palette 2176)"
+   ]
+  },
+  {
+   "at": "B0:CE6D",
+   "offset": "00E6D",
+   "name": "obj_charlie_move",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "writes object fields screen_x",
+    "entered 2468× on 2468 frames; levels 4,2,1,3; with an object slot in X 100% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:CE8E",
+   "offset": "00E8E",
+   "name": "obj_charlie_update_2",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "writes object fields 7,8",
+    "entered 102× on 102 frames; levels 5,2; with an object slot in X 100% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:CE9E",
+   "offset": "00E9E",
+   "name": "obj_charlie_update_3",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "writes object fields 7,8",
+    "entered 158× on 158 frames; levels 5,2,3,4,1; with an object slot in X 100% (kinds 6 charlie,8 lion)"
+   ]
+  },
+  {
+   "at": "B0:CEB7",
+   "offset": "00EB7",
+   "name": "obj_charlie_update_4",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "writes object fields 12,13",
+    "entered 696× on 696 frames; levels 3,5,2,1,4; with an object slot in X 96% (kinds 6 charlie)",
+    "seen: $2007 writes through its callees 26448 (pattern 0, nametable 26448, attributes 0, palette 0)"
+   ]
+  },
+  {
+   "at": "B0:CEE3",
+   "offset": "00EE3",
+   "name": "write_nametable_18_bytes",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR PPUDATA",
+    "writes object fields 7",
+    "entered 1392× on 696 frames; levels 3,5,2,1,4; with an object slot in X 96% (kinds 6 charlie)",
+    "seen: $2007 writes 25056 (pattern 0, nametable 25056, attributes 0, palette 0; zeros 2784)"
+   ]
+  },
+  {
+   "at": "B0:CF49",
+   "offset": "00F49",
+   "name": "obj_charlie_check",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "runs on into B0:CF58",
+    "reads camera_x_lo",
+    "entered 439505× on 439505 frames; levels 3,5,2,1,4; with an object slot in X 100% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:CF58",
+   "offset": "00F58",
+   "name": "obj_charlie_check_2",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "entered 440201× on 440201 frames; levels 3,5,2,1,4; with an object slot in X 100% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:CF9D",
+   "offset": "00F9D",
+   "name": "obj_charlie_update_5",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "reads camera_x_hi",
+    "writes object fields 7,8",
+    "entered 314596× on 314596 frames; levels 3,5,2,1,4; with an object slot in X 100% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:CFB3",
+   "offset": "00FB3",
+   "name": "obj_charlie_update_6",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "reads camera_x_hi",
+    "writes object fields 7,8",
+    "entered 126997× on 126301 frames; levels 3,1,2,5,4; with an object slot in X 100% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:D280",
+   "offset": "01280",
+   "name": "write_nametable_3",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUCTRL PPUSTATUS PPUADDR PPUDATA",
+    "entered 446665× on 446665 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes 1327472 (pattern 0, nametable 1327472, attributes 0, palette 0; zeros 371608)"
+   ]
+  },
+  {
+   "at": "B0:D2FD",
+   "offset": "012FD",
+   "name": "screen_off_2",
+   "rule": "writes PPU control/scroll (values seen)",
+   "evidence": [
+    "hardware PPUMASK PPUCTRL PPUSTATUS",
+    "reads stage_index",
+    "entered 696× on 696 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes through its callees 913328 (pattern 0, nametable 824240, attributes 89088, palette 0); PPUMASK $0"
+   ]
+  },
+  {
+   "at": "B0:D342",
+   "offset": "01342",
+   "name": "write_nametable_4",
+   "rule": "writes $2007 through what it calls (where, how many: seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR",
+    "writes object fields 9,10,11,12,13,14,15",
+    "entered 1392× on 696 frames; levels 3,5,2,1,4; with an object slot in X 5% (kinds 6 charlie,18)",
+    "seen: $2007 writes through its callees 884096 (pattern 0, nametable 795008, attributes 89088, palette 0)"
+   ]
+  },
+  {
+   "at": "B0:D389",
+   "offset": "01389",
+   "name": "write_nametable_5",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUDATA",
+    "entered 7048× on 696 frames; levels 3,5,1,2,4; with an object slot in X 61% (kinds 6 charlie)",
+    "seen: $2007 writes 884096 (pattern 0, nametable 795008, attributes 89088, palette 0; zeros 20528)"
+   ]
+  },
+  {
+   "at": "B0:D544",
+   "offset": "01544",
+   "name": "sound_update_2",
+   "rule": "writes the APU channel registers, once a frame",
+   "evidence": [
+    "runs on into B0:D54E",
+    "hardware APU",
+    "reads frame_counter",
+    "reads stage",
+    "reads game_phase",
+    "entered 437267× on 437267 frames; levels 3,5,2,1,4; with an object slot in X 0%"
+   ]
+  },
+  {
+   "at": "B0:D54E",
+   "offset": "0154E",
+   "name": "sound_update_3",
+   "rule": "writes the APU channel registers, once a frame",
+   "evidence": [
+    "hardware APU",
+    "reads stage",
+    "reads game_phase",
+    "entered 23043× on 23043 frames; levels 3,2,1,4,5; with an object slot in X 0%"
+   ]
+  },
+  {
+   "at": "B0:D575",
+   "offset": "01575",
+   "name": "write_nametable_4_bytes",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR PPUDATA",
+    "writes object fields 14,15",
+    "entered 452334× on 452006 frames; levels 3,5,2,1,4; with an object slot in X 0%",
+    "seen: $2007 writes 1809336 (pattern 0, nametable 1809336, attributes 0, palette 0; zeros 0)"
+   ]
+  },
+  {
+   "at": "B0:D597",
+   "offset": "01597",
+   "name": "load_palette_16_bytes",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR PPUDATA",
+    "reads frame_counter",
+    "writes object fields 12,13,14,15",
+    "entered 4216× on 4216 frames; levels 4,1,2; with an object slot in X 0%",
+    "seen: $2007 writes 8192 (pattern 0, nametable 0, attributes 0, palette 8192; zeros 0)"
+   ]
+  },
+  {
+   "at": "B0:D5DF",
+   "offset": "015DF",
+   "name": "load_palette_16_bytes_2",
+   "rule": "writes $2007 (where, how many: seen)",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR PPUDATA",
+    "reads frame_counter",
+    "writes object fields 7,8,12,13",
+    "entered 5322× on 5322 frames; levels 4,2,1,3; with an object slot in X 0%",
+    "seen: $2007 writes 50560 (pattern 0, nametable 0, attributes 0, palette 50560; zeros 0)"
+   ]
+  },
+  {
+   "at": "B0:D657",
+   "offset": "01657",
+   "name": "vram_write_2",
+   "rule": "addresses PPUADDR/PPUDATA",
+   "evidence": [
+    "hardware PPUSTATUS PPUADDR",
+    "entered 3672× on 3672 frames; levels 4,2,1,3; with an object slot in X 37% (kinds 18,8 lion,19 horse)"
+   ]
+  },
+  {
+   "at": "B0:D714",
+   "offset": "01714",
+   "name": "set_ppuctrl_2",
+   "rule": "writes PPU control/scroll (values seen)",
+   "evidence": [
+    "hardware PPUCTRL",
+    "entered 1367× on 1367 frames; levels 3,5,2,1,4; with an object slot in X 49% (kinds 6 charlie)",
+    "seen: $2007 writes through its callees 87488 (pattern 0, nametable 87488, attributes 0, palette 0)"
+   ]
+  },
+  {
+   "at": "B0:D73E",
+   "offset": "0173E",
+   "name": "set_camera",
+   "rule": "writes the camera",
+   "evidence": [
+    "writes camera_x_lo",
+    "writes camera_x_hi",
+    "writes stage",
+    "writes stage_shown",
+    "entered 4× on 4 frames; levels 1,2; with an object slot in X 100% (kinds 6 charlie)",
+    "seen: $2007 writes through its callees 5160 (pattern 0, nametable 4648, attributes 512, palette 0)"
+   ]
+  },
+  {
+   "at": "B0:D814",
+   "offset": "01814",
+   "name": "stage_index_b_00",
+   "rule": "entry 0 of the jump table after the call at B0:D809, indexed by stage_index (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:D88D",
+   "offset": "0188D",
+   "name": "stage_index_b_01",
+   "rule": "entry 1 of the jump table after the call at B0:D809, indexed by stage_index (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:D951",
+   "offset": "01951",
+   "name": "stage_index_b_02",
+   "rule": "entry 2 of the jump table after the call at B0:D809, indexed by stage_index (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:D95F",
+   "offset": "0195F",
+   "name": "stage_index_b_03",
+   "rule": "entry 3 of the jump table after the call at B0:D809, indexed by stage_index (table b of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:DA11",
+   "offset": "01A11",
+   "name": "frame_update",
+   "rule": "does many things (1 kinds of work, 8 routines called) on many frames",
+   "evidence": [
+    "reads pad_d",
+    "reads stage_index",
+    "reads pad_c",
+    "reads stage",
+    "writes object fields y,6,11,12,13,14",
+    "entered 261977× on 261977 frames; levels 3,1,2,4,5; with an object slot in X 47% (kinds 6 charlie,1 trapeze_bar,4 monkey)"
+   ]
+  },
+  {
+   "at": "B0:DC38",
+   "offset": "01C38",
+   "name": "obj_charlie_update_7",
+   "rule": "entered with an object slot in X, works on its fields",
+   "evidence": [
+    "reads game_phase",
+    "reads stage_index",
+    "writes object fields 6",
+    "entered 16302× on 16302 frames; levels 3,1,2,4; with an object slot in X 100% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:E484",
+   "offset": "02484",
+   "name": "l1_frame_update",
+   "rule": "does many things (0 kinds of work, 7 routines called) on many frames; runs in one level only",
+   "evidence": [
+    "entered 52515× on 52515 frames; levels 1; with an object slot in X 39% (kinds 255 fire_ring,6 charlie,254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:E532",
+   "offset": "02532",
+   "name": "stage_index_a_00",
+   "rule": "entry 0 of the jump table after the call at B0:C9D0, indexed by stage_index (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:E7BA",
+   "offset": "027BA",
+   "name": "l1_obj_any_update",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields 7,10",
+    "reads object fields in_use,kind,screen_x",
+    "entered 52515× on 52515 frames; levels 1; with an object slot in X 90% (kinds 255 fire_ring,6 charlie,254 trapeze_rope)",
+    "seen: read several slots' kind on 27794 calls, left a free slot's index on 26"
+   ]
+  },
+  {
+   "at": "B0:E823",
+   "offset": "02823",
+   "name": "l1_obj_fire_ring_spawn_or_free",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields in_use,5",
+    "entered 312× on 156 frames; levels 1; with an object slot in X 100% (kinds 255 fire_ring,254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:E82C",
+   "offset": "0282C",
+   "name": "l1_obj_fire_ring_check",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "reads object fields kind",
+    "entered 156× on 156 frames; levels 1; with an object slot in X 100% (kinds 255 fire_ring,254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:E838",
+   "offset": "02838",
+   "name": "l1_frame_update_2",
+   "rule": "does many things (1 kinds of work, 8 routines called) on many frames; runs in one level only",
+   "evidence": [
+    "writes object fields 9,11,12,13,14,15",
+    "reads object fields kind,5",
+    "entered 52515× on 52515 frames; levels 1; with an object slot in X 38% (kinds 255 fire_ring,6 charlie,254 trapeze_rope,8 lion)"
+   ]
+  },
+  {
+   "at": "B0:E9D9",
+   "offset": "029D9",
+   "name": "stage_index_a_01",
+   "rule": "entry 1 of the jump table after the call at B0:C9D0, indexed by stage_index (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:EAA8",
+   "offset": "02AA8",
+   "name": "l2_obj_monkey_move",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields y,6,7,8",
+    "reads object fields in_use,y,screen_x",
+    "entered 20944× on 12661 frames; levels 2; with an object slot in X 100% (kinds 4 monkey)",
+    "seen: read several slots' kind on 15199 calls, left a free slot's index on 0"
+   ]
+  },
+  {
+   "at": "B0:EB23",
+   "offset": "02B23",
+   "name": "l2_obj_monkey_update",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields 6,7,8",
+    "reads object fields in_use,screen_x",
+    "entered 68521× on 44421 frames; levels 2; with an object slot in X 89% (kinds 4 monkey)",
+    "seen: read several slots' kind on 66856 calls, left a free slot's index on 124"
+   ]
+  },
+  {
+   "at": "B0:EB67",
+   "offset": "02B67",
+   "name": "l2_obj_monkey_spawn_or_free",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields in_use,screen_x,5",
+    "reads object fields screen_x",
+    "entered 87210× on 46322 frames; levels 2; with an object slot in X 92% (kinds 4 monkey)"
+   ]
+  },
+  {
+   "at": "B0:EBD0",
+   "offset": "02BD0",
+   "name": "l2_frame_update",
+   "rule": "does many things (1 kinds of work, 7 routines called) on many frames; runs in one level only",
+   "evidence": [
+    "writes object fields 9,12,13,14,15",
+    "reads object fields in_use",
+    "entered 46409× on 46409 frames; levels 2; with an object slot in X 74% (kinds 6 charlie,4 monkey)",
+    "seen: read several slots' kind on 46393 calls, left a free slot's index on 0"
+   ]
+  },
+  {
+   "at": "B0:EC41",
+   "offset": "02C41",
+   "name": "stage_index_a_02",
+   "rule": "entry 2 of the jump table after the call at B0:C9D0, indexed by stage_index (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:ED51",
+   "offset": "02D51",
+   "name": "l3_find_free_slot",
+   "rule": "reads the kind of several object slots and leaves a free slot's index in X or Y; runs in one level only",
+   "evidence": [
+    "reads object fields in_use",
+    "entered 184354× on 184354 frames; levels 3; with an object slot in X 22% (kinds 6 charlie)",
+    "seen: read several slots' kind on 184354 calls, left a free slot's index on 167710"
+   ]
+  },
+  {
+   "at": "B0:ED66",
+   "offset": "02D66",
+   "name": "l3_obj_ball_spawn_or_free",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields in_use,screen_x,7",
+    "reads object fields screen_x,7",
+    "entered 117768× on 117302 frames; levels 3; with an object slot in X 100% (kinds 9 ball)"
+   ]
+  },
+  {
+   "at": "B0:EDB3",
+   "offset": "02DB3",
+   "name": "l3_obj_ball_update",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields 6",
+    "entered 99646× on 99646 frames; levels 3; with an object slot in X 100% (kinds 9 ball)"
+   ]
+  },
+  {
+   "at": "B0:EDE7",
+   "offset": "02DE7",
+   "name": "l3_obj_ball_update_2",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields 6",
+    "reads object fields 7",
+    "entered 19821× on 19270 frames; levels 3; with an object slot in X 100% (kinds 9 ball)"
+   ]
+  },
+  {
+   "at": "B0:EE0A",
+   "offset": "02E0A",
+   "name": "l3_obj_ball_move",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields screen_x",
+    "entered 99646× on 99646 frames; levels 3; with an object slot in X 100% (kinds 9 ball)"
+   ]
+  },
+  {
+   "at": "B0:EED9",
+   "offset": "02ED9",
+   "name": "l3_frame_update",
+   "rule": "does many things (1 kinds of work, 7 routines called) on many frames; runs in one level only",
+   "evidence": [
+    "writes object fields y,7,8",
+    "reads object fields in_use",
+    "entered 132405× on 132405 frames; levels 3; with an object slot in X 24% (kinds 6 charlie,9 ball)"
+   ]
+  },
+  {
+   "at": "B0:EF8F",
+   "offset": "02F8F",
+   "name": "stage_index_a_03",
+   "rule": "entry 3 of the jump table after the call at B0:C9D0, indexed by stage_index (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:F0B5",
+   "offset": "030B5",
+   "name": "l4_frame_update",
+   "rule": "does many things (1 kinds of work, 7 routines called) on many frames; runs in one level only",
+   "evidence": [
+    "writes object fields kind,8,13,15",
+    "entered 17531× on 17531 frames; levels 4; with an object slot in X 2% (kinds 19 horse,6 charlie,16 trampoline_press)"
+   ]
+  },
+  {
+   "at": "B0:F163",
+   "offset": "03163",
+   "name": "stage_index_a_04",
+   "rule": "entry 4 of the jump table after the call at B0:C9D0, indexed by stage_index (table a of 2)",
+   "evidence": []
+  },
+  {
+   "at": "B0:F172",
+   "offset": "03172",
+   "name": "ram_CF_00",
+   "rule": "entry 0 of the jump table after the call at B0:F165, indexed by ram_CF",
+   "evidence": []
+  },
+  {
+   "at": "B0:F186",
+   "offset": "03186",
+   "name": "ram_CF_01",
+   "rule": "entry 1 of the jump table after the call at B0:F165, indexed by ram_CF",
+   "evidence": []
+  },
+  {
+   "at": "B0:F1CF",
+   "offset": "031CF",
+   "name": "ram_CF_02",
+   "rule": "entry 2 of the jump table after the call at B0:F165, indexed by ram_CF",
+   "evidence": []
+  },
+  {
+   "at": "B0:F23F",
+   "offset": "0323F",
+   "name": "l5_obj_trapeze_rope_move",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields screen_x,6,7,10,11,12",
+    "reads object fields screen_x,6,9,10,11,12",
+    "entered 29937× on 29937 frames; levels 5; with an object slot in X 100% (kinds 254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:F2DB",
+   "offset": "032DB",
+   "name": "l5_obj_trapeze_rope_spawn_or_free",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields in_use,kind,2,y,screen_x,5,6,7,9",
+    "reads object fields in_use,2,y,6",
+    "entered 30587× on 30553 frames; levels 5; with an object slot in X 98% (kinds 254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:F342",
+   "offset": "03342",
+   "name": "l5_obj_trapeze_rope_spawn_or_free_2",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "reads pad_d",
+    "reads pad_c",
+    "writes object fields in_use,y,screen_x,6,7,10,11,14,15",
+    "reads object fields in_use,screen_x,6,9,10,11,12",
+    "entered 42143× on 42143 frames; levels 5; with an object slot in X 99% (kinds 254 trapeze_rope)",
+    "seen: read several slots' kind on 3600 calls, left a free slot's index on 0"
+   ]
+  },
+  {
+   "at": "B0:F36D",
+   "offset": "0336D",
+   "name": "l5_obj_charlie_spawn_or_free",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields in_use,screen_x,7",
+    "reads object fields in_use,screen_x,6",
+    "entered 14126× on 14126 frames; levels 5; with an object slot in X 95% (kinds 6 charlie)",
+    "seen: read several slots' kind on 2722 calls, left a free slot's index on 0"
+   ]
+  },
+  {
+   "at": "B0:F39A",
+   "offset": "0339A",
+   "name": "l5_obj_trapeze_rope_move_2",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields y",
+    "reads object fields kind,12",
+    "entered 2333× on 2333 frames; levels 5; with an object slot in X 100% (kinds 254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:F3B0",
+   "offset": "033B0",
+   "name": "l5_obj_trapeze_rope_update",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields 6",
+    "reads object fields 6",
+    "entered 2333× on 2333 frames; levels 5; with an object slot in X 100% (kinds 254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:F540",
+   "offset": "03540",
+   "name": "l5_obj_trapeze_bar_spawn_or_free",
+   "rule": "entered with an object slot in X, works on its fields; runs in one level only",
+   "evidence": [
+    "writes object fields in_use,screen_x",
+    "reads object fields in_use,screen_x,15",
+    "entered 14142× on 14142 frames; levels 5; with an object slot in X 91% (kinds 1 trapeze_bar)",
+    "seen: read several slots' kind on 10229 calls, left a free slot's index on 0"
+   ]
+  },
+  {
+   "at": "B0:F649",
+   "offset": "03649",
+   "name": "ram_CF_03",
+   "rule": "entry 3 of the jump table after the call at B0:F165, indexed by ram_CF",
+   "evidence": []
+  },
+  {
+   "at": "B0:F655",
+   "offset": "03655",
+   "name": "ram_CF_04",
+   "rule": "entry 4 of the jump table after the call at B0:F165, indexed by ram_CF",
+   "evidence": []
+  },
+  {
+   "at": "B0:F6CD",
+   "offset": "036CD",
+   "name": "l5_frame_update",
+   "rule": "does many things (1 kinds of work, 7 routines called) on many frames; runs in one level only",
+   "evidence": [
+    "reads camera_x_lo",
+    "reads camera_x_hi",
+    "reads distance_tens",
+    "reads distance_frac",
+    "writes object fields in_use,kind,2,y,screen_x,5,6,7,8,9,10,11,12,13,14",
+    "reads object fields screen_x",
+    "entered 42143× on 42143 frames; levels 5; with an object slot in X 79% (kinds 6 charlie,254 trapeze_rope,1 trapeze_bar,18)",
+    "seen: copied 8 cells from ROM on 172 of 42143 calls"
+   ]
+  },
+  {
+   "at": "B0:F7EE",
+   "offset": "037EE",
+   "name": "update_camera_2",
+   "rule": "writes the camera, once a frame",
+   "evidence": [
+    "writes camera_x_lo",
+    "writes camera_x_hi",
+    "reads camera_x_lo",
+    "reads camera_x_hi",
+    "entered 116972× on 116972 frames; levels 3,1,2,4,5; with an object slot in X 91% (kinds 6 charlie,254 trapeze_rope,1 trapeze_bar)"
+   ]
+  },
+  {
+   "at": "B0:F7FC",
+   "offset": "037FC",
+   "name": "update_camera_3",
+   "rule": "writes the camera, once a frame",
+   "evidence": [
+    "writes camera_x_lo",
+    "writes camera_x_hi",
+    "reads camera_x_lo",
+    "reads camera_x_hi",
+    "entered 15910× on 15910 frames; levels 1,3,2,5; with an object slot in X 100% (kinds 6 charlie,254 trapeze_rope)"
+   ]
+  },
+  {
+   "at": "B0:F80D",
+   "offset": "0380D",
+   "name": "sound_2",
+   "rule": "writes the APU channel registers",
+   "evidence": [
+    "hardware APU",
+    "writes game_phase",
+    "entered 17424× on 11477 frames; levels 3,5,2,4,1; with an object slot in X 45% (kinds 6 charlie,1 trapeze_bar)",
+    "seen: APU channel writes 25358"
+   ]
+  },
+  {
+   "at": "B0:F87C",
+   "offset": "0387C",
+   "name": "sound_update_4",
+   "rule": "writes the APU channel registers, once a frame",
+   "evidence": [
+    "hardware APU",
+    "entered 573365× on 572663 frames; levels 3,5,2,1,4; with an object slot in X 39% (kinds 6 charlie)"
+   ]
+  },
+  {
+   "at": "B0:F8C8",
+   "offset": "038C8",
+   "name": "sound_3",
+   "rule": "writes the APU channel registers",
+   "evidence": [
+    "hardware APU",
+    "writes pad_b",
+    "writes game_phase",
+    "writes frame_counter",
+    "writes pad_c",
+    "writes pad_d",
+    "writes pad_a",
+    "reads pad_b",
+    "reads frame_counter",
+    "reads pad_c",
+    "reads game_phase",
+    "reads pad_d",
+    "reads pad_a",
+    "entered 1045873× on 452867 frames; levels 3,5,1,2,4; with an object slot in X 5% (kinds 8 lion,9 ball,19 horse,18)",
+    "seen: APU channel writes 294220"
+   ]
+  },
+  {
+   "at": "B0:FA80",
+   "offset": "03A80",
+   "name": "sound_4",
+   "rule": "writes the APU channel registers",
+   "evidence": [
+    "hardware APU",
+    "reads frame_counter",
+    "entered 106627× on 72876 frames; levels 3,5,2,1,4; with an object slot in X 19% (kinds 9 ball,8 lion,19 horse,18)",
+    "seen: APU channel writes 159412"
+   ]
+  },
+  {
+   "at": "B0:FAA9",
+   "offset": "03AA9",
+   "name": "start_sound",
+   "rule": "writes 13 cells the sound routines read and write",
+   "evidence": [
+    "entered 111735× on 74470 frames; levels 3,5,2,1,4; with an object slot in X 41% (kinds 6 charlie,8 lion,19 horse,18)"
+   ]
+  }
+ ]
+}

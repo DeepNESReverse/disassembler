@@ -1,0 +1,79 @@
+{
+ "found": "each value by an experiment in games/circus-charlie/STATUS.md",
+ "camera": {
+  "x": "006A",
+  "y": null
+ },
+ "level": "0063",
+ "score": {
+  "cell": "005D",
+  "count": 3,
+  "coding": "bcd",
+  "lowFirst": true
+ },
+ "objects": {
+  "base": "0070",
+  "fieldStep": 1,
+  "slotStep": 16,
+  "slots": 6,
+  "fields": 16,
+  "kind": 0,
+  "x": 4,
+  "xhi": null,
+  "xIsScreen": true,
+  "depth": null,
+  "type": 1
+ },
+ "lives": "0060",
+ "player": {
+  "slot": 0,
+  "y": 3
+ },
+ "names": {
+  "cells": {
+   "0009": "frame_counter",
+   "0005": "pad_a",
+   "0007": "pad_b",
+   "000C": "pad_c",
+   "000D": "pad_d",
+   "00E4": "pad_e",
+   "006A": "camera_x_lo",
+   "006B": "camera_x_hi",
+   "0063": "stage",
+   "0061": "stage_shown",
+   "0060": "lives",
+   "005D": "score_lo",
+   "005E": "score_mid",
+   "005F": "score_hi",
+   "0000": "game_phase",
+   "0068": "distance_frac",
+   "0069": "distance_tens",
+   "0064": "stage_index"
+  },
+  "fields": {
+   "0": "in_use",
+   "1": "kind",
+   "3": "y",
+   "4": "screen_x"
+  },
+  "kinds": {
+   "6": "charlie",
+   "8": "lion",
+   "255": "fire_ring",
+   "4": "monkey",
+   "9": "ball",
+   "19": "horse",
+   "16": "trampoline_press",
+   "32": "trampoline_press",
+   "254": "trapeze_rope",
+   "1": "trapeze_bar"
+  }
+ },
+ "levelNumbers": {
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5
+ }
+}

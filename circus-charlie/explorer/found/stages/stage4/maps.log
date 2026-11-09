@@ -1,0 +1,7 @@
+level04: runs/cc-stage4 10 paths, runs/cc-free 11 paths; 20 segments of play; the play field on nametable page 0
+  sweep of 009-605db3fd.txt from frame 3256: camera moved by the game after 147 frames; 0 frames without a split placed, 0 skipped
+  sweep of 006-605db3fd.txt from frame 7468: camera moved by the game after 161 frames; 0 frames without a split placed, 0 skipped
+  sweep of 009-605db3fd.txt from frame 2096: camera moved by the game after 168 frames; 0 frames without a split placed, 0 skipped
+  level04-0: 009-605db3fd.txt frames 3247-4161, K 44, camera X 2307..3944 Y 0..0; 6578 tiles 2392×176; seen 6578 (100.0%), 1860573/1919104 = 96.95% on 3282 frames (0 of other places), 222 cells ever differed
+  level04-1: 006-605db3fd.txt frames 7458-8446, K 44, camera X 8..1492 Y 0..0; 6138 tiles 2232×176; seen 6138 (100.0%), 2146031/2217336 = 96.78% on 3392 frames (0 of other places), 274 cells ever differed
+  level04-2: 009-605db3fd.txt frames 2087-3078, K 44, camera X 1029..2313 Y 0..0; 5610 tiles 2040×176; seen 5610 (100.0%), 1604560/1656160 = 96.88% on 2826 frames (0 of other places), 232 cells ever differed

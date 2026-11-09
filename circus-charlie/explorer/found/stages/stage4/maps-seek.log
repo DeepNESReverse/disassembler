@@ -1,0 +1,7 @@
+level04: runs/cc-seek-4 15 paths; 23 segments of play; the play field on nametable page 0
+  sweep of 014-l4.txt from frame 6121: camera moved by the game after 104 frames; 0 frames without a split placed, 0 skipped
+  sweep of 014-l4.txt from frame 4202: camera moved by the game after 94 frames; 0 frames without a split placed, 0 skipped
+  sweep of 014-l4.txt from frame 843: camera moved by the game after 148 frames; 0 frames without a split placed, 0 skipped
+  level04-0: 014-l4.txt frames 6112-7307, K 44, camera X 3593..4929 Y 0..0; 5742 tiles 2088×176; seen 4334 (75.5%), 2751045/2796244 = 98.38% on 4266 frames (0 of other places), 116 cells ever differed
+  level04-1: 014-l4.txt frames 4192-4765, K 44, camera X 2057..2921 Y 0..0; 4444 tiles 1616×176; seen 4444 (100.0%), 983448/1009162 = 97.45% on 1787 frames (0 of other places), 122 cells ever differed
+  level04-2: 014-l4.txt frames 834-1287, K 44, camera X 262..808 Y 0..0; 3586 tiles 1304×176; seen 3586 (100.0%), 973584/990286 = 98.31% on 1644 frames (0 of other places), 68 cells ever differed

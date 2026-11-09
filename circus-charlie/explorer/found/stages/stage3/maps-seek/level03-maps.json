@@ -1,0 +1,76 @@
+{
+ "level": 3,
+ "runs": [
+  {
+   "run": "runs/cc-seek-3",
+   "paths": 12,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 16,
+ "page": 0,
+ "results": [
+  {
+   "name": "level03-0",
+   "level": 3,
+   "from": {
+    "run": "runs/cc-seek-3",
+    "path": "008-l3.txt",
+    "frames": [
+     309,
+     1139
+    ],
+    "sweepStart": 318
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     0,
+     168
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    920,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 1
+   },
+   "tiles": 2530,
+   "animatedCells": 102,
+   "check": {
+    "frames": 3963,
+    "framesOfOtherPlaces": 0,
+    "compared": 2615580,
+    "equal": 2567924,
+    "score": 0.9817799493802521,
+    "cellsSeen": 1232,
+    "cellsThatDiffered": 108
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 523
+  }
+ ]
+}

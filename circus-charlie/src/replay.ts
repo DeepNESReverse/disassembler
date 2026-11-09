@@ -3,7 +3,7 @@
  * line's scroll kept: where in the 512 × 480 nametable plane it starts, and the PPU's mask and
  * control registers. The core is imported, never edited — its line drawer is wrapped on the instance.
  */
-import { Core, parseRom, type Rom } from '../../nes-explorer/src/core/core.ts';
+import { Core, parseRom, type Rom } from '../libs/nes-explorer/src/core/core.ts';
 import { romFile } from './rom.ts';
 import { readMovie, type MovieFrame } from './movie.ts';
 

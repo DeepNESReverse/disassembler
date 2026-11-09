@@ -1,0 +1,133 @@
+{
+ "level": 5,
+ "runs": [
+  {
+   "run": "runs/cc-stage5",
+   "paths": 14,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      5
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-free",
+   "paths": 11,
+   "interventions": {
+    "at": 64,
+    "pokes": [],
+    "pins": [],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 13,
+ "page": 0,
+ "results": [
+  {
+   "name": "level05-0",
+   "level": 5,
+   "from": {
+    "run": "runs/cc-stage5",
+    "path": "003-605db3fd.txt",
+    "frames": [
+     768,
+     1381
+    ],
+    "sweepStart": 777
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     8,
+     229
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    968,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 2
+   },
+   "tiles": 2662,
+   "animatedCells": 0,
+   "check": {
+    "frames": 2418,
+    "framesOfOtherPlaces": 0,
+    "compared": 1595528,
+    "equal": 1595470,
+    "score": 0.9999636483972704,
+    "cellsSeen": 1562,
+    "cellsThatDiffered": 4
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level05-1",
+   "level": 5,
+   "from": {
+    "run": "runs/cc-stage5",
+    "path": "002-605db3fd.txt",
+    "frames": [
+     1549,
+     1623
+    ],
+    "sweepStart": 1558
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     258,
+     340
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    832,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 33
+   },
+   "tiles": 2288,
+   "animatedCells": 0,
+   "check": {
+    "frames": 1459,
+    "framesOfOtherPlaces": 0,
+    "compared": 649682,
+    "equal": 645398,
+    "score": 0.9934060047838789,
+    "cellsSeen": 880,
+    "cellsThatDiffered": 4
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  }
+ ]
+}

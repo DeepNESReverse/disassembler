@@ -1,0 +1,17 @@
+runs/cc-stage4: slots matched to sprites 49791 times, unmatched 7397; kinds 6,19,32,16,0; 212 appearances
+  array  0 $0070: 1 values, constant over a life 1, ~screen X 0, ~screen Y 0
+  array  1 $0071: 4 values, constant over a life 1, ~screen X 0.32, ~screen Y -0.2
+  array  2 $0072: 3 values, constant over a life 1, ~screen X 0.32, ~screen Y -0.204
+  array  3 $0073: 90 values, constant over a life 0.618, ~screen X 0.159, ~screen Y 0.504
+  array  4 $0074: 112 values, constant over a life 0.582, ~screen X 0.988, ~screen Y 0.053
+  array  5 $0075: 1 values, constant over a life 1, ~screen X 0, ~screen Y 0
+  array  6 $0076: 8 values, constant over a life 0.2, ~screen X 0.291, ~screen Y -0.007
+  array  7 $0077: 3 values, constant over a life 0.618, ~screen X -0.113, ~screen Y 0.431
+  array  8 $0078: 2 values, constant over a life 1, ~screen X -0.322, ~screen Y 0.201
+  array  9 $0079: 2 values, constant over a life 1, ~screen X 0.322, ~screen Y -0.203
+  array 10 $007A: 2 values, constant over a life 1, ~screen X 0.322, ~screen Y -0.203
+  array 11 $007B: 2 values, constant over a life 1, ~screen X 0.322, ~screen Y -0.203
+  array 12 $007C: 5 values, constant over a life 0.618, ~screen X 0.161, ~screen Y -0.097
+  array 13 $007D: 113 values, constant over a life 0.582, ~screen X 0.108, ~screen Y 0.223
+  array 14 $007E: 9 values, constant over a life 0.618, ~screen X -0.315, ~screen Y 0.183
+  array 15 $007F: 6 values, constant over a life 0.618, ~screen X -0.148, ~screen Y 0.022
