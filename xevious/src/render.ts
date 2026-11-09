@@ -64,6 +64,16 @@ mkdirSync('out/areas', { recursive: true });
 const drawn = Array.from({ length: 16 }, (_, i) => draw(rowsOf(i + 1)));
 drawn.forEach(({ pixels, height }, i) => writeFileSync(`out/areas/${String(i + 1).padStart(2, '0')}.png`, encodePng(pixels, 256, height, 1)));
 
+// The whole flight as one picture: area 1 at the bottom, area 16 at the top.
+const total = drawn.reduce((sum, d) => sum + d.height, 0);
+const whole = new Uint32Array(256 * total);
+let top = 0;
+for (let i = drawn.length - 1; i >= 0; i--) {
+  whole.set(drawn[i].pixels, top * 256);
+  top += drawn[i].height;
+}
+writeFileSync('out/areas/whole.png', encodePng(whole, 256, total, 1));
+
 // All sixteen side by side at half size, starts along the bottom.
 const GAP = 6;
 const tallest = Math.max(...drawn.map((d) => d.height)) >> 1;
