@@ -9,8 +9,8 @@
  * in play, so each area is drawn in the colours it shows most often.
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
 import { romFile } from './rom.ts';
 
 type Row = { tiles: number[]; palettes: number[]; colours?: string };

@@ -6,8 +6,8 @@
  * `world` counts the pixels the field has moved, half a pixel a frame. The camera is the game's last
  * $2005 y plus 240 by PPUCTRL bit 1, over two stacked nametables (horizontal mirroring).
  */
-import { BUTTON, Nes, parseRom } from '../../xrom-libs/nes/src/nes.ts';
-import { Ppu } from '../../xrom-libs/nes/src/ppu.ts';
+import { BUTTON, Nes, parseRom } from '../libs/nes/src/nes.ts';
+import { Ppu } from '../libs/nes/src/ppu.ts';
 import { romFile } from './rom.ts';
 
 export type Snapshot = ReturnType<Ppu['snapshot']>;

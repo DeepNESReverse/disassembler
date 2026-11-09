@@ -1,0 +1,6 @@
+[submodule "libs/nes"]
+	path = libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "libs/maps-run"]
+	path = libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run
