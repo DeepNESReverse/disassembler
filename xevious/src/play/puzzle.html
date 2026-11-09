@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xevious — map puzzle</title>
+<!-- The sixteen areas as pieces to drag about, to see how they fit into one map. The layout is kept in
+     data/puzzle.json through src/play/server.ts. -->
+<style>
+:root{color-scheme:dark;--bg:#111;--bar:#1b1b1b;--line:#444;--text:#ddd;--dim:#999;--pick:#35d6e8}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font:14px system-ui,sans-serif;display:flex;flex-direction:column}
+header{background:var(--bar);padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #000}
+button{background:#2a2a2a;color:var(--text);border:1px solid var(--line);border-radius:4px;padding:4px 10px;cursor:pointer;font:inherit}
+button:hover{border-color:var(--pick)}
+button.on{background:#17606b;border-color:var(--pick)}
+label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.group{display:flex;gap:4px;align-items:center}
+#info{color:var(--dim);font-variant-numeric:tabular-nums;min-width:160px}
+#saved{color:var(--dim);margin-left:auto}
+#hint{color:var(--dim);font-size:12px;padding:4px 12px;background:var(--bar);border-bottom:1px solid #000}
+#wrap{flex:1;overflow:auto;position:relative;cursor:grab;background:#0b0b0e}
+#wrap.panning{cursor:grabbing}
+#world{position:relative}
+.piece{position:absolute;overflow:hidden;cursor:move;touch-action:none;user-select:none}
+.piece img{display:block;pointer-events:none;-webkit-user-drag:none}
+body.lines .piece{outline:1px solid #fff5;outline-offset:-1px}
+.piece.sel{outline:2px solid var(--pick)!important;outline-offset:-2px}
+.tag{position:absolute;left:3px;background:#000c;color:#fff;font:700 15px/1 ui-monospace,monospace;padding:3px 6px;border-radius:3px;pointer-events:none}
+.tag.top{top:3px}
+.tag.bottom{bottom:3px}
+body.notags .tag{display:none}
+.crisp img{image-rendering:pixelated}
+</style>
+</head>
+<body class="lines">
+<header>
+  <strong>Xevious puzzle</strong>
+  <span class="group" id="zooms">Zoom:</span>
+  <button id="fit" title="Zoom out to see every piece">Fit all</button>
+  <label><input type="checkbox" id="tags" checked> Numbers</label>
+  <label><input type="checkbox" id="lines" checked> Outlines</label>
+  <label><input type="checkbox" id="snap" checked> Snap</label>
+  <label>Opacity <input type="range" id="alpha" min="30" max="100" value="100" style="width:90px"></label>
+  <button id="reset" title="Back to the game's order">Reset</button>
+  <span id="info"></span>
+  <span id="saved"></span>
+</header>
+<div id="hint">Drag a piece. Shift-click picks several, and they move together. Arrow keys move the picked pieces by a tile (8 px), with Shift by 1 px. Alt while dragging turns snapping off. Drag the empty space to pan; Ctrl or Cmd with the wheel zooms.</div>
+<div id="wrap"><div id="world"></div></div>
+<script type="module">
+const AREAS = 16, W = 256, H = 2080, TILE = 8, WORLD_W = 12000, WORLD_H = 7000, MAGNET = 10;
+const ZOOMS = [[0.125, '⅛'], [0.25, '¼'], [0.5, '½'], [1, '1×'], [2, '2×']];
+const $ = (id) => document.getElementById(id);
+const wrap = $('wrap'), world = $('world');
+const home = (i) => ({ n: i + 1, x: 16 + i * (W + 40), y: 40 });
+
+let pieces = Array.from({ length: AREAS }, (_, i) => home(i));
+let zoom = 0.25;
+const picked = new Set();
+const nodes = new Map();
+let top = 1;
+
+// ---- saving: one file beside the repo's data, so that the finished puzzle can be read back
+let timer = 0;
+function save() {
+  $('saved').textContent = 'saving…';
+  clearTimeout(timer);
+  timer = setTimeout(async () => {
+    try {
+      const res = await fetch('/puzzle.json', { method: 'POST', body: JSON.stringify({ pieces }) });
+      $('saved').textContent = res.ok ? 'saved' : 'NOT saved';
+    } catch {
+      $('saved').textContent = 'NOT saved';
+    }
+  }, 300);
+}
+async function load() {
+  try {
+    const res = await fetch('/puzzle.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    for (const p of pieces) {
+      const kept = data.pieces.find((q) => q.n === p.n);
+      if (kept) Object.assign(p, { x: kept.x, y: kept.y });
+    }
+  } catch {
+    // No layout yet: the game's order.
+  }
+}
+
+// ---- drawing
+function build() {
+  for (const p of pieces) {
+    const el = document.createElement('div');
+    el.className = 'piece';
+    el.dataset.n = p.n;
+    const img = new Image();
+    img.src = `/areas/${String(p.n).padStart(2, '0')}.png`;
+    img.alt = `Area ${p.n}`;
+    img.draggable = false;
+    el.append(img, tag(p.n, 'top'), tag(p.n, 'bottom'));
+    world.append(el);
+    nodes.set(p.n, el);
+  }
+}
+function tag(n, where) {
+  const t = document.createElement('span');
+  t.className = `tag ${where}`;
+  t.textContent = n;
+  return t;
+}
+function place(p) {
+  const el = nodes.get(p.n);
+  el.style.left = `${p.x * zoom}px`;
+  el.style.top = `${p.y * zoom}px`;
+  el.classList.toggle('sel', picked.has(p.n));
+}
+function layout() {
+  world.style.width = `${WORLD_W * zoom}px`;
+  world.style.height = `${WORLD_H * zoom}px`;
+  world.classList.toggle('crisp', zoom >= 1);
+  for (const p of pieces) {
+    const el = nodes.get(p.n);
+    // Area 1 also has the opening screen's rows under it: only its 260 map rows are shown, as for the rest.
+    el.style.width = `${W * zoom}px`;
+    el.style.height = `${H * zoom}px`;
+    el.firstChild.style.width = `${W * zoom}px`;
+    place(p);
+  }
+  document.querySelectorAll('#zooms button').forEach((b) => b.classList.toggle('on', Number(b.dataset.z) === zoom));
+}
+function info() {
+  const list = pieces.filter((p) => picked.has(p.n));
+  $('info').textContent = list.length === 1 ? `Area ${list[0].n} · x ${list[0].x} y ${list[0].y}` : list.length ? `${list.length} pieces` : '';
+}
+
+function setZoom(z, cx = wrap.clientWidth / 2, cy = wrap.clientHeight / 2) {
+  const x = (wrap.scrollLeft + cx) / zoom, y = (wrap.scrollTop + cy) / zoom;
+  zoom = z;
+  layout();
+  wrap.scrollLeft = x * zoom - cx;
+  wrap.scrollTop = y * zoom - cy;
+}
+function fit() {
+  const right = Math.max(...pieces.map((p) => p.x + W)), bottom = Math.max(...pieces.map((p) => p.y + H));
+  const left = Math.min(...pieces.map((p) => p.x)), up = Math.min(...pieces.map((p) => p.y));
+  const room = Math.min(wrap.clientWidth / (right - left + 32), wrap.clientHeight / (bottom - up + 32));
+  zoom = [...ZOOMS].reverse().map(([z]) => z).find((z) => z <= room) ?? ZOOMS[0][0];
+  layout();
+  wrap.scrollLeft = (left - 16) * zoom;
+  wrap.scrollTop = (up - 16) * zoom;
+}
+
+// ---- snapping: to the tile grid, and to the edges of the pieces that stay
+function snapped(p, x, y) {
+  const near = MAGNET / zoom;
+  let X = Math.round(x / TILE) * TILE, Y = Math.round(y / TILE) * TILE, dx = near, dy = near;
+  for (const o of pieces) {
+    if (picked.has(o.n)) continue;
+    for (const c of [o.x - W, o.x, o.x + W]) if (Math.abs(x - c) < dx) { dx = Math.abs(x - c); X = c; }
+    if (Math.abs(y - o.y) < dy) { dy = Math.abs(y - o.y); Y = o.y; }
+  }
+  return [X, Y];
+}
+
+// ---- dragging
+let drag = null;
+world.addEventListener('pointerdown', (e) => {
+  const el = e.target.closest('.piece');
+  if (!el) return;
+  e.stopPropagation();
+  const n = Number(el.dataset.n);
+  if (e.shiftKey) picked.has(n) ? picked.delete(n) : picked.add(n);
+  else if (!picked.has(n)) { picked.clear(); picked.add(n); }
+  pieces.forEach(place);
+  info();
+  if (!picked.has(n)) return;
+  el.setPointerCapture(e.pointerId);
+  const moving = pieces.filter((p) => picked.has(p.n));
+  for (const p of moving) nodes.get(p.n).style.zIndex = ++top;
+  drag = { n, sx: e.clientX, sy: e.clientY, left: wrap.scrollLeft, up: wrap.scrollTop, from: moving.map((p) => ({ p, x: p.x, y: p.y })), moved: false };
+});
+window.addEventListener('pointermove', (e) => {
+  if (!drag) return;
+  const lead = drag.from.find((f) => f.p.n === drag.n);
+  const wantX = lead.x + (e.clientX - drag.sx + wrap.scrollLeft - drag.left) / zoom;
+  const wantY = lead.y + (e.clientY - drag.sy + wrap.scrollTop - drag.up) / zoom;
+  const [x, y] = $('snap').checked && !e.altKey ? snapped(lead.p, wantX, wantY) : [Math.round(wantX), Math.round(wantY)];
+  let dx = x - lead.x, dy = y - lead.y;
+  dx = Math.max(dx, -Math.min(...drag.from.map((f) => f.x)));
+  dy = Math.max(dy, -Math.min(...drag.from.map((f) => f.y)));
+  for (const f of drag.from) {
+    f.p.x = f.x + dx;
+    f.p.y = f.y + dy;
+    place(f.p);
+  }
+  drag.moved = true;
+  info();
+});
+const drop = () => {
+  if (drag?.moved) save();
+  drag = null;
+};
+window.addEventListener('pointerup', drop);
+window.addEventListener('pointercancel', drop);
+
+// ---- panning and zooming
+let pan = null;
+wrap.addEventListener('pointerdown', (e) => {
+  picked.clear();
+  pieces.forEach(place);
+  info();
+  pan = { x: e.clientX, y: e.clientY, left: wrap.scrollLeft, up: wrap.scrollTop };
+  wrap.classList.add('panning');
+});
+window.addEventListener('pointermove', (e) => {
+  if (!pan) return;
+  wrap.scrollLeft = pan.left - (e.clientX - pan.x);
+  wrap.scrollTop = pan.up - (e.clientY - pan.y);
+});
+window.addEventListener('pointerup', () => {
+  pan = null;
+  wrap.classList.remove('panning');
+});
+wrap.addEventListener('wheel', (e) => {
+  if (!e.ctrlKey && !e.metaKey) return;
+  e.preventDefault();
+  const at = ZOOMS.findIndex(([z]) => z === zoom) + (e.deltaY < 0 ? 1 : -1);
+  if (!ZOOMS[at]) return;
+  const box = wrap.getBoundingClientRect();
+  setZoom(ZOOMS[at][0], e.clientX - box.left, e.clientY - box.top);
+}, { passive: false });
+
+window.addEventListener('keydown', (e) => {
+  const step = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+  if (!step || !picked.size || e.target.matches('input[type=range]')) return;
+  e.preventDefault();
+  const by = e.shiftKey ? 1 : TILE;
+  for (const p of pieces.filter((q) => picked.has(q.n))) {
+    p.x = Math.max(0, p.x + step[0] * by);
+    p.y = Math.max(0, p.y + step[1] * by);
+    place(p);
+  }
+  info();
+  save();
+});
+
+// ---- the bar
+for (const [z, label] of ZOOMS) {
+  const b = document.createElement('button');
+  b.textContent = label;
+  b.dataset.z = z;
+  b.onclick = () => setZoom(z);
+  $('zooms').append(b);
+}
+$('fit').onclick = fit;
+$('tags').onchange = (e) => document.body.classList.toggle('notags', !e.target.checked);
+$('lines').onchange = (e) => document.body.classList.toggle('lines', e.target.checked);
+$('alpha').oninput = (e) => { for (const el of nodes.values()) el.style.opacity = e.target.value / 100; };
+$('reset').onclick = () => {
+  pieces.forEach((p, i) => Object.assign(p, home(i)));
+  picked.clear();
+  layout();
+  info();
+  save();
+};
+
+await load();
+build();
+layout();
+fit();
+</script>
+</body>
+</html>
