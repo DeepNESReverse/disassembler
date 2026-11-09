@@ -9,3 +9,9 @@ fceux/tas_trail-*.txt
 fceux/*.play.txt
 fceux/movie_sound.txt
 out/public/
+out/*.js
+out/*.mjs
+out/alien3-levels/
+out/experiments/
+out/play/
+out/xrom-libs/
