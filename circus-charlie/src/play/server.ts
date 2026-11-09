@@ -54,5 +54,6 @@ createServer((req, res) => {
   if (p.startsWith('/xrom-libs/nes/src/')) return file(res, resolve(xrom, 'src'), p.slice('/xrom-libs/nes/src'.length));
   if (p.startsWith('/xrom-libs/nes/node_modules/@xromdev/'))
     return file(res, resolve(xrom, 'node_modules/@xromdev'), p.slice('/xrom-libs/nes/node_modules/@xromdev'.length));
+  if (p.startsWith('/libs/')) return file(res, repo, p);
   send(res, 404, 'not found');
 }).listen(port, '127.0.0.1', () => console.log(`Circus Charlie maps: http://127.0.0.1:${port}/`));
