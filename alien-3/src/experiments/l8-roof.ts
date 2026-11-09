@@ -2,8 +2,8 @@
 // page top start at map row 720 or above it? The player teleported into the room below, the frame
 // saved as a picture to compare with out/levels/08.png line by line.
 import { writeFileSync } from 'node:fs';
-import { encodePng } from '../../../xrom-libs/nes/src/png.ts';
-import { HEIGHT, WIDTH } from '../../../xrom-libs/nes/src/ppu.ts';
+import { encodePng } from '../../libs/nes/src/png.ts';
+import { HEIGHT, WIDTH } from '../../libs/nes/src/ppu.ts';
 import { Level } from '../level.ts';
 import { cardState, teleportOnBuild } from '../teleport.ts';
 import { cheats, pos } from '../paths.ts';

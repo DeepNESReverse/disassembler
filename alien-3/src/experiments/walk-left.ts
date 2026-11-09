@@ -66,6 +66,6 @@ v.search = encode(search);
 v.searchOnly += added; v.total += added;
 writeFileSync('out/levels/visible.json', JSON.stringify(all) + '\n');
 // The game's picture there, and the map's region the camera covers, side by side.
-import('../../../xrom-libs/nes/src/png.ts').then(({ encodePng }) => {
+import('../../libs/nes/src/png.ts').then(({ encodePng }) => {
   writeFileSync('runs/walk-left-frame.png', encodePng(m.ppu.snapshot().pixels, 256, 240));
 });

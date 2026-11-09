@@ -6,8 +6,8 @@
  * `step` are wrapped here (the CPU's bus calls `this.read`, so an instance property takes over).
  */
 
-import { Nes, parseRom, BUTTON, type Cartridge } from '../../xrom-libs/nes/src/nes.ts';
-import { Ppu } from '../../xrom-libs/nes/src/ppu.ts';
+import { Nes, parseRom, BUTTON, type Cartridge } from '../libs/nes/src/nes.ts';
+import { Ppu } from '../libs/nes/src/ppu.ts';
 
 export { BUTTON };
 

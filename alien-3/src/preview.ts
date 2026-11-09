@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 import { ROM_PATH } from './rom.ts';
 import { Level } from './level.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
 
 const [lv, first, count, step, outPath] = process.argv.slice(2);
 const n = Number(lv) - 1;

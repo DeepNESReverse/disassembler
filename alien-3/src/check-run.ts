@@ -6,7 +6,7 @@
  * out/levels/<nn>-check.json (the numbers).
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
 import { BUTTON } from './machine.ts';
 import { Level } from './level.ts';
 import { cardState, teleportOnBuild, loadState } from './teleport.ts';

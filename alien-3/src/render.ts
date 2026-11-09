@@ -5,9 +5,9 @@
  * R1 = $26 + 2; PPUCTRL bit 4 is clear in play). Colours: the header's palette ($24).
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
-import { parseRom } from '../../xrom-libs/nes/src/nes.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
+import { parseRom } from '../libs/nes/src/nes.ts';
 import { Level, LEVELS } from './level.ts';
 import { ROM_PATH } from './rom.ts';
 

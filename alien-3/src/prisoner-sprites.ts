@@ -11,9 +11,9 @@
  *   node --experimental-strip-types src/prisoner-sprites.ts
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
-import { TRANSPARENT } from '../../xrom-libs/nes/src/ppu.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
+import { TRANSPARENT } from '../libs/nes/src/ppu.ts';
 import { cardState } from './teleport.ts';
 import { lead, noclip, route } from './noclip.ts';
 import type { Machine } from './machine.ts';

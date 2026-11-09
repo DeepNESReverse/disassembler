@@ -106,7 +106,7 @@ writeFileSync(resolve(out, 'levels.json'), JSON.stringify({
 }, null, 1));
 
 // The run player in one module: '/src/…' is this repo's, '/xrom-libs/…' the libraries'.
-const esbuild = createRequire(resolve(repo, '../xrom-libs/nes/package.json'))('esbuild');
+const esbuild = createRequire(resolve(repo, 'libs/nes/package.json'))('esbuild');
 await esbuild.build({
   entryPoints: [resolve(repo, 'src/take-player.js')],
   bundle: true, format: 'esm', minify: true, outfile: resolve(out, 'take-player.js'), logLevel: 'warning',

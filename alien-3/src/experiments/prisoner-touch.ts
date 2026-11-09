@@ -4,7 +4,7 @@
  * picture of the moment.
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
-import { encodePng } from '../../../xrom-libs/nes/src/png.ts';
+import { encodePng } from '../../libs/nes/src/png.ts';
 import { cardState, loadState } from '../teleport.ts';
 import { lead, noclip, route } from '../noclip.ts';
 import { saveState } from '../machine.ts';

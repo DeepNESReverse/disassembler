@@ -16,8 +16,8 @@
  * → out/levels/<nn>-space-<k>.png (k = 0..7, 16 pages each) and <nn>-space.json (regions, check).
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { NES_RGB } from '../../xrom-libs/nes/src/palette.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { NES_RGB } from '../libs/nes/src/palette.ts';
 import { Level, LAYOUT_WIDTH, PAGE_BLOCKS } from './level.ts';
 import { cardState } from './teleport.ts';
 import { lead, noclip } from './noclip.ts';

@@ -23,7 +23,7 @@ import { ROM_PATH } from '../rom.ts';
 const args = process.argv.slice(2);
 const port = Number(args.includes('--port') ? args[args.indexOf('--port') + 1] : 4324);
 const repo = resolve(import.meta.dirname, '../..');
-const xrom = resolve(repo, '../xrom-libs/nes');
+const xrom = resolve(repo, 'libs/nes');
 const ROMS = resolve(process.env.HOME ?? '', 'roms/dendy/nes');
 
 /** A cartridge of the library by its file name, or null for anything else. */

@@ -7,8 +7,8 @@
 import { romFile } from './rom.ts';
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { HEIGHT, WIDTH } from '../../xrom-libs/nes/src/ppu.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { HEIGHT, WIDTH } from '../libs/nes/src/ppu.ts';
 import { CARD_FRAME, PLAY_FRAME, toCard } from './path.ts';
 import { Machine, loadState, saveState } from './machine.ts';
 

@@ -2,8 +2,8 @@
 // does each switch flip? On each line, A is pressed four times; a cell that alternates with every
 // press, and only such, is the switch. Frames go to the scratch dir given, to see the menu's text.
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../../xrom-libs/nes/src/png.ts';
-import { HEIGHT, WIDTH } from '../../../xrom-libs/nes/src/ppu.ts';
+import { encodePng } from '../../libs/nes/src/png.ts';
+import { HEIGHT, WIDTH } from '../../libs/nes/src/ppu.ts';
 import { Machine } from '../machine.ts';
 import { romFile } from '../rom.ts';
 import { runScript } from '../shots.ts';

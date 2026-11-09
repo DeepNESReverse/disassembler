@@ -1,7 +1,7 @@
 // Blocks whose attribute byte is $FF (the climb handler's test, B14:$C306/$C333) and blocks in the
 // header's $0E list (B14:$C29F/$C2CA), drawn over level 1: runs/climb1.png.
 import { writeFileSync } from 'node:fs';
-import { encodePng } from '../../../xrom-libs/nes/src/png.ts';
+import { encodePng } from '../../libs/nes/src/png.ts';
 import { Level, PAGE_TILES } from '../level.ts';
 import { loadCart, renderLevel } from '../render.ts';
 const n = Number(process.argv[2] ?? 1) - 1;

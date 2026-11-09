@@ -15,7 +15,7 @@
  *   node --experimental-strip-types src/noclip.ts <level 1-12> [--step 120]
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
 import type { Machine } from './machine.ts';
 import { Level } from './level.ts';
 import { cardState } from './teleport.ts';

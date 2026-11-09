@@ -6,8 +6,8 @@
 import { romFile } from './rom.ts';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { encodePng } from '../../xrom-libs/nes/src/png.ts';
-import { HEIGHT, WIDTH } from '../../xrom-libs/nes/src/ppu.ts';
+import { encodePng } from '../libs/nes/src/png.ts';
+import { HEIGHT, WIDTH } from '../libs/nes/src/ppu.ts';
 import { BUTTON, Machine } from './machine.ts';
 
 export function buttonsOf(spec: string): number {

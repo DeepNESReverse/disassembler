@@ -2,8 +2,8 @@
 // top — does the game's screen show them with the camera on that page top (Y 480)? The player
 // teleported below them, the frame saved as a picture.
 import { writeFileSync } from 'node:fs';
-import { encodePng } from '../../../xrom-libs/nes/src/png.ts';
-import { HEIGHT, WIDTH } from '../../../xrom-libs/nes/src/ppu.ts';
+import { encodePng } from '../../libs/nes/src/png.ts';
+import { HEIGHT, WIDTH } from '../../libs/nes/src/ppu.ts';
 import { Level } from '../level.ts';
 import { cardState, teleportOnBuild } from '../teleport.ts';
 import { cheats, pos } from '../paths.ts';

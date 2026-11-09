@@ -4,7 +4,7 @@
  * 150 frames. RAM cells that changed by the Up and stayed changed; X while walking.
  */
 import { writeFileSync } from 'node:fs';
-import { encodePng } from '../../../xrom-libs/nes/src/png.ts';
+import { encodePng } from '../../libs/nes/src/png.ts';
 import { BUTTON, loadState, saveState } from '../machine.ts';
 import { cardState } from '../teleport.ts';
 import { lead, noclip, route } from '../noclip.ts';
