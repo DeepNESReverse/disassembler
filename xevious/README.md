@@ -5,8 +5,8 @@ The sixteen areas of Xevious, gathered from what the game itself draws and check
 ## Getting it
 
 ```sh
-git clone --recursive https://github.com/DeepNESReverse/disasm-xevious
-cd disasm-xevious
+git clone --recursive https://github.com/DeepNESReverse/disassembler
+cd disassembler/xevious
 npm run setup
 ```
 

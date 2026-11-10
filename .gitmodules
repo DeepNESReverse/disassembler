@@ -1,0 +1,30 @@
+[submodule "alien-3/libs/nes"]
+	path = alien-3/libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "alien-3/libs/maps-run"]
+	path = alien-3/libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run
+[submodule "circus-charlie/libs/nes"]
+	path = circus-charlie/libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "circus-charlie/libs/maps-run"]
+	path = circus-charlie/libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run
+[submodule "circus-charlie/libs/nes-explorer"]
+	path = circus-charlie/libs/nes-explorer
+	url = https://github.com/DeepNESReverse/xrom-nes-explorer
+[submodule "spelunker/libs/nes"]
+	path = spelunker/libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "spelunker/libs/maps-run"]
+	path = spelunker/libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run
+[submodule "spelunker/libs/nes-explorer"]
+	path = spelunker/libs/nes-explorer
+	url = https://github.com/DeepNESReverse/xrom-nes-explorer
+[submodule "xevious/libs/nes"]
+	path = xevious/libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "xevious/libs/maps-run"]
+	path = xevious/libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run

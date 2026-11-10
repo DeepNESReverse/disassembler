@@ -5,8 +5,8 @@ The Spelunker cave drawn whole from the cartridge with a TAS by yuigenron2 playe
 ## Getting it
 
 ```sh
-git clone --recursive https://github.com/DeepNESReverse/disasm-spelunker
-cd disasm-spelunker
+git clone --recursive https://github.com/DeepNESReverse/disassembler
+cd disassembler/spelunker
 npm run setup
 ```
 
@@ -19,5 +19,5 @@ Run the tools from this folder, with Node 22 or newer:
 
 ## The recordings
 
-The speedrun as FCEUX played it is not in git. Download `disasm-spelunker-recordings.tar.xz` from this repository's
-Releases and unpack it here with `tar -xJf`.
+The speedrun as FCEUX played it is not in git. Download `disasm-spelunker-recordings.tar.xz` from the `recordings` release of
+this repository and unpack it here with `tar -xJf`.
