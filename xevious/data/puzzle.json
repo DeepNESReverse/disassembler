@@ -1,0 +1,132 @@
+{
+ "pieces": [
+  {
+   "n": 1,
+   "x": 5032,
+   "y": 448,
+   "group": 1,
+   "locked": true,
+   "z": 3
+  },
+  {
+   "n": 2,
+   "x": 5288,
+   "y": 448,
+   "group": 1,
+   "locked": true,
+   "z": 4
+  },
+  {
+   "n": 3,
+   "x": 512,
+   "y": 360,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 4,
+   "x": 904,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 5,
+   "x": 4776,
+   "y": 448,
+   "group": 1,
+   "locked": true,
+   "z": 1
+  },
+  {
+   "n": 6,
+   "x": 1496,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 7,
+   "x": 1752,
+   "y": 448,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 8,
+   "x": 2088,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 9,
+   "x": 2384,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 10,
+   "x": 2680,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 11,
+   "x": 2976,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 12,
+   "x": 3272,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 13,
+   "x": 3568,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 14,
+   "x": 4584,
+   "y": 448,
+   "group": 1,
+   "locked": true,
+   "z": 2
+  },
+  {
+   "n": 15,
+   "x": 4160,
+   "y": 40,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  },
+  {
+   "n": 16,
+   "x": 112,
+   "y": 752,
+   "group": 0,
+   "locked": false,
+   "z": 0
+  }
+ ]
+}

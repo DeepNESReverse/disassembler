@@ -1,0 +1,9 @@
+{
+  "name": "xevious-levels",
+  "private": true,
+  "type": "module",
+  "description": "Xevious (USA): all sixteen areas drawn whole, out of what the cartridge itself puts on the screen.",
+  "scripts": {
+    "setup": "npm --prefix libs/nes ci && ln -sfn libs/nes/node_modules node_modules"
+  }
+}
