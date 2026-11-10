@@ -1,0 +1,61 @@
+{
+ "method": "cells whose new value equals a visible sprite group's screen X or Y (±6 px) on ≥ 80 % of the frames they change, over ≥ 16 values",
+ "input": "runs/cc1",
+ "frames": 17999,
+ "xCells": [
+  {
+   "cell": "$0094",
+   "share": 0.988,
+   "changes": 1863,
+   "values": 219
+  },
+  {
+   "cell": "$00A4",
+   "share": 0.987,
+   "changes": 1861,
+   "values": 218
+  },
+  {
+   "cell": "$00B4",
+   "share": 0.969,
+   "changes": 381,
+   "values": 190
+  },
+  {
+   "cell": "$00C4",
+   "share": 0.963,
+   "changes": 381,
+   "values": 190
+  },
+  {
+   "cell": "$03CB",
+   "share": 0.95,
+   "changes": 404,
+   "values": 200
+  }
+ ],
+ "yCells": [
+  {
+   "cell": "$0073",
+   "share": 0.992,
+   "changes": 2980,
+   "values": 30
+  },
+  {
+   "cell": "$0083",
+   "share": 0.992,
+   "changes": 2980,
+   "values": 30
+  },
+  {
+   "cell": "$03D2",
+   "share": 1,
+   "changes": 2960,
+   "values": 31
+  }
+ ],
+ "strides": {
+  "16": 3,
+  "775": 1
+ }
+}

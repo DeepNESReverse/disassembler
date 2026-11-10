@@ -1,0 +1,4 @@
+node_modules
+*.nes
+runs/
+fceux/*.play.txt

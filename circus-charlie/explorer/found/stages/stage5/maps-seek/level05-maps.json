@@ -1,0 +1,76 @@
+{
+ "level": 5,
+ "runs": [
+  {
+   "run": "runs/cc-seek-5",
+   "paths": 14,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      5
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 31,
+ "page": 0,
+ "results": [
+  {
+   "name": "level05-0",
+   "level": 5,
+   "from": {
+    "run": "runs/cc-seek-5",
+    "path": "012-l5.txt",
+    "frames": [
+     1807,
+     3022
+    ],
+    "sweepStart": 1817
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     2,
+     594
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    1344,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 1
+   },
+   "tiles": 3696,
+   "animatedCells": 0,
+   "check": {
+    "frames": 9238,
+    "framesOfOtherPlaces": 0,
+    "compared": 6097080,
+    "equal": 6094478,
+    "score": 0.99957323833704,
+    "cellsSeen": 2530,
+    "cellsThatDiffered": 4
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  }
+ ]
+}

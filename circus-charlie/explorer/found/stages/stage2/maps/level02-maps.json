@@ -1,0 +1,180 @@
+{
+ "level": 2,
+ "runs": [
+  {
+   "run": "runs/cc-stage2",
+   "paths": 11,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      2
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-free",
+   "paths": 11,
+   "interventions": {
+    "at": 64,
+    "pokes": [],
+    "pins": [],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 20,
+ "page": 0,
+ "results": [
+  {
+   "name": "level02-0",
+   "level": 2,
+   "from": {
+    "run": "runs/cc-stage2",
+    "path": "010-605db3fd.txt",
+    "frames": [
+     2832,
+     4796
+    ],
+    "sweepStart": 2842
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     514,
+     1366
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    1600,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 65
+   },
+   "tiles": 4400,
+   "animatedCells": 0,
+   "check": {
+    "frames": 7369,
+    "framesOfOtherPlaces": 0,
+    "compared": 4786848,
+    "equal": 4786848,
+    "score": 1,
+    "cellsSeen": 3146,
+    "cellsThatDiffered": 0
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level02-1",
+   "level": 2,
+   "from": {
+    "run": "runs/cc-stage2",
+    "path": "010-605db3fd.txt",
+    "frames": [
+     1109,
+     1833
+    ],
+    "sweepStart": 1118
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     2,
+     273
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    1024,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 1
+   },
+   "tiles": 2816,
+   "animatedCells": 0,
+   "check": {
+    "frames": 3749,
+    "framesOfOtherPlaces": 0,
+    "compared": 2085908,
+    "equal": 2085908,
+    "score": 1,
+    "cellsSeen": 2816,
+    "cellsThatDiffered": 0
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  },
+  {
+   "name": "level02-2",
+   "level": 2,
+   "from": {
+    "run": "runs/cc-stage2",
+    "path": "010-605db3fd.txt",
+    "frames": [
+     2001,
+     2664
+    ],
+    "sweepStart": 2010
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     258,
+     526
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    1016,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 33
+   },
+   "tiles": 2794,
+   "animatedCells": 0,
+   "check": {
+    "frames": 5970,
+    "framesOfOtherPlaces": 0,
+    "compared": 3083608,
+    "equal": 3083608,
+    "score": 1,
+    "cellsSeen": 2794,
+    "cellsThatDiffered": 0
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  }
+ ]
+}

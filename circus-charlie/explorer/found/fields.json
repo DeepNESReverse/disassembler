@@ -1,0 +1,188 @@
+{
+ "method": "agent paths replayed, the object table kept every frame; each field tested on consecutive frames of one object (fields.ts)",
+ "runs": [
+  "runs/cc-seek-1",
+  "runs/cc-seek-2",
+  "runs/cc-seek-3",
+  "runs/cc-seek-4",
+  "runs/cc-seek-5",
+  "runs/cc-stage1",
+  "runs/cc-stage2",
+  "runs/cc-stage3",
+  "runs/cc-stage4",
+  "runs/cc-stage5"
+ ],
+ "frames": 73044,
+ "objectPairs": 234831,
+ "positions": [
+  {
+   "name": "x",
+   "field": 4,
+   "hi": null
+  },
+  {
+   "name": "y",
+   "field": 3,
+   "hi": null
+  }
+ ],
+ "findings": [],
+ "perField": {
+  "0": {
+   "changes": 0
+  },
+  "1": {
+   "changes": 0,
+   "link": {
+    "inUse": 0.214,
+    "nearRatio": 1.87,
+    "frames": 70719
+   }
+  },
+  "2": {
+   "changes": 4
+  },
+  "3": {
+   "changes": 29206,
+   "down1": 0.132,
+   "up1": 0.144,
+   "subPixelCandidate": null,
+   "speedTable": {
+    "field": 1,
+    "with": null,
+    "when": "before",
+    "same": 0.211,
+    "overall": 0.196
+   },
+   "speedCandidate": {
+    "field": 14,
+    "how": "= the field × 8/256 px in size (after the frame)",
+    "score": 0.264,
+    "moves": 29206
+   }
+  },
+  "4": {
+   "changes": 41577,
+   "down1": 0.416,
+   "up1": 0.045,
+   "subPixelCandidate": null,
+   "speedTable": {
+    "field": 1,
+    "with": 2,
+    "when": "before",
+    "same": 0.769,
+    "overall": 0.479
+   },
+   "speedCandidate": {
+    "field": 1,
+    "how": "= the field × 64/256 px in size (before the frame)",
+    "score": 0.276,
+    "moves": 41577
+   },
+   "link": {
+    "inUse": 0.483,
+    "nearRatio": 1.27,
+    "frames": 1415
+   }
+  },
+  "5": {
+   "changes": 112
+  },
+  "6": {
+   "changes": 10830,
+   "down1": 0.363,
+   "up1": 0.467,
+   "link": {
+    "inUse": 0.397,
+    "nearRatio": 0.77,
+    "frames": 27066
+   }
+  },
+  "7": {
+   "changes": 124,
+   "link": {
+    "inUse": 0.474,
+    "nearRatio": 5.63,
+    "frames": 11141
+   }
+  },
+  "8": {
+   "changes": 14139,
+   "down1": 0,
+   "up1": 0,
+   "link": {
+    "inUse": 0.22,
+    "nearRatio": 0.97,
+    "frames": 20720
+   }
+  },
+  "9": {
+   "changes": 104,
+   "link": {
+    "inUse": 0.445,
+    "nearRatio": 1.46,
+    "frames": 22962
+   }
+  },
+  "10": {
+   "changes": 4194,
+   "down1": 0.036,
+   "up1": 0.056,
+   "link": {
+    "inUse": 0.48,
+    "nearRatio": 1.46,
+    "frames": 70477
+   }
+  },
+  "11": {
+   "changes": 919,
+   "down1": 0.46,
+   "up1": 0.521,
+   "link": {
+    "inUse": 0.28,
+    "nearRatio": 1.21,
+    "frames": 37220
+   }
+  },
+  "12": {
+   "changes": 7290,
+   "down1": 0.312,
+   "up1": 0.328,
+   "link": {
+    "inUse": 0.67,
+    "nearRatio": 1.35,
+    "frames": 60366
+   }
+  },
+  "13": {
+   "changes": 2604,
+   "down1": 0.013,
+   "up1": 0.108,
+   "link": {
+    "inUse": 0.491,
+    "nearRatio": 1.87,
+    "frames": 7908
+   }
+  },
+  "14": {
+   "changes": 2312,
+   "down1": 0,
+   "up1": 0.01,
+   "link": {
+    "inUse": 0.996,
+    "nearRatio": 1.26,
+    "frames": 470
+   }
+  },
+  "15": {
+   "changes": 1975,
+   "down1": 0.011,
+   "up1": 0.046,
+   "link": {
+    "inUse": 0.483,
+    "nearRatio": 0.7,
+    "frames": 125027
+   }
+  }
+ }
+}

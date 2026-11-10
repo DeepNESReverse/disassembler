@@ -1,0 +1,3 @@
+level05: runs/cc-seek-5 14 paths; 31 segments of play; the play field on nametable page 0
+  sweep of 012-l5.txt from frame 1817: camera moved by the game after 473 frames; 0 frames without a split placed, 0 skipped
+  level05-0: 012-l5.txt frames 1807-3022, K 44, camera X 2..594 Y 0..0; 3696 tiles 1344×176; seen 2530 (68.5%), 6094478/6097080 = 99.96% on 9238 frames (0 of other places), 4 cells ever differed — verified

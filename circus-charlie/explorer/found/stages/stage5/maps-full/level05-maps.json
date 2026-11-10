@@ -1,0 +1,150 @@
+{
+ "level": 5,
+ "runs": [
+  {
+   "run": "runs/cc-seek-5",
+   "paths": 14,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      5
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-stage5",
+   "paths": 14,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      5
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-free",
+   "paths": 11,
+   "interventions": {
+    "at": 64,
+    "pokes": [],
+    "pins": [],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-seek2-1",
+   "paths": 16,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      1
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-seek2-3",
+   "paths": 15,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 66,
+ "page": 0,
+ "results": [
+  {
+   "name": "level05-0",
+   "level": 5,
+   "from": {
+    "run": "runs/cc-seek-5",
+    "path": "012-l5.txt",
+    "frames": [
+     308,
+     1219
+    ],
+    "sweepStart": 317
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     2,
+     98
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    1520,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 1
+   },
+   "tiles": 4180,
+   "animatedCells": 0,
+   "check": {
+    "frames": 21382,
+    "framesOfOtherPlaces": 0,
+    "compared": 14112120,
+    "equal": 14107184,
+    "score": 0.9996502297316066,
+    "cellsSeen": 3652,
+    "cellsThatDiffered": 12,
+    "cellsPlayDependent": 12,
+    "cellsMapDiffers": 0,
+    "fixedCompared": 14065100,
+    "fixedScore": 1
+   },
+   "verified": true,
+   "skipped": 0,
+   "conflicts": 0
+  }
+ ]
+}

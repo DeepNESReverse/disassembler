@@ -1,0 +1,86 @@
+{
+ "level": 3,
+ "runs": [
+  {
+   "run": "runs/cc-stage3",
+   "paths": 31,
+   "interventions": {
+    "at": 150,
+    "pokes": [
+     [
+      99,
+      3
+     ]
+    ],
+    "pins": [
+     [
+      96,
+      3
+     ]
+    ],
+    "port2": false
+   }
+  },
+  {
+   "run": "runs/cc-free",
+   "paths": 11,
+   "interventions": {
+    "at": 64,
+    "pokes": [],
+    "pins": [],
+    "port2": false
+   }
+  }
+ ],
+ "segments": 31,
+ "page": 0,
+ "results": [
+  {
+   "name": "level03-0",
+   "level": 3,
+   "from": {
+    "run": "runs/cc-stage3",
+    "path": "000-605db3fd.txt",
+    "frames": [
+     1024,
+     1387
+    ],
+    "sweepStart": 1033
+   },
+   "K": 44,
+   "page": 0,
+   "naturalCamera": {
+    "x": [
+     61,
+     213
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "size": [
+    904,
+    176
+   ],
+   "origin": {
+    "top": 12,
+    "column": 8
+   },
+   "tiles": 2486,
+   "animatedCells": 123,
+   "check": {
+    "frames": 2831,
+    "framesOfOtherPlaces": 0,
+    "compared": 1700644,
+    "equal": 1671316,
+    "score": 0.982754768193696,
+    "cellsSeen": 1078,
+    "cellsThatDiffered": 107
+   },
+   "verified": false,
+   "skipped": 0,
+   "conflicts": 634
+  }
+ ]
+}

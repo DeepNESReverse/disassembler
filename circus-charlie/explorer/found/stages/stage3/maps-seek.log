@@ -1,0 +1,3 @@
+level03: runs/cc-seek-3 12 paths; 16 segments of play; the play field on nametable page 0
+  sweep of 008-l3.txt from frame 318: camera moved by the game after 0 frames; 0 frames without a split placed, 0 skipped
+  level03-0: 008-l3.txt frames 309-1139, K 44, camera X 0..168 Y 0..0; 2530 tiles 920×176; seen 1232 (48.7%), 2567924/2615580 = 98.18% on 3963 frames (0 of other places), 108 cells ever differed

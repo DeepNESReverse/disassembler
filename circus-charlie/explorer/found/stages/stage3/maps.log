@@ -1,0 +1,3 @@
+level03: runs/cc-stage3 31 paths, runs/cc-free 11 paths; 31 segments of play; the play field on nametable page 0
+  sweep of 000-605db3fd.txt from frame 1033: camera moved by the game after 0 frames; 0 frames without a split placed, 0 skipped
+  level03-0: 000-605db3fd.txt frames 1024-1387, K 44, camera X 61..213 Y 0..0; 2486 tiles 904×176; seen 1078 (43.4%), 1671316/1700644 = 98.28% on 2831 frames (0 of other places), 107 cells ever differed

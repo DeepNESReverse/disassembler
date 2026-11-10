@@ -1,0 +1,66 @@
+{
+  "method": "branched experiments from save states",
+  "starts": [
+    3500,
+    12000,
+    14500,
+    15000,
+    16500
+  ],
+  "frames": 48,
+  "evidence": {
+    "frameCounter": [
+      {
+        "address": "0009",
+        "detail": "+1 every frame on every branch"
+      }
+    ],
+    "padMirror": [
+      {
+        "address": "0005",
+        "detail": "a one-to-one function of the buttons held, every frame"
+      },
+      {
+        "address": "0007",
+        "detail": "a one-to-one function of the buttons held, every frame"
+      },
+      {
+        "address": "000C",
+        "detail": "a one-to-one function of the buttons held, every frame"
+      },
+      {
+        "address": "000D",
+        "detail": "a one-to-one function of the buttons held, every frame"
+      },
+      {
+        "address": "00E4",
+        "detail": "a one-to-one function of the buttons held, every frame"
+      }
+    ],
+    "moveX": [],
+    "moveZ": [],
+    "jump": [
+      {
+        "address": "0005",
+        "detail": "moves only on the branch that pressed A"
+      },
+      {
+        "address": "0007",
+        "detail": "moves only on the branch that pressed A"
+      },
+      {
+        "address": "000C",
+        "detail": "moves only on the branch that pressed A"
+      },
+      {
+        "address": "000D",
+        "detail": "moves only on the branch that pressed A"
+      },
+      {
+        "address": "00E4",
+        "detail": "moves only on the branch that pressed A"
+      }
+    ],
+    "scrollX": []
+  }
+}

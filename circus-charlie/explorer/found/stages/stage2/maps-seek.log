@@ -1,0 +1,7 @@
+level02: runs/cc-seek-2 13 paths; 39 segments of play; the play field on nametable page 0
+  sweep of 006-l2.txt from frame 2872: camera moved by the game after 48 frames; 0 frames without a split placed, 0 skipped
+  sweep of 006-l2.txt from frame 27342: camera moved by the game after 0 frames; 0 frames without a split placed, 0 skipped
+  sweep of 006-l2.txt from frame 2034: camera moved by the game after 43 frames; 0 frames without a split placed, 0 skipped
+  level02-0: 006-l2.txt frames 2863-4765, K 44, camera X 512..1516 Y 0..0; 4818 tiles 1752×176; seen 3652 (75.8%), 14560084/14560084 = 100.00% on 22176 frames (0 of other places), 0 cells ever differed — verified
+  level02-1: 006-l2.txt frames 27333-27907, K 44, camera X 1280..1601 Y 0..0; 2948 tiles 1072×176; seen 1540 (52.2%), 3673582/3673582 = 100.00% on 7995 frames (0 of other places), 0 cells ever differed — verified
+  level02-2: 006-l2.txt frames 2024-2695, K 44, camera X 258..533 Y 0..0; 2816 tiles 1024×176; seen 2816 (100.0%), 11236786/11236786 = 100.00% on 18954 frames (0 of other places), 0 cells ever differed — verified
