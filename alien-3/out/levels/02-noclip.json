@@ -1,0 +1,132 @@
+{
+  "frames": 19932,
+  "framesSkipped": 0,
+  "samples": 13145986,
+  "matched": 13145986,
+  "matchPercent": 100,
+  "staleSamples": 0,
+  "matchPercentStaleApart": 100,
+  "writesChecked": 114288,
+  "writesMatched": 114288,
+  "writesMatchPercent": 100,
+  "writesUntagged": 352,
+  "attributeWritesChecked": 61184,
+  "attributeWritesMatched": 61184,
+  "tileDiffs": 0,
+  "paletteDiffs": 0,
+  "outsideLayout": 9134,
+  "notBuiltTiles": 0,
+  "notBuiltAttributes": 0,
+  "cellsSeen": 46866,
+  "cellsOfLevel": 61440,
+  "cellsNotVoid": 32864,
+  "cellsNotVoidSeen": 25658,
+  "cellsEverDiffered": 0,
+  "cellsOnlyStale": 0,
+  "scrollMismatch": 0,
+  "chrMismatchLines": 0,
+  "bgTableLines": 0,
+  "headerPalette": "0f0208180f1b06160f0c1c2c0f0c1c2c",
+  "framesWithOtherPalette": 0,
+  "otherPalettes": {},
+  "noclip": {
+    "frames": 19932,
+    "camera": {
+      "minX": -19,
+      "maxX": 1797,
+      "minY": 0,
+      "maxY": 1756
+    },
+    "levelChanged": false,
+    "stuck": [
+      {
+        "goal": [
+          0,
+          120
+        ],
+        "camera": [
+          2,
+          240
+        ],
+        "frames": 1266
+      },
+      {
+        "goal": [
+          0,
+          360
+        ],
+        "camera": [
+          2,
+          480
+        ],
+        "frames": 1263
+      },
+      {
+        "goal": [
+          0,
+          600
+        ],
+        "camera": [
+          2,
+          720
+        ],
+        "frames": 1263
+      },
+      {
+        "goal": [
+          0,
+          840
+        ],
+        "camera": [
+          2,
+          960
+        ],
+        "frames": 1357
+      },
+      {
+        "goal": [
+          0,
+          1080
+        ],
+        "camera": [
+          2,
+          1200
+        ],
+        "frames": 1420
+      },
+      {
+        "goal": [
+          0,
+          1320
+        ],
+        "camera": [
+          2,
+          1440
+        ],
+        "frames": 1375
+      },
+      {
+        "goal": [
+          0,
+          1560
+        ],
+        "camera": [
+          2,
+          1680
+        ],
+        "frames": 1420
+      },
+      {
+        "goal": [
+          0,
+          1744
+        ],
+        "camera": [
+          2,
+          1680
+        ],
+        "frames": 1412
+      }
+    ]
+  }
+}

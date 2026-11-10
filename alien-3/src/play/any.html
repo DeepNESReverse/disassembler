@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NES — player</title>
+<script type="importmap">
+{ "imports": {
+  "@xromdev/cpu6502": "/xrom-libs/nes/node_modules/@xromdev/cpu6502/dist/index.js",
+  "@xromdev/apu": "/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js"
+} }
+</script>
+<style>
+  :root { color-scheme: dark; --bg: #111; --panel: #1b1b1b; --line: #333; --text: #ddd; --muted: #888; --accent: #5b7fb0; --on: #3d5a80; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px system-ui, sans-serif; display: flex; min-height: 100vh; }
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  canvas { image-rendering: pixelated; width: 768px; height: 720px; max-width: 100%; height: auto; aspect-ratio: 256 / 240; background: #000; outline: 1px solid var(--line); }
+  aside { width: 320px; background: var(--panel); border-left: 1px solid var(--line); padding: 14px; overflow-y: auto; }
+  h1 { font-size: 15px; margin: 0 0 4px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 18px 0 8px; }
+  button { background: #2a2a2a; color: var(--text); border: 1px solid #444; border-radius: 4px; padding: 5px 9px; font: inherit; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  .row { display: flex; gap: 8px; align-items: center; margin: 6px 0; flex-wrap: wrap; }
+  label.sw { display: flex; gap: 8px; align-items: center; margin: 7px 0; cursor: pointer; }
+  label.sw input { width: 16px; height: 16px; accent-color: var(--accent); }
+  kbd { background: #2a2a2a; border: 1px solid #444; border-bottom-width: 2px; border-radius: 3px; padding: 0 5px; font: 12px ui-monospace, monospace; }
+  .muted { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  td { padding: 2px 0; } td:last-child { text-align: right; font-family: ui-monospace, monospace; }
+  #toast { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); background: var(--on); padding: 6px 14px; border-radius: 4px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+  #toast.show { opacity: 1; }
+  #error { color: #e88; white-space: pre-wrap; }
+  main { position: relative; }
+  #unmute { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, .8); border: 1px solid var(--accent); border-radius: 6px; padding: 10px 16px; font-size: 16px; cursor: pointer; }
+  #unmute[hidden] { display: none; }
+</style>
+</head>
+<body>
+<main><canvas id="screen" width="256" height="240"></canvas><div id="unmute" hidden>🔇 Click or press any key for sound</div></main>
+<aside>
+  <h1 id="title"></h1>
+  <div class="muted" id="cart"></div>
+  <p id="error"></p>
+
+  <h2>Game</h2>
+  <div class="row"><button id="reset">Reset <kbd>R</kbd></button></div>
+  <table>
+    <tr><td>frame</td><td id="iFrame"></td></tr>
+  </table>
+
+  <h2>Save state</h2>
+  <div class="row"><button id="save">Save <kbd>I</kbd></button><button id="load">Load <kbd>P</kbd></button></div>
+
+  <h2>Sound</h2>
+  <div class="row"><label class="sw"><input type="checkbox" id="sound" checked> sound</label><input type="range" id="volume" min="0" max="1" step="0.05" value="0.6"></div>
+
+  <h2>Controls</h2>
+  <table class="muted">
+    <tr><td>move</td><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></td></tr>
+    <tr><td>A</td><td><kbd>J</kbd></td></tr>
+    <tr><td>B</td><td><kbd>K</kbd></td></tr>
+    <tr><td>Start / Select</td><td><kbd>Enter</kbd> <kbd>Shift</kbd>→</td></tr>
+    <tr><td>speed ×4 (hold)</td><td><kbd>Tab</kbd></td></tr>
+    <tr><td>pause</td><td><kbd>Esc</kbd></td></tr>
+  </table>
+  <p class="muted" style="font-size:12px">A gamepad works too (standard mapping).</p>
+</aside>
+<div id="toast"></div>
+<script type="module" src="/src/play/any.ts"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+[
+  {
+    "level": 4,
+    "from": [
+      1330,
+      1286
+    ],
+    "xMax": 1342,
+    "said": "2026-10-30: the ducts left of x 1342, y 1286 — the player can crawl there (the way joins them through the duct at X 1341-1367, so the walk may go up to the box's right; only tiles left of xMax are opened)",
+    "box": [
+      400,
+      1240,
+      1400,
+      1800
+    ]
+  },
+  {
+    "level": 8,
+    "hide": [
+      256,
+      712,
+      512,
+      720
+    ],
+    "said": "2026-10-30: the green at the page seam (y 712-719, x 256-511) a player never sees; the search marked it for one frame, camera (256, 719) with the player at (343, 757) falling, a 1-px line; the user's play in this band kept the camera at y 720"
+  }
+]

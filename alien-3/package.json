@@ -1,0 +1,9 @@
+{
+  "name": "alien3-levels",
+  "private": true,
+  "type": "module",
+  "description": "Alien 3 (USA): where the levels are in the cartridge, and every level drawn whole from that data.",
+  "scripts": {
+    "setup": "npm --prefix libs/nes ci && ln -sfn libs/nes/node_modules node_modules"
+  }
+}
