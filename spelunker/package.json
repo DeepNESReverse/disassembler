@@ -1,0 +1,9 @@
+{
+  "name": "spelunker-levels",
+  "private": true,
+  "type": "module",
+  "description": "Spelunker (Japan): the cave drawn whole from the cartridge, with a TAS played over it.",
+  "scripts": {
+    "setup": "npm --prefix libs/nes ci && npm --prefix libs/nes-explorer/libs/nes ci && ln -sfn libs/nes/node_modules node_modules"
+  }
+}
