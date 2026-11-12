@@ -28,3 +28,9 @@
 [submodule "xevious/libs/maps-run"]
 	path = xevious/libs/maps-run
 	url = https://github.com/DeepNESReverse/xrom-maps-run
+[submodule "gyrodine/libs/nes"]
+	path = gyrodine/libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "gyrodine/libs/maps-run"]
+	path = gyrodine/libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run

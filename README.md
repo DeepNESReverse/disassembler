@@ -8,6 +8,7 @@ One folder per game:
 | --- | --- |
 | [`alien-3/`](alien-3) | All twelve levels drawn whole from the cartridge, checked frame by frame, with a TAS over them. |
 | [`battletoads/`](battletoads) | What the automatic explorer found: a disassembly with names from evidence, variables, maps, objects. |
+| [`gyrodine/`](gyrodine) | The whole flight gathered from a playthrough, checked frame by frame. |
 | [`circus-charlie/`](circus-charlie) | The stages drawn from the cartridge with a TAS over them, and the explorer's findings. |
 | [`spelunker/`](spelunker) | The cave drawn whole from the cartridge with a TAS by yuigenron2 played over it. |
 | [`xevious/`](xevious) | The sixteen areas gathered from the game, checked frame by frame, and a sandbox to fit them into one map. |

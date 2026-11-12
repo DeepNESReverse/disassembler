@@ -1,0 +1,9 @@
+{
+  "name": "gyrodine-levels",
+  "private": true,
+  "type": "module",
+  "description": "Gyrodine (Japan): the whole field drawn out of what the cartridge itself puts on the screen, from a played run.",
+  "scripts": {
+    "setup": "npm --prefix libs/nes ci && ln -sfn libs/nes/node_modules node_modules"
+  }
+}
