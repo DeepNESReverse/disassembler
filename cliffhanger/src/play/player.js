@@ -226,7 +226,7 @@ page = mountRunPage({
   // The workshop's seam editor (not on the site): a switch, its help and the saving.
   headerHtml: PUBLIC
     ? ''
-    : iconToggle({ id: 'seamBox', label: 'seams', colour: '#4cc9f0', title: 'Set the seams by eye: click a section of the whole mountain, move it with the arrows (8 px; with Shift 1 px) — the sections after it move along — then Save', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7v16H4zM13 4h7v16h-7z"/><path d="M9 12h6M13 10l2 2-2 2"/></svg>' }) +
+    : iconToggle({ id: 'seamBox', label: 'seams', colour: '#4cc9f0', title: 'Set the seams by eye: click a section of the whole mountain, move it with the arrows (1 px; with Shift 8 px) — the sections after it move along — then Save', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7v16H4zM13 4h7v16h-7z"/><path d="M9 12h6M13 10l2 2-2 2"/></svg>' }) +
       '<span id="seamUi" hidden><span id="seamInfo" class="legend"></span> <button id="seamSave">Save</button></span>',
   layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
   css: `#pieces img.sel{outline:2px solid #4cc9f0;opacity:.7;z-index:1}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
@@ -292,7 +292,7 @@ if (!PUBLIC) {
   addEventListener('keydown', (e) => {
     if (!box.checked || sel < 1 || !e.key.startsWith('Arrow')) return;
     e.preventDefault();
-    const step = e.shiftKey ? 1 : 8;
+    const step = e.shiftKey ? 8 : 1;
     const ddx = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
     const ddy = e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0;
     const j = joinOf(order[sel]);

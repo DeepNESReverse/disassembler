@@ -236,6 +236,6 @@ not taken.
 So the seams are set by eye. `src/world.ts` takes, in order: the user's (`data/joins-user.json`,
 `{ "a-b": { dx, dy } }`), the same ground when overlap.ts scores 30 % or more, the player's spot. The
 workshop page has a "seams" switch (never on the site): click a section of the whole mountain, the
-arrows move it (8 px, Shift 1 px) with every section after it, the moved one shows through; Save posts
+arrows move it (1 px, Shift 8 px) with every section after it, the moved one shows through; Save posts
 the joins moved (and set before) to the server (`POST /joins`), which writes the file and runs
 world.ts.
