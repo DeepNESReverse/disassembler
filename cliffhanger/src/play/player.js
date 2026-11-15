@@ -25,6 +25,8 @@ const PUBLIC = !!window.CART_PACK;
 /** The maps, the run and the path: out/levels in the workshop, beside the page when public. */
 const LEVELS = PUBLIC ? '' : '/levels/';
 const WORLD = await (await fetch(LEVELS + 'world.json')).json();
+/** Per section the frame the player first moves (src/starts.ts): the tune's wait ends there. */
+const STARTS = await (await fetch(LEVELS + 'starts.json')).json();
 const HOUSE = WORLD.house.inside.section;
 const APART = WORLD.apart[0];
 const WHOLE = 1;
@@ -108,17 +110,29 @@ const run = {
       const main = [...count].sort((x, y) => y[1] - x[1])[0][0];
       while (st.a < st.b && palOf[st.a] !== main) st.a++;
       while (st.b > st.a && palOf[st.b] !== main) st.b--;
-      if (!sectionStart.has(st.s)) sectionStart.set(st.s, st.a);
     }
+    // On the whole mountain each section but the first starts as the player first moves: the
+    // section's tune, with the player standing, is cut too (the user's word: the tune once, then
+    // only movement from section to section).
+    const first = stretches[0].s;
+    const seenSection = new Set();
+    const wholeStretches = stretches.map((st) => {
+      const w = { ...st };
+      const moves = STARTS[st.s]?.moves;
+      if (!seenSection.has(st.s) && st.s !== first && moves > w.a && moves <= w.b) w.a = moves;
+      seenSection.add(st.s);
+      return w;
+    });
     // The whole mountain: one span over its sections' stretches, the frames between them cut.
-    const inWorld = stretches.filter((st) => st.s !== APART);
-    const apart = stretches.filter((st) => st.s === APART);
+    const inWorld = wholeStretches.filter((st) => st.s !== APART);
+    const apart = wholeStretches.filter((st) => st.s === APART);
     cut = new Uint8Array(frames).fill(1);
-    for (const st of stretches) cut.fill(0, st.a, st.b + 1);
+    for (const st of wholeStretches) cut.fill(0, st.a, st.b + 1);
     nextKept = new Int32Array(frames);
     for (let f = frames - 1, next = frames - 1; f >= 0; f--) nextKept[f] = cut[f] ? next : (next = f);
     keptBefore = new Int32Array(frames);
     for (let f = 1; f < frames; f++) keptBefore[f] = keptBefore[f - 1] + (cut[f - 1] ? 0 : 1);
+    for (const st of wholeStretches) if (!sectionStart.has(st.s)) sectionStart.set(st.s, st.a);
     const w0 = inWorld[0].a, w1 = inWorld[inWorld.length - 1].b;
     keptTotal = keptBefore[w1] - keptBefore[w0] + 1;
     const mk = (n, a, b, way) => Object.assign([n, a, b], { way });

@@ -225,7 +225,11 @@ mountain the run is seamless (the user's word, 2026-11-16): each section's stret
 shown frames less the fades at its ends (frames whose background palette is not the one the stretch
 shows most), and everything between stretches — the story screens, the fades, their music — is cut:
 the run jumps over it (after the page's frame), a cut frame is not drawn, and the clock counts only
-what is kept (6:01 of 6:15). Section by section all is played, music too: a section's span starts
+what is kept. Every section also opens with its tune while the player stands at the header's start:
+2.7 s in each (2.8 in section 14), from the frame the loader puts the player there to the first frame
+their place changes (`src/starts.ts` → `out/levels/starts.json`, from the capture). On the whole
+mountain that wait is cut too in every section but the first (the user's word: the tune once, then
+only movement from section to section): 5:29 of 6:15. Section by section all is played, music too: a section's span starts
 where the one before ends (the screens before it are its own; section 1's from power-on), the last
 runs to the take's end (the ending). The page goes on past a span's end to the next in its array, so
 section 15's whole-mountain span runs to the last frame (else the next in the array, section 1's,
