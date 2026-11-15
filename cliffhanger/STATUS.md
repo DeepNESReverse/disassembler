@@ -273,3 +273,17 @@ section the player does not start at the left of (14's start is x 568) goes at t
 height the player leaves and enters, for the user to set by eye. Its map is still a level of its own
 section by section. The whole mountain's span then runs to the last frame (the cut after the last
 stretch ends the run).
+
+## 14. On xrom.dev (2026-11-16)
+
+The seam editor is gone (the user's seams stay in `data/joins-user.json`). `src/public.ts <dir>` builds
+the site's folder with no ROM: `cart.bin.gz` is the CHR with only the tiles the page draws (2 634 of
+8 192: the maps' through their sections' banks, the run's field and sprites through each shown
+frame's banks), the maps, the run, the path, world.json, starts.json, levels.json (the site's text
+of each section's map), the player bundled by esbuild. Built into `~/xrom/public/maps/cliffhanger`;
+the art (`src/art.ts`: logo off the title screen at frame 900 of the game left alone — the TAS skips
+it —, a cover strip of TAS frame 1310 with its hidden left columns from the map, the hero off the
+sprite layer; `src/preview.ts`: run.mp4, 12 s of section 0 over the map; maps.webp, og.png) into
+`~/xrom/public/art/cliffhanger`. The page's levels are 0 the whole mountain and n section n, so the
+site's `#level=n` links open the section the site names. xrom commit d05d54a: the game (Spidersoft,
+1993; chapters Run and Maps, credit TASVideos 3752M) and Spidersoft's bio (unchecked).

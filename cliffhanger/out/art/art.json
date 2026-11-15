@@ -1,0 +1,14 @@
+{
+ "cover": {
+  "width": 256,
+  "height": 160
+ },
+ "logo": {
+  "width": 240,
+  "height": 82
+ },
+ "hero": {
+  "width": 16,
+  "height": 23
+ }
+}

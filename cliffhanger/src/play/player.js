@@ -9,11 +9,11 @@
 // (src/world.ts → world.json), every section where the run goes on from the one before but section
 // 14, apart; the house (section 5) laid over its outside in section 4, and while the run is in it the
 // view zooms in, the world dims and the inside fades in over the house — and every section alone.
-// The page's level 1 is the world, level s + 2 section s. The run follows the way chosen: choosing
+// The page's level 0 is the world, level s + 1 section s. The run follows the way chosen: choosing
 // a level of one way puts its spans first, so the page's span lookup finds them.
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
+import { mountRunPage } from '/src/maps-run/run-page.js';
 
 const W = 256, H = 176;
 const OAM = 32, PAL = 288, NT = 320;
@@ -31,8 +31,10 @@ const HOUSE = WORLD.house.inside.section;
 // A section shown apart from the whole mountain (none now: section 14 is glued, by the user's word).
 const APART = WORLD.apart[0] ?? -1;
 const LAST = SECTIONS - 1;
-const WHOLE = 1;
-const levelOfSection = (s) => s + 2;
+// The page's levels: 0 the whole mountain, n section n as the user counts them (from 1) — the
+// site's links open a section's map on `#level=n`, its number in levels.json.
+const WHOLE = 0;
+const levelOfSection = (s) => s + 1;
 /** Where a section's map lies on the world (section 14 is apart: its own level in both ways). */
 const originOf = (s) => (s === HOUSE ? WORLD.house.inside : s === APART ? { x: 0, y: 0 } : WORLD.pieces.find((p) => p.section === s));
 /**
@@ -312,7 +314,7 @@ page = mountRunPage({
   image: (n) =>
     n === WHOLE
       ? { w: WORLD.w, h: WORLD.h, pieces: WORLD.pieces.map((p) => ({ src: mapOf(p.section), x: p.x, y: p.y, w: p.w, h: p.h })) }
-      : mapOf(n - 2),
+      : mapOf(n - 1),
   field: { w: W, h: H },
   zoom: 'fith',
   run,
@@ -324,13 +326,8 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s channel writes (PRG $C000-$C3FF)',
   effectsTitle: 'The sound effects: the effect player&#39;s writes (PRG $D100-$D3FF), which take a channel from the music while they sound',
-  // The workshop's seam editor (not on the site): a switch, its help and the saving.
-  headerHtml: PUBLIC
-    ? ''
-    : iconToggle({ id: 'seamBox', label: 'seams', colour: '#4cc9f0', title: 'Set the seams by eye: click a section of the whole mountain, move it with the arrows (1 px; with Shift 8 px) — the sections after it move along — then Save', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7v16H4zM13 4h7v16h-7z"/><path d="M9 12h6M13 10l2 2-2 2"/></svg>' }) +
-      '<span id="seamUi" hidden><span id="seamInfo" class="legend"></span> <button id="seamSave">Save</button></span>',
   layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
-  css: `#live{transform-origin:0 0}#secTicks{position:absolute;pointer-events:none}#secTicks i{position:absolute;top:0;width:2px;margin-left:-1px;background:#e6e9ef;opacity:.55;border-radius:1px}#secTicks b{position:absolute;transform:translateX(-50%);font:600 10px/1 system-ui,sans-serif;color:#cfc8dc;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:3px}#secTicks b:hover{background:#b48cff;color:#160b26}#pieces img.sel{outline:2px solid #4cc9f0;opacity:.7;z-index:1}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
+  css: `#live{transform-origin:0 0}#secTicks{position:absolute;pointer-events:none}#secTicks i{position:absolute;top:0;width:2px;margin-left:-1px;background:#e6e9ef;opacity:.55;border-radius:1px}#secTicks b{position:absolute;transform:translateX(-50%);font:600 10px/1 system-ui,sans-serif;color:#cfc8dc;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:3px}#secTicks b:hover{background:#b48cff;color:#160b26}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
   // The level chosen sets the way the run follows: the whole mountain, or section by section
   // (section 15 belongs to both).
   onPick: (n) => {
@@ -345,7 +342,7 @@ page = mountRunPage({
   onZoom: () => placeHouse(),
   onMouse: (x, y) => {
     const p = WORLD.pieces.find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
-    const where = page.cur !== WHOLE ? `section ${page.cur - 1} · x ${x} y ${y}` : p ? `section ${p.section + 1} · x ${x - p.x} y ${y - p.y}` : `world x ${x} y ${y}`;
+    const where = page.cur !== WHOLE ? `section ${page.cur} · x ${x} y ${y}` : p ? `section ${p.section + 1} · x ${x - p.x} y ${y - p.y}` : `world x ${x} y ${y}`;
     document.getElementById('pos').textContent = where;
   },
 });
@@ -359,62 +356,6 @@ function placeHouse() {
 }
 placeHouse();
 
-// ---------------------------------------------------------------- the seams, set by eye (workshop)
-// The whole mountain's pieces are its sections in their order; a join puts section b at (dx, dy)
-// from section a's top-left. Moving a piece moves its join and every piece after it. Save keeps the
-// joins moved here (and those set before) in data/joins-user.json; the server lays the world anew.
-if (!PUBLIC) {
-  const box = document.getElementById('seamBox');
-  const ui = document.getElementById('seamUi');
-  const info = document.getElementById('seamInfo');
-  const order = WORLD.pieces.map((p) => p.section);
-  const joinOf = (b) => WORLD.joins.find((j) => j.b === b);
-  const mine = new Set(WORLD.joins.filter((j) => j.how === "the user's").map((j) => `${j.a}-${j.b}`));
-  let sel = -1; // index into order
-  const imgs = () => [...document.querySelectorAll('#pieces img')];
-  const show = () => {
-    imgs().forEach((im, i) => im.classList.toggle('sel', box.checked && i === sel));
-    if (sel < 1) { info.textContent = box.checked ? 'click a section' : ''; return; }
-    const j = joinOf(order[sel]);
-    info.textContent = `section ${j.b + 1} from section ${j.a + 1}: ${j.dx}, ${j.dy} (${j.how})`;
-  };
-  box.onchange = () => { ui.hidden = !box.checked; if (box.checked && page.cur !== WHOLE) page.pick(WHOLE); show(); };
-  document.getElementById('stage').addEventListener('click', (e) => {
-    if (!box.checked || page.cur !== WHOLE) return;
-    const r = document.getElementById('stage').getBoundingClientRect();
-    const x = (e.clientX - r.left) / page.z, y = (e.clientY - r.top) / page.z;
-    // The topmost piece under the click: the later one where two overlap.
-    for (let i = order.length - 1; i >= 0; i--) {
-      const im = imgs()[i];
-      const px = +im.dataset.x, py = +im.dataset.y, p = WORLD.pieces[i];
-      if (x >= px && x < px + p.w && y >= py && y < py + p.h) { sel = i; break; }
-    }
-    show();
-  });
-  addEventListener('keydown', (e) => {
-    if (!box.checked || sel < 1 || !e.key.startsWith('Arrow')) return;
-    e.preventDefault();
-    const step = e.shiftKey ? 8 : 1;
-    const ddx = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
-    const ddy = e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0;
-    const j = joinOf(order[sel]);
-    j.dx += ddx;
-    j.dy += ddy;
-    j.how = 'moved here';
-    mine.add(`${j.a}-${j.b}`);
-    imgs().forEach((im, i) => { if (i >= sel) { im.dataset.x = +im.dataset.x + ddx; im.dataset.y = +im.dataset.y + ddy; } });
-    page.zoomed();
-    show();
-  });
-  document.getElementById('seamSave').onclick = async () => {
-    const out = {};
-    for (const j of WORLD.joins) if (mine.has(`${j.a}-${j.b}`)) out[`${j.a}-${j.b}`] = { dx: j.dx, dy: j.dy };
-    info.textContent = 'saving…';
-    const r = await fetch('/joins', { method: 'POST', body: JSON.stringify(out) });
-    if (!r.ok) { info.textContent = `not saved: ${await r.text()}`; return; }
-    location.reload();
-  };
-}
 
 /** m:ss of a count of frames, as the page's clock. */
 const clockOf = (n) => { const t = Math.max(0, Math.round(n / 60.0988)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`; };

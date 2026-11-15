@@ -1,0 +1,215 @@
+{
+ "about": "The sections glued into one world (src/world.ts). pieces: each section's top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.",
+ "w": 23201,
+ "h": 2321,
+ "pieces": [
+  {
+   "section": 0,
+   "x": 0,
+   "y": 1937,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 1,
+   "x": 2384,
+   "y": 1937,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 2,
+   "x": 4944,
+   "y": 1297,
+   "w": 320,
+   "h": 1024
+  },
+  {
+   "section": 3,
+   "x": 5264,
+   "y": 1121,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 4,
+   "x": 7824,
+   "y": 1121,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 6,
+   "x": 10384,
+   "y": 1265,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 7,
+   "x": 12912,
+   "y": 1409,
+   "w": 640,
+   "h": 768
+  },
+  {
+   "section": 8,
+   "x": 13552,
+   "y": 1555,
+   "w": 768,
+   "h": 384
+  },
+  {
+   "section": 9,
+   "x": 14320,
+   "y": 1556,
+   "w": 1920,
+   "h": 512
+  },
+  {
+   "section": 10,
+   "x": 16240,
+   "y": 1556,
+   "w": 768,
+   "h": 384
+  },
+  {
+   "section": 11,
+   "x": 17008,
+   "y": 1647,
+   "w": 3200,
+   "h": 224
+  },
+  {
+   "section": 12,
+   "x": 20208,
+   "y": 847,
+   "w": 320,
+   "h": 1024
+  },
+  {
+   "section": 13,
+   "x": 20513,
+   "y": 640,
+   "w": 1920,
+   "h": 384
+  },
+  {
+   "section": 14,
+   "x": 22433,
+   "y": 0,
+   "w": 768,
+   "h": 1024
+  }
+ ],
+ "house": {
+  "outside": {
+   "x": 10193,
+   "y": 1282,
+   "w": 159,
+   "h": 79
+  },
+  "inside": {
+   "section": 5,
+   "w": 512,
+   "h": 256,
+   "x": 10193,
+   "y": 1282,
+   "scale": 0.310546875
+  }
+ },
+ "apart": [],
+ "joins": [
+  {
+   "a": 0,
+   "b": 1,
+   "dx": 2384,
+   "dy": 0,
+   "how": "the same ground (181 of 492 tiles)"
+  },
+  {
+   "a": 1,
+   "b": 2,
+   "dx": 2560,
+   "dy": -640,
+   "how": "the user's"
+  },
+  {
+   "a": 2,
+   "b": 3,
+   "dx": 320,
+   "dy": -176,
+   "how": "the user's"
+  },
+  {
+   "a": 3,
+   "b": 4,
+   "dx": 2560,
+   "dy": 0,
+   "how": "the user's"
+  },
+  {
+   "a": 4,
+   "b": 6,
+   "dx": 2560,
+   "dy": 144,
+   "how": "the user's"
+  },
+  {
+   "a": 6,
+   "b": 7,
+   "dx": 2528,
+   "dy": 144,
+   "how": "the user's"
+  },
+  {
+   "a": 7,
+   "b": 8,
+   "dx": 640,
+   "dy": 146,
+   "how": "at the edge"
+  },
+  {
+   "a": 8,
+   "b": 9,
+   "dx": 768,
+   "dy": 1,
+   "how": "at the edge"
+  },
+  {
+   "a": 9,
+   "b": 10,
+   "dx": 1920,
+   "dy": 0,
+   "how": "the user's"
+  },
+  {
+   "a": 10,
+   "b": 11,
+   "dx": 768,
+   "dy": 91,
+   "how": "the user's"
+  },
+  {
+   "a": 11,
+   "b": 12,
+   "dx": 3200,
+   "dy": -800,
+   "how": "the user's"
+  },
+  {
+   "a": 12,
+   "b": 13,
+   "dx": 305,
+   "dy": -207,
+   "how": "the user's"
+  },
+  {
+   "a": 13,
+   "b": 14,
+   "dx": 1920,
+   "dy": -640,
+   "how": "the user's"
+  }
+ ]
+}

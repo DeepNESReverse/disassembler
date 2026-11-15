@@ -1,0 +1,112 @@
+{
+ "word": "level",
+ "levels": [
+  {
+   "n": 1,
+   "image": "00.png",
+   "width": 2560,
+   "height": 384,
+   "run": 41
+  },
+  {
+   "n": 2,
+   "image": "01.png",
+   "width": 2560,
+   "height": 384,
+   "run": 29
+  },
+  {
+   "n": 3,
+   "image": "02.png",
+   "width": 320,
+   "height": 1024,
+   "run": 29
+  },
+  {
+   "n": 4,
+   "image": "03.png",
+   "width": 2560,
+   "height": 384,
+   "run": 35
+  },
+  {
+   "n": 5,
+   "image": "04.png",
+   "width": 2560,
+   "height": 384,
+   "run": 38
+  },
+  {
+   "n": 6,
+   "name": "the house",
+   "image": "05.png",
+   "width": 512,
+   "height": 256,
+   "run": 8
+  },
+  {
+   "n": 7,
+   "image": "06.png",
+   "width": 2560,
+   "height": 384,
+   "run": 30
+  },
+  {
+   "n": 8,
+   "image": "07.png",
+   "width": 640,
+   "height": 768,
+   "run": 11
+  },
+  {
+   "n": 9,
+   "image": "08.png",
+   "width": 768,
+   "height": 384,
+   "run": 10
+  },
+  {
+   "n": 10,
+   "image": "09.png",
+   "width": 1920,
+   "height": 512,
+   "run": 26
+  },
+  {
+   "n": 11,
+   "image": "10.png",
+   "width": 768,
+   "height": 384,
+   "run": 18
+  },
+  {
+   "n": 12,
+   "image": "11.png",
+   "width": 3200,
+   "height": 224,
+   "run": 37
+  },
+  {
+   "n": 13,
+   "image": "12.png",
+   "width": 320,
+   "height": 1024,
+   "run": 19
+  },
+  {
+   "n": 14,
+   "image": "13.png",
+   "width": 1920,
+   "height": 384,
+   "run": 34
+  },
+  {
+   "n": 15,
+   "name": "the last fight",
+   "image": "14.png",
+   "width": 768,
+   "height": 1024,
+   "run": 27
+  }
+ ]
+}
