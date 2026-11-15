@@ -120,3 +120,42 @@ Seven pairs follow each other without a story screen: 0-1, 1-2, 3-4, 6-7, 8-9, 1
 ground across the seam; 11-12 and 13-14 do not, the way between them is not found yet. The other
 seven pairs have a story screen between them and stay apart: 2|3, 4|5, 5|6, 7|8, 9|10, 10|11,
 12|13. The offsets are the player's to the pixel, not yet put on the tile grid (1-2: -645).
+
+## 7. The sound, and which writes are the music's
+
+- This NES's sound-chip writes are FCEUX's: the same writes in the same order on 24 898 of 24 900
+  movie frames (`src/experiments/apu-writers.ts`; the two others are frames 1-2 after power-on). A
+  write belongs to movie frame `run.frame + 1` (the frame ends at the next line 241). No DPCM:
+  `$4010` is written once, at power-on.
+- The driver runs from bank 3 (PRG $C000-$FFFF mapped at $8000), four channels X = 0-3 (`$FA`).
+  The music writes its channels only from `$8381/$8396/$83AB` (PRG $C381, $C396, $C3AB; $C0B3-$C0BB
+  silence them), and only while the channel's `$07B9,X` has bit 1. An effect (`$9178`, PRG $D178)
+  takes a channel by clearing that bit, if its priority (`$07F7,X`) allows, and writes it from
+  PRG $D17F-$D2C7. So a write's owner is where it is written from: PRG $C000-$C3FF the music's,
+  $D100-$D3FF an effect's, the rest (power-on) both's.
+- Bank 3 also walks a per-section list at `$054A` (`$9CCD`): 3-byte entries until $FF, a word
+  compared with `$14/$15` and a code put in `$054C` and checked against `$6D-$70`. Empty in
+  section 0. Not read further.
+
+## 8. The fourth chunk: floors
+
+The fourth chunk of a section (`$040D`) holds a word for every tile column (320 columns in
+section 0 = its 640 bytes), an offset into a list of words from `$040B`; `$CF08-$CFDF` reads them
+1-2 times a frame, comparing with a height, bit 4 of the high byte a flag. These are the surfaces
+the player stands on, per column. Not decoded further; it is where "where can a player go" starts.
+The objects (enemies, money) are not found yet.
+
+## 9. The run on the maps
+
+- `src/take-pack.ts` → `out/levels/take.bin.gz` (1.1 MB) and `out/levels/tas.json`: from this
+  NES's replay, per movie frame, read on line 100: the section, whether the field is shown, the
+  camera on the section's map (the RAM's, moved to where every tile fits as in §4, then to the
+  pixel where tile edges meet: x ≡ the plane x of line 0 mod 8, y the same), PPUCTRL, PPUMASK, the
+  plane x/y of line 0, the eight CHR 1 KB banks, OAM, the palette, the four nametables; and the
+  sound writes with their owner (§7). 23 366 of 24 948 frames show the field.
+- The path: the player's `$0616-$061E` is the figure's top-left (its sprites start there:
+  `src/experiments/player-anchor.ts`); the path goes through (+8, +20), cut where it jumps.
+- `src/play/` (server on 127.0.0.1:4328, `player.js`): the shared page `libs/maps-run` (at
+  d3ae9e3, the header in two bands) with this run's adapter — the field drawn as the PPU draws it
+  through the frame's MMC3 banks, laid on the map at the camera. Checked in the browser: sections 1
+  and 3 (vertical) play with the frame seamless on the map.

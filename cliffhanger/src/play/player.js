@@ -1,0 +1,160 @@
+// Cliffhanger's run for the shared maps page (src/maps-run → libs/maps-run): klmz's TAS over the
+// section maps. The run is packed by src/take-pack.ts from this NES's replay of the movie (in step
+// with FCEUX, STATUS §1): per frame the camera on the section's map, the PPU's control and mask,
+// the scroll of the field's first line, the MMC3's CHR banks, the sprite memory, the palette and
+// the four nametables, and the sound chip's writes with their owner. The field (the 256 × 176
+// above the status bar) is drawn as the PPU draws it and laid on the map at the camera.
+import { NES_RGB } from '/libs/nes/src/palette.ts';
+import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
+import { mountRunPage } from '/src/maps-run/run-page.js';
+
+const W = 256, H = 176;
+const OAM = 32, PAL = 288, NT = 320;
+const SECTIONS = 15;
+let image, px;
+const bgOpaque = new Uint8Array(W * H);
+let chr, data, frames, size, offsets, keys, state;
+const PUBLIC = !!window.CART_PACK;
+/** The maps, the run and the path: out/levels in the workshop, beside the page when public. */
+const LEVELS = PUBLIC ? '' : '/levels/';
+
+async function gunzip(url) {
+  const res = await fetch(url);
+  return new Uint8Array(await new Response(res.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+}
+
+const rgb = (i) => { const c = NES_RGB[i & 0x3f]; return 0xff000000 | ((c & 0xff) << 16) | (c & 0xff00) | ((c >> 16) & 0xff); };
+const pal = (i) => state[PAL + ((i & 0x13) === 0x10 ? i & 0x0f : i)];
+const i16 = (lo, hi) => ((hi << 8) | lo) << 16 >> 16;
+/** A CHR byte at PPU address `a` through the frame's MMC3 banks. */
+const chrAt = (a) => chr[state[16 + (a >> 10)] * 0x400 + (a & 0x3ff)];
+
+const run = {
+  async load() {
+    chr = PUBLIC ? await gunzip(window.CART_PACK) : new Uint8Array(await (await fetch('/chr')).arrayBuffer());
+    data = await gunzip(LEVELS + 'take.bin.gz');
+    frames = data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] * 0x1000000);
+    frames += 1;
+    size = data[8] | (data[9] << 8);
+    state = new Uint8Array(size);
+    // Every frame's offset, and the whole state every 600 frames, for seeking.
+    offsets = new Uint32Array(frames);
+    keys = [];
+    const s = new Uint8Array(size);
+    const spans = new Map();
+    let o = 10;
+    for (let f = 0; f < frames; f++) {
+      offsets[f] = o;
+      const count = data[o] | (data[o + 1] << 8);
+      o += 2;
+      for (let k = 0; k < count; k++, o += 3) s[data[o] | (data[o + 1] << 8)] = data[o + 2];
+      o += 2 + 2 * (data[o] | (data[o + 1] << 8));
+      if (f % 600 === 0) keys.push(s.slice());
+      // A section is shown from its first frame with the field on the map to its last.
+      if (s[1]) {
+        const span = spans.get(s[0]) ?? [s[0] + 1, f, f];
+        span[2] = f;
+        spans.set(s[0], span);
+      }
+    }
+    return { frames, spans: [...spans.values()].sort((a, b) => a[0] - b[0]) };
+  },
+  seek(f) {
+    const k = Math.floor(f / 600);
+    state.set(keys[k]);
+    for (let g = k * 600 + 1; g <= f; g++) run.apply(g);
+  },
+  apply(f) {
+    let p = offsets[f];
+    const count = data[p] | (data[p + 1] << 8);
+    p += 2;
+    for (let k = 0; k < count; k++, p += 3) state[data[p] | (data[p + 1] << 8)] = data[p + 2];
+  },
+  last: { x: 0, y: 0 },
+  draw(f, ctx) {
+    if (!image) { image = ctx.createImageData(W, H); px = new Uint32Array(image.data.buffer); }
+    const ctrl = state[6], mask = state[7];
+    const planeX = state[8] | (state[9] << 8), planeY = state[10] | (state[11] << 8);
+    const backdrop = rgb(pal(0));
+    // Between the field's frames (a fade, a story screen) the window keeps its place, dark.
+    if (!state[1]) {
+      px.fill(0xff000000);
+      ctx.putImageData(image, 0, 0);
+      return run.last;
+    }
+    // The background through the scroll of line 0 (one scroll over the whole field: STATUS §4).
+    const bgTable = (ctrl & 0x10) << 8;
+    for (let line = 0; line < H; line++) {
+      const py = (planeY + line) % 480, row = (py % 240) >> 3, fy = py & 7, top = py >= 240 ? 2 : 0;
+      for (let x = 0; x < W; x++) {
+        const i = line * W + x;
+        if (!(mask & 0x08) || (x < 8 && !(mask & 0x02))) { px[i] = backdrop; bgOpaque[i] = 0; continue; }
+        const pxl = (planeX + x) & 511, cx = (pxl & 255) >> 3, base = NT + (top | (pxl >> 8)) * 0x400;
+        const tile = state[base + row * 32 + cx];
+        const attr = state[base + 0x3c0 + (row >> 2) * 8 + (cx >> 2)];
+        const p = (attr >> (((row & 2) << 1) | (cx & 2))) & 3;
+        const a = bgTable + tile * 16 + fy, b = 7 - (pxl & 7);
+        const c = ((chrAt(a) >> b) & 1) | (((chrAt(a + 8) >> b) & 1) << 1);
+        bgOpaque[i] = c ? 1 : 0;
+        px[i] = c ? rgb(pal(p * 4 + c)) : backdrop;
+      }
+    }
+    // Sprites from the sprite memory: the first eight on a line, earlier ones over later ones.
+    if (mask & 0x10) {
+      const tall = (ctrl & 0x20) !== 0, height = tall ? 16 : 8;
+      for (let line = 0; line < H; line++) {
+        const found = [];
+        for (let k = 0; k < 64 && found.length < 8; k++) {
+          const r = line - (state[OAM + k * 4] + 1);
+          if (r >= 0 && r < height) found.push(k);
+        }
+        for (let m = found.length - 1; m >= 0; m--) {
+          const k = found[m], tile = state[OAM + k * 4 + 1], attr = state[OAM + k * 4 + 2], sx = state[OAM + k * 4 + 3];
+          let r = line - (state[OAM + k * 4] + 1);
+          if (attr & 0x80) r = height - 1 - r;
+          let base;
+          if (tall) { base = ((tile & 1) << 12) | ((tile & 0xfe) << 4); if (r >= 8) { base += 16; r -= 8; } }
+          else base = ((ctrl & 0x08) << 9) | (tile << 4);
+          const lo = chrAt(base + r), hi = chrAt(base + r + 8);
+          for (let j = 0; j < 8; j++) {
+            const x = sx + j;
+            if (x > 255 || (x < 8 && !(mask & 0x04))) continue;
+            const bit = attr & 0x40 ? j : 7 - j;
+            const c = ((lo >> bit) & 1) | (((hi >> bit) & 1) << 1);
+            if (!c || (attr & 0x20 && bgOpaque[line * W + x])) continue;
+            px[line * W + x] = rgb(pal(16 + (attr & 3) * 4 + c));
+          }
+        }
+      }
+    }
+    ctx.putImageData(image, 0, 0);
+    run.last = { x: i16(state[2], state[3]), y: i16(state[4], state[5]) };
+    return run.last;
+  },
+  writesOf(f, each) {
+    let p = offsets[f];
+    p += 2 + 3 * (data[p] | (data[p + 1] << 8));
+    const count = data[p] | (data[p + 1] << 8);
+    p += 2;
+    for (let i = 0; i < count; i++, p += 2) each(0x4000 + (data[p] & 0x3f), data[p + 1], data[p] & 0xc0);
+  },
+};
+
+mountRunPage({
+  title: 'Cliffhanger',
+  levelWord: 'section',
+  levels: Array.from({ length: SECTIONS }, (_, i) => ({ n: i + 1, label: `Section ${i + 1}` })),
+  image: (n) => `${LEVELS}${String(n - 1).padStart(2, '0')}.png`,
+  field: { w: W, h: H },
+  zoom: 'fith',
+  run,
+  apu: { Apu, mixApu, OutputFilters },
+  soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
+  runName: 'klmz’s TAS',
+  trail: { url: LEVELS + 'tas.json', label: 'route', title: 'TAS by klmz, played from power-on in FCEUX and replayed here frame for frame: the player&#39;s way through each section' },
+  runTitle: 'klmz&#39;s TAS as the game plays it: the camera window shows the game&#39;s frame (the field as the PPU draws it, from our replay of the movie)',
+  soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
+  musicTitle: 'The music: the driver&#39;s channel writes (PRG $C000-$C3FF)',
+  effectsTitle: 'The sound effects: the effect player&#39;s writes (PRG $D100-$D3FF), which take a channel from the music while they sound',
+  onMouse: (x, y) => { document.getElementById('pos').textContent = `x ${x} y ${y} · tile ${x >> 3},${y >> 3} · block ${x >> 4},${y >> 4}`; },
+});
