@@ -70,9 +70,22 @@ are the header's, for all 15).
 | 6 | 320 × 48 | 2 | 6 | | 14 | 96 × 128 | 4 | 12 |
 | 7 | 80 × 96 | 2 | 6 | | | | | |
 
-## 4. The map against the game (first look)
+## 4. The map against the game, every frame of the TAS
 
-`src/check-place.ts`: the background the PPU drew (lines 0-175) is matched against the drawn
-section, x at `$40/$41` + dx, y anywhere. Sections 2 and 5: 0 of ~5000 sampled pixels differ, at
-dx 0. Section 0: dx -2 and 2-3 % differ while the camera moves — the frame is drawn with the
-camera of the frame before; the rest is not explained yet. The full tile-by-tile check is next.
+`src/check.ts`: on every movie frame of every section, every world tile wholly inside the field
+(lines 0-175, above the status bar) is looked up where the PPU shows it — the nametable cell under
+the tile's centre through that line's scroll — and compared with the decoded tile number and
+palette. Every nametable byte carries the instruction that wrote it last, for tagging.
+
+- The camera: `$18/$19 - 8`, `$1A/$1B`. While the camera moves, the picture is drawn with a camera
+  a few pixels behind the RAM's (the same at line 0 and at the NMI's `$2005` write); on those frames
+  the check finds the place within ±16 px where the whole field matches (`exact only shifted`).
+  Section 0 shows why: the nametable row is always world y + 83 (mod 240), so the picture is
+  whole, only the RAM's camera ran ahead (`PROBE=…` prints the fit for given frames).
+- Result (`runs/check-all.txt`): 24 846 frames checked. Every frame of play matches the decoded
+  map with 0 differing tiles. The frames that differ are all in the last 25-90 frames before the
+  next section starts (6957-7044, 11449-11494, 11968-12013, 14547-14592, 16776-16800, 17901-17967,
+  21366-21432): the transition, where `$F03F` (PRG $1F03F) fills a whole nametable from the ROM
+  (story screens: "Gabe gets out just in time!…") and `$1F26D`/`$1F15B` write over it.
+- First-look tools kept: `src/check-place.ts` (pixel match, any y).
+- Covered only where the TAS camera went; the rest of each section is next (no-clip, as Alien 3).
