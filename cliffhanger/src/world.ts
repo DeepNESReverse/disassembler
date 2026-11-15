@@ -79,8 +79,8 @@ console.log(`world ${w} × ${h}`);
 for (const j of joins) console.log(`  ${j.a} → ${j.b}: ${j.dx}, ${j.dy} (${j.how})`);
 console.log(`  house: outside ${JSON.stringify(outside)}, inside at ${inside.x}, ${inside.y}`);
 
-// The run's path in the world (out/levels/tas.json from take-pack.ts, per section) → level 1 the
-// world (the house's inside where it is laid), level 2 section 14.
+// The run's path for the page's maps (out/levels/tas.json from take-pack.ts, per section): level 1
+// the world (the house's inside where it is laid), level s + 2 section s alone.
 if (existsSync('out/levels/tas.json')) {
   const tas = JSON.parse(readFileSync('out/levels/tas.json', 'utf8'));
   const at = new Map<number, { x: number; y: number }>(placed.map((p) => [p.section, p]));
@@ -89,10 +89,8 @@ if (existsSync('out/levels/tas.json')) {
   const levels: Record<number, { segments: number[][][]; frames: number }> = { 1: world };
   for (const [n, lv] of Object.entries(tas.levels) as [string, { segments: number[][][]; frames: number }][]) {
     const s = Number(n) - 1;
-    if (s === APART) {
-      levels[2] = lv;
-      continue;
-    }
+    levels[s + 2] = lv;
+    if (s === APART) continue;
     const o = at.get(s)!;
     world.frames += lv.frames;
     for (const seg of lv.segments) world.segments.push(seg.map(([x, y, f]) => [x + o.x, y + o.y, f]));

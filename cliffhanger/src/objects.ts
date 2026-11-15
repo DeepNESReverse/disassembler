@@ -14,7 +14,7 @@
  * The look: for every entry the run spawns, the sprites on screen around the slot on the frame it
  * comes in (within 40 px right and 48 px down of its top-left, the player's sprites left out),
  * relative to its position; per section and kind the look most entries share, with the CHR banks
- * of that frame.
+ * and the sprite palettes of that frame (the section's own drew the enemies pink: STATUS §11).
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { Run } from './run.ts';
@@ -52,10 +52,11 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const nes = m.nes as unknown as { oam: Uint8Array };
   const mapper = m.nes.mapper as unknown as { chrAt(a: number): number };
   // Read on line 100, as take-pack.ts does: the sprite memory and the banks the field is drawn with.
-  const ppu = m.ppu as unknown as { scanline(l: number): void; ctrl: number };
+  const ppu = m.ppu as unknown as { scanline(l: number): void; ctrl: number; palette: Uint8Array };
   let oam = new Uint8Array(256);
   let banks: number[] = [];
   let ctrl = 0;
+  let sprPal: number[] = [];
   const scanline = ppu.scanline.bind(ppu);
   ppu.scanline = (line) => {
     scanline(line);
@@ -63,12 +64,15 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       oam = nes.oam.slice();
       banks = Array.from({ length: 8 }, (_, i) => (mapper.chrAt(i * 0x400) >> 10) & 0xff);
       ctrl = ppu.ctrl;
+      // The sprite colours as the frame has them: a kind's palette is loaded with it, not the
+      // section's (the section's own sprite palettes drew the enemies pink).
+      sprPal = [...ppu.palette.subarray(16, 32)];
     }
   };
   const was = new Array(6).fill(0);
   const owner: ({ e: Entry; taken: boolean } | null)[] = new Array(6).fill(null);
   // looks[section][kind] → key → { count, sprites, banks, ctrl }
-  const seen = new Map<string, Map<string, { n: number; sprites: number[][]; banks: number[]; ctrl: number }>>();
+  const seen = new Map<string, Map<string, { n: number; sprites: number[][]; banks: number[]; ctrl: number; palette: number[] }>>();
   const spawned: Record<number, number[]> = {};
   const end = run.pads.length;
   for (let f = 985; f < end; f++) {
@@ -117,16 +121,16 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       const key = `${s}:${o.e.kind}`;
       if (!seen.has(key)) seen.set(key, new Map());
       const lk = JSON.stringify(sprites.sort((a, b) => a[1] - b[1] || a[0] - b[0]));
-      const v = seen.get(key)!.get(lk) ?? { n: 0, sprites, banks, ctrl };
+      const v = seen.get(key)!.get(lk) ?? { n: 0, sprites, banks, ctrl, palette: sprPal };
       v.n++;
       seen.get(key)!.set(lk, v);
     }
   }
-  const looks: Record<string, { sprites: number[][]; banks: number[]; tall: boolean; of: number; agree: number }> = {};
+  const looks: Record<string, { sprites: number[][]; banks: number[]; palette: number[]; tall: boolean; of: number; agree: number }> = {};
   for (const [key, ways] of seen) {
     const all = [...ways.values()];
     const best = all.sort((a, b) => b.n - a.n)[0];
-    looks[key] = { sprites: best.sprites, banks: best.banks, tall: (best.ctrl & 0x20) !== 0, of: all.reduce((t, w) => t + w.n, 0), agree: best.n };
+    looks[key] = { sprites: best.sprites, banks: best.banks, palette: best.palette, tall: (best.ctrl & 0x20) !== 0, of: all.reduce((t, w) => t + w.n, 0), agree: best.n };
   }
   const palettes = Array.from({ length: SECTIONS }, (_, s) => [...prg.subarray(0x12400 + 32 * s + 16, 0x12400 + 32 * s + 32)]);
   mkdirSync('out/levels', { recursive: true });

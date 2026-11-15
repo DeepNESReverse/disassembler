@@ -5,9 +5,12 @@
 // the four nametables, and the sound chip's writes with their owner. The field (the 256 × 176
 // above the status bar) is drawn as the PPU draws it and laid on the map at the camera.
 //
-// The maps are one world (src/world.ts → world.json): every section where the run goes on from the
-// one before, but section 14, apart. The house (section 5) is laid over its outside in section 4:
-// while the run is in it the view zooms in, the world dims and the inside fades in over the house.
+// Two ways to look, by the user's word (the joins are not perfect): the whole mountain — one world
+// (src/world.ts → world.json), every section where the run goes on from the one before but section
+// 14, apart; the house (section 5) laid over its outside in section 4, and while the run is in it the
+// view zooms in, the world dims and the inside fades in over the house — and every section alone.
+// The page's level 1 is the world, level s + 2 section s. The run follows the way chosen: choosing
+// a level of one way puts its spans first, so the page's span lookup finds them.
 // The objects (src/objects.ts) are drawn on the maps, always there (a switch).
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
@@ -25,10 +28,17 @@ const LEVELS = PUBLIC ? '' : '/levels/';
 const WORLD = await (await fetch(LEVELS + 'world.json')).json();
 const HOUSE = WORLD.house.inside.section;
 const APART = WORLD.apart[0];
-/** The page's level of a section: 1 the world, 2 the section apart. */
-const levelOf = (s) => (s === APART ? 2 : 1);
-/** Where a section's map lies on its level. */
+const WHOLE = 1;
+const levelOfSection = (s) => s + 2;
+/** Where a section's map lies on the world (section 14 is apart: its own level in both ways). */
 const originOf = (s) => (s === HOUSE ? WORLD.house.inside : s === APART ? { x: 0, y: 0 } : WORLD.pieces.find((p) => p.section === s));
+/** The run's spans, both ways; reordered in place when the way changes (the page keeps the array). */
+let spans = [];
+let whole = true;
+function orderSpans() {
+  const first = (sp) => (whole ? sp[0] === WHOLE || sp[0] === levelOfSection(APART) : sp[0] !== WHOLE);
+  spans.sort((a, b) => Number(first(b)) - Number(first(a)) || a[0] - b[0]);
+}
 const nn = (s) => String(s).padStart(2, '0');
 const withObjects = () => document.getElementById('objBox')?.checked !== false;
 const mapOf = (s) => `${LEVELS}${nn(s)}${withObjects() ? '-objects' : ''}.png`;
@@ -56,7 +66,12 @@ const run = {
     offsets = new Uint32Array(frames);
     keys = [];
     const s = new Uint8Array(size);
-    const spans = new Map();
+    const byLevel = new Map();
+    const add = (n, f) => {
+      const span = byLevel.get(n) ?? [n, f, f];
+      span[2] = f;
+      byLevel.set(n, span);
+    };
     let o = 10;
     for (let f = 0; f < frames; f++) {
       offsets[f] = o;
@@ -65,15 +80,16 @@ const run = {
       for (let k = 0; k < count; k++, o += 3) s[data[o] | (data[o + 1] << 8)] = data[o + 2];
       o += 2 + 2 * (data[o] | (data[o + 1] << 8));
       if (f % 600 === 0) keys.push(s.slice());
-      // A level is shown from its first frame with the field on the map to its last.
+      // A level is shown from its first frame with the field on the map to its last: the section's,
+      // and the world's for every section in it.
       if (s[1]) {
-        const n = levelOf(s[0]);
-        const span = spans.get(n) ?? [n, f, f];
-        span[2] = f;
-        spans.set(n, span);
+        add(levelOfSection(s[0]), f);
+        if (s[0] !== APART) add(WHOLE, f);
       }
     }
-    return { frames, spans: [...spans.values()].sort((a, b) => a[0] - b[0]) };
+    spans = [...byLevel.values()];
+    orderSpans();
+    return { frames, spans };
   },
   seek(f) {
     const k = Math.floor(f / 600);
@@ -144,7 +160,7 @@ const run = {
       }
     }
     ctx.putImageData(image, 0, 0);
-    const o = originOf(state[0]);
+    const o = page?.cur === WHOLE ? originOf(state[0]) : { x: 0, y: 0 };
     run.last = { x: o.x + i16(state[2], state[3]), y: o.y + i16(state[4], state[5]) };
     return run.last;
   },
@@ -153,7 +169,7 @@ const run = {
   inHouse: false,
   zoomBefore: 0,
   onFrame() {
-    const inside = state[0] === HOUSE;
+    const inside = state[0] === HOUSE && page?.cur === WHOLE;
     if (inside === run.inHouse) return;
     run.inHouse = inside;
     document.getElementById('house').classList.toggle('on', inside);
@@ -188,13 +204,13 @@ page = mountRunPage({
   title: 'Cliffhanger',
   levelWord: 'map',
   levels: [
-    { n: 1, label: 'The mountain — sections 1-14' },
-    { n: 2, label: 'Section 15 — the last fight' },
+    { n: WHOLE, label: 'The whole mountain (1-14)' },
+    ...Array.from({ length: SECTIONS }, (_, s) => ({ n: levelOfSection(s), label: `Section ${s + 1}${s === HOUSE ? ' — the house' : s === APART ? ' — the last fight' : ''}` })),
   ],
   image: (n) =>
-    n === 2
-      ? mapOf(APART)
-      : { w: WORLD.w, h: WORLD.h, pieces: WORLD.pieces.map((p) => ({ src: mapOf(p.section), x: p.x, y: p.y, w: p.w, h: p.h })) },
+    n === WHOLE
+      ? { w: WORLD.w, h: WORLD.h, pieces: WORLD.pieces.map((p) => ({ src: mapOf(p.section), x: p.x, y: p.y, w: p.w, h: p.h })) }
+      : mapOf(n - 2),
   field: { w: W, h: H },
   zoom: 'fith',
   run,
@@ -210,11 +226,20 @@ page = mountRunPage({
   // The house's inside over its outside, under the run's frame; the world dims around it.
   layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
   css: `#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
-  onPick: (n) => { document.getElementById('house').style.display = n === 1 ? '' : 'none'; placeHouse(); },
+  // The level chosen sets the way the run follows: the whole mountain, or section by section
+  // (section 15 belongs to both).
+  onPick: (n) => {
+    if (n !== levelOfSection(APART) && whole !== (n === WHOLE)) {
+      whole = n === WHOLE;
+      orderSpans();
+    }
+    document.getElementById('house').style.display = n === WHOLE ? '' : 'none';
+    placeHouse();
+  },
   onZoom: () => placeHouse(),
   onMouse: (x, y) => {
     const p = WORLD.pieces.find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
-    const where = page.cur === 2 ? `section ${APART + 1} · x ${x} y ${y}` : p ? `section ${p.section + 1} · x ${x - p.x} y ${y - p.y}` : `world x ${x} y ${y}`;
+    const where = page.cur !== WHOLE ? `section ${page.cur - 1} · x ${x} y ${y}` : p ? `section ${p.section + 1} · x ${x - p.x} y ${y - p.y}` : `world x ${x} y ${y}`;
     document.getElementById('pos').textContent = where;
   },
 });

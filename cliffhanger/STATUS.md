@@ -173,8 +173,9 @@ register with its I/O latch (PPUGenLatch: the last value written to or read from
 is in step to its last frame: 61 frames with 1-4 cells apart for a frame (sync.ts), none after 24 913.
 
 The movie ends at 24 948 with the last boss alive; played on with nothing pressed, here the boss
-kills the player three times (`runs/after.png`). Whether FCEUX does the same is not known yet:
-`fceux/movie_tail.lua` records the movie's end and 3 000 frames after it.
+kills the player three times (`runs/after.png`). The user watched the movie's end in FCEUX: the boss
+does not die there either (2026-11-15). The run is shown to the movie's last frame.
+(`fceux/movie_tail.lua`, which records the movie's end and 3 000 frames after it, was not needed.)
 
 ## 11. The objects
 
@@ -189,7 +190,9 @@ kills the player three times (`runs/after.png`). Whether FCEUX does the same is 
   template (PRG $17618 on); each frame `$E853` copies a slot to `$1C-$31`, `$E8CA` back.
 - The look of a kind is read off the run: for each entry the run spawns (a slot coming on at its
   place), the sprites around it on the first frame it is wholly on the field, the player's left out;
-  per section and kind the commonest, with that frame's CHR banks. 50 looks; a kind the run never
+  per section and kind the commonest, with that frame's CHR banks and sprite palettes. (Drawn first
+  with the section's own sprite palettes from the ROM, the enemies came out pink — the user saw it: a
+  kind's colours are loaded with it.) 50 looks; a kind the run never
   shows in a section borrows another section's look; 11 objects of kinds the run never shows at all
   are not drawn (0:f 0:1d 3:10 5:1a 5:1e 6:ff ×2 12:1f 12:13 13:17 13:ff).
 
@@ -203,8 +206,11 @@ outside in section 4 (x 2369-2527, y 129-241 of 04.png) at its own size; section
 13 and is a map of its own. The world is 22 438 × 1 766. 10 → 11 is the one join not at an edge (the
 player leaves section 10 at x 598 of 768): 11 overlaps 10 there, not looked at closely yet.
 
-The page (`src/play/player.js`): two maps, the mountain (sections 1-14 as the user counts them, a
-level of 13 pieces: maps-run's `image` may now give `{ w, h, pieces }`, libs/maps-run commit
-"A level made of several maps", local) and section 15. While the run is in the house the view zooms to
+The page (`src/play/player.js`), two ways to look (the joins are not perfect, the user asked for
+both): the whole mountain (sections 1-14 as the user counts them, a level of 13 pieces: maps-run's
+`image` may now give `{ w, h, pieces }`, libs/maps-run commit "A level made of several maps",
+local) and every section alone (section 15 only so). The run follows the way chosen: its spans are
+there both ways, and choosing a level puts that way's spans first (the page takes the first span
+that holds a frame). `out/levels/tas-world.json`: level 1 the world, s + 2 section s. While the run is in the house the view zooms to
 200 %, the world dims and the inside fades in over the house; out, the zoom it had comes back. The
 objects are drawn on the maps (a switch). Checked in the browser.
