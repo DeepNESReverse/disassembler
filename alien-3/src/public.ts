@@ -105,7 +105,8 @@ writeFileSync(resolve(out, 'levels.json'), JSON.stringify({
   }),
 }, null, 1));
 
-// The run player in one module: '/src/…' is this repo's, '/xrom-libs/…' the libraries'.
+// The run player in one module: '/src/…' is this repo's, '/xrom-libs/<lib>/…' the libraries' —
+// this game's submodules in libs/ (the dev server serves them under /xrom-libs/ as before).
 const esbuild = createRequire(resolve(repo, 'libs/nes/package.json'))('esbuild');
 await esbuild.build({
   entryPoints: [resolve(repo, 'src/take-player.js')],
@@ -114,7 +115,7 @@ await esbuild.build({
     name: 'roots',
     setup(b: { onResolve: (o: { filter: RegExp }, f: (a: { path: string }) => { path: string }) => void }) {
       b.onResolve({ filter: /^\/src\// }, (a) => ({ path: resolve(repo, a.path.slice(1)) }));
-      b.onResolve({ filter: /^\/xrom-libs\// }, (a) => ({ path: resolve(repo, '..', a.path.slice(1)) }));
+      b.onResolve({ filter: /^\/xrom-libs\// }, (a) => ({ path: resolve(repo, 'libs', a.path.slice('/xrom-libs/'.length)) }));
     },
   }],
 });

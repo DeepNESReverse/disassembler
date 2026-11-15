@@ -83,7 +83,7 @@ await esbuild.build({
     name: 'roots',
     setup(b: { onResolve: (o: { filter: RegExp }, f: (a: { path: string }) => { path: string }) => void }) {
       b.onResolve({ filter: /^\/src\// }, (a) => ({ path: resolve(repo, a.path.slice(1)) }));
-      b.onResolve({ filter: /^\/xrom-libs\// }, (a) => ({ path: resolve(repo, '..', a.path.slice(1)) }));
+      b.onResolve({ filter: /^\/xrom-libs\// }, (a) => ({ path: resolve(repo, 'libs', a.path.slice('/xrom-libs/'.length)) }));
     },
   }],
 });

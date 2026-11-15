@@ -6,7 +6,7 @@
 // The public build (window.CART_PACK) reads no ROM: cart.bin.gz holds the pattern tables only.
 import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage } from '/src/maps-run/run-page.js';
+import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
 
 const W = 256, H = 240;
 const OAM = 16, PAL = 272, CIRAM = 304;
@@ -167,13 +167,15 @@ mountRunPage({
   run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
-  trail: { url: DIR + 'tas.json', label: 'TAS path', title: 'TAS by yuigenron2 (TASVideos), played from power-on in FCEUX and replayed here frame for frame; the spelunker&#39;s way down the cave' },
+  runName: 'yuigenron2’s TAS',
+  trail: { url: DIR + 'tas.json', label: 'route', title: 'TAS by yuigenron2 (TASVideos), played from power-on in FCEUX and replayed here frame for frame; the spelunker&#39;s way down the cave' },
   runTitle: 'The TAS as the game plays it: the camera window shows the game&#39;s frame (as the PPU draws it, from our replay of the movie)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The songs: sounds the game starts on two or more channels at once (the ten tunes)',
   effectsTitle: 'The sound effects: sounds the game starts on one channel (22 of them)',
   layersBelow: '<canvas id="items" width="448" height="2400" style="position:absolute;left:0;top:0;image-rendering:pixelated;pointer-events:none"></canvas>',
-  headerHtml: '<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Every pick-up of the cave drawn where the game keeps it, each gone once the TAS has picked it up"><input type="checkbox" id="itemsBox" checked> items</label>',
+  // The cave's pick-ups: a round switch like the route's (maps-run's iconToggle).
+  headerHtml: iconToggle({ id: 'itemsBox', label: 'items', colour: '#ffd166', checked: true, title: 'Every pick-up of the cave drawn where the game keeps it, each gone once the TAS has picked it up', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3l3 6 3-6M12 9v12"/></svg>' }),
   // The stage is the map's size at the zoom (set before onZoom; `page` is not there yet on the first call).
   onZoom: () => { const cv = document.getElementById('items'), st = document.getElementById('stage'); cv.style.width = st.style.width; cv.style.height = st.style.height; },
   onMouse: (x, y) => { document.getElementById('pos').textContent = `x ${x} y ${y} · tile ${x >> 3},${y >> 3}`; },

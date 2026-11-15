@@ -7,7 +7,7 @@
 // tables with only the tiles the maps and the run draw; the files sit beside the bundled player.
 import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage } from '/src/maps-run/run-page.js';
+import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
 
 const FIELD_TOP = 44, H = 240 - FIELD_TOP;
 const OAM = 16, PAL = 272, CIRAM = 304;
@@ -136,12 +136,14 @@ const page = mountRunPage({
   run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
-  trail: { url: STAGES + 'tas.json', label: 'TAS path', title: 'TAS by klmz (tasvideos 5270M, 3:21.35), played from power-on in FCEUX and replayed here frame for frame; Charlie&#39;s way through each stage' },
+  runName: 'klmz’s TAS',
+  trail: { url: STAGES + 'tas.json', label: 'route', title: 'TAS by klmz (tasvideos 5270M, 3:21.35), played from power-on in FCEUX and replayed here frame for frame; Charlie&#39;s way through each stage' },
   runTitle: 'TASVideos 5270M as the game plays it: the camera window shows the game&#39;s frame (the field as the PPU draws it, from our replay of the movie)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The songs: writes from the driver&#39;s slots playing a stage theme or the start/goal jingle (numbers 14-21)',
   effectsTitle: 'The sound effects: writes from the driver&#39;s slots playing an effect (1-7) — the jumps, the bonus count and the rest',
-  headerHtml: '<label style="display:flex;gap:6px;align-items:center;cursor:pointer" title="Tinted: the cells the game writes during play (boards, fire pots, balls, obstacles) red; those shown more than one way blue"><input type="checkbox" id="marksBox"> drawn by play</label>',
+  // The cells the game writes as it plays, tinted: a round switch like the route's (maps-run's iconToggle).
+  headerHtml: iconToggle({ id: 'marksBox', label: 'drawn by play', colour: '#ff6b6b', title: 'Tinted: the cells the game writes during play (boards, fire pots, balls, obstacles) red; those shown more than one way blue', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3l3 3-9 9H9v-3z"/><path d="M3 21c1.5 0 3-1 3-3s1-3 3-3"/></svg>' }),
   onMouse: (x, y) => { document.getElementById('pos').textContent = `x ${x} y ${y} · tile ${x >> 3},${(y + FIELD_TOP) >> 3}`; },
 });
 document.getElementById('marksBox').onchange = () => page.pick(page.cur);

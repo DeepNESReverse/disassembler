@@ -14,6 +14,12 @@ import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
 import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
 
+// The icons of this game's own switches: an eye struck through (the parts never seen), and the
+// camera's frame between two rails (where it may go).
+const EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c5 0 9 4.5 10 7a13 13 0 0 1-3 4.1M6.6 6.6C4.4 8 2.8 10.2 2 12c1 2.5 5 7 10 7a9.8 9.8 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+const SLIDERS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>';
+const RAILS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h20M2 19h20"/><rect x="7" y="8.5" width="10" height="7" rx="1.5"/></svg>';
+
 const { levels: LEVEL_LIST, spaces: SPACES, prisoners: PRISONERS, sprites: SPRITES, public: PUBLIC } = window.A3;
 const $ = (id) => document.getElementById(id);
 
@@ -227,21 +233,27 @@ page = mountRunPage({
   run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: new URL('maps-run/sound.js', import.meta.url).href,
-  trail: { url: 'tas-randil.json', shift: 1, label: 'Randil&#39;s TAS path', title: 'TAS by Randil (tasvideos 2713M, 20:24.52), played in FCEUX; no wall clips; every prisoner rescued' },
+  runName: 'Randil’s TAS',
+  trail: { url: 'tas-randil.json', shift: 1, label: 'route', title: 'TAS by Randil (tasvideos 2713M, 20:24.52), played in FCEUX; no wall clips; every prisoner rescued' },
   runTitle: 'Randil&#39;s TAS as FCEUX played it: the camera window shows the game&#39;s frame (background from the level data, sprites and palette from the take)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes taken in FCEUX (movie_sound.lua), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The songs: writes from the driver&#39;s slots playing a song&#39;s stream (1-$2F)',
   effectsTitle: 'The sound effects: writes from the driver&#39;s slots playing an effect&#39;s stream ($30 and up) — the shots and the rest',
   headerHtml:
-    label('<input type="checkbox" id="runSeenBox"> hidden from the player <input type="color" id="unseenColor" value="#000000" title="colour of the hidden" style="width:26px;height:20px;padding:0;border:none;background:none"><input type="range" id="unseenOp" min="0.1" max="1" step="0.05" value="1" title="opacity" style="width:60px"> <span id="runSeenN" class="legend"></span>', 'Covered: whatever never came on screen, neither in Randil&#39;s run nor in a search of the level in the game (no wall clips; untouchable, health, timer held). Where no search was made yet, the run alone') +
-    label('<input type="checkbox" id="railsBox"> camera rails', 'Where the middle of the camera&#39;s field goes: blue — sideways only (page tops), orange — up and down only (odd bands)') +
+    // The parts no player ever sees: covered, in a colour and opacity of one's own (shown while on).
+    iconToggle({ id: 'runSeenBox', icon: EYE_OFF, label: 'parts you never see', colour: '#f5b301', count: 'runSeenN', title: 'Covered: whatever never came on screen, neither in Randil&#39;s run nor in a search of the level in the game (no wall clips; untouchable, health, timer held). Where no search was made yet, the run alone' }) +
+    // Its colour and opacity in a pop-up (maps-run's .pop), and how much of the level is never seen
+    // always beside it, on or off: nothing in the header comes or goes, so the header never moves.
+    '<span class="pop unseenOpts"><button class="popBtn small" title="Colour and opacity of the parts never seen">' + SLIDERS + '</button><span class="popBody"><label style="display:flex;gap:8px;align-items:center">colour <input type="color" id="unseenColor" value="#000000" style="width:28px;height:22px;padding:0;border:none;background:none"></label><label style="display:flex;gap:8px;align-items:center">opacity <input type="range" id="unseenOp" min="0.1" max="1" step="0.05" value="1" style="width:110px"></label></span></span>' +
+    iconToggle({ id: 'railsBox', icon: RAILS, label: 'camera limits', colour: '#5fd0ff', title: 'Where the middle of the camera&#39;s field goes: blue — sideways only (page tops), orange — up and down only (odd bands)' }) +
     // The prisoners' switch wears the game's own prisoner, lit in the pink of their rings.
     iconToggle({ id: 'pris', icon: '<img src="prisoners/01.png" alt="">', label: 'prisoners', colour: '#ff3cac', count: 'prisN', checked: true }) +
     // The whole address space is the workshop's alone (memory address-space-dev-only).
     (PUBLIC ? '' : label('<input type="checkbox" id="space"> whole address space (64 KB, 128 pages)') + '<span class="legend" id="spaceLegend">address space: dimmed — not ROM (what the game read, or a RAM snapshot)</span>'),
   layersBelow: '<svg id="view"></svg><div id="priLayer"></div>',
   afterStage: '<div id="space-stage"></div>',
-  css: `#space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
+  css: `.unseenOpts{margin-left:-2px}#runSeenN{display:inline-block;min-width:3.4em}label.tg:has(#runSeenBox:not(:checked))+.unseenOpts .popBtn{opacity:.35}
+#space-stage{position:relative;display:none}#space-stage img{position:absolute;left:0;image-rendering:pixelated}
 #view{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #view .unseen{fill:var(--unseen,#000);fill-opacity:var(--unseen-op,1)}
 #view .h{stroke:#5fd0ff;stroke-width:2;vector-effect:non-scaling-stroke}
@@ -320,21 +332,23 @@ const setToPath = (a, W, H, want) => { let d = ''; for (let ty = 0; ty < H; ty++
 async function showView() {
   const v = $('view'), W = L.naturalWidth || 2048, H = L.naturalHeight || 1920, cur = page.cur, z = page.z;
   const rs = $('runSeenBox').checked;
-  if (rs && !RUNSEEN) {
+  // Loaded at once (90 KB), on or off: the share never seen is shown beside the switch either way.
+  if (!RUNSEEN) {
     try { RUNSEEN = await (await fetch('run-seen.json', { cache: 'no-store' })).json(); } catch { RUNSEEN = {}; }
     try { VISIBLE = await (await fetch('visible.json', { cache: 'no-store' })).json(); } catch { VISIBLE = {}; }
   }
   v.setAttribute('viewBox', `0 0 ${W} ${H}`); v.style.width = W * z + 'px'; v.style.height = H * z + 'px';
   let h = '';
   // Not seen by the player: neither in Randil's run (run-seen.json) nor in the search (visible.json).
-  const R = rs && RUNSEEN ? RUNSEEN[cur] : null, V = rs && VISIBLE ? VISIBLE[cur] : null;
+  const R = RUNSEEN ? RUNSEEN[cur] : null, V = VISIBLE ? VISIBLE[cur] : null;
   if (R) {
     const TW = R.w, TH = R.h, runSet = rowsToSet(R.rows, TW, TH), only = V ? rowsToSet(V.search, TW, TH) : new Uint8Array(TW * TH), seen = new Uint8Array(TW * TH);
     let n = 0;
     for (let i = 0; i < seen.length; i++) { seen[i] = runSet[i] | only[i]; n += seen[i]; }
-    $('runSeenN').textContent = `(${((100 * n) / seen.length).toFixed(0)} % visible${V ? '' : ', the run only'})`;
-    h += `<path class="unseen" d="${setToPath(seen, TW, TH, 0)}"/>`;
-  } else $('runSeenN').textContent = '';
+    $('runSeenN').textContent = `${(100 - (100 * n) / seen.length).toFixed(0)} %`;
+    $('runSeenN').title = `of the level never comes on screen${V ? '' : ' (by the run alone: no search of this level yet)'}`;
+    if (rs) h += `<path class="unseen" d="${setToPath(seen, TW, TH, 0)}"/>`;
+  } else $('runSeenN').textContent = '—';
   if ($('railsBox').checked) {
     for (let y = 0; y + 176 <= H; y += 240) h += `<line class="h" x1="128" y1="${y + 88}" x2="${W - 128}" y2="${y + 88}"/>`;
     for (let x = 256; x + 256 <= W; x += 512) h += `<line class="v" x1="${x + 128}" y1="88" x2="${x + 128}" y2="${H - 88}"/>`;
