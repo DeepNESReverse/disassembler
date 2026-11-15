@@ -168,14 +168,18 @@ section 14, fell and the section restarted, while in FCEUX they stood (`src/expe
 walker (`$CF32/$CF69`, §8) runs off the end of the section's floor table there and reads `$3A13…`,
 mirrors of the PPU's registers (`src/experiments/io-reads.ts`). FCEUX answers a write-only PPU
 register with its I/O latch (PPUGenLatch: the last value written to or read from the PPU),
-`$2002` with that latch in its low 5 bits, `$2004` with the sprite memory; xrom-libs' NES answers 0.
+`$2002` with that latch in its low 5 bits; xrom-libs' NES answers 0.
 `src/machine.ts` now keeps that latch (around the NES, which is not changed). With it the whole movie
 is in step to its last frame: 61 frames with 1-4 cells apart for a frame (sync.ts), none after 24 913.
 
-The movie ends at 24 948 with the last boss alive; played on with nothing pressed, here the boss
-kills the player three times (`runs/after.png`). The user watched the movie's end in FCEUX: the boss
-does not die there either (2026-11-15). The run is shown to the movie's last frame.
-(`fceux/movie_tail.lua`, which records the movie's end and 3 000 frames after it, was not needed.)
+The movie ends at 24 948 with the last boss alive. In FCEUX, played on with nothing pressed, the
+boss walks off the cliff and the ending runs (the user, 2026-11-15). Here at first he stood and
+killed the player three times (`runs/after.png`): his floor reads go off the table too, `$3A13`
+then `$3A14` (`src/experiments/io-reads.ts 24930 25060`), and `$2004` was answered with the sprite
+memory ($D0). FCEUX's old PPU (its default) answers `$2004` with the latch as well: with that the boss
+falls, "GAME COMPLETED" and "THE END" follow (`runs/after2.png`), and the movie stays in step as
+before (61 frames, sync.ts). `src/take-pack.ts` packs 600 frames past the movie: section 14 is shown
+to 25 112, the boss's fall. (`fceux/movie_tail.lua`, recording FCEUX past the movie, was not needed.)
 
 ## 11. The objects
 
@@ -188,6 +192,8 @@ does not die there either (2026-11-15). The run is shown to the movie's last fra
 - Five object slots of `$1F` bytes follow the player's (`$0614`): byte 0 flags (bit 0 on), X at +2/+3
   and Y at +9/+10 like the player's. The spawner `$DAA7-$DC43` fills a slot from an entry and its kind's
   template (PRG $17618 on); each frame `$E853` copies a slot to `$1C-$31`, `$E8CA` back.
+- Not on the page: the user found the drawn objects poor and asked for the switch to go
+  (2026-11-15); the tools stay.
 - The look of a kind is read off the run: for each entry the run spawns (a slot coming on at its
   place), the sprites around it on the first frame it is wholly on the field, the player's left out;
   per section and kind the commonest, with that frame's CHR banks and sprite palettes. (Drawn first
@@ -206,7 +212,8 @@ outside in section 4 (x 2369-2527, y 129-241 of 04.png) at its own size; section
 13 and is a map of its own. The world is 22 438 × 1 766. 10 → 11 is the one join not at an edge (the
 player leaves section 10 at x 598 of 768): 11 overlaps 10 there, not looked at closely yet.
 
-The page (`src/play/player.js`), two ways to look (the joins are not perfect, the user asked for
+The page (`src/play/player.js`; the left 8 columns the game hides are drawn clear, the map showing through,
+not as a backdrop stripe), two ways to look (the joins are not perfect, the user asked for
 both): the whole mountain (sections 1-14 as the user counts them, a level of 13 pieces: maps-run's
 `image` may now give `{ w, h, pieces }`, libs/maps-run commit "A level made of several maps",
 local) and every section alone (section 15 only so). The run follows the way chosen: its spans are

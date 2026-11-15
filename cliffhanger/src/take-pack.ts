@@ -115,7 +115,10 @@ function place(sec: Section): { x: number; y: number } | null {
   return { x: best.x, y: best.y };
 }
 
-const total = run.pads.length;
+// The movie ends with the last boss alive; played on with nothing pressed he walks off the cliff
+// and the ending runs (STATUS §10): 600 frames more take in his fall.
+const AFTER = 600;
+const total = run.pads.length + AFTER;
 const out: number[] = [];
 const u16 = (v: number) => out.push(v & 255, (v >> 8) & 255);
 for (const c of 'CHTK') out.push(c.charCodeAt(0));

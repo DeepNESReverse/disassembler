@@ -11,10 +11,9 @@
 // view zooms in, the world dims and the inside fades in over the house — and every section alone.
 // The page's level 1 is the world, level s + 2 section s. The run follows the way chosen: choosing
 // a level of one way puts its spans first, so the page's span lookup finds them.
-// The objects (src/objects.ts) are drawn on the maps, always there (a switch).
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
+import { mountRunPage } from '/src/maps-run/run-page.js';
 
 const W = 256, H = 176;
 const OAM = 32, PAL = 288, NT = 320;
@@ -40,8 +39,7 @@ function orderSpans() {
   spans.sort((a, b) => Number(first(b)) - Number(first(a)) || a[0] - b[0]);
 }
 const nn = (s) => String(s).padStart(2, '0');
-const withObjects = () => document.getElementById('objBox')?.checked !== false;
-const mapOf = (s) => `${LEVELS}${nn(s)}${withObjects() ? '-objects' : ''}.png`;
+const mapOf = (s) => `${LEVELS}${nn(s)}.png`;
 
 async function gunzip(url) {
   const res = await fetch(url);
@@ -120,7 +118,10 @@ const run = {
       const py = (planeY + line) % 480, row = (py % 240) >> 3, fy = py & 7, top = py >= 240 ? 2 : 0;
       for (let x = 0; x < W; x++) {
         const i = line * W + x;
-        if (!(mask & 0x08) || (x < 8 && !(mask & 0x02))) { px[i] = backdrop; bgOpaque[i] = 0; continue; }
+        // The left 8 columns the game hides (PPUMASK bit 1 clear) are left clear, the map showing
+        // through, not drawn as the backdrop's stripe.
+        if (x < 8 && !(mask & 0x02)) { px[i] = 0; bgOpaque[i] = 0; continue; }
+        if (!(mask & 0x08)) { px[i] = backdrop; bgOpaque[i] = 0; continue; }
         const pxl = (planeX + x) & 511, cx = (pxl & 255) >> 3, base = NT + (top | (pxl >> 8)) * 0x400;
         const tile = state[base + row * 32 + cx];
         const attr = state[base + 0x3c0 + (row >> 2) * 8 + (cx >> 2)];
@@ -222,7 +223,6 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s channel writes (PRG $C000-$C3FF)',
   effectsTitle: 'The sound effects: the effect player&#39;s writes (PRG $D100-$D3FF), which take a channel from the music while they sound',
-  headerHtml: iconToggle({ id: 'objBox', label: 'objects', colour: '#ffd166', checked: true, title: 'Every object of the cartridge&#39;s lists — money, enemies, birds, boulders — where the game puts it, drawn as the run shows it', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8l3 4-1 9H6l-1-9z"/><path d="M9 7l1-3h4l1 3"/><path d="M10 14h4M12 12v4"/></svg>' }),
   // The house's inside over its outside, under the run's frame; the world dims around it.
   layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
   css: `#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
@@ -252,4 +252,3 @@ function placeHouse() {
   Object.assign(im.style, { left: r.x * page.z + 'px', top: r.y * page.z + 'px', width: r.w * page.z + 'px' });
 }
 placeHouse();
-document.getElementById('objBox').onchange = () => { page.pick(page.cur); placeHouse(); };
