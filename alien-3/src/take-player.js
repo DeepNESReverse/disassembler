@@ -12,7 +12,7 @@
 import { Level } from '/src/level.ts';
 import { NES_RGB } from '/xrom-libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/xrom-libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage } from '/src/maps-run/run-page.js';
+import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
 
 const { levels: LEVEL_LIST, spaces: SPACES, prisoners: PRISONERS, sprites: SPRITES, public: PUBLIC } = window.A3;
 const $ = (id) => document.getElementById(id);
@@ -235,7 +235,8 @@ page = mountRunPage({
   headerHtml:
     label('<input type="checkbox" id="runSeenBox"> hidden from the player <input type="color" id="unseenColor" value="#000000" title="colour of the hidden" style="width:26px;height:20px;padding:0;border:none;background:none"><input type="range" id="unseenOp" min="0.1" max="1" step="0.05" value="1" title="opacity" style="width:60px"> <span id="runSeenN" class="legend"></span>', 'Covered: whatever never came on screen, neither in Randil&#39;s run nor in a search of the level in the game (no wall clips; untouchable, health, timer held). Where no search was made yet, the run alone') +
     label('<input type="checkbox" id="railsBox"> camera rails', 'Where the middle of the camera&#39;s field goes: blue — sideways only (page tops), orange — up and down only (odd bands)') +
-    label('<input type="checkbox" id="pris" checked> prisoners <span id="prisN" class="legend"></span>') +
+    // The prisoners' switch wears the game's own prisoner, lit in the pink of their rings.
+    iconToggle({ id: 'pris', icon: '<img src="prisoners/01.png" alt="">', label: 'prisoners', colour: '#ff3cac', count: 'prisN', checked: true }) +
     // The whole address space is the workshop's alone (memory address-space-dev-only).
     (PUBLIC ? '' : label('<input type="checkbox" id="space"> whole address space (64 KB, 128 pages)') + '<span class="legend" id="spaceLegend">address space: dimmed — not ROM (what the game read, or a RAM snapshot)</span>'),
   layersBelow: '<svg id="view"></svg><div id="priLayer"></div>',
@@ -251,6 +252,39 @@ page = mountRunPage({
 @keyframes pulse{50%{transform:scale(1.25);opacity:.6}}
 .reg{position:absolute;left:0;right:0;border-top:2px solid #e0b040;pointer-events:none}
 .reg span{position:sticky;left:4px;background:#000c;color:#f0c050;padding:1px 6px;font-size:12px;white-space:nowrap}`,
+  // `?short`: the vertical promo (maps-run/short.js) — the whole level first, then the game as a
+  // player sees it, the level opening round it, the route drawn, the prisoners, the whole level again.
+  short: {
+    game: 'Alien 3', folder: 'alien-3', level: 8, start: 60, music: 23.5,
+    buttons: [{ id: 'trailBox', label: 'route' }, { id: 'pris', label: 'prisoners' }],
+    initial: { trailBox: true, pris: true },
+    cams: [
+      { t: 0, cam: 'fit' },
+      { t: 3.2, dur: 1.4, cam: { z: 'frame', clamp: false } },
+      { t: 8.6, dur: 1.6, cam: { z: 1 } },
+      { t: 12.2, dur: 2.4, cam: { z: 0.5 } },
+      { t: 15.3, dur: 1.6, cam: { z: 0.34 } },
+      { t: 19.4, dur: 2.6, cam: 'fit' },
+    ],
+    mask: [{ t: 3.4, dur: 1.0, to: 1 }, { t: 8.6, dur: 1.4, to: 0 }],
+    events: [
+      { t: 3.2, set: { trailBox: false, pris: false } },
+      { t: 12, click: 'trailBox' },
+      { t: 12, reveal: 3.2 },
+      { t: 15.8, click: 'pris' },
+    ],
+    captions: [
+      { from: 0, to: 3.2, text: 'The whole level', sub: 'Alien 3 (NES) · the speedrun&#39;s route · every prisoner', big: true },
+      { from: 4.8, to: 8.5, text: 'Looks like an ordinary game…' },
+      { from: 8.9, to: 11.7, text: '…but the whole level is right here' },
+      { from: 12, to: 15.6, text: 'The speedrun&#39;s route', sub: 'Randil&#39;s TAS, frame by frame' },
+      { from: 15.8, to: 19.2, text: 'Every prisoner to rescue' },
+      { from: 19.6, to: 23.3, text: 'Every level of Alien 3', sub: 'mapped straight from the cartridge' },
+    ],
+    end: { path: '/games/alien-3/maps', line: 'Every level, the speedrun,<br>every prisoner — play it there' },
+    // The cover: the route and the prisoners in the level's right half, close enough to read.
+    cover: { t: 18.8, z: 0.6, cx: 1600, cy: 560, eye: 660, text: 'The whole level', sub: 'you never get to see · Alien 3 (NES)' },
+  },
   onPick: () => layers(),
   onZoom: () => layers(),
   onMouse: (x, y) => {
