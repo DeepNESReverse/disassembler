@@ -153,6 +153,14 @@ The objects (enemies, money) are not found yet.
   pixel where tile edges meet: x ≡ the plane x of line 0 mod 8, y the same), PPUCTRL, PPUMASK, the
   plane x/y of line 0, the eight CHR 1 KB banks, OAM, the palette, the four nametables; and the
   sound writes with their owner (§7). 23 366 of 24 948 frames show the field.
+- The camera, set again after the pass (2026-11-16): the search for where the tiles fit is ambiguous
+  where the field is plain (sky, snow, far mountains) and took a wrong place on 1 380 frames — 1 px
+  left and 3 px down in section 6's end, where the user saw the mountains slide; sections 2, 9, 10,
+  12, 14 had such frames too. The field's plane and its place on the map differ by a constant per
+  section (the nametables wrap the map one way all along): taken from the frames where the RAM's
+  camera fits as it is (every one of them agrees, e.g. section 0: x +0, y +80 mod 240), each shown
+  frame's place is the one nearest the RAM's camera that its scroll agrees with. After it every
+  section's frames have that one constant.
 - The path: the player's `$0616-$061E` is the figure's top-left (its sprites start there:
   `src/experiments/player-anchor.ts`); the path goes through (+8, +20), cut where it jumps.
 - `src/play/` (server on 127.0.0.1:4328, `player.js`): the shared page `libs/maps-run` (at

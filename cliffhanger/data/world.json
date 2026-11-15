@@ -1,96 +1,96 @@
 {
  "about": "The sections glued into one world (src/world.ts). pieces: each section's top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.",
  "w": 23201,
- "h": 2339,
+ "h": 2321,
  "pieces": [
   {
    "section": 0,
    "x": 0,
-   "y": 1955,
+   "y": 1937,
    "w": 2560,
    "h": 384
   },
   {
    "section": 1,
    "x": 2384,
-   "y": 1955,
+   "y": 1937,
    "w": 2560,
    "h": 384
   },
   {
    "section": 2,
    "x": 4944,
-   "y": 1315,
+   "y": 1297,
    "w": 320,
    "h": 1024
   },
   {
    "section": 3,
    "x": 5264,
-   "y": 1139,
+   "y": 1121,
    "w": 2560,
    "h": 384
   },
   {
    "section": 4,
    "x": 7824,
-   "y": 1139,
+   "y": 1121,
    "w": 2560,
    "h": 384
   },
   {
    "section": 6,
    "x": 10384,
-   "y": 1283,
+   "y": 1265,
    "w": 2560,
    "h": 384
   },
   {
    "section": 7,
    "x": 12912,
-   "y": 1427,
+   "y": 1409,
    "w": 640,
    "h": 768
   },
   {
    "section": 8,
    "x": 13552,
-   "y": 1573,
+   "y": 1555,
    "w": 768,
    "h": 384
   },
   {
    "section": 9,
    "x": 14320,
-   "y": 1574,
+   "y": 1556,
    "w": 1920,
    "h": 512
   },
   {
    "section": 10,
    "x": 16240,
-   "y": 1574,
+   "y": 1556,
    "w": 768,
    "h": 384
   },
   {
    "section": 11,
    "x": 17008,
-   "y": 1665,
+   "y": 1647,
    "w": 3200,
    "h": 224
   },
   {
    "section": 12,
    "x": 20208,
-   "y": 865,
+   "y": 847,
    "w": 320,
    "h": 1024
   },
   {
    "section": 13,
    "x": 20513,
-   "y": 658,
+   "y": 640,
    "w": 1920,
    "h": 384
   },
@@ -105,7 +105,7 @@
  "house": {
   "outside": {
    "x": 10193,
-   "y": 1300,
+   "y": 1282,
    "w": 159,
    "h": 79
   },
@@ -114,7 +114,7 @@
    "w": 512,
    "h": 256,
    "x": 10193,
-   "y": 1300,
+   "y": 1282,
    "scale": 0.310546875
   }
  },
@@ -208,8 +208,8 @@
    "a": 13,
    "b": 14,
    "dx": 1920,
-   "dy": -658,
-   "how": "at the edge"
+   "dy": -640,
+   "how": "the user's"
   }
  ]
 }

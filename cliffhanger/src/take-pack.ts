@@ -124,11 +124,20 @@ const u16 = (v: number) => out.push(v & 255, (v >> 8) & 255);
 for (const c of 'CHTK') out.push(c.charCodeAt(0));
 out.push(total & 255, (total >> 8) & 255, (total >> 16) & 255, 0);
 u16(SIZE);
-const prev = new Uint8Array(SIZE);
 const trails = new Map<number, [number, number, number][][]>();
 const seenFrames = new Map<number, number>();
 let lastPt: [number, number, number] | null = null;
 let shownCount = 0;
+// Every frame's state is kept (≈ 4.4 KB each) to set the cameras after the pass: the place the
+// tiles fit is ambiguous where the field is plain (sky, snow), and the search took a wrong one on
+// some frames (the user saw the mountains slide, section 6). The field's plane and its place on the
+// map differ by a constant per section (the nametables wrap the map the same way all along), so
+// that constant, from the frames where the RAM's camera fits as it is, gives every frame's place:
+// the one nearest the RAM's camera that the frame's scroll agrees with (STATUS §9).
+const states = new Uint8Array((total + 1) * SIZE);
+const sounds: number[][] = [];
+const ramCam = new Int32Array((total + 1) * 2);
+const exact = new Uint8Array(total + 1);
 for (let f = 0; f <= total; f++) {
   writes.length = 0;
   if (f > 0) run.to(f);
@@ -140,13 +149,11 @@ for (let f = 0; f <= total; f++) {
   const cy = at ? at.y : 0;
   state[2] = cx & 255, (state[3] = (cx >> 8) & 255), (state[4] = cy & 255), (state[5] = (cy >> 8) & 255);
   state[8] = m.lineX[0] & 255, (state[9] = m.lineX[0] >> 8), (state[10] = m.lineY[0] & 255), (state[11] = m.lineY[0] >> 8);
-  const diff: number[] = [];
-  for (let i = 0; i < SIZE; i++) if (state[i] !== prev[i]) diff.push(i);
-  prev.set(state);
-  u16(diff.length);
-  for (const i of diff) u16(i), out.push(state[i]);
-  u16(writes.length / 2);
-  out.push(...writes);
+  states.set(state, f * SIZE);
+  sounds.push(writes.slice());
+  ramCam[2 * f] = camRam.x;
+  ramCam[2 * f + 1] = camRam.y;
+  exact[f] = at && at.x === camRam.x && at.y === camRam.y ? 1 : 0;
   // The player's path: X is kept mod 2048 px (STATUS §6), put back next to the camera.
   if (at) {
     shownCount++;
@@ -164,6 +171,51 @@ for (let f = 0; f <= total; f++) {
     lastPt = pt;
   } else lastPt = null;
   if (f % 2000 === 0) console.log(`frame ${f}: ${shownCount} shown`);
+}
+
+// Per section the plane-to-map constant the frames fitting at the RAM's camera agree on.
+const at = (f: number, i: number) => states[f * SIZE + i];
+const i16 = (lo: number, hi: number) => (((hi << 8) | lo) << 16) >> 16;
+const votes = new Map<number, Map<string, number>>();
+for (let f = 0; f <= total; f++) {
+  if (!exact[f]) continue;
+  const s = at(f, 0);
+  const k = `${(((at(f, 8) | (at(f, 9) << 8)) - ramCam[2 * f]) % 512 + 512) % 512},${(((at(f, 10) | (at(f, 11) << 8)) - ramCam[2 * f + 1]) % 240 + 240) % 240}`;
+  if (!votes.has(s)) votes.set(s, new Map());
+  votes.get(s)!.set(k, (votes.get(s)!.get(k) ?? 0) + 1);
+}
+const offset = new Map<number, { x: number; y: number }>();
+for (const [s, v] of votes) {
+  const [k, n] = [...v].sort((a, b) => b[1] - a[1])[0];
+  const [x, y] = k.split(',').map(Number);
+  offset.set(s, { x, y });
+  const all = [...v.values()].reduce((a, b) => a + b, 0);
+  console.log(`section ${s}: plane - map = ${x}, ${y} on ${n} of ${all} frames fitting as the RAM has it`);
+}
+/** The value ≡ r (mod m) nearest `near`. */
+const nearest = (r: number, m: number, near: number) => near + ((((r - near) % m) + m + m / 2) % m) - m / 2;
+let moved = 0;
+for (let f = 0; f <= total; f++) {
+  const o = offset.get(at(f, 0));
+  if (!at(f, 1) || !o) continue;
+  const x = nearest((at(f, 8) | (at(f, 9) << 8)) - o.x, 512, ramCam[2 * f]);
+  const y = nearest((at(f, 10) | (at(f, 11) << 8)) - o.y, 240, ramCam[2 * f + 1]);
+  if (x !== i16(at(f, 2), at(f, 3)) || y !== i16(at(f, 4), at(f, 5))) moved++;
+  const b = f * SIZE;
+  states[b + 2] = x & 255, (states[b + 3] = (x >> 8) & 255), (states[b + 4] = y & 255), (states[b + 5] = (y >> 8) & 255);
+}
+console.log(`${moved} frames set anew by their scroll`);
+
+const prev = new Uint8Array(SIZE);
+for (let f = 0; f <= total; f++) {
+  const cur = states.subarray(f * SIZE, (f + 1) * SIZE);
+  const diff: number[] = [];
+  for (let i = 0; i < SIZE; i++) if (cur[i] !== prev[i]) diff.push(i);
+  prev.set(cur);
+  u16(diff.length);
+  for (const i of diff) u16(i), out.push(cur[i]);
+  u16(sounds[f].length / 2);
+  for (const v of sounds[f]) out.push(v);
 }
 const raw = Uint8Array.from(out);
 mkdirSync('out/levels', { recursive: true });
