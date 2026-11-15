@@ -1,19 +1,19 @@
 {
  "about": "The sections glued into one world (src/world.ts). pieces: each section's top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.",
  "w": 22262,
- "h": 1765,
+ "h": 1760,
  "pieces": [
   {
    "section": 0,
    "x": 0,
-   "y": 1381,
+   "y": 1376,
    "w": 2560,
    "h": 384
   },
   {
    "section": 1,
    "x": 2384,
-   "y": 1381,
+   "y": 1376,
    "w": 2560,
    "h": 384
   },
@@ -125,8 +125,8 @@
    "a": 1,
    "b": 2,
    "dx": 2560,
-   "dy": -645,
-   "how": "at the edge"
+   "dy": -640,
+   "how": "the user's"
   },
   {
    "a": 2,

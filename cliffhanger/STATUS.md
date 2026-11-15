@@ -218,7 +218,9 @@ both): the whole mountain (sections 1-14 as the user counts them, a level of 13 
 `image` may now give `{ w, h, pieces }`, libs/maps-run commit "A level made of several maps",
 local) and every section alone (section 15 only so). The run follows the way chosen: its spans are
 there both ways, and choosing a level puts that way's spans first (the page takes the first span
-that holds a frame). `out/levels/tas-world.json`: level 1 the world, s + 2 section s. While the run is in the house the view zooms to
+that holds a frame). `out/levels/tas-world.json`: level 1 the world, s + 2 section s. On the whole
+mountain the run's slider has a mark where each section starts, its number under it (from 1, as the
+user counts); a click on the number takes the run there (the user's idea, 2026-11-15). While the run is in the house the view zooms to
 200 %, the world dims and the inside fades in over the house; out, the zoom it had comes back. The
 objects are drawn on the maps (a switch). Checked in the browser.
 

@@ -87,6 +87,7 @@ const run = {
     }
     spans = [...byLevel.values()];
     orderSpans();
+    setTimeout(sectionTicks, 100);
     return { frames, spans };
   },
   seek(f) {
@@ -229,7 +230,7 @@ page = mountRunPage({
     : iconToggle({ id: 'seamBox', label: 'seams', colour: '#4cc9f0', title: 'Set the seams by eye: click a section of the whole mountain, move it with the arrows (1 px; with Shift 8 px) — the sections after it move along — then Save', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7v16H4zM13 4h7v16h-7z"/><path d="M9 12h6M13 10l2 2-2 2"/></svg>' }) +
       '<span id="seamUi" hidden><span id="seamInfo" class="legend"></span> <button id="seamSave">Save</button></span>',
   layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
-  css: `#pieces img.sel{outline:2px solid #4cc9f0;opacity:.7;z-index:1}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
+  css: `#secTicks{position:absolute;pointer-events:none}#secTicks i{position:absolute;top:0;width:2px;margin-left:-1px;background:#e6e9ef;opacity:.55;border-radius:1px}#secTicks b{position:absolute;transform:translateX(-50%);font:600 10px/1 system-ui,sans-serif;color:#cfc8dc;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:3px}#secTicks b:hover{background:#b48cff;color:#160b26}#pieces img.sel{outline:2px solid #4cc9f0;opacity:.7;z-index:1}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
   // The level chosen sets the way the run follows: the whole mountain, or section by section
   // (section 15 belongs to both).
   onPick: (n) => {
@@ -239,6 +240,7 @@ page = mountRunPage({
     }
     document.getElementById('house').style.display = n === WHOLE ? '' : 'none';
     placeHouse();
+    setTimeout(sectionTicks);
   },
   onZoom: () => placeHouse(),
   onMouse: (x, y) => {
@@ -312,4 +314,46 @@ if (!PUBLIC) {
     if (!r.ok) { info.textContent = `not saved: ${await r.text()}`; return; }
     location.reload();
   };
+}
+
+// ---------------------------------------------------------------- the sections on the run's slider
+// On the whole mountain the slider runs over the whole run: a mark where each section starts, its
+// number under it (as the user counts them, from 1); a click on the number takes the run there.
+function sectionTicks() {
+  const seek = document.getElementById('tkSeek');
+  if (!seek) return;
+  let lay = document.getElementById('secTicks');
+  if (!lay) {
+    lay = document.createElement('div');
+    lay.id = 'secTicks';
+    seek.parentElement.style.position = 'relative';
+    seek.parentElement.append(lay);
+    new ResizeObserver(() => sectionTicks()).observe(seek);
+  }
+  const whole = spans.find((sp) => sp[0] === WHOLE);
+  if (!page || page.cur !== WHOLE || !whole || seek.offsetParent === null) { lay.hidden = true; return; }
+  lay.hidden = false;
+  const [, min, max] = whole;
+  // Where a value sits on the track: the thumb's centre runs from half a thumb in at each end.
+  const THUMB = 16;
+  Object.assign(lay.style, { left: seek.offsetLeft + 'px', top: seek.offsetTop + 'px', width: seek.offsetWidth + 'px', height: seek.offsetHeight + 'px' });
+  const at = (v) => THUMB / 2 + ((v - min) / (max - min)) * (seek.offsetWidth - THUMB);
+  lay.textContent = '';
+  for (const sp of spans) {
+    const s = sp[0] - 2;
+    if (sp[0] === WHOLE || s === APART || sp[1] < min || sp[1] > max) continue;
+    const x = at(sp[1]);
+    const line = document.createElement('i');
+    Object.assign(line.style, { left: x + 'px', height: seek.offsetHeight + 'px' });
+    const label = document.createElement('b');
+    label.textContent = String(s + 1);
+    label.title = `Section ${s + 1}${s === HOUSE ? ' — the house' : ''}`;
+    Object.assign(label.style, { left: x + 'px', top: seek.offsetHeight + 1 + 'px' });
+    label.onclick = () => {
+      seek.value = String(sp[1]);
+      seek.dispatchEvent(new Event('input'));
+      seek.dispatchEvent(new Event('change'));
+    };
+    lay.append(line, label);
+  }
 }
