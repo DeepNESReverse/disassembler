@@ -29,9 +29,50 @@ What made it line up:
 
 - **`$040A` = the section**, 0 at movie frame 984 up to 14 at 23 511 (15 sections). `$0404` is set
   to the next one a few frames before the switch (3474 → 1, … 23 494 → 14). `src/experiments/mono.py`.
-- **Camera X = `$40` (low) / `$41` (high)**, signed: every section starts at -8 ($FFF8). `$40` is
-  the first `$2005` write of every frame (`src/experiments/cam.py`, sections 0 and 11).
-- **`$42` = the first `$2005` Y write** (`src/experiments/cam.py`). Its high part on the vertical sections
-  (2, 12) is not found yet.
+- **The camera is `$18/$19` (X) and `$1A/$1B` (Y)**, 16-bit, in pixels of the section
+  (`src/experiments/camera-y.ts`, at the places check-place.ts found, §4). `$40/$41` = X - 8,
+  signed (every section starts at -8, $FFF8): the value the screen's left column is at, and the
+  first `$2005` X write of every frame; `$42` is the first `$2005` Y write, the Y wrapped into the
+  nametables (`src/experiments/cam.py`).
 - The picture has a status bar at the bottom, split by the MMC3 scanline IRQ (about one
   `$C000/$C001/$E000/$E001` set a frame).
+
+## 3. Where a section lies in the cartridge (`src/level.ts`)
+
+Found by following the nametable writes back (`src/vram-origins.ts`, `src/who-reads.ts`,
+`src/who-writes.ts`, frames 970-1100 of the TAS, the way into section 0):
+- The loader `$D42A` takes the section's 12-byte entry from the table at **CPU $C5E7** (fixed bank,
+  PRG $1C5E7), index `$0404`: width and height in tiles (words, → `$06F4`, `$06F6`; the layout's
+  row stride `$06F8` = width / 2), the CPU address of a 3-byte source entry (address, 16 KB PRG
+  bank), the background CHR (`$D514`: R0 = 2 × it, R1 = 2 × it + 2, so the field's 4 KB is CHR
+  2 KB bank × it), and five bytes not read yet.
+- The source is a chain of chunks, each a length word (itself included) and its bytes (`$D554`):
+  the layout (`$06EA`), the blocks' tiles (`$06ED`), the blocks' attributes (`$06F0`), a fourth
+  chunk (`$040D`, not read yet). Checked on all 15: the layout's length is exactly
+  columns × rows of blocks, the tiles' 4 × and the attributes' 1 × the highest block used + 1.
+- Blocks are 16 × 16: four tile numbers (top left, top right, bottom left, bottom right; the row
+  builder `$E440` takes the pair for the half it needs) and an attribute byte merged into the
+  attribute table with the quadrant's mask.
+- The banks: `$D58E` maps the 16 KB bank `$06EC` at $8000 (R6 = 2 × it, R7 = 2 × it + 1).
+
+`src/render.ts` → `out/levels/<nn>.png`: every section whole, with the CHR banks the PPU reads on
+line 100 and the palette, both at a frame of the TAS 150 frames into the section (the banks there
+are the header's, for all 15).
+
+| # | tiles | bank | chr |  | # | tiles | bank | chr |
+|---|---|---|---|---|---|---|---|---|
+| 0 | 320 × 48 | 0 | 0 | | 8 | 96 × 48 | 2 | 8 |
+| 1 | 320 × 48 | 0 | 0 | | 9 | 240 × 64 | 1 | 8 |
+| 2 | 40 × 128 | 0 | 0 | | 10 | 96 × 48 | 2 | 8 |
+| 3 | 320 × 48 | 1 | 2 | | 11 | 400 × 28 | 3 | 10 |
+| 4 | 320 × 48 | 1 | 2 | | 12 | 40 × 128 | 2 | 10 |
+| 5 | 64 × 32 | 2 | 4 | | 13 | 240 × 48 | 3 | 12 |
+| 6 | 320 × 48 | 2 | 6 | | 14 | 96 × 128 | 4 | 12 |
+| 7 | 80 × 96 | 2 | 6 | | | | | |
+
+## 4. The map against the game (first look)
+
+`src/check-place.ts`: the background the PPU drew (lines 0-175) is matched against the drawn
+section, x at `$40/$41` + dx, y anywhere. Sections 2 and 5: 0 of ~5000 sampled pixels differ, at
+dx 0. Section 0: dx -2 and 2-3 % differ while the camera moves — the frame is drawn with the
+camera of the frame before; the rest is not explained yet. The full tile-by-tile check is next.
