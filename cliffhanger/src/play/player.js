@@ -28,7 +28,9 @@ const WORLD = await (await fetch(LEVELS + 'world.json')).json();
 /** Per section the frame the player first moves (src/starts.ts): the tune's wait ends there. */
 const STARTS = await (await fetch(LEVELS + 'starts.json')).json();
 const HOUSE = WORLD.house.inside.section;
-const APART = WORLD.apart[0];
+// A section shown apart from the whole mountain (none now: section 14 is glued, by the user's word).
+const APART = WORLD.apart[0] ?? -1;
+const LAST = SECTIONS - 1;
 const WHOLE = 1;
 const levelOfSection = (s) => s + 2;
 /** Where a section's map lies on the world (section 14 is apart: its own level in both ways). */
@@ -136,9 +138,12 @@ const run = {
     const w0 = inWorld[0].a, w1 = inWorld[inWorld.length - 1].b;
     keptTotal = keptBefore[w1] - keptBefore[w0] + 1;
     const mk = (n, a, b, way) => Object.assign([n, a, b], { way });
-    // Section 14's runs on to the last frame: past a span's end the page goes to the next span in
-    // the array, which here would be section 0's (the cut after it ends the run instead).
-    spans = [mk(WHOLE, w0, w1, 'whole'), mk(levelOfSection(APART), apart[0].a, frames - 1, 'whole')];
+    // The last span of the whole mountain runs on to the last frame: past a span's end the page goes
+    // to the next span in the array, which here would be section 0's (the cut after the last
+    // stretch ends the run instead).
+    spans = apart.length
+      ? [mk(WHOLE, w0, w1, 'whole'), mk(levelOfSection(APART), apart[0].a, frames - 1, 'whole')]
+      : [mk(WHOLE, w0, frames - 1, 'whole')];
     // Section by section: from the end of the section before (the screens before it are its own;
     // the first from power-on), the last on to the run's end.
     const bySection = new Map();
@@ -301,8 +306,8 @@ page = mountRunPage({
   title: 'Cliffhanger',
   levelWord: 'map',
   levels: [
-    { n: WHOLE, label: 'The whole mountain (1-14)' },
-    ...Array.from({ length: SECTIONS }, (_, s) => ({ n: levelOfSection(s), label: `Section ${s + 1}${s === HOUSE ? ' — the house' : s === APART ? ' — the last fight' : ''}` })),
+    { n: WHOLE, label: `The whole mountain (1-${APART >= 0 ? APART : SECTIONS})` },
+    ...Array.from({ length: SECTIONS }, (_, s) => ({ n: levelOfSection(s), label: `Section ${s + 1}${s === HOUSE ? ' — the house' : s === LAST ? ' — the last fight' : ''}` })),
   ],
   image: (n) =>
     n === WHOLE

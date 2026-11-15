@@ -258,3 +258,10 @@ workshop page has a "seams" switch (never on the site): click a section of the w
 arrows move it (1 px, Shift 8 px) with every section after it, the moved one shows through; Save posts
 the joins moved (and set before) to the server (`POST /joins`), which writes the file and runs
 world.ts.
+
+Section 14 is glued too now (the user's word, 2026-11-16: "I will set it by hand"): no section is
+apart (`APART = -1` in world.ts, `apart: []` in world.json). It starts where its join puts it; a
+section the player does not start at the left of (14's start is x 568) goes at the edge, at the
+height the player leaves and enters, for the user to set by eye. Its map is still a level of its own
+section by section. The whole mountain's span then runs to the last frame (the cut after the last
+stretch ends the run).

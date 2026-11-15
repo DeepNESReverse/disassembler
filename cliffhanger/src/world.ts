@@ -24,7 +24,9 @@ import { SECTIONS, section } from './level.ts';
 import { overlap } from './overlap.ts';
 
 const HOUSE = 5;
-const APART = 14;
+// Section 14 was kept apart at first (it does not follow 13 by its look); the user glues it by hand
+// now (2026-11-16), so nothing is apart: -1.
+const APART = -1;
 
 // The player's place as each section is left (the frame $0404 changes).
 const exits = new Map<number, { x: number; y: number; frame: number }>();
@@ -53,7 +55,9 @@ for (let b = 1; b < SECTIONS; b++) {
   const B = secs[b];
   // Leaving section 4 the player goes into the house: its door stands for the edge.
   const out = exits.get(a)!;
-  const atEdge = out.x > A.width * 8 - 64 || a === HOUSE - 1;
+  // A section the player does not start at the left of (section 14, at x 568) goes at the edge too:
+  // where the player stood would lay it over most of the one before.
+  const atEdge = out.x > A.width * 8 - 64 || a === HOUSE - 1 || B.start.x > 64;
   let dx = atEdge ? A.width * 8 : Math.round(out.x - B.start.x);
   let dy = Math.round(out.y - B.start.y);
   let how = atEdge ? 'at the edge' : 'where the player stood';
@@ -92,7 +96,7 @@ inside.scale = outside.w / inside.w;
 
 const worldJson = JSON.stringify({
   about: 'The sections glued into one world (src/world.ts). pieces: each section\'s top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.',
-  w, h, pieces: placed, house: { outside, inside }, apart: [APART], joins,
+  w, h, pieces: placed, house: { outside, inside }, apart: APART >= 0 ? [APART] : [], joins,
 }, null, 1) + '\n';
 writeFileSync('data/world.json', worldJson);
 // The page reads it beside the maps.
