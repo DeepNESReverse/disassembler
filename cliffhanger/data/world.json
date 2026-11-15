@@ -1,40 +1,40 @@
 {
  "about": "The sections glued into one world (src/world.ts). pieces: each section's top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.",
  "w": 22262,
- "h": 1760,
+ "h": 1706,
  "pieces": [
   {
    "section": 0,
    "x": 0,
-   "y": 1376,
+   "y": 1322,
    "w": 2560,
    "h": 384
   },
   {
    "section": 1,
    "x": 2384,
-   "y": 1376,
+   "y": 1322,
    "w": 2560,
    "h": 384
   },
   {
    "section": 2,
    "x": 4944,
-   "y": 736,
+   "y": 682,
    "w": 320,
    "h": 1024
   },
   {
    "section": 3,
    "x": 5264,
-   "y": 557,
+   "y": 506,
    "w": 2560,
    "h": 384
   },
   {
    "section": 4,
    "x": 7824,
-   "y": 517,
+   "y": 506,
    "w": 2560,
    "h": 384
   },
@@ -98,16 +98,17 @@
  "house": {
   "outside": {
    "x": 10193,
-   "y": 646,
+   "y": 667,
    "w": 159,
-   "h": 113
+   "h": 79
   },
   "inside": {
    "section": 5,
    "w": 512,
    "h": 256,
-   "x": 10017,
-   "y": 575
+   "x": 10193,
+   "y": 667,
+   "scale": 0.310546875
   }
  },
  "apart": [
@@ -132,22 +133,22 @@
    "a": 2,
    "b": 3,
    "dx": 320,
-   "dy": -179,
-   "how": "at the edge"
+   "dy": -176,
+   "how": "the user's"
   },
   {
    "a": 3,
    "b": 4,
    "dx": 2560,
-   "dy": -40,
-   "how": "at the edge"
+   "dy": 0,
+   "how": "the user's"
   },
   {
    "a": 4,
    "b": 6,
    "dx": 2560,
-   "dy": 133,
-   "how": "at the edge"
+   "dy": 144,
+   "how": "the user's"
   },
   {
    "a": 6,

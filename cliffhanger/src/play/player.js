@@ -163,32 +163,49 @@ const run = {
     }
     ctx.putImageData(image, 0, 0);
     const o = page?.cur === WHOLE ? originOf(state[0]) : { x: 0, y: 0 };
-    run.last = { x: o.x + i16(state[2], state[3]), y: o.y + i16(state[4], state[5]) };
+    // In the house on the whole mountain the frame is scaled into the house's walls (onFrame).
+    const k = o.scale ?? 1;
+    run.last = { x: o.x + k * i16(state[2], state[3]), y: o.y + k * i16(state[4], state[5]) };
     return run.last;
   },
-  // The house: in, the view zooms in to 2× (if it was further out) and the inside fades in; out,
-  // the zoom it had comes back.
+  // The house: in, the inside fades in over its walls at their size, the run's frame scaled with
+  // it, and the view zooms so that the house fills the window (the follow paused, the house in the
+  // middle); out, the zoom and the follow come back.
   inHouse: false,
   zoomBefore: 0,
+  followBefore: true,
   onFrame() {
     const inside = state[0] === HOUSE && page?.cur === WHOLE;
+    const live = document.getElementById('live');
+    // The page sets the frame's transform each frame: the scale goes after it.
+    if (inside) live.style.transform += ` scale(${WORLD.house.inside.scale})`;
     if (inside === run.inHouse) return;
     run.inHouse = inside;
     document.getElementById('house').classList.toggle('on', inside);
-    if (!page || !document.getElementById('tkFollow')?.checked) return;
-    // Through the page's own zoom controls: the typed per cent leaves a fit; the button or the per
-    // cent the view had comes back.
+    // After the page's frame: onFrame runs inside it, before it scrolls by the zoom and follow it
+    // read at its start, which would undo these.
+    if (page) setTimeout(() => run.houseView(inside));
+  },
+  houseView(inside) {
+    const follow = document.getElementById('tkFollow');
     const zNum = document.getElementById('zNum');
+    const wrap = document.getElementById('wrap');
     const setPct = (v) => { zNum.value = String(v); zNum.dispatchEvent(new Event('change')); };
     if (inside) {
       const on = document.querySelector('[data-z].on');
       run.zoomBefore = on ? on.dataset.z : Math.round(page.z * 100);
-      if (page.z < 2) setPct(200);
-    } else if (run.zoomBefore) {
+      run.followBefore = follow.checked;
+      follow.checked = false;
+      const h = WORLD.house.outside;
+      // As near as the page zooms (4× at most) to the house filling the window.
+      setPct(Math.floor(Math.min(wrap.clientWidth / h.w, wrap.clientHeight / h.h) * 0.92 * 100));
+      wrap.scrollTo((h.x + h.w / 2) * page.z - wrap.clientWidth / 2, (h.y + h.h / 2) * page.z - wrap.clientHeight / 2);
+    } else {
+      follow.checked = run.followBefore;
       const was = run.zoomBefore;
       run.zoomBefore = 0;
       if (typeof was === 'string') document.querySelector(`[data-z="${was}"]`).click();
-      else setPct(was);
+      else if (was) setPct(was);
     }
   },
   writesOf(f, each) {
@@ -230,7 +247,7 @@ page = mountRunPage({
     : iconToggle({ id: 'seamBox', label: 'seams', colour: '#4cc9f0', title: 'Set the seams by eye: click a section of the whole mountain, move it with the arrows (1 px; with Shift 8 px) — the sections after it move along — then Save', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7v16H4zM13 4h7v16h-7z"/><path d="M9 12h6M13 10l2 2-2 2"/></svg>' }) +
       '<span id="seamUi" hidden><span id="seamInfo" class="legend"></span> <button id="seamSave">Save</button></span>',
   layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
-  css: `#secTicks{position:absolute;pointer-events:none}#secTicks i{position:absolute;top:0;width:2px;margin-left:-1px;background:#e6e9ef;opacity:.55;border-radius:1px}#secTicks b{position:absolute;transform:translateX(-50%);font:600 10px/1 system-ui,sans-serif;color:#cfc8dc;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:3px}#secTicks b:hover{background:#b48cff;color:#160b26}#pieces img.sel{outline:2px solid #4cc9f0;opacity:.7;z-index:1}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
+  css: `#live{transform-origin:0 0}#secTicks{position:absolute;pointer-events:none}#secTicks i{position:absolute;top:0;width:2px;margin-left:-1px;background:#e6e9ef;opacity:.55;border-radius:1px}#secTicks b{position:absolute;transform:translateX(-50%);font:600 10px/1 system-ui,sans-serif;color:#cfc8dc;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:3px}#secTicks b:hover{background:#b48cff;color:#160b26}#pieces img.sel{outline:2px solid #4cc9f0;opacity:.7;z-index:1}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
   // The level chosen sets the way the run follows: the whole mountain, or section by section
   // (section 15 belongs to both).
   onPick: (n) => {
@@ -255,7 +272,7 @@ function placeHouse() {
   const im = document.getElementById('houseIn');
   const r = WORLD.house.inside;
   im.src = mapOf(HOUSE);
-  Object.assign(im.style, { left: r.x * page.z + 'px', top: r.y * page.z + 'px', width: r.w * page.z + 'px' });
+  Object.assign(im.style, { left: r.x * page.z + 'px', top: r.y * page.z + 'px', width: r.w * r.scale * page.z + 'px' });
 }
 placeHouse();
 

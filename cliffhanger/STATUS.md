@@ -208,7 +208,9 @@ to 25 112, the boss's fall. (`fceux/movie_tail.lua`, recording FCEUX past the mo
 section where the player, leaving the one before, stands on the same spot at its start (§6); when they
 leave near the right edge the next one starts at that edge. By the user's word the house (section 5)
 is not in the row: sections 4 and 6 are glued to each other, and the house's inside is laid over its
-outside in section 4 (x 2369-2527, y 129-241 of 04.png) at its own size; section 14 does not follow
+outside in section 4: into its log walls (x 2369-2527, y 161-240 of 04.png, under the roof's snow,
+measured off the picture), 159 × 79, at 159/512 — the inside, 512 × 256, is the walls' shape (the
+user asked for it exactly the house's size, 2026-11-16); section 14 does not follow
 13 and is a map of its own. The world is 22 438 × 1 766. 10 → 11 is the one join not at an edge (the
 player leaves section 10 at x 598 of 768): 11 overlaps 10 there, not looked at closely yet.
 
@@ -220,8 +222,10 @@ local) and every section alone (section 15 only so). The run follows the way cho
 there both ways, and choosing a level puts that way's spans first (the page takes the first span
 that holds a frame). `out/levels/tas-world.json`: level 1 the world, s + 2 section s. On the whole
 mountain the run's slider has a mark where each section starts, its number under it (from 1, as the
-user counts); a click on the number takes the run there (the user's idea, 2026-11-15). While the run is in the house the view zooms to
-200 %, the world dims and the inside fades in over the house; out, the zoom it had comes back. The
+user counts); a click on the number takes the run there (the user's idea, 2026-11-15). While the run is in the house the inside fades in over the walls, the run's frame scaled with it
+(a `scale` after the page's transform), the world dims, and the view zooms to the house (to fill the
+window; the page stops at 400 %) with the follow paused; out, both come back. This is done after the
+page's frame (onFrame runs inside it, and the page then scrolls by the zoom it read at the start). The
 objects are drawn on the maps (a switch). Checked in the browser.
 
 ## 13. The seams

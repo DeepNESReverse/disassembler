@@ -81,13 +81,14 @@ for (const p of placed) (p.x -= minX), (p.y -= minY);
 const w = Math.max(...placed.map((p) => p.x + p.w));
 const h = Math.max(...placed.map((p) => p.y + p.h));
 
-// The house's outside in section 4 (its log walls and roof, out/levels/04.png: x 2369-2527,
-// y 129-241) and its inside laid over it, centred, at its own size.
+// The house's outside in section 4: its log walls (out/levels/04.png: x 2369-2527, y 161-240, below
+// the snow of the roof, measured off the picture), 159 × 79. Its inside (section 5, 512 × 256) is
+// the same shape at 159/512: laid into the walls at that scale, by the user's word — "exactly the
+// size of the house".
 const s4 = placed.find((p) => p.section === HOUSE - 1)!;
-const outside = { x: s4.x + 2369, y: s4.y + 129, w: 159, h: 113 };
-const inside = { section: HOUSE, w: secs[HOUSE].width * 8, h: secs[HOUSE].height * 8, x: 0, y: 0 };
-inside.x = Math.round(outside.x + outside.w / 2 - inside.w / 2);
-inside.y = Math.round(outside.y + outside.h / 2 - inside.h / 2);
+const outside = { x: s4.x + 2369, y: s4.y + 161, w: 159, h: 79 };
+const inside = { section: HOUSE, w: secs[HOUSE].width * 8, h: secs[HOUSE].height * 8, x: outside.x, y: outside.y, scale: 0 };
+inside.scale = outside.w / inside.w;
 
 const worldJson = JSON.stringify({
   about: 'The sections glued into one world (src/world.ts). pieces: each section\'s top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.',
@@ -104,7 +105,7 @@ console.log(`  house: outside ${JSON.stringify(outside)}, inside at ${inside.x},
 // the world (the house's inside where it is laid), level s + 2 section s alone.
 if (existsSync('out/levels/tas.json')) {
   const tas = JSON.parse(readFileSync('out/levels/tas.json', 'utf8'));
-  const at = new Map<number, { x: number; y: number }>(placed.map((p) => [p.section, p]));
+  const at = new Map<number, { x: number; y: number; scale?: number }>(placed.map((p) => [p.section, p]));
   at.set(HOUSE, inside);
   const world = { segments: [] as number[][][], frames: 0 };
   const levels: Record<number, { segments: number[][][]; frames: number }> = { 1: world };
@@ -114,7 +115,8 @@ if (existsSync('out/levels/tas.json')) {
     if (s === APART) continue;
     const o = at.get(s)!;
     world.frames += lv.frames;
-    for (const seg of lv.segments) world.segments.push(seg.map(([x, y, f]) => [x + o.x, y + o.y, f]));
+    const k = o.scale ?? 1;
+    for (const seg of lv.segments) world.segments.push(seg.map(([x, y, f]) => [o.x + x * k, o.y + y * k, f]));
   }
   writeFileSync('out/levels/tas-world.json', JSON.stringify({ source: tas.source, levels }) + '\n');
 }
