@@ -8,6 +8,12 @@
  * start (its header, level.ts). When the player leaves near the right edge (as they mostly do,
  * story screen or not), the next section starts at that edge; otherwise where the player stood.
  *
+ * Better than the player's spot: the same ground on both maps. The game repeats a section's end at
+ * the next one's start (section 0's last screen is section 1's first), so where overlap.ts finds
+ * the two maps' tiles the same over at least 30 % of what overlaps, the next section lies there,
+ * over the end of the one before. And best of all the user's own: data/joins-user.json, the seams
+ * set by eye on the page (its "seams" switch), { "a-b": { dx, dy } }, taken as they are.
+ *
  * Kept apart, by the user's word: the house (section 5, "дом") — sections 4 and 6 are glued to each
  * other, and the house's inside is laid over its outside in section 4 while the run is in it — and
  * section 14, which does not follow section 13.
@@ -15,6 +21,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { readCapture } from './capture.ts';
 import { SECTIONS, section } from './level.ts';
+import { overlap } from './overlap.ts';
 
 const HOUSE = 5;
 const APART = 14;
@@ -34,6 +41,9 @@ for (const c of readCapture()) {
 }
 
 const secs = Array.from({ length: SECTIONS }, (_, i) => section(i));
+const userJoins: Record<string, { dx: number; dy: number }> = existsSync('data/joins-user.json')
+  ? JSON.parse(readFileSync('data/joins-user.json', 'utf8'))
+  : {};
 const origin = new Map<number, { x: number; y: number }>([[0, { x: 0, y: 0 }]]);
 const joins: { a: number; b: number; dx: number; dy: number; how: string }[] = [];
 let a = 0;
@@ -44,11 +54,22 @@ for (let b = 1; b < SECTIONS; b++) {
   // Leaving section 4 the player goes into the house: its door stands for the edge.
   const out = exits.get(a)!;
   const atEdge = out.x > A.width * 8 - 64 || a === HOUSE - 1;
-  const dx = atEdge ? A.width * 8 : Math.round(out.x - B.start.x);
-  const dy = Math.round(out.y - B.start.y);
+  let dx = atEdge ? A.width * 8 : Math.round(out.x - B.start.x);
+  let dy = Math.round(out.y - B.start.y);
+  let how = atEdge ? 'at the edge' : 'where the player stood';
+  const fit = overlap(a, b, { dx, dy });
+  if (fit && fit.score >= 0.3) {
+    ({ dx, dy } = fit);
+    how = `the same ground (${fit.same} of ${fit.compared} tiles)`;
+  }
+  const mine = userJoins[`${a}-${b}`];
+  if (mine) {
+    ({ dx, dy } = mine);
+    how = "the user's";
+  }
   const o = origin.get(a)!;
   origin.set(b, { x: o.x + dx, y: o.y + dy });
-  joins.push({ a, b, dx, dy, how: atEdge ? 'at the edge' : 'where the player stood' });
+  joins.push({ a, b, dx, dy, how });
   a = b;
 }
 

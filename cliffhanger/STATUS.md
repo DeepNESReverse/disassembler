@@ -221,3 +221,21 @@ there both ways, and choosing a level puts that way's spans first (the page take
 that holds a frame). `out/levels/tas-world.json`: level 1 the world, s + 2 section s. While the run is in the house the view zooms to
 200 %, the world dims and the inside fades in over the house; out, the zoom it had comes back. The
 objects are drawn on the maps (a switch). Checked in the browser.
+
+## 13. The seams
+
+The user saw it (2026-11-15): the end of section 0 and the start of section 1 are the same ground —
+the game repeats a section's end at the next one's start, so a seam is an overlap, not an edge.
+`src/overlap.ts` cuts two maps into 8 × 8 tiles (a hash of each one's pixels) and tries the next map
+at every tile offset near a guess; an offset scores by the share of overlapping tiles the same,
+leaving out tiles of one colour in both. 0 → 1: (2384, 0), 181 of 492 tiles the same — the cliff's
+edge at section 1's x 16 on section 0's x 2400, its ledges at the same heights; the trees, clouds and
+far mountains are laid out anew, hence 37 %. The other joins score 0-15 % (different trees, palettes):
+not taken.
+
+So the seams are set by eye. `src/world.ts` takes, in order: the user's (`data/joins-user.json`,
+`{ "a-b": { dx, dy } }`), the same ground when overlap.ts scores 30 % or more, the player's spot. The
+workshop page has a "seams" switch (never on the site): click a section of the whole mountain, the
+arrows move it (8 px, Shift 1 px) with every section after it, the moved one shows through; Save posts
+the joins moved (and set before) to the server (`POST /joins`), which writes the file and runs
+world.ts.

@@ -1,95 +1,95 @@
 {
  "about": "The sections glued into one world (src/world.ts). pieces: each section's top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.",
- "w": 22438,
- "h": 1766,
+ "w": 22262,
+ "h": 1765,
  "pieces": [
   {
    "section": 0,
    "x": 0,
-   "y": 1382,
+   "y": 1381,
    "w": 2560,
    "h": 384
   },
   {
    "section": 1,
-   "x": 2560,
+   "x": 2384,
    "y": 1381,
    "w": 2560,
    "h": 384
   },
   {
    "section": 2,
-   "x": 5120,
+   "x": 4944,
    "y": 736,
    "w": 320,
    "h": 1024
   },
   {
    "section": 3,
-   "x": 5440,
+   "x": 5264,
    "y": 557,
    "w": 2560,
    "h": 384
   },
   {
    "section": 4,
-   "x": 8000,
+   "x": 7824,
    "y": 517,
    "w": 2560,
    "h": 384
   },
   {
    "section": 6,
-   "x": 10560,
+   "x": 10384,
    "y": 650,
    "w": 2560,
    "h": 384
   },
   {
    "section": 7,
-   "x": 13120,
+   "x": 12944,
    "y": 775,
    "w": 640,
    "h": 768
   },
   {
    "section": 8,
-   "x": 13760,
+   "x": 13584,
    "y": 921,
    "w": 768,
    "h": 384
   },
   {
    "section": 9,
-   "x": 14528,
+   "x": 14352,
    "y": 922,
    "w": 1920,
    "h": 512
   },
   {
    "section": 10,
-   "x": 16448,
+   "x": 16272,
    "y": 891,
    "w": 768,
    "h": 384
   },
   {
    "section": 11,
-   "x": 16998,
+   "x": 16822,
    "y": 1013,
    "w": 3200,
    "h": 224
   },
   {
    "section": 12,
-   "x": 20198,
+   "x": 20022,
    "y": 207,
    "w": 320,
    "h": 1024
   },
   {
    "section": 13,
-   "x": 20518,
+   "x": 20342,
    "y": 0,
    "w": 1920,
    "h": 384
@@ -97,7 +97,7 @@
  ],
  "house": {
   "outside": {
-   "x": 10369,
+   "x": 10193,
    "y": 646,
    "w": 159,
    "h": 113
@@ -106,7 +106,7 @@
    "section": 5,
    "w": 512,
    "h": 256,
-   "x": 10193,
+   "x": 10017,
    "y": 575
   }
  },
@@ -117,9 +117,9 @@
   {
    "a": 0,
    "b": 1,
-   "dx": 2560,
-   "dy": -1,
-   "how": "at the edge"
+   "dx": 2384,
+   "dy": 0,
+   "how": "the same ground (181 of 492 tiles)"
   },
   {
    "a": 1,
