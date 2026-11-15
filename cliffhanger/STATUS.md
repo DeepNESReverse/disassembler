@@ -159,3 +159,52 @@ The objects (enemies, money) are not found yet.
   d3ae9e3, the header in two bands) with this run's adapter — the field drawn as the PPU draws it
   through the frame's MMC3 banks, laid on the map at the camera. Checked in the browser: sections 1
   and 3 (vertical) play with the frame seamless on the map.
+
+## 10. The PPU's open bus (the end of the movie)
+
+From movie frame 24 914 this NES took another way: the player, standing at the right edge of
+section 14, fell and the section restarted, while in FCEUX they stood (`src/experiments/end-compare.ts`
+— the RAM the same up to 24 913, then the object loop `$E838` and a restart here only). The floor
+walker (`$CF32/$CF69`, §8) runs off the end of the section's floor table there and reads `$3A13…`,
+mirrors of the PPU's registers (`src/experiments/io-reads.ts`). FCEUX answers a write-only PPU
+register with its I/O latch (PPUGenLatch: the last value written to or read from the PPU),
+`$2002` with that latch in its low 5 bits, `$2004` with the sprite memory; xrom-libs' NES answers 0.
+`src/machine.ts` now keeps that latch (around the NES, which is not changed). With it the whole movie
+is in step to its last frame: 61 frames with 1-4 cells apart for a frame (sync.ts), none after 24 913.
+
+The movie ends at 24 948 with the last boss alive; played on with nothing pressed, here the boss
+kills the player three times (`runs/after.png`). Whether FCEUX does the same is not known yet:
+`fceux/movie_tail.lua` records the movie's end and 3 000 frames after it.
+
+## 11. The objects
+
+`src/objects.ts` → `out/levels/objects.json`, `src/objects-draw.ts` → `out/levels/<nn>-objects.png`.
+- A word per section at CPU `$AD5C` in bank 5 (PRG $16D5C, index `$040A`; `$D9E2` reads it into
+  `$051E/$051F`; 0 for sections 2, 7, 14) points to 9-byte entries: flags ($09, $29, $A9, copied to the
+  slot's first byte), kind, X in tiles (word), Y in tiles as 8.8, three bytes not read. Their number is
+  the first byte of a second list (a word per section at `$C69B` into bank 5, `$051D`; its 5-byte
+  entries, X, Y and an index, are copied to `$0423` on). 217 objects in all.
+- Five object slots of `$1F` bytes follow the player's (`$0614`): byte 0 flags (bit 0 on), X at +2/+3
+  and Y at +9/+10 like the player's. The spawner `$DAA7-$DC43` fills a slot from an entry and its kind's
+  template (PRG $17618 on); each frame `$E853` copies a slot to `$1C-$31`, `$E8CA` back.
+- The look of a kind is read off the run: for each entry the run spawns (a slot coming on at its
+  place), the sprites around it on the first frame it is wholly on the field, the player's left out;
+  per section and kind the commonest, with that frame's CHR banks. 50 looks; a kind the run never
+  shows in a section borrows another section's look; 11 objects of kinds the run never shows at all
+  are not drawn (0:f 0:1d 3:10 5:1a 5:1e 6:ff ×2 12:1f 12:13 13:17 13:ff).
+
+## 12. One world
+
+`src/world.ts` → `data/world.json` (and `out/levels/world.json`, `out/levels/tas-world.json`): each
+section where the player, leaving the one before, stands on the same spot at its start (§6); when they
+leave near the right edge the next one starts at that edge. By the user's word the house (section 5)
+is not in the row: sections 4 and 6 are glued to each other, and the house's inside is laid over its
+outside in section 4 (x 2369-2527, y 129-241 of 04.png) at its own size; section 14 does not follow
+13 and is a map of its own. The world is 22 438 × 1 766. 10 → 11 is the one join not at an edge (the
+player leaves section 10 at x 598 of 768): 11 overlaps 10 there, not looked at closely yet.
+
+The page (`src/play/player.js`): two maps, the mountain (sections 1-14 as the user counts them, a
+level of 13 pieces: maps-run's `image` may now give `{ w, h, pieces }`, libs/maps-run commit
+"A level made of several maps", local) and section 15. While the run is in the house the view zooms to
+200 %, the world dims and the inside fades in over the house; out, the zoom it had comes back. The
+objects are drawn on the maps (a switch). Checked in the browser.

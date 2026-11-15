@@ -36,6 +36,9 @@ export class Machine {
   /** PPUMASK and PPUCTRL each visible line was drawn with. */
   readonly lineMask = new Uint8Array(240);
   readonly lineCtrl = new Uint8Array(240);
+  /** The PPU's I/O bus (FCEUX's PPUGenLatch) and the sprite address, for the reads the NES lacks. */
+  ppuLatch = 0;
+  oamAddr = 0;
 
   /** `file`: the iNES file's bytes (Node: `romFile()` from rom.ts; the browser: fetched). */
   constructor(file: Uint8Array) {
@@ -47,14 +50,33 @@ export class Machine {
     this.ram = n.ram;
     const read = n.read.bind(n);
     const write = n.write.bind(n);
+    // The PPU's open bus as FCEUX has it (its PPUGenLatch; nes-explorer's core does the same): every
+    // write to a PPU register leaves its value on the bus, `$2002` fills its low 5 bits from it,
+    // `$2004` reads the sprite memory, and the write-only registers read the bus back. xrom-libs'
+    // NES reads them as 0. Cliffhanger reads them when its floor walker runs off the end of a
+    // section's floor table (`$CF32`, the player at the right edge of section 14): there FCEUX's
+    // bus gave the player a floor and 0 let them fall (STATUS §10).
+    const oam = (this.nes as unknown as { oam: Uint8Array }).oam;
     n.read = (a) => {
       const pin = a < 0x2000 ? this.pins.get(a & 0x7ff) : undefined;
-      const v = pin ?? read(a);
+      let v = pin ?? read(a);
+      if (a >= 0x2000 && a < 0x4000) {
+        const r = a & 7;
+        if (r === 2) v = (v & 0xe0) | (this.ppuLatch & 0x1f);
+        else if (r === 4) v = oam[this.oamAddr];
+        else if (r !== 7) v = this.ppuLatch;
+        this.ppuLatch = v;
+      }
       this.hooks.read?.(a, v);
       return v;
     };
     n.write = (a, v) => {
       this.hooks.write?.(a, v);
+      if (a >= 0x2000 && a < 0x4000) {
+        this.ppuLatch = v;
+        if ((a & 7) === 3) this.oamAddr = v;
+        else if ((a & 7) === 4) this.oamAddr = (this.oamAddr + 1) & 0xff;
+      }
       write(a, v);
     };
     // The scroll each visible line is drawn with: x and y in the 512 × 480 nametable plane.

@@ -31,12 +31,29 @@ export class Run {
   /** The movie frame the last line 241 ended. */
   frame = FIRST - 1;
 
+  /**
+   * FCEUX's RAM per movie frame, laid over this NES's at the frame's line 241 from `overlayFrom`
+   * on. Needed from movie frame 24 913, where this NES, a little ahead of FCEUX in the last
+   * fight, takes another way (STATUS §10).
+   */
+  overlay: Map<number, Uint8Array> | null = null;
+  overlayFrom = Infinity;
+
   constructor(m = new Machine(romFile())) {
     this.m = m;
     m.nes.beforeVblank = () => {
       this.frame++;
+      const theirs = this.frame >= this.overlayFrom ? this.overlay?.get(this.frame) : undefined;
+      if (theirs) m.ram.set(theirs);
       m.nes.buttons = this.pads[this.frame] ?? 0; // movie frame frame + 1 is line `frame`
     };
+  }
+
+  /** Follow the FCEUX capture's RAM from movie frame `from` on (see `overlay`). */
+  follow(capture: Iterable<{ frame: number; ram: Uint8Array }>, from: number) {
+    this.overlay = new Map();
+    for (const c of capture) if (c.frame >= from) this.overlay.set(c.frame, c.ram.slice());
+    this.overlayFrom = from;
   }
 
   /** Run until movie frame `f` has ended and its picture is drawn. */

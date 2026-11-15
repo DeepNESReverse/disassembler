@@ -1,0 +1,202 @@
+{
+ "about": "The sections glued into one world (src/world.ts). pieces: each section's top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.",
+ "w": 22438,
+ "h": 1766,
+ "pieces": [
+  {
+   "section": 0,
+   "x": 0,
+   "y": 1382,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 1,
+   "x": 2560,
+   "y": 1381,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 2,
+   "x": 5120,
+   "y": 736,
+   "w": 320,
+   "h": 1024
+  },
+  {
+   "section": 3,
+   "x": 5440,
+   "y": 557,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 4,
+   "x": 8000,
+   "y": 517,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 6,
+   "x": 10560,
+   "y": 650,
+   "w": 2560,
+   "h": 384
+  },
+  {
+   "section": 7,
+   "x": 13120,
+   "y": 775,
+   "w": 640,
+   "h": 768
+  },
+  {
+   "section": 8,
+   "x": 13760,
+   "y": 921,
+   "w": 768,
+   "h": 384
+  },
+  {
+   "section": 9,
+   "x": 14528,
+   "y": 922,
+   "w": 1920,
+   "h": 512
+  },
+  {
+   "section": 10,
+   "x": 16448,
+   "y": 891,
+   "w": 768,
+   "h": 384
+  },
+  {
+   "section": 11,
+   "x": 16998,
+   "y": 1013,
+   "w": 3200,
+   "h": 224
+  },
+  {
+   "section": 12,
+   "x": 20198,
+   "y": 207,
+   "w": 320,
+   "h": 1024
+  },
+  {
+   "section": 13,
+   "x": 20518,
+   "y": 0,
+   "w": 1920,
+   "h": 384
+  }
+ ],
+ "house": {
+  "outside": {
+   "x": 10369,
+   "y": 646,
+   "w": 159,
+   "h": 113
+  },
+  "inside": {
+   "section": 5,
+   "w": 512,
+   "h": 256,
+   "x": 10193,
+   "y": 575
+  }
+ },
+ "apart": [
+  14
+ ],
+ "joins": [
+  {
+   "a": 0,
+   "b": 1,
+   "dx": 2560,
+   "dy": -1,
+   "how": "at the edge"
+  },
+  {
+   "a": 1,
+   "b": 2,
+   "dx": 2560,
+   "dy": -645,
+   "how": "at the edge"
+  },
+  {
+   "a": 2,
+   "b": 3,
+   "dx": 320,
+   "dy": -179,
+   "how": "at the edge"
+  },
+  {
+   "a": 3,
+   "b": 4,
+   "dx": 2560,
+   "dy": -40,
+   "how": "at the edge"
+  },
+  {
+   "a": 4,
+   "b": 6,
+   "dx": 2560,
+   "dy": 133,
+   "how": "at the edge"
+  },
+  {
+   "a": 6,
+   "b": 7,
+   "dx": 2560,
+   "dy": 125,
+   "how": "at the edge"
+  },
+  {
+   "a": 7,
+   "b": 8,
+   "dx": 640,
+   "dy": 146,
+   "how": "at the edge"
+  },
+  {
+   "a": 8,
+   "b": 9,
+   "dx": 768,
+   "dy": 1,
+   "how": "at the edge"
+  },
+  {
+   "a": 9,
+   "b": 10,
+   "dx": 1920,
+   "dy": -31,
+   "how": "at the edge"
+  },
+  {
+   "a": 10,
+   "b": 11,
+   "dx": 550,
+   "dy": 122,
+   "how": "where the player stood"
+  },
+  {
+   "a": 11,
+   "b": 12,
+   "dx": 3200,
+   "dy": -806,
+   "how": "at the edge"
+  },
+  {
+   "a": 12,
+   "b": 13,
+   "dx": 320,
+   "dy": -207,
+   "how": "at the edge"
+  }
+ ]
+}

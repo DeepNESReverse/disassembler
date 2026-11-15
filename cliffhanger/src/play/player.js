@@ -4,9 +4,14 @@
 // the scroll of the field's first line, the MMC3's CHR banks, the sprite memory, the palette and
 // the four nametables, and the sound chip's writes with their owner. The field (the 256 × 176
 // above the status bar) is drawn as the PPU draws it and laid on the map at the camera.
+//
+// The maps are one world (src/world.ts → world.json): every section where the run goes on from the
+// one before, but section 14, apart. The house (section 5) is laid over its outside in section 4:
+// while the run is in it the view zooms in, the world dims and the inside fades in over the house.
+// The objects (src/objects.ts) are drawn on the maps, always there (a switch).
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage } from '/src/maps-run/run-page.js';
+import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
 
 const W = 256, H = 176;
 const OAM = 32, PAL = 288, NT = 320;
@@ -17,6 +22,16 @@ let chr, data, frames, size, offsets, keys, state;
 const PUBLIC = !!window.CART_PACK;
 /** The maps, the run and the path: out/levels in the workshop, beside the page when public. */
 const LEVELS = PUBLIC ? '' : '/levels/';
+const WORLD = await (await fetch(LEVELS + 'world.json')).json();
+const HOUSE = WORLD.house.inside.section;
+const APART = WORLD.apart[0];
+/** The page's level of a section: 1 the world, 2 the section apart. */
+const levelOf = (s) => (s === APART ? 2 : 1);
+/** Where a section's map lies on its level. */
+const originOf = (s) => (s === HOUSE ? WORLD.house.inside : s === APART ? { x: 0, y: 0 } : WORLD.pieces.find((p) => p.section === s));
+const nn = (s) => String(s).padStart(2, '0');
+const withObjects = () => document.getElementById('objBox')?.checked !== false;
+const mapOf = (s) => `${LEVELS}${nn(s)}${withObjects() ? '-objects' : ''}.png`;
 
 async function gunzip(url) {
   const res = await fetch(url);
@@ -50,11 +65,12 @@ const run = {
       for (let k = 0; k < count; k++, o += 3) s[data[o] | (data[o + 1] << 8)] = data[o + 2];
       o += 2 + 2 * (data[o] | (data[o + 1] << 8));
       if (f % 600 === 0) keys.push(s.slice());
-      // A section is shown from its first frame with the field on the map to its last.
+      // A level is shown from its first frame with the field on the map to its last.
       if (s[1]) {
-        const span = spans.get(s[0]) ?? [s[0] + 1, f, f];
+        const n = levelOf(s[0]);
+        const span = spans.get(n) ?? [n, f, f];
         span[2] = f;
-        spans.set(s[0], span);
+        spans.set(n, span);
       }
     }
     return { frames, spans: [...spans.values()].sort((a, b) => a[0] - b[0]) };
@@ -128,8 +144,34 @@ const run = {
       }
     }
     ctx.putImageData(image, 0, 0);
-    run.last = { x: i16(state[2], state[3]), y: i16(state[4], state[5]) };
+    const o = originOf(state[0]);
+    run.last = { x: o.x + i16(state[2], state[3]), y: o.y + i16(state[4], state[5]) };
     return run.last;
+  },
+  // The house: in, the view zooms in to 2× (if it was further out) and the inside fades in; out,
+  // the zoom it had comes back.
+  inHouse: false,
+  zoomBefore: 0,
+  onFrame() {
+    const inside = state[0] === HOUSE;
+    if (inside === run.inHouse) return;
+    run.inHouse = inside;
+    document.getElementById('house').classList.toggle('on', inside);
+    if (!page || !document.getElementById('tkFollow')?.checked) return;
+    // Through the page's own zoom controls: the typed per cent leaves a fit; the button or the per
+    // cent the view had comes back.
+    const zNum = document.getElementById('zNum');
+    const setPct = (v) => { zNum.value = String(v); zNum.dispatchEvent(new Event('change')); };
+    if (inside) {
+      const on = document.querySelector('[data-z].on');
+      run.zoomBefore = on ? on.dataset.z : Math.round(page.z * 100);
+      if (page.z < 2) setPct(200);
+    } else if (run.zoomBefore) {
+      const was = run.zoomBefore;
+      run.zoomBefore = 0;
+      if (typeof was === 'string') document.querySelector(`[data-z="${was}"]`).click();
+      else setPct(was);
+    }
   },
   writesOf(f, each) {
     let p = offsets[f];
@@ -140,21 +182,49 @@ const run = {
   },
 };
 
-mountRunPage({
+// Set by mountRunPage's return; its hooks may run before (the first level is picked in it).
+let page = null;
+page = mountRunPage({
   title: 'Cliffhanger',
-  levelWord: 'section',
-  levels: Array.from({ length: SECTIONS }, (_, i) => ({ n: i + 1, label: `Section ${i + 1}` })),
-  image: (n) => `${LEVELS}${String(n - 1).padStart(2, '0')}.png`,
+  levelWord: 'map',
+  levels: [
+    { n: 1, label: 'The mountain — sections 1-14' },
+    { n: 2, label: 'Section 15 — the last fight' },
+  ],
+  image: (n) =>
+    n === 2
+      ? mapOf(APART)
+      : { w: WORLD.w, h: WORLD.h, pieces: WORLD.pieces.map((p) => ({ src: mapOf(p.section), x: p.x, y: p.y, w: p.w, h: p.h })) },
   field: { w: W, h: H },
   zoom: 'fith',
   run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
   runName: 'klmz’s TAS',
-  trail: { url: LEVELS + 'tas.json', label: 'route', title: 'TAS by klmz, played from power-on in FCEUX and replayed here frame for frame: the player&#39;s way through each section' },
+  trail: { url: LEVELS + 'tas-world.json', label: 'route', title: 'TAS by klmz, played from power-on in FCEUX and replayed here frame for frame: the player&#39;s way through the mountain' },
   runTitle: 'klmz&#39;s TAS as the game plays it: the camera window shows the game&#39;s frame (the field as the PPU draws it, from our replay of the movie)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s channel writes (PRG $C000-$C3FF)',
   effectsTitle: 'The sound effects: the effect player&#39;s writes (PRG $D100-$D3FF), which take a channel from the music while they sound',
-  onMouse: (x, y) => { document.getElementById('pos').textContent = `x ${x} y ${y} · tile ${x >> 3},${y >> 3} · block ${x >> 4},${y >> 4}`; },
+  headerHtml: iconToggle({ id: 'objBox', label: 'objects', colour: '#ffd166', checked: true, title: 'Every object of the cartridge&#39;s lists — money, enemies, birds, boulders — where the game puts it, drawn as the run shows it', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8l3 4-1 9H6l-1-9z"/><path d="M9 7l1-3h4l1 3"/><path d="M10 14h4M12 12v4"/></svg>' }),
+  // The house's inside over its outside, under the run's frame; the world dims around it.
+  layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
+  css: `#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
+  onPick: (n) => { document.getElementById('house').style.display = n === 1 ? '' : 'none'; placeHouse(); },
+  onZoom: () => placeHouse(),
+  onMouse: (x, y) => {
+    const p = WORLD.pieces.find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
+    const where = page.cur === 2 ? `section ${APART + 1} · x ${x} y ${y}` : p ? `section ${p.section + 1} · x ${x - p.x} y ${y - p.y}` : `world x ${x} y ${y}`;
+    document.getElementById('pos').textContent = where;
+  },
 });
+
+function placeHouse() {
+  if (!page) return;
+  const im = document.getElementById('houseIn');
+  const r = WORLD.house.inside;
+  im.src = mapOf(HOUSE);
+  Object.assign(im.style, { left: r.x * page.z + 'px', top: r.y * page.z + 'px', width: r.w * page.z + 'px' });
+}
+placeHouse();
+document.getElementById('objBox').onchange = () => { page.pick(page.cur); placeHouse(); };
