@@ -1,0 +1,13 @@
+{
+  "about": "Where section b lies against section a when the two are glued into one world: b's origin in a's pixels. From the player's position as a is left (the capture's $0616/$0617 and $061D/$061E on the frame $0404 changes; X is kept mod 2048 px and is put back next to the camera) and b's start in its header, so that the player stands on the same spot. Pairs with a story screen between them are not joined. 'seam' is how it looks (runs/seams.png): continuous, or not.",
+  "joins": [
+    { "a": 0, "b": 1, "x": 2560, "y": 0, "seam": "continuous" },
+    { "a": 1, "b": 2, "x": 2560, "y": -645, "seam": "continuous" },
+    { "a": 3, "b": 4, "x": 2560, "y": -40, "seam": "continuous (sky colour changes)" },
+    { "a": 6, "b": 7, "x": 2560, "y": 125, "seam": "continuous" },
+    { "a": 8, "b": 9, "x": 768, "y": 0, "seam": "continuous" },
+    { "a": 11, "b": 12, "x": 3200, "y": -806, "seam": "not continuous: not looked at" },
+    { "a": 13, "b": 14, "x": 1193, "y": -658, "seam": "not continuous: not looked at" }
+  ],
+  "apart": [[2, 3], [4, 5], [5, 6], [7, 8], [9, 10], [10, 11], [12, 13]]
+}

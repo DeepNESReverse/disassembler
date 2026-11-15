@@ -107,3 +107,16 @@ palette. Every nametable byte carries the instruction that wrote it last, for ta
 - `src/render.ts` now draws from the cartridge alone (CHR 2 KB bank × header byte, this palette);
   `FROM_RUN=1` draws with the banks and palette of a frame of the TAS: all 15 pictures are the
   same, byte for byte.
+
+## 6. Gluing the sections into one world (started)
+
+The player's position on the frame `$0404` turns to the next section (the capture), against the
+next section's start from its header: section 0 is left at (2544, 170) and section 1 starts at
+(24, 171) — the same height, so 1 goes on at 0's right edge. The player's X is kept mod 2048 px
+(256 tiles in the 8.8 high byte): 496 with the camera at 2312 is 2544.
+
+Seven pairs follow each other without a story screen: 0-1, 1-2, 3-4, 6-7, 8-9, 11-12, 13-14
+(`data/joins.json`, the seams side by side in `runs/seams.png`). The first five continue the
+ground across the seam; 11-12 and 13-14 do not, the way between them is not found yet. The other
+seven pairs have a story screen between them and stay apart: 2|3, 4|5, 5|6, 7|8, 9|10, 10|11,
+12|13. The offsets are the player's to the pixel, not yet put on the tile grid (1-2: -645).
