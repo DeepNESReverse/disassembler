@@ -34,3 +34,9 @@
 [submodule "gyrodine/libs/maps-run"]
 	path = gyrodine/libs/maps-run
 	url = https://github.com/DeepNESReverse/xrom-maps-run
+[submodule "cliffhanger/libs/nes"]
+	path = cliffhanger/libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "cliffhanger/libs/maps-run"]
+	path = cliffhanger/libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run

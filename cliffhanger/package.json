@@ -1,0 +1,9 @@
+{
+  "name": "cliffhanger-levels",
+  "private": true,
+  "type": "module",
+  "description": "Cliffhanger (USA): every level drawn whole from the cartridge, with a TAS over it.",
+  "scripts": {
+    "setup": "npm --prefix libs/nes ci && ln -sfn libs/nes/node_modules node_modules"
+  }
+}
