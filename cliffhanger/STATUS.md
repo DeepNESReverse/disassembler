@@ -45,7 +45,10 @@ Found by following the nametable writes back (`src/vram-origins.ts`, `src/who-re
   PRG $1C5E7), index `$0404`: width and height in tiles (words, → `$06F4`, `$06F6`; the layout's
   row stride `$06F8` = width / 2), the CPU address of a 3-byte source entry (address, 16 KB PRG
   bank), the background CHR (`$D514`: R0 = 2 × it, R1 = 2 × it + 2, so the field's 4 KB is CHR
-  2 KB bank × it), and five bytes not read yet.
+  2 KB bank × it), a byte the loader skips (0 in all), and **the player's start**: X and Y words
+  → `$0616/$0617` and `$061D/$061E`, in tiles as 8.8 fixed point. Those four cells are the player's
+  position (they follow the player through the capture: X 0x0300 → 0x1640 as the camera goes
+  0 → 58; section 2 starts at Y 117 of 128 tiles, at the bottom of the climb).
 - The source is a chain of chunks, each a length word (itself included) and its bytes (`$D554`):
   the layout (`$06EA`), the blocks' tiles (`$06ED`), the blocks' attributes (`$06F0`), a fourth
   chunk (`$040D`, not read yet). Checked on all 15: the layout's length is exactly
@@ -89,3 +92,18 @@ palette. Every nametable byte carries the instruction that wrote it last, for ta
   (story screens: "Gabe gets out just in time!…") and `$1F26D`/`$1F15B` write over it.
 - First-look tools kept: `src/check-place.ts` (pixel match, any y).
 - Covered only where the TAS camera went; the rest of each section is next (no-clip, as Alien 3).
+
+## 5. The palette
+
+- The section's palette is its own: 32 bytes at **PRG $12400 + 32 × section** (bank 4, base word at
+  `$C595`), copied by `$CB6D` into `$052A` (the fade's target; `$F2B3` fades `$052A` into the
+  buffer `$44-$63` through the table at `$F2C8`, colour × 4 + step). Every palette load of the
+  whole movie (`src/who-writes.ts 0 24900 52A 52A`): each section loads its own number on entry
+  (`$CCFC`, index `$0404`); 16-23 are the story screens'. One change inside a section: section 13
+  loads palette 15 at movie frame 22 700 (not looked at yet).
+- The backdrop is byte 16, not byte 0: the 32 bytes go to `$3F00-$3F1F` in order and `$3F10`
+  mirrors `$3F00`. Sections 5, 8, 9, 10, 13, 14 have $30 at byte 0 and $20 at byte 16, and the game
+  shows $20 (`src/experiments/palette-seen.ts`).
+- `src/render.ts` now draws from the cartridge alone (CHR 2 KB bank × header byte, this palette);
+  `FROM_RUN=1` draws with the banks and palette of a frame of the TAS: all 15 pictures are the
+  same, byte for byte.

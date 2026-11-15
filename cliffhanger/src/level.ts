@@ -6,8 +6,13 @@
  *   +0 word  width in tiles  -> $06F4 (the layout's row stride is width / 2 -> $06F8)
  *   +2 word  height in tiles -> $06F6
  *   +4 word  CPU address of a 3-byte source entry: word address, byte 16 KB PRG bank
- *   +6 byte  background CHR: R0 = 2 * it, R1 = 2 * it + 2 ($D514)
- *   +7..+11  not read yet
+ *   +6 byte  background CHR: R0 = 2 * it, R1 = 2 * it + 2 ($D514), so the field's 4 KB is at
+ *            CHR it * 2 KB
+ *   +7 byte  skipped by the loader (0 in all 15)
+ *   +8 word  the player's start X -> $0616/$0617, in tiles, 8.8 fixed point (the player's X)
+ *   +10 word the player's start Y -> $061D/$061E, the same (the player's Y)
+ * The palette is the section's own: 32 bytes at PRG $12400 + 32 * section, copied by $CB6D (bank 4,
+ * base word $C595, index $0404 from $CCFC) into $052A, the fade's target (STATUS §5).
  * At the source address (in its bank, mapped at $8000 by $D58E: R6 = 2 * bank, R7 = 2 * bank + 1)
  * a chain of chunks, each a word (its length, the word included) and its bytes ($D554 returns the
  * bytes' address and steps over the chunk): the layout -> $06EA, the blocks' tiles -> $06ED, the
@@ -22,6 +27,7 @@ import { romFile } from './rom.ts';
 
 export const SECTIONS = 15;
 const TABLE = 0x1c5e7;
+const PALETTES = 0x12400;
 
 export interface Section {
   index: number;
@@ -39,6 +45,10 @@ export interface Section {
   cols: number;
   rows: number;
   blocks: Uint8Array;
+  /** The player's start, in pixels. */
+  start: { x: number; y: number };
+  /** Background then sprite palettes, 32 bytes. */
+  palette: Uint8Array;
   /** The section table's 12 bytes, as they are. */
   raw: number[];
 }
@@ -79,6 +89,8 @@ export function section(index: number): Section {
     cols,
     rows,
     blocks: prg.slice(layoutAt, layoutAt + cols * rows),
+    start: { x: word(t + 8) / 32, y: word(t + 10) / 32 },
+    palette: prg.slice(PALETTES + 32 * index, PALETTES + 32 * index + 32),
     raw,
   };
 }

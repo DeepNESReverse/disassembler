@@ -1,9 +1,10 @@
 /**
- * Every section drawn whole from the cartridge (level.ts) -> out/levels/<nn>.png.
+ * Every section drawn whole from the cartridge alone (level.ts) -> out/levels/<nn>.png: the
+ * header's CHR banks and the section's palette.
  *   node --experimental-strip-types --no-warnings src/render.ts [section …]
- * The background's CHR banks and the palette are the game's own at a frame of the TAS inside the
- * section (`SEEN`: 150 frames after it starts), the banks as the PPU reads them on line 100 (the
- * status bar below the field has its own, switched by the scanline IRQ).
+ * `lookAt` reads the same from a frame of the TAS instead (the banks the PPU reads on line 100 —
+ * the status bar below the field has its own, switched by the scanline IRQ); `FROM_RUN=1` draws
+ * with that, to compare: both give the same pictures (STATUS §5).
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { encodePng } from '../libs/nes/src/png.ts';
@@ -61,6 +62,16 @@ export function drawSection(index: number, look: Look, chr: Uint8Array): { pixel
   return { pixels, width, height };
 }
 
+/** The background's banks and palette as the cartridge gives them for a section. */
+export function lookOf(index: number): Look {
+  const s = section(index);
+  // The 32 bytes go to $3F00-$3F1F in order, and $3F10 is a mirror of $3F00: the backdrop the
+  // PPU ends up with is byte 16, not byte 0 (they differ in sections 5, 8, 9, 10, 13, 14).
+  const palette = s.palette.slice();
+  palette[0] = palette[16];
+  return { slots: [0, 1, 2, 3].map((i) => s.chr * 0x800 + i * 0x400), palette };
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const wanted = process.argv.slice(2).map(Number);
   const list = wanted.length ? wanted : [...Array(SECTIONS).keys()];
@@ -68,7 +79,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const run = new Run();
   const chr = run.m.cart.chr;
   for (const i of [...list].sort((a, b) => a - b)) {
-    const look = lookAt(run, STARTS[i] + 150);
+    const look = process.env.FROM_RUN ? lookAt(run, STARTS[i] + 150) : lookOf(i);
     const { pixels, width, height } = drawSection(i, look, chr);
     writeFileSync(`out/levels/${String(i).padStart(2, '0')}.png`, encodePng(pixels, width, height, 1));
     console.log(`section ${i}: ${width}x${height}, chr slots ${look.slots.map((s) => s.toString(16)).join(' ')}`);
