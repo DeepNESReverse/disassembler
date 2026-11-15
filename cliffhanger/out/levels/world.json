@@ -1,95 +1,95 @@
 {
  "about": "The sections glued into one world (src/world.ts). pieces: each section's top-left in the world, in pixels. house: the outside of the house in section 4 and the inside (section 5) laid over it. apart: shown on its own.",
- "w": 22262,
- "h": 1706,
+ "w": 22448,
+ "h": 1696,
  "pieces": [
   {
    "section": 0,
    "x": 0,
-   "y": 1322,
+   "y": 1312,
    "w": 2560,
    "h": 384
   },
   {
    "section": 1,
    "x": 2384,
-   "y": 1322,
+   "y": 1312,
    "w": 2560,
    "h": 384
   },
   {
    "section": 2,
    "x": 4944,
-   "y": 682,
+   "y": 672,
    "w": 320,
    "h": 1024
   },
   {
    "section": 3,
    "x": 5264,
-   "y": 506,
+   "y": 496,
    "w": 2560,
    "h": 384
   },
   {
    "section": 4,
    "x": 7824,
-   "y": 506,
+   "y": 496,
    "w": 2560,
    "h": 384
   },
   {
    "section": 6,
    "x": 10384,
-   "y": 650,
+   "y": 640,
    "w": 2560,
    "h": 384
   },
   {
    "section": 7,
-   "x": 12944,
-   "y": 775,
+   "x": 12912,
+   "y": 784,
    "w": 640,
    "h": 768
   },
   {
    "section": 8,
-   "x": 13584,
-   "y": 921,
+   "x": 13552,
+   "y": 930,
    "w": 768,
    "h": 384
   },
   {
    "section": 9,
-   "x": 14352,
-   "y": 922,
+   "x": 14320,
+   "y": 931,
    "w": 1920,
    "h": 512
   },
   {
    "section": 10,
-   "x": 16272,
-   "y": 891,
+   "x": 16240,
+   "y": 916,
    "w": 768,
    "h": 384
   },
   {
    "section": 11,
-   "x": 16822,
-   "y": 1013,
+   "x": 17008,
+   "y": 1007,
    "w": 3200,
    "h": 224
   },
   {
    "section": 12,
-   "x": 20022,
+   "x": 20208,
    "y": 207,
    "w": 320,
    "h": 1024
   },
   {
    "section": 13,
-   "x": 20342,
+   "x": 20528,
    "y": 0,
    "w": 1920,
    "h": 384
@@ -98,7 +98,7 @@
  "house": {
   "outside": {
    "x": 10193,
-   "y": 667,
+   "y": 657,
    "w": 159,
    "h": 79
   },
@@ -107,7 +107,7 @@
    "w": 512,
    "h": 256,
    "x": 10193,
-   "y": 667,
+   "y": 657,
    "scale": 0.310546875
   }
  },
@@ -153,9 +153,9 @@
   {
    "a": 6,
    "b": 7,
-   "dx": 2560,
-   "dy": 125,
-   "how": "at the edge"
+   "dx": 2528,
+   "dy": 144,
+   "how": "the user's"
   },
   {
    "a": 7,
@@ -175,22 +175,22 @@
    "a": 9,
    "b": 10,
    "dx": 1920,
-   "dy": -31,
-   "how": "at the edge"
+   "dy": -15,
+   "how": "the user's"
   },
   {
    "a": 10,
    "b": 11,
-   "dx": 550,
-   "dy": 122,
-   "how": "where the player stood"
+   "dx": 768,
+   "dy": 91,
+   "how": "the user's"
   },
   {
    "a": 11,
    "b": 12,
    "dx": 3200,
-   "dy": -806,
-   "how": "at the edge"
+   "dy": -800,
+   "how": "the user's"
   },
   {
    "a": 12,

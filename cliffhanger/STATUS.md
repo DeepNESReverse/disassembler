@@ -221,7 +221,16 @@ both): the whole mountain (sections 1-14 as the user counts them, a level of 13 
 local) and every section alone (section 15 only so). The run follows the way chosen: its spans are
 there both ways, and choosing a level puts that way's spans first (the page takes the first span
 that holds a frame). `out/levels/tas-world.json`: level 1 the world, s + 2 section s. On the whole
-mountain the run's slider has a mark where each section starts, its number under it (from 1, as the
+mountain the run is seamless (the user's word, 2026-11-16): each section's stretch of play is its
+shown frames less the fades at its ends (frames whose background palette is not the one the stretch
+shows most), and everything between stretches — the story screens, the fades, their music — is cut:
+the run jumps over it (after the page's frame), a cut frame is not drawn, and the clock counts only
+what is kept (6:01 of 6:15). Section by section all is played, music too: a section's span starts
+where the one before ends (the screens before it are its own; section 1's from power-on), the last
+runs to the take's end (the ending). The page goes on past a span's end to the next in its array, so
+section 15's whole-mountain span runs to the last frame (else the next in the array, section 1's,
+would start the run over). On the whole
+mountain the run's slider has a mark where each section's play starts, its number under it (from 1, as the
 user counts); a click on the number takes the run there (the user's idea, 2026-11-15). While the run is in the house the inside fades in over the walls, the run's frame scaled with it
 (a `scale` after the page's transform), the world dims, and the view zooms to the house (to fill the
 window; the page stops at 400 %) with the follow paused; out, both come back. This is done after the

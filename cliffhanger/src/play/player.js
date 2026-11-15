@@ -31,13 +31,26 @@ const WHOLE = 1;
 const levelOfSection = (s) => s + 2;
 /** Where a section's map lies on the world (section 14 is apart: its own level in both ways). */
 const originOf = (s) => (s === HOUSE ? WORLD.house.inside : s === APART ? { x: 0, y: 0 } : WORLD.pieces.find((p) => p.section === s));
-/** The run's spans, both ways; reordered in place when the way changes (the page keeps the array). */
+/**
+ * The run's spans, both ways, each marked with its way (`way`: 'whole' or 'sections'); reordered in
+ * place when the way changes (the page keeps the array and takes the first span that holds a frame,
+ * and on past a span's end goes to the span after it in the array).
+ *
+ * By the user's word: on the whole mountain the run is seamless — the story screens between sections
+ * and the fades at their ends are cut (`cut`: the run jumps over them, its clock leaves them out);
+ * section by section they are played, music and all: the screens before a section are its own, the
+ * first from power-on, the last on to the end.
+ */
 let spans = [];
 let whole = true;
 function orderSpans() {
-  const first = (sp) => (whole ? sp[0] === WHOLE || sp[0] === levelOfSection(APART) : sp[0] !== WHOLE);
-  spans.sort((a, b) => Number(first(b)) - Number(first(a)) || a[0] - b[0]);
+  const mine = (sp) => sp.way === (whole ? 'whole' : 'sections');
+  spans.sort((a, b) => Number(mine(b)) - Number(mine(a)) || a[1] - b[1]);
 }
+/** Per frame on the whole mountain: 1 cut. `nextKept[f]`: the first frame kept from f on. */
+let cut, nextKept, keptBefore, keptTotal = 0;
+/** The first frame kept of each section (the slider's marks). */
+const sectionStart = new Map();
 const nn = (s) => String(s).padStart(2, '0');
 const mapOf = (s) => `${LEVELS}${nn(s)}.png`;
 
@@ -64,12 +77,8 @@ const run = {
     offsets = new Uint32Array(frames);
     keys = [];
     const s = new Uint8Array(size);
-    const byLevel = new Map();
-    const add = (n, f) => {
-      const span = byLevel.get(n) ?? [n, f, f];
-      span[2] = f;
-      byLevel.set(n, span);
-    };
+    // Per frame: the section, whether its field is shown, and its background palette (a hash).
+    const sec = new Uint8Array(frames), shown = new Uint8Array(frames), palOf = new Int32Array(frames);
     let o = 10;
     for (let f = 0; f < frames; f++) {
       offsets[f] = o;
@@ -78,14 +87,58 @@ const run = {
       for (let k = 0; k < count; k++, o += 3) s[data[o] | (data[o + 1] << 8)] = data[o + 2];
       o += 2 + 2 * (data[o] | (data[o + 1] << 8));
       if (f % 600 === 0) keys.push(s.slice());
-      // A level is shown from its first frame with the field on the map to its last: the section's,
-      // and the world's for every section in it.
-      if (s[1]) {
-        add(levelOfSection(s[0]), f);
-        if (s[0] !== APART) add(WHOLE, f);
-      }
+      sec[f] = s[0];
+      shown[f] = s[1];
+      let h = 0;
+      for (let i = 0; i < 16; i++) h = (Math.imul(h, 31) + s[PAL + i]) | 0;
+      palOf[f] = h;
     }
-    spans = [...byLevel.values()];
+    // Each section's stretch of play: its shown frames, less the fades at its ends (the frames whose
+    // palette is not the one it shows most).
+    const stretches = [];
+    for (let f = 0; f < frames; f++) {
+      if (!shown[f]) continue;
+      const last = stretches[stretches.length - 1];
+      if (last && last.s === sec[f] && f - last.b <= 30) last.b = f;
+      else stretches.push({ s: sec[f], a: f, b: f });
+    }
+    for (const st of stretches) {
+      const count = new Map();
+      for (let f = st.a; f <= st.b; f++) if (shown[f]) count.set(palOf[f], (count.get(palOf[f]) ?? 0) + 1);
+      const main = [...count].sort((x, y) => y[1] - x[1])[0][0];
+      while (st.a < st.b && palOf[st.a] !== main) st.a++;
+      while (st.b > st.a && palOf[st.b] !== main) st.b--;
+      if (!sectionStart.has(st.s)) sectionStart.set(st.s, st.a);
+    }
+    // The whole mountain: one span over its sections' stretches, the frames between them cut.
+    const inWorld = stretches.filter((st) => st.s !== APART);
+    const apart = stretches.filter((st) => st.s === APART);
+    cut = new Uint8Array(frames).fill(1);
+    for (const st of stretches) cut.fill(0, st.a, st.b + 1);
+    nextKept = new Int32Array(frames);
+    for (let f = frames - 1, next = frames - 1; f >= 0; f--) nextKept[f] = cut[f] ? next : (next = f);
+    keptBefore = new Int32Array(frames);
+    for (let f = 1; f < frames; f++) keptBefore[f] = keptBefore[f - 1] + (cut[f - 1] ? 0 : 1);
+    const w0 = inWorld[0].a, w1 = inWorld[inWorld.length - 1].b;
+    keptTotal = keptBefore[w1] - keptBefore[w0] + 1;
+    const mk = (n, a, b, way) => Object.assign([n, a, b], { way });
+    // Section 14's runs on to the last frame: past a span's end the page goes to the next span in
+    // the array, which here would be section 0's (the cut after it ends the run instead).
+    spans = [mk(WHOLE, w0, w1, 'whole'), mk(levelOfSection(APART), apart[0].a, frames - 1, 'whole')];
+    // Section by section: from the end of the section before (the screens before it are its own;
+    // the first from power-on), the last on to the run's end.
+    const bySection = new Map();
+    for (const st of stretches) {
+      const g = bySection.get(st.s) ?? { a: st.a, b: st.b };
+      g.b = st.b;
+      bySection.set(st.s, g);
+    }
+    const order = [...bySection].sort((x, y) => x[1].a - y[1].a);
+    order.forEach(([sct, g], i) => {
+      const from = i === 0 ? 1 : order[i - 1][1].b + 1;
+      const to = i === order.length - 1 ? frames - 1 : g.b;
+      spans.push(mk(levelOfSection(sct), from, to, 'sections'));
+    });
     orderSpans();
     setTimeout(sectionTicks, 100);
     return { frames, spans };
@@ -104,6 +157,8 @@ const run = {
   last: { x: 0, y: 0 },
   draw(f, ctx) {
     if (!image) { image = ctx.createImageData(W, H); px = new Uint32Array(image.data.buffer); }
+    // On the whole mountain a cut frame is not drawn: the run jumps over it (onFrame).
+    if (page?.cur === WHOLE && cut?.[f]) return run.last;
     const ctrl = state[6], mask = state[7];
     const planeX = state[8] | (state[9] << 8), planeY = state[10] | (state[11] << 8);
     const backdrop = rgb(pal(0));
@@ -174,7 +229,16 @@ const run = {
   inHouse: false,
   zoomBefore: 0,
   followBefore: true,
-  onFrame() {
+  onFrame(f) {
+    if (page?.cur === WHOLE && cut) {
+      // Over the cut (after the page's frame), and the clock without the cut frames.
+      if (cut[f] && nextKept[f] > f) queueMicrotask(() => seekTo(nextKept[f]));
+      const span = spans.find((sp) => sp[0] === WHOLE);
+      queueMicrotask(() => {
+        const t = document.getElementById('tkTime');
+        if (t) t.textContent = `${clockOf(keptBefore[Math.max(span[1], f)] - keptBefore[span[1]])} / ${clockOf(keptTotal)}`;
+      });
+    }
     const inside = state[0] === HOUSE && page?.cur === WHOLE;
     const live = document.getElementById('live');
     // The page sets the frame's transform each frame: the scale goes after it.
@@ -333,6 +397,15 @@ if (!PUBLIC) {
   };
 }
 
+/** m:ss of a count of frames, as the page's clock. */
+const clockOf = (n) => { const t = Math.max(0, Math.round(n / 60.0988)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`; };
+/** The run to frame f, the way the slider takes it. */
+function seekTo(f) {
+  const seek = document.getElementById('tkSeek');
+  seek.value = String(f);
+  seek.dispatchEvent(new Event('input'));
+}
+
 // ---------------------------------------------------------------- the sections on the run's slider
 // On the whole mountain the slider runs over the whole run: a mark where each section starts, its
 // number under it (as the user counts them, from 1); a click on the number takes the run there.
@@ -356,21 +429,17 @@ function sectionTicks() {
   Object.assign(lay.style, { left: seek.offsetLeft + 'px', top: seek.offsetTop + 'px', width: seek.offsetWidth + 'px', height: seek.offsetHeight + 'px' });
   const at = (v) => THUMB / 2 + ((v - min) / (max - min)) * (seek.offsetWidth - THUMB);
   lay.textContent = '';
-  for (const sp of spans) {
-    const s = sp[0] - 2;
-    if (sp[0] === WHOLE || s === APART || sp[1] < min || sp[1] > max) continue;
-    const x = at(sp[1]);
+  for (const [s, start] of sectionStart) {
+    if (s === APART || start < min || start > max) continue;
+    const sp = [0, start];
+    const x = at(start);
     const line = document.createElement('i');
     Object.assign(line.style, { left: x + 'px', height: seek.offsetHeight + 'px' });
     const label = document.createElement('b');
     label.textContent = String(s + 1);
     label.title = `Section ${s + 1}${s === HOUSE ? ' — the house' : ''}`;
     Object.assign(label.style, { left: x + 'px', top: seek.offsetHeight + 1 + 'px' });
-    label.onclick = () => {
-      seek.value = String(sp[1]);
-      seek.dispatchEvent(new Event('input'));
-      seek.dispatchEvent(new Event('change'));
-    };
+    label.onclick = () => seekTo(sp[1]);
     lay.append(line, label);
   }
 }
