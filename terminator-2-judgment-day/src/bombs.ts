@@ -4,10 +4,14 @@
  * both on the level's one map (the labs lie on the corridors at 0, 0, §13) — and, from the run, the
  * frame each one is taken: its slot's `$04E8,X` gets bit 7 (src/experiments/object-slot.ts: the
  * bomb at 536, 576 on frame 19 819, the player at 548 — beside it, turning back).
+ * `room`: the bomb lies in a lab — on the rooms' plan, laid over the corridors (maps.ts) — not in a
+ * corridor; the page shows each with its own plan (STATUS §16).
  *   node --experimental-strip-types --no-warnings src/bombs.ts   → out/levels/bombs.json
  */
 import { writeFileSync } from 'node:fs';
 import { objectsOf, type Placed } from './objects.ts';
+import { HEADER_OF_AREA } from './level.ts';
+import { MAPS } from './maps.ts';
 import { Run } from './run.ts';
 
 const KINDS: [number, number][] = [[5, 0x8bb9], [7, 0x8bb2]];
@@ -31,6 +35,11 @@ for (let f = 18600; f <= 34300; f++) {
   }
 }
 const order = [...bombs].filter((b) => b.taken !== undefined).sort((p, q) => p.taken! - q.taken!);
-const out = bombs.map((b) => ({ x: b.x, y: b.y, area: b.d1, kind: b.kind, entry: b.at, taken: b.taken ?? null, num: b.taken === undefined ? null : order.indexOf(b) + 1 }));
+/** A bomb in a room: its area is laid on the map as an overlay (the labs, maps.ts), not the corridors. */
+const inRoom = (d1: number) => MAPS.some((l) => l.pieces.some((p) => p.header === HEADER_OF_AREA[d1] && p.overlay));
+const out = bombs.map((b) => ({
+  x: b.x, y: b.y, area: b.d1, room: inRoom(b.d1), kind: b.kind, entry: b.at,
+  taken: b.taken ?? null, num: b.taken === undefined ? null : order.indexOf(b) + 1,
+}));
 writeFileSync('out/levels/bombs.json', JSON.stringify({ level: 4, bombs: out }, null, 1) + '\n');
 for (const b of bombs) console.log(`$D1 ${b.d1} bomb at ${b.x},${b.y}: ${b.taken === undefined ? 'never taken' : `taken on ${b.taken} (#${order.indexOf(b) + 1}), the player at ${b.player}`}`);

@@ -337,3 +337,12 @@ the switch on a glow and an orange ring with the bomb's number. While the run pl
 has taken by the frame shown leave the map (10 at frame 19 800, 6 at 23 100). The object's X/Y are
 in the corridors' (and so the map's) coordinates: the canisters stand on their floors and on the
 game's own canister in the run's frame. Checked in the browser.
+
+## 16. Each bomb with its own plan
+
+By the user's word (all bombs at once were too much over the corridors): a bomb is in a lab or in a
+corridor by its area (`room` in bombs.json: its area is the overlay of maps.ts). On the page the
+labs' bombs (nine) have pink rings and show as much as the rooms' plan does — fully while the run is
+in a lab, not at all in a corridor, as the blend slider says when it is held — and the corridors' (one,
+#5) orange, as much as the corridors show. Checked in the browser: on the corridors' plan only #5;
+at the slider's "Rooms" end only the nine; "auto" follows the run again.

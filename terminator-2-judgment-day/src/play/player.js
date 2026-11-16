@@ -221,6 +221,7 @@ const run = {
     const on = !!(o?.overlay && page?.cur === o.n);
     over.classList.toggle('on', on);
     if (!blend.manual) document.getElementById('blend').value = on ? '100' : '0';
+    bombPlans();
     // The bombs the run has taken by now leave the map.
     const taken = BOMBS.bombs.filter((b) => b.taken !== null && b.taken <= window.takeFrame).length;
     if (taken !== bombsTaken) (bombsTaken = taken), showBombs();
@@ -287,13 +288,13 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s four music streams (PRG $10113-$10333, $10545-$1097D)',
   effectsTitle: 'The sound effects: the driver&#39;s two effect streams (PRG $10334-$10544, $1097E-$10ACF)',
-  css: '.bsp{position:absolute;image-rendering:pixelated;pointer-events:none}.bsp.glow{filter:drop-shadow(0 0 2px #ff9f1a) drop-shadow(0 0 4px #ff9f1a)}.bomb{position:absolute;border:3px solid #ff9f1a;border-radius:50%;box-shadow:0 0 0 3px #0008,0 0 14px #ff9f1a;pointer-events:none;animation:bpulse 1.2s ease-in-out infinite}.bomb b{position:absolute;left:50%;top:-22px;transform:translateX(-50%);background:#ff9f1a;color:#000;font:bold 12px system-ui;padding:0 5px;border-radius:3px}@keyframes bpulse{50%{opacity:.55}}#blendGrp[hidden]{display:none}#blend{width:110px;accent-color:#dfe4ee}#blendAuto{padding:2px 8px;font-size:12px}#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}#rideDim{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}#rideDim.on{opacity:.6}',
-  layersBelow: '<img id="overlay" alt=""><div id="rideDim"></div><div id="bombLayer"></div>',
+  css: '.bsp{position:absolute;image-rendering:pixelated;pointer-events:none}.bsp.glow{filter:drop-shadow(0 0 2px #ff9f1a) drop-shadow(0 0 4px #ff9f1a)}.bomb{position:absolute;border:3px solid #ff9f1a;border-radius:50%;box-shadow:0 0 0 3px #0008,0 0 14px #ff9f1a;pointer-events:none;animation:bpulse 1.2s ease-in-out infinite}.bomb b{position:absolute;left:50%;top:-22px;transform:translateX(-50%);background:#ff9f1a;color:#000;font:bold 12px system-ui;padding:0 5px;border-radius:3px}.bomb.room{border-color:#ff5cc8;box-shadow:0 0 0 3px #0008,0 0 14px #ff5cc8}.bomb.room b{background:#ff5cc8}.bsp.glow.room{filter:drop-shadow(0 0 2px #ff5cc8) drop-shadow(0 0 4px #ff5cc8)}#bombCorr,#bombRoom{transition:opacity .35s}@keyframes bpulse{50%{opacity:.55}}#blendGrp[hidden]{display:none}#blend{width:110px;accent-color:#dfe4ee}#blendAuto{padding:2px 8px;font-size:12px}#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}#rideDim{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}#rideDim.on{opacity:.6}',
+  layersBelow: '<img id="overlay" alt=""><div id="rideDim"></div><div id="bombLayer"><div id="bombCorr"></div><div id="bombRoom"></div></div>',
   onZoom: () => (placeOverlay(), showBombs()),
   // The blend slider: on a level with two plans (the corridors and, over them, the rooms without the
   // walls) how much of the rooms' plan shows — 0 the corridors, 100 the rooms. "auto" (until the
   // slider is moved, and again on a click) follows the run: the rooms while it is in one.
-  headerHtml: iconToggle({ id: 'bombBox', icon: `<img src="${LEVELS}bomb.png" alt="">`, label: 'bombs', colour: '#ff9f1a', count: 'bombN', checked: true, title: 'The bombs the T-800 gathers in Cyberdyne: the game&#39;s own canister where the level places it, numbered in the order goofydylan8&#39;s run takes them; taken ones leave the map while the run plays' }) +
+  headerHtml: iconToggle({ id: 'bombBox', icon: `<img src="${LEVELS}bomb.png" alt="">`, label: 'bombs', colour: '#ff9f1a', count: 'bombN', checked: true, title: 'The bombs the T-800 gathers in Cyberdyne: the game&#39;s own canister where the level places it, numbered in the order goofydylan8&#39;s run takes them; orange in the corridors, pink in the labs, each shown with its own plan; taken ones leave the map while the run plays' }) +
     '<span class="grp" id="blendGrp" hidden title="How much of the rooms&#39; plan (the same floors without the walls) shows over the corridors"><span class="cap">Corridors</span><input type="range" id="blend" min="0" max="100" value="0"><span class="cap">Rooms</span><button id="blendAuto" class="on" title="Follow the run: the rooms while it is in one">auto</button></span>',
   onPick: (n) => {
     const ov = MAPS[n - 1]?.pieces.find((p) => p.overlay);
@@ -318,20 +319,36 @@ page = mountRunPage({
  */
 function showBombs() {
   const lay = document.getElementById('bombLayer');
+  const corr = document.getElementById('bombCorr'), room = document.getElementById('bombRoom');
   const box = document.getElementById('bombBox');
   if (!lay || !page) return;
   box.closest('label').style.display = page.cur === BOMB_LEVEL ? '' : 'none';
-  if (page.cur !== BOMB_LEVEL) { lay.innerHTML = ''; return; }
+  if (page.cur !== BOMB_LEVEL) { corr.innerHTML = room.innerHTML = ''; return; }
   const z = page.z, sp = BOMBS.sprite, f = window.takeFrame;
   const list = BOMBS.bombs.filter((b) => !(b.taken !== null && f !== undefined && b.taken <= f));
   document.getElementById('bombN').textContent = `(${list.length})`;
   const mark = box.checked;
   const ring = Math.max(40, 40 * z);
-  lay.innerHTML = list.map((b) => {
-    const cx = b.x + sp.dx + sp.w / 2, cy = b.y + sp.dy + sp.h / 2;
-    return `<img class="bsp${mark ? ' glow' : ''}" src="${LEVELS}bomb.png" alt="" style="left:${(b.x + sp.dx) * z}px;top:${(b.y + sp.dy) * z}px;width:${sp.w * z}px;height:${sp.h * z}px">` +
-      (mark ? `<div class="bomb" style="left:${cx * z - ring / 2}px;top:${cy * z - ring / 2}px;width:${ring}px;height:${ring}px" title="bomb ${b.num ?? ''}: X ${b.x}, Y ${b.y}${b.taken !== null ? `, taken on frame ${b.taken}` : ''}"><b>${b.num ?? ''}</b></div>` : '');
-  }).join('');
+  const html = (b) => {
+    const cx = b.x + sp.dx + sp.w / 2, cy = b.y + sp.dy + sp.h / 2, k = b.room ? ' room' : '';
+    return `<img class="bsp${mark ? ' glow' : ''}${k}" src="${LEVELS}bomb.png" alt="" style="left:${(b.x + sp.dx) * z}px;top:${(b.y + sp.dy) * z}px;width:${sp.w * z}px;height:${sp.h * z}px">` +
+      (mark ? `<div class="bomb${k}" style="left:${cx * z - ring / 2}px;top:${cy * z - ring / 2}px;width:${ring}px;height:${ring}px" title="bomb ${b.num ?? ''} (${b.room ? 'in a lab' : 'in a corridor'}): X ${b.x}, Y ${b.y}${b.taken !== null ? `, taken on frame ${b.taken}` : ''}"><b>${b.num ?? ''}</b></div>` : '');
+  };
+  corr.innerHTML = list.filter((b) => !b.room).map(html).join('');
+  room.innerHTML = list.filter((b) => b.room).map(html).join('');
+  bombPlans();
+}
+
+/**
+ * Each bomb shows with its own plan (by the user's word): a lab's bombs as much as the rooms' plan
+ * shows over the corridors (the overlay, or the blend slider when held), a corridor's as much as the
+ * corridors do — so the ones of the plan not in view stay out of it.
+ */
+function bombPlans() {
+  const over = document.getElementById('overlay');
+  const rooms = blend.manual ? +document.getElementById('blend').value / 100 : over.classList.contains('on') ? 1 : 0;
+  document.getElementById('bombRoom').style.opacity = String(rooms);
+  document.getElementById('bombCorr').style.opacity = String(1 - rooms);
 }
 
 /** The overlay piece's picture on the map at the page's zoom (the last one shown, or `o`). */
@@ -355,11 +372,13 @@ function placeOverlay(o = overlayPiece) {
     blend.manual = true;
     auto.classList.remove('on');
     Object.assign(im.style, { transition: 'none', opacity: String(+slider.value / 100) });
+    bombPlans();
   };
   auto.onclick = () => {
     blend.manual = false;
     auto.classList.add('on');
     Object.assign(im.style, { transition: '', opacity: '' });
+    bombPlans();
   };
 }
 
