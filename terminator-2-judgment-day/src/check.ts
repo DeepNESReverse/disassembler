@@ -7,8 +7,9 @@
  * set by the scanline IRQ). For every world tile wholly inside the field, the tile the PPU shows
  * there — its nametable cell, found through that line's scroll (machine.ts lineX/lineY) — is
  * compared with the decoded one: tile number and palette. The camera is `$C4/$C5` (x) and `$C6/$C7`
- * (y) as the NMI writes the scroll, plus a fixed offset (found with PROBE: 13, -3;
- * the elevator shaft, header 3, 37, -3). A frame where more than half the tiles differ shows
+ * (y) as the NMI writes the scroll, plus a fixed offset: 16, 0; the elevator shaft,
+ * header 3, 40, 0 (PROBE gives the lowest of the 8 px the tile test fits, 13, -3; the place is the
+ * one on the tiles' 8-px grid, STATUS §8). A frame where more than half the tiles differ shows
  * something else (a text screen, a fade, the building's explosion) and is counted apart.
  * The area is the header loaded last by `$A3E0`.
  * The flood channel (header 6) is a sheared corridor (STATUS §7); its picture is searched ±16 px.
@@ -19,7 +20,7 @@ import { HEADERS, area, tileAt, type Area } from './level.ts';
 const args = process.argv.slice(2).map(Number);
 const step = args[0] || 1;
 const wanted = new Set(args.length > 1 ? args.slice(1) : [...Array(HEADERS).keys()]);
-const offsetOf = (h: number) => ({ x: Number(process.env.DX ?? (h === 3 ? 37 : 13)), y: Number(process.env.DY ?? -3) });
+const offsetOf = (h: number) => ({ x: Number(process.env.DX ?? (h === 3 ? 40 : 16)), y: Number(process.env.DY ?? 0) });
 
 const run = new Run();
 const m = run.m;

@@ -1,7 +1,7 @@
 /**
  * The flood channel as one diagonal corridor -> out/levels/6-corridor.png: the sheared world
  * (level.ts, STATUS §7) drawn only where the camera looked during the TAS's ride, cut to that band's
- * bounding box; the rest is black. The camera is the capture's `$C4-$C7` + (13, -3), widened by
+ * bounding box; the rest is black. The camera is the capture's `$C4-$C7` + (16, 0), widened by
  * 16 px each way (the picture runs up to that far from the RAM on the bike, check.ts).
  *   node --experimental-strip-types --no-warnings src/bike-corridor.ts
  */
@@ -21,8 +21,8 @@ const SLOP = 16;
 let frames = 0;
 for (const c of readCapture()) {
   if (c.frame < 9188 || c.frame > 12434 || c.ram[0xd1] !== 1) continue;
-  const x = ((c.ram[0xc5] << 8) | c.ram[0xc4]) + 13;
-  const y = ((c.ram[0xc7] << 8) | c.ram[0xc6]) - 3;
+  const x = ((c.ram[0xc5] << 8) | c.ram[0xc4]) + 16;
+  const y = ((c.ram[0xc7] << 8) | c.ram[0xc6]);
   frames++;
   for (let ty = Math.max(0, (y - SLOP) >> 3); ty <= Math.min(H - 1, (y + 222 + SLOP) >> 3); ty++) {
     for (let tx = Math.max(0, (x - SLOP) >> 3); tx <= Math.min(W - 1, (x + 256 + SLOP) >> 3); tx++) seen[ty * W + tx] = 1;

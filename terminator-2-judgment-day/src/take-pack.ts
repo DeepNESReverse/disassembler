@@ -126,15 +126,23 @@ function misses(a: Area, x: number, y: number, stop = Infinity): { n: number; al
     for (let tx = Math.max(0, Math.ceil(x / 8)); tx < a.cols * 2 && tx * 8 - x + 8 <= 256; tx++) {
       all++;
       const want = tileAt(a, tx, ty);
-      const got = shownAt(tx * 8 - x + 4, ty * 8 - y + 4);
-      if (got.tile !== want.tile || got.palette !== want.palette) if (++n >= stop) return { n, all };
+      // Two points of the tile, near its top-left and bottom-right corners: both fall in the same
+      // tile of the nametable only at the exact place (one point at the centre fits ±4 px).
+      const p = shownAt(tx * 8 - x + 1, ty * 8 - y + 1);
+      const q = shownAt(tx * 8 - x + 6, ty * 8 - y + 6);
+      const bad = p.tile !== want.tile || p.palette !== want.palette || q.tile !== want.tile || q.palette !== want.palette;
+      if (bad) if (++n >= stop) return { n, all };
     }
   }
   return { n, all };
 }
 
-/** The camera offset the picture sits at (STATUS §6). */
-const offsetOf = (h: number) => ({ x: h === 3 ? 37 : 13, y: -3 });
+/**
+ * The camera offset the picture sits at (STATUS §6, §8): (16, 0), the elevator shaft (40, 0). The
+ * tile test passes anywhere from 3 px before to 4 px after it; the place itself is where the map's
+ * tile edges and the nametable's meet.
+ */
+const offsetOf = (h: number) => ({ x: h === 3 ? 40 : 16, y: 0 });
 
 const total = run.pads.length;
 const states = new Uint8Array((total + 1) * SIZE);
@@ -198,7 +206,10 @@ for (let f = 0; f <= total; f++) {
 const top = (v: Map<string, number>) => {
   const [k, n] = [...v].sort((p, q) => q[1] - p[1])[0];
   const [x, y] = k.split(',').map(Number);
-  return { x, y, n, all: [...v.values()].reduce((p, q) => p + q, 0) };
+  // The tile test fits a range of 8 px; the field's plane and the map are on the same 8-px grid, so
+  // the constant is the multiple of 8 within it (a vote lies 4 below to 3 above it).
+  const snap = (c: number) => (Math.floor((c + 4) / 8) * 8) % 512;
+  return { x: snap(x), y: snap(y) % 240, n, all: [...v.values()].reduce((p, q) => p + q, 0) };
 };
 for (const [h, v] of [...byHeader].sort((p, q) => p[0] - q[0])) {
   const t = top(v);
@@ -208,6 +219,9 @@ for (const [h, v] of [...byHeader].sort((p, q) => p[0] - q[0])) {
   console.log(`header ${h}: plane - map = ${t.x}, ${t.y} on ${t.n} of ${t.all} fitting frames; ${visits.size} visits, ${kinds.size} constants (${[...kinds].join(' ')})`);
 }
 const constantOf = (f: number) => {
+  // TRY=h,x,y: that constant for header h instead (to compare places).
+  const t = process.env.TRY?.split(',').map(Number);
+  if (t && at(f, 0) === t[0]) return { x: t[1], y: t[2], n: 0, all: 0 };
   const v = byVisit.get(visit[f]);
   if (v) return top(v);
   const h = byHeader.get(at(f, 0));

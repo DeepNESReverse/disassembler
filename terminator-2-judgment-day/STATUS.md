@@ -104,9 +104,12 @@ The flood channel's layout is not a grid: §7.
 On every frame of the run, every world tile wholly inside the field (the lines drawn with line
 120's scroll) is looked up in the PPU's nametable and compared with the decoded one, tile and
 palette. The area is the header `$A3E0` loaded last. The camera is `$C4/$C5`, `$C6/$C7` as the NMI
-writes the scroll, **plus 13, -3** (found with `PROBE=`; the same in every area but the elevator
-shaft: 37, -3; **open:** why these numbers). The RAM's Y is often 1-4 px ahead of the picture while
-it moves; within ±8 px the best fit is taken ("only shifted").
+writes the scroll, **plus 16, 0** (the elevator shaft: 40, 0). `PROBE=` first gave 13, -3: one
+point a tile, at its centre, fits anywhere from 3 px before to 4 px after the place, and the probe
+took the lowest; the user saw the frame 3 px too high on the page (§8). The place is the one where
+the map's tile edges meet the nametable's, which only two points near a tile's corners pin down.
+The RAM's Y is often 1-4 px ahead of the picture while it moves; within ±8 px the best fit is taken
+("only shifted").
 
 | header | frames | something else | differ | tiles apart |
 |---|---|---|---|---|
@@ -156,7 +159,7 @@ crates and the bridges the channel passes under are background in it.
 `src/bike-corridor.ts` → `out/levels/6-corridor.png` (12 064 × 6 144): the world drawn only where
 the camera looked during the ride (`$C4-$C7` + 13, -3, ±16 px) and cut to that band — the
 corridor, everything else black. `out/levels/6.png` is the whole 808 × 384-block world.
-Its place in the world (x 408, y 0) goes to `out/levels/6-corridor.json`.
+Its place in the world (x 416, y 0) goes to `out/levels/6-corridor.json`.
 
 ## 8. The run on the maps (`src/take-pack.ts`, `src/play/`)
 
@@ -174,13 +177,18 @@ to bank 0 at line 20 and back further down, and in the steel mill the background
 at line 179), the sprite memory, the palette, the nametables; and the sound-chip writes.
 - **The field** is lines 0-219, one scroll; below, the status bar has its own.
 - **Its place on the map**: the field's plane (line 120's scroll) minus a constant, the one nearest
-  the RAM's camera + (13, -3). The constant, from the frames that fit at the RAM's camera as it is:
-  x 499 in every area (the plane's x is the RAM's camera x itself), y 82 (steel mill), 67
-  (hospital), 227 (Cyberdyne), 211 (truck stop, bar); on the bike, where the RAM's camera runs off
-  the picture, from the place within ±16 px where every tile fits: 83, 77. One constant a header
-  over all its visits (2-12 loads). A frame is shown on the map when fewer than half its tiles
-  differ from the map there (37 988 of 42 824 frames); the rest is dark (text screens, fades).
-  The tiles that do differ on shown frames are the edge rows of §6.
+  the RAM's camera + (16, 0). The constant is voted per visit (each load of a header) by the frames
+  that fit at the RAM's camera as it is, each tile tested at two points near its corners, and is a
+  multiple of 8 (the plane and the map share the tiles' grid): x 496 everywhere, y 80 (steel mill),
+  64 (hospital; 32 on some visits to the corridors and offices — so per visit, not per header),
+  224 (Cyberdyne), 208 (truck stop, bar); on the bike, where the RAM's camera runs off the picture,
+  from the place within ±16 px where every tile fits: 80, 80 (`TRY=6,x,y` tries another: 8 px off
+  either way leaves 0.76-1.1 million tiles apart, against 8 292 corner tiles of §6). A frame is
+  shown on the map when fewer than half its tiles differ there (38 644 of 42 824 frames); the rest
+  is dark (text screens, fades). On shown frames no tile differs in the hospital, the elevator and
+  the bar; elsewhere the edge rows and corners of §6.
+- **The fix of 2026-11-16.** The first pack placed the field 3 px left and 3 px up (it took the
+  constant at the tile test's low edge: 499, 211…); the user saw it in the bar.
 - **The player's path** (`out/levels/tas.json`, per page level): `$0427/$0428` (x) and
   `$0447/$0448` (y, the feet) — found by `src/experiments/player-cells.ts` (the words that stay in
   the camera's screen and move most), right in every area including the bike — moved onto the map
@@ -193,7 +201,8 @@ at line 179), the sprite memory, the palette, the nametables; and the sound-chip
   64 895 effects, 1 671 neither (start, stop). The writes are FCEUX's on 42 792 of 42 822 frames
   (`src/experiments/apu-writers.ts`; the others a frame early or late around 3 618).
 
-Checked in the browser (2026-11-16): the truck stop, the flood channel, the hospital corridors and
-the steel mill — the game's frame sits on the map with no seam, the path ahead, no errors.
+Checked in the browser (2026-11-16, again after the fix): the truck stop, the bar, the flood
+channel, the hospital corridors and the steel mill — the game's frame sits on the map with no seam
+at its edges, the path ahead, no errors.
 **Open:** the music/effect split is from the code, not yet heard; the hospital's and Cyberdyne's
 many short spans make the clock per span short (6 s in the first hospital corridors).
