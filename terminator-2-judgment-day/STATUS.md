@@ -164,8 +164,8 @@ Its place in the world (x 416, y 0) goes to `out/levels/6-corridor.json`.
 ## 8. The run on the maps (`src/take-pack.ts`, `src/play/`)
 
 `node --experimental-strip-types src/play/server.ts` → http://127.0.0.1:4330/: the shared maps page
-(`src/maps-run` → `libs/maps-run`), its levels the nine maps in the game's order (`level.ts`
-`ORDER`: truck stop, bar, flood channel, hospital corridors, offices, elevator, Cyberdyne
+(`src/maps-run` → `libs/maps-run`), its levels the maps of `src/maps.ts` in the game's order (§10:
+the truck stop with the bar, the flood channel, hospital corridors, offices, elevator, Cyberdyne
 corridors, labs, steel mill). The run's spans follow the header loads one after another, so the
 run goes from map to map as the game loads them (the hospital and Cyberdyne switch maps 10-12
 times each); the screens between levels play on the map loaded before them.
@@ -231,3 +231,13 @@ tile takes the bank it was drawn from most — the status bar's 2/3 only where n
 maps: black patches when they won). The elevator shaft keeps the look's banks (a car on every floor
 otherwise). Result: 308 tiles of the steel mill (the ladles) changed, every other map pixel for
 pixel as before; the flood channel's corridor redrawn the same way.
+
+## 10. The page's maps (`src/maps.ts`)
+
+By the user's word level 1 is one map: the truck stop's last screen is the bar's porch and door,
+the T-800 walks in at its right edge, and the bar's inside (header 8, 768 × 224) is laid right after
+it — at x 2560, y 0 of a 3 328 × 224 map, the two floors at the same height. `src/maps.ts` lists the
+page's maps (8 now) and where each area lies on its map; it writes `out/levels/maps.json` for the
+page and gives the packing each area's shift (`placeOf`: the bar +2560; the flood channel −416, its
+corridor cut out of its world). The run's spans follow the maps, so level 1 plays as one: frames
+1-9 187, the GET READY screen between the two dark on the map. Checked in the browser.

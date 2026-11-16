@@ -5,30 +5,28 @@
 // palette and the four nametables, and the sound chip's writes with their owner (STATUS §8). The
 // field (lines 0-219, above the status bar) is drawn as the PPU draws it and laid on the map.
 //
-// One map a level of the page, in the order the game goes through them; the hospital and Cyberdyne
-// come back many times (between their corridors, offices and the elevator), and the run goes from
-// map to map as the game loads them: its spans follow the loads one after another.
+// The page's levels are the maps of src/maps.ts in the game's order — level 1 the truck stop with the
+// bar glued after it, the others one area each; the hospital and Cyberdyne come back many times
+// (between their corridors, offices and the elevator), and the run goes from map to map as the game
+// loads them: its spans follow the loads one after another.
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
 import { mountRunPage } from '/src/maps-run/run-page.js';
 
 const W = 256, H = 220;
 const BANKS = 16, OAM = 96, PAL = 352, NT = 384;
-const BIKE = 6;
-/** The maps in the game's order, by header (src/level.ts ORDER): the page's level n is ORDER[n - 1]. */
-const ORDER = [5, 8, 6, 2, 1, 3, 4, 7, 0];
-const levelOf = (h) => ORDER.indexOf(h) + 1;
-const headerOf = (n) => ORDER[n - 1];
-const NAMES = {
-  5: 'Level 1 — the truck stop', 8: 'Level 1 — the bar', 6: 'Level 2 — the flood channel',
-  2: 'Level 3 — hospital corridors', 1: 'Level 3 — hospital offices', 3: 'Level 3 — the elevator',
-  4: 'Level 4 — Cyberdyne corridors', 7: 'Level 4 — Cyberdyne labs', 0: 'Level 5 — the steel mill',
-};
 const PUBLIC = !!window.CART_PACK;
 const LEVELS = PUBLIC ? '' : '/levels/';
-/** Where the flood channel's corridor map lies in its world (src/bike-corridor.ts). */
-const CORRIDOR = await (await fetch(LEVELS + '6-corridor.json')).json();
-const mapOf = (h) => `${LEVELS}${h === BIKE ? '6-corridor' : h}.png`;
+/**
+ * The page's maps (src/maps.ts → maps.json): per level its pieces, each an area's picture at x, y,
+ * and dx, dy from the area's own coordinates to the map's. Level 1 is the truck stop with the bar's
+ * inside glued after its door.
+ */
+const MAPS = (await (await fetch(LEVELS + 'maps.json')).json()).levels;
+const pieceOf = new Map();
+for (const l of MAPS) for (const p of l.pieces) pieceOf.set(p.header, { n: l.n, ...p });
+const levelOf = (h) => pieceOf.get(h)?.n ?? 1;
+const mapOf = (l) => (l.pieces.length === 1 ? LEVELS + l.pieces[0].src : { w: l.w, h: l.h, pieces: l.pieces.map((p) => ({ src: LEVELS + p.src, x: p.x, y: p.y, w: p.w, h: p.h })) });
 
 let image, px;
 const bgOpaque = new Uint8Array(W * H);
@@ -77,7 +75,7 @@ const run = {
     // (mission texts, the weapon screen) are played on the map loaded before them.
     const spans = [];
     for (let f = 1; f < frames; f++) {
-      const n = levelOf(header[f] === 255 ? ORDER[0] : header[f]);
+      const n = header[f] === 255 ? 1 : levelOf(header[f]);
       const last = spans[spans.length - 1];
       if (last && last[0] === n) last[2] = f;
       else spans.push([n, f, f]);
@@ -157,8 +155,8 @@ const run = {
       }
     }
     ctx.putImageData(image, 0, 0);
-    const o = state[0] === BIKE ? CORRIDOR : { x: 0, y: 0 };
-    run.last = { x: i16(state[2], state[3]) - o.x, y: i16(state[4], state[5]) - o.y };
+    const p = pieceOf.get(state[0]) ?? { dx: 0, dy: 0 };
+    run.last = { x: i16(state[2], state[3]) + p.dx, y: i16(state[4], state[5]) + p.dy };
     return run.last;
   },
   writesOf(f, each) {
@@ -174,8 +172,8 @@ let page = null;
 page = mountRunPage({
   title: 'Terminator 2: Judgment Day',
   levelWord: 'map',
-  levels: ORDER.map((h, i) => ({ n: i + 1, label: NAMES[h] })),
-  image: (n) => mapOf(headerOf(n)),
+  levels: MAPS.map((l) => ({ n: l.n, label: l.label })),
+  image: (n) => mapOf(MAPS[n - 1]),
   field: { w: W, h: H },
   zoom: 'fith',
   run,
@@ -188,8 +186,8 @@ page = mountRunPage({
   musicTitle: 'The music: the driver&#39;s four music streams (PRG $10113-$10333, $10545-$1097D)',
   effectsTitle: 'The sound effects: the driver&#39;s two effect streams (PRG $10334-$10544, $1097E-$10ACF)',
   onMouse: (x, y) => {
-    const h = headerOf(page?.cur);
-    const o = h === BIKE ? CORRIDOR : { x: 0, y: 0 };
-    document.getElementById('pos').textContent = `${NAMES[h] ?? ''} · x ${x + o.x} y ${y + o.y}`;
+    const l = MAPS[(page?.cur ?? 1) - 1];
+    const p = l?.pieces.find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
+    document.getElementById('pos').textContent = p ? `${p.name} · x ${x - p.dx} y ${y - p.dy}` : `x ${x} y ${y}`;
   },
 });

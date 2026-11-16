@@ -19,18 +19,16 @@
  *
  * Out: out/levels/take.bin.gz — "T2TK", u32 frames, u16 state size, then per frame: u16 count,
  * count × (u16 index, u8 value) changed since the frame before; u16 writes, writes × (u8 register
- * - $4000 | owner, u8 value). And out/levels/tas.json, the player's path per map (the page's level:
- * 1-9 in the game's order, level.ts ORDER): segments of [x, y, frame] on the map, cut where it jumps.
+ * - $4000 | owner, u8 value). And out/levels/tas.json, the player's path per map (the page's level,
+ * maps.ts): segments of [x, y, frame] on the map, cut where it jumps.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { Run } from './run.ts';
-import { BIKE, HEADERS, ORDER, area, tileAt, type Area } from './level.ts';
-import { readFileSync } from 'node:fs';
+import { HEADERS, area, tileAt, type Area } from './level.ts';
+import { placeOf } from './maps.ts';
 
-import { BANKS, FIELD, NT, OAM, SIZE } from './take-pack-layout.ts';
-/** Where the flood channel's corridor map lies in its world (written by src/bike-corridor.ts). */
-const corridor = JSON.parse(readFileSync('out/levels/6-corridor.json', 'utf8')) as { x: number; y: number };
+import { BANKS, FIELD, NT, OAM, PAL, SIZE } from './take-pack-layout.ts';
 
 const run = new Run();
 const m = run.m;
@@ -265,11 +263,12 @@ for (let f = 0; f <= total; f++) {
   // path goes through the middle of the body ($0447 is the feet).
   const px = player[2 * f] + (x - ramCam[2 * f]);
   const py = player[2 * f + 1] + (y - ramCam[2 * f + 1]) - 20;
-  // The flood channel's map is the corridor cut out of its world (src/bike-corridor.ts).
-  const o = h === BIKE ? corridor : { x: 0, y: 0 };
-  const pt: [number, number, number] = [px - o.x, py - o.y, f];
-  if (!trails.has(h)) trails.set(h, []);
-  const segs = trails.get(h)!;
+  // Onto the page's map (maps.ts: the bar after the truck stop, the flood channel's corridor cut
+  // out of its world).
+  const place = placeOf(h);
+  const pt: [number, number, number] = [px + place.dx, py + place.dy, f];
+  if (!trails.has(place.n)) trails.set(place.n, []);
+  const segs = trails.get(place.n)!;
   if (!lastPt || f - lastPt[2] > 2 || Math.abs(pt[0] - lastPt[0]) > 24 || Math.abs(pt[1] - lastPt[1]) > 24) segs.push([]);
   segs[segs.length - 1].push(pt);
   lastPt = pt;
@@ -295,7 +294,9 @@ const raw = Uint8Array.from(out);
 mkdirSync('out/levels', { recursive: true });
 writeFileSync('out/levels/take.bin.gz', gzipSync(raw, { level: 9 }));
 const levels: Record<number, { segments: [number, number, number][][]; frames: number }> = {};
-for (const [h, segs] of trails) levels[ORDER.indexOf(h) + 1] = { segments: segs.filter((g) => g.length > 1), frames: shownCount.get(h) ?? 0 };
+const framesOn = new Map<number, number>();
+for (const [h, k] of shownCount) framesOn.set(placeOf(h).n, (framesOn.get(placeOf(h).n) ?? 0) + k);
+for (const [n, segs] of trails) levels[n] = { segments: segs.filter((g) => g.length > 1), frames: framesOn.get(n) ?? 0 };
 writeFileSync('out/levels/tas.json', JSON.stringify({ source: "goofydylan8's TAS (fceux/goofydylan8-terminator2.fm2), replayed on the headless NES in step with FCEUX", levels }) + '\n');
 console.log(`sound writes: ${ownerCount[1]} music, ${ownerCount[2]} effects, ${ownerCount[0]} neither`);
 console.log(`${total} frames, ${shownFrames} with the field shown; ${(raw.length / 1e6).toFixed(1)} MB raw → out/levels/take.bin.gz`);

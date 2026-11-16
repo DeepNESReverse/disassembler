@@ -1,0 +1,167 @@
+{
+ "levels": [
+  {
+   "n": 1,
+   "label": "Level 1 — the truck stop and the bar",
+   "w": 3328,
+   "h": 224,
+   "pieces": [
+    {
+     "header": 5,
+     "name": "truck stop",
+     "src": "5.png",
+     "x": 0,
+     "y": 0,
+     "w": 2560,
+     "h": 224,
+     "dx": 0,
+     "dy": 0
+    },
+    {
+     "header": 8,
+     "name": "bar",
+     "src": "8.png",
+     "x": 2560,
+     "y": 0,
+     "w": 768,
+     "h": 224,
+     "dx": 2560,
+     "dy": 0
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "label": "Level 2 — the flood channel",
+   "w": 12056,
+   "h": 6144,
+   "pieces": [
+    {
+     "header": 6,
+     "name": "flood channel",
+     "src": "6-corridor.png",
+     "x": 0,
+     "y": 0,
+     "w": 12056,
+     "h": 6144,
+     "dx": -416,
+     "dy": 0
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "label": "Level 3 — hospital corridors",
+   "w": 1536,
+   "h": 608,
+   "pieces": [
+    {
+     "header": 2,
+     "name": "hospital corridors",
+     "src": "2.png",
+     "x": 0,
+     "y": 0,
+     "w": 1536,
+     "h": 608,
+     "dx": 0,
+     "dy": 0
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "label": "Level 3 — hospital offices",
+   "w": 1536,
+   "h": 608,
+   "pieces": [
+    {
+     "header": 1,
+     "name": "hospital offices",
+     "src": "1.png",
+     "x": 0,
+     "y": 0,
+     "w": 1536,
+     "h": 608,
+     "dx": 0,
+     "dy": 0
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "label": "Level 3 — the elevator",
+   "w": 320,
+   "h": 608,
+   "pieces": [
+    {
+     "header": 3,
+     "name": "hospital elevator",
+     "src": "3.png",
+     "x": 0,
+     "y": 0,
+     "w": 320,
+     "h": 608,
+     "dx": 0,
+     "dy": 0
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "label": "Level 4 — Cyberdyne corridors",
+   "w": 1536,
+   "h": 592,
+   "pieces": [
+    {
+     "header": 4,
+     "name": "cyberdyne corridors",
+     "src": "4.png",
+     "x": 0,
+     "y": 0,
+     "w": 1536,
+     "h": 592,
+     "dx": 0,
+     "dy": 0
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "label": "Level 4 — Cyberdyne labs",
+   "w": 1536,
+   "h": 592,
+   "pieces": [
+    {
+     "header": 7,
+     "name": "cyberdyne labs",
+     "src": "7.png",
+     "x": 0,
+     "y": 0,
+     "w": 1536,
+     "h": 592,
+     "dx": 0,
+     "dy": 0
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "label": "Level 5 — the steel mill",
+   "w": 1536,
+   "h": 1280,
+   "pieces": [
+    {
+     "header": 0,
+     "name": "steel mill",
+     "src": "0.png",
+     "x": 0,
+     "y": 0,
+     "w": 1536,
+     "h": 1280,
+     "dx": 0,
+     "dy": 0
+    }
+   ]
+  }
+ ]
+}
