@@ -30,8 +30,10 @@ m.hooks.exec = (p) => {
   if (p >= 0x8000 && MARKS[o]) hits.push(MARKS[o]);
 };
 if (process.env.HURT) shotsHurt(m, (x) => hurt.push(`${run.frame + 1}: slot ${x.toString(16)} hit, health ${m.ram[0x4e7 + x]}`));
+// E9=n: the pose set (`$9AEE`: 0 fists, 1 and 2 two guns), 2 if not given.
+const pose = Number(process.env.E9 ?? 2);
 for (let i = 0; i < count; i++) {
-  m.ram[0xe9] = 2;
+  m.ram[0xe9] = pose;
   m.ram[0xea] = weapon;
   m.ram[0xeb] = 56;
   run.to(from + i + 1);
@@ -45,6 +47,6 @@ shots.forEach((s, k) => {
   const ox = (k % 5) * WIDTH, oy = Math.floor(k / 5) * HEIGHT;
   for (let y = 0; y < HEIGHT; y++) for (let x = 0; x < WIDTH; x++) px[(oy + y) * W + ox + x] = s[y * WIDTH + x];
 });
-writeFileSync(`runs/weapon-tas-${weapon}.png`, encodePng(px, W, H, 1));
+writeFileSync(`runs/weapon-tas-${pose}-${weapon}.png`, encodePng(px, W, H, 1));
 console.log(log.join(' '));
 if (process.env.HURT) console.log(hurt.join('\n') || 'no hits');

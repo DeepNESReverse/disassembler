@@ -2,10 +2,11 @@
  * Terminator 2 played by hand in the browser (src/play/game.html, /play on the maps' server): the
  * cartridge on xrom-libs' NES at the NES's rate (powered on as FCEUX does, machine.ts), the pads from
  * the keyboard or a gamepad, the sound through @xromdev/apu, a save slot and a reset — and a weapon
- * from the start (STATUS §17): before every frame `$E9` (a gun in hand) and `$EA` (which, 0-6) are set
- * to the gun chosen, and `$EB` (its rounds) held at 56 if asked. The attack `$9DBA` fires while
- * `$E9` is not 0, so B shoots from level 1 on; and level 1's enemies, which only ever met fists, are
- * made to feel the shots (src/shots-hurt.ts). After the Alien 3 folder's src/play/any.ts.
+ * from the start (STATUS §17, §19): before every frame `$E9` (the gun in hand: 2 the bar's, 1
+ * Cyberdyne's; its pose `$9AEE`) and `$EA` (its power, 0-6) are set to the ones chosen, and `$EB` (its
+ * rounds) held at 56 if asked. The attack `$9DBA` fires while `$E9` is not 0, so B shoots from level 1
+ * on; and level 1's enemies, which only ever met fists, are made to feel the shots — a plain one dies
+ * of one (src/shots-hurt.ts). After the Alien 3 folder's src/play/any.ts.
  */
 import { Apu, mixApu, OutputFilters, type ChannelBuffers } from '@xromdev/apu';
 import { BUTTON, Machine, loadState, saveState } from '../machine.ts';
@@ -23,25 +24,30 @@ try {
   $('error').textContent = `Did not start: ${e instanceof Error ? e.message : e}`;
   throw e;
 }
-// Level 1's enemies take the shots as blows (src/shots-hurt.ts, STATUS §18): there the game has no
-// gun, and its enemies only ask whether a fist is on them.
+// Level 1's enemies feel the shots (src/shots-hurt.ts, STATUS §18, §19): there the game has no gun,
+// and its enemies only ask whether a fist is on them; a plain one dies of one shot.
 shotsHurt(m);
 $('cart').textContent = `mapper ${m.cart.mapper} (${m.nes.mapper.name}), PRG ${m.cart.prg.length / 1024} KB, CHR ${m.cart.chr.length / 1024} KB`;
 
-// The weapon (STATUS §17): 'game' as the game gives it, 'fists', or a gun 0-6.
+// The weapon (STATUS §17, §19): 'game' as the game gives it, 'fists', or a gun — `$E9` 2 (the bar's,
+// at the shoulder) or 1 (Cyberdyne's, the big one) — at a power `$EA` 0-6. Picking a gun puts the
+// power to the one the run has with it (0 the bar's, 6 Cyberdyne's); the power can be changed after.
 const r = m.ram;
 let weapon = 'game';
 $('weapon').onchange = () => {
   weapon = $('weapon').value;
   if (weapon === 'fists') r[0xe9] = 0;
+  if (weapon === '2') $('power').value = '0';
+  if (weapon === '1') $('power').value = '6';
   $('weapon').blur();
-  toast(weapon === 'game' ? 'The game\'s own weapon' : weapon === 'fists' ? 'Fists' : `Gun ${weapon}`);
+  toast(weapon === 'game' ? 'The game\'s own weapon' : weapon === 'fists' ? 'Fists' : weapon === '2' ? 'The bar\'s gun' : 'Cyberdyne\'s gun');
 };
+$('power').onchange = () => { $('power').blur(); toast(`Power ${$('power').value}`); };
 function arm() {
   if (weapon === 'game') return;
   if (weapon === 'fists') { r[0xe9] = 0; return; }
-  r[0xe9] = 2;
-  r[0xea] = Number(weapon);
+  r[0xe9] = Number(weapon);
+  r[0xea] = Number($('power').value);
   if ($('ammo').checked) r[0xeb] = 56;
 }
 

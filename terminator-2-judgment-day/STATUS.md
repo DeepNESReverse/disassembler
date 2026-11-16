@@ -396,3 +396,21 @@ a shot's mark on it, the mark is taken off and the routine answers as for a blow
 the thug in slot $1E is hit at 1 663, 1 675, … 1 742, its health 4 → 0 (a point every two hits, as
 with fists), state 8 on 1 744, gone from its slot on 1 811 (`runs/death-check.ts`). The play page
 installs it (`src/play/game.ts`); a cheat of the page, the cartridge's code is not changed.
+
+## 19. Two guns and a power; one shot, one plain enemy
+
+The user saw no change between the guns of §17 and wanted shots that kill as later levels' do.
+- **`$E9` is the gun in hand, not only "a gun or not".** The player's pose table is picked by it
+  (`$9AEE`: `LDX $E9 / LDA $9B18,X`): 0 the fists, 2 the bar's gun held at the shoulder, 1 the big gun
+  held low that Cyberdyne gives (the run: 2 from frame 9 005, 1 from 18 579). `runs/poses.ts` draws the
+  T-800 firing with each. §17 always set 2, so only the shots changed between "guns".
+- **`$EA` is the power the screen before a level gives** (`$B44A`, the weapon screen's rating; the
+  run: 0 with the bar's gun, 6 with Cyberdyne's): the shot's object and how many may fly at once
+  (`$9E57`-`$9E6C`).
+- The play page has a gun list (as the game, fists, the bar's, Cyberdyne's) and a power list (0-6;
+  picking a gun sets the run's power for it).
+- **One shot kills a plain enemy on level 1.** `src/shots-hurt.ts` now puts a plain enemy's health
+  to 0 before answering `$B8CE` as for a blow: it reels and dies (`runs/death-check.ts`: shot on
+  1 663, state 8 on 1 677, gone 1 696; the next thug likewise on 1 879-1 912). The bar's boss
+  (`$0547` $24, health 6 — `src/experiments/enemy-kinds.ts`; plain ones: $0B health 4, $0D 5, $0A 1)
+  takes a shot as one blow.
