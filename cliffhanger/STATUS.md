@@ -377,3 +377,12 @@ the boots and the like — no enemies; and as many on the map as the hero can ta
   8 px wide, side on; his commonest picture in the run is the same sliver).
 - Not in the Objects table: the hero (his own slot, `$0614`, not in the spawn lists) and whatever
   sections 3, 8 and 15 have — their spawn-list words at `$AD5C` are 0.
+- Not from the lists (the user: "the bosses and the helicopter are missing", 2026-11-16): a slot
+  runs a handler, its byte 1 (a list's kind runs its template's byte 11 there: the bags $10/$11, the
+  wolf $30). Slots with no entry behind them at `$6D-$70` (or the fifth slot) are the sections'
+  own code's: `$2A` the boss at the cabin (section 5), `$2B` the boss on the snow slope (8), `$2C`
+  the boss in the ice cave (11), `$31` the helicopter (14), `$2D` the last boss (15), `$2F` the
+  falling rocks (3 and 13); `$01`, `$03`, `$33`, `$34`, `$36` are shots and thrown knives, left out.
+  objects-table.ts reads their pictures by the slot like the others' (CODE; a wider window for the
+  bosses and the helicopter, 64 × 32) and puts them in the table with that handler as their id. The
+  hero's picture is now taken when no object is within 64 px of him (a shot elsewhere is no matter).

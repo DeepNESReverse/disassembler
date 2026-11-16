@@ -1,6 +1,6 @@
 /**
  * The Objects chapter's card on xrom.dev: every kind of object once, as the chapter's table has them
- * (kinds.json, src/objects-table.ts), by id in a grid on the site's dark, ×4 with the pixels kept
+ * (kinds.json, src/objects-table.ts), by id in a grid on the site's dark (seven to a row, the helicopter is 64 px wide), ×2 with the pixels kept
  * sharp → out/art/objects.png (960 × 544, the run's card's size) and objects.webp.
  *   node --experimental-strip-types --no-warnings src/objects-preview.ts
  */
@@ -9,7 +9,7 @@ import { execFileSync } from 'node:child_process';
 import { encodePng } from '../libs/nes/src/png.ts';
 import { readPng } from './png-read.ts';
 
-const W = 240, H = 136, SCALE = 4, COLS = 8;
+const W = 480, H = 272, SCALE = 2, COLS = 7;
 const kinds = (JSON.parse(readFileSync('out/levels/kinds.json', 'utf8')).objects as { img: string }[]).map((o) => o.img);
 const rows = Math.ceil(kinds.length / COLS);
 const cw = W / COLS, ch = H / rows;

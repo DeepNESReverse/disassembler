@@ -78,6 +78,22 @@ ppu.scanline = (line) => {
   }
 };
 
+/**
+ * The objects the lists do not place: each section's own code puts them in a slot (no entry behind
+ * it at $6D-$70, or the fifth slot), known by the handler the slot runs (byte 1; a list's kind runs
+ * its template's byte 11 there: the bags $10/$11, the wolf $30). The bosses, the helicopter and the
+ * falling rocks; not the shots and thrown knives ($01, $03, $33, $34, $36), which are not things on
+ * the mountain. Read off the run's frames (STATUS §15).
+ */
+const CODE: Record<number, { name: string; group: string; big: boolean; note: string }> = {
+  0x2a: { name: 'boss', group: 'boss', big: true, note: 'at the cabin, section 5' },
+  0x2b: { name: 'boss', group: 'boss', big: true, note: 'on the snow slope, section 8' },
+  0x2c: { name: 'boss', group: 'boss', big: true, note: 'in the ice cave, section 11' },
+  0x31: { name: 'helicopter', group: 'boss', big: true, note: 'it shoots from above, section 14' },
+  0x2d: { name: 'the last boss', group: 'boss', big: true, note: 'the last fight, section 15' },
+  0x2f: { name: 'falling rock', group: 'hazard', big: false, note: 'put by the sections’ own code' },
+};
+const codeSections = new Map<number, Set<number>>();
 /** The hero's key among the kinds' looks: he is not a kind, his slot is his own ($0614). */
 const HERO = -1;
 interface Look { sprites: number[][]; banks: number[]; palette: number[]; tall: boolean; n: number; frame: number }
@@ -92,12 +108,17 @@ for (let f = 985; f <= end; f++) {
   const base = B5(m.ram[0x51e] | (m.ram[0x51f] << 8));
   const pos = (b: number) => ({ x: ((m.ram[b + 3] << 8) | m.ram[b + 2]) / 32, y: ((m.ram[b + 10] << 8) | m.ram[b + 9]) / 32 });
   const near = (x: number) => { while (x < cam.x - 512) x += 2048; while (x > cam.x + 1536) x -= 2048; return x; };
-  const slots: { kind: number; sx: number; sy: number }[] = [];
-  for (let k = 0; k < 4; k++) {
-    const b = 0x633 + 0x1f * k, idx = m.ram[0x6d + k];
-    if (!(m.ram[b] & 1) || idx >= 0xfe) continue;
+  // Every slot on: a list's kind (its entry at $6D-$70), one of the code's (CODE, by its handler at
+  // byte 1, as 0x100 + it), or anything else (a shot: -1), which keeps its own sprites.
+  const slots: { kind: number; sx: number; sy: number; big: boolean }[] = [];
+  for (let k = 0; k < 5; k++) {
+    const b = 0x633 + 0x1f * k, idx = k < 4 ? m.ram[0x6d + k] : 0xff;
+    if (!(m.ram[b] & 1)) continue;
     const p = pos(b);
-    slots.push({ kind: prg[base + 9 * idx + 1], sx: near(p.x) - cam.x, sy: p.y - cam.y });
+    const fromList = idx < 0xfe && (m.ram[0x51e] | m.ram[0x51f]) !== 0;
+    const kind = fromList ? prg[base + 9 * idx + 1] : CODE[m.ram[b + 1]] ? 0x100 + m.ram[b + 1] : -1;
+    slots.push({ kind, sx: near(p.x) - cam.x, sy: p.y - cam.y, big: kind >= 0x100 && CODE[kind - 0x100].big });
+    if (kind >= 0x100) (codeSections.get(kind) ?? codeSections.set(kind, new Set()).get(kind)!).add(m.ram[0x40a] + 1);
   }
   const pl = pos(0x614);
   const qx = near(pl.x) - cam.x, qy = pl.y - cam.y;
@@ -106,24 +127,26 @@ for (let f = 985; f <= end; f++) {
   const here = `${pl.x},${pl.y}`;
   still = here === lastPlace ? still + 1 : 0;
   lastPlace = here;
-  if (!slots.length) {
-    if (still < 10 || qx < 24 || qx > 200 || qy < 24 || qy > 120) continue;
+  // No object within 64 px of him (a shot far off is no matter).
+  const alone = !slots.some((sl) => Math.abs(sl.sx - qx) < 64 && Math.abs(sl.sy - qy) < 64);
+  if (alone && still >= 10 && qx >= 24 && qx <= 200 && qy >= 24 && qy <= 120) {
     const sprites: number[][] = [];
     for (let k = 0; k < 64; k++) {
       if (oam[k * 4] >= 0xef) continue;
       const y = oam[k * 4] + 1, x = oam[k * 4 + 3];
       if (x >= qx - 4 && x < qx + 24 && y >= qy - 4 && y < qy + 40) sprites.push([x - qx, y - qy, oam[k * 4 + 1], oam[k * 4 + 2]]);
     }
-    if (!sprites.length || sprites.every((p) => [1, 2, 3].every((c) => dark(sprPal[(p[3] & 3) * 4 + c])))) continue;
-    const ax = Math.min(...sprites.map((p) => p[0])), ay = Math.min(...sprites.map((p) => p[1]));
-    const rel = sprites.map(([x, y, t, a]) => [x - ax, y - ay, t, a]).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
-    const key = JSON.stringify(rel) + rel.map((p) => sprPal.slice((p[3] & 3) * 4, (p[3] & 3) * 4 + 4).join('.')).join('|');
-    if (!seen.has(HERO)) seen.set(HERO, new Map());
-    const v = seen.get(HERO)!.get(key) ?? { sprites: rel, banks, palette: sprPal, tall: (ctrl & 0x20) !== 0, n: 0, frame: f };
-    v.n++;
-    seen.get(HERO)!.set(key, v);
-    continue;
+    if (sprites.length && !sprites.every((p) => [1, 2, 3].every((c) => dark(sprPal[(p[3] & 3) * 4 + c])))) {
+      const ax = Math.min(...sprites.map((p) => p[0])), ay = Math.min(...sprites.map((p) => p[1]));
+      const rel = sprites.map(([x, y, t, a]) => [x - ax, y - ay, t, a]).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+      const key = JSON.stringify(rel) + rel.map((p) => sprPal.slice((p[3] & 3) * 4, (p[3] & 3) * 4 + 4).join('.')).join('|');
+      if (!seen.has(HERO)) seen.set(HERO, new Map());
+      const v = seen.get(HERO)!.get(key) ?? { sprites: rel, banks, palette: sprPal, tall: (ctrl & 0x20) !== 0, n: 0, frame: f };
+      v.n++;
+      seen.get(HERO)!.set(key, v);
+    }
   }
+  if (!slots.length) continue;
   const mine = new Map<number, number[][]>();
   for (let k = 0; k < 64; k++) {
     if (oam[k * 4] >= 0xef) continue;
@@ -131,7 +154,7 @@ for (let f = 985; f <= end; f++) {
     if (x >= qx - 4 && x < qx + 24 && y >= qy - 4 && y < qy + 40) continue;
     let best = -1, bd = Infinity;
     slots.forEach((sl, i) => {
-      if (x < sl.sx - 16 || x >= sl.sx + 40 || y < sl.sy - 24 || y >= sl.sy + 40) return;
+      if (sl.big ? x < sl.sx - 48 || x >= sl.sx + 72 || y < sl.sy - 40 || y >= sl.sy + 56 : x < sl.sx - 16 || x >= sl.sx + 40 || y < sl.sy - 24 || y >= sl.sy + 40) return;
       const d = Math.hypot(x + 4 - (sl.sx + 8), y + 4 - (sl.sy + 12));
       if (d < bd) (bd = d), (best = i);
     });
@@ -139,9 +162,9 @@ for (let f = 985; f <= end; f++) {
   }
   for (const [i, sprites] of mine) {
     const sl = slots[i];
-    if (!kinds.has(sl.kind) || ITEMS[sl.kind]) continue;
-    // Wholly on the field.
-    if (sl.sx < 24 || sl.sx > 200 || sl.sy < 24 || sl.sy > 130) continue;
+    if (sl.kind < 0 || (sl.kind < 0x100 && (!kinds.has(sl.kind) || ITEMS[sl.kind]))) continue;
+    // Wholly on the field (a boss's or the helicopter's place may be its top).
+    if (sl.big ? sl.sx < 8 || sl.sx > 200 || sl.sy < 8 || sl.sy > 120 : sl.sx < 24 || sl.sx > 200 || sl.sy < 24 || sl.sy > 130) continue;
     if (sprites.every((p) => [1, 2, 3].every((c) => dark(sprPal[(p[3] & 3) * 4 + c])))) continue;
     const ax = Math.min(...sprites.map((p) => p[0])), ay = Math.min(...sprites.map((p) => p[1]));
     const rel = sprites.map(([x, y, t, a]) => [x - ax, y - ay, t, a]).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
@@ -230,7 +253,7 @@ for (let s = 0; s < SECTIONS; s++) {
   }
 }
 
-interface Row { kind: number; id: string; name: string; group: string; item: boolean; worth: number | null; costs?: number[]; count: number | null; sections: number[]; note?: string; img: string; w: number; h: number }
+interface Row { kind: number; id: string; name: string; group: string; item: boolean; worth: number | null; costs?: number[]; count: number | null; sections: number[]; note?: string; code?: boolean; img: string; w: number; h: number }
 const out: Row[] = [];
 const extra = (kind: number) => ({
   group: groupOf(kind),
@@ -258,6 +281,22 @@ for (const kind of [...kinds].sort((a, b) => a - b)) {
   out.push({ kind, id, name: OTHERS[kind] ?? `object ${id}`, item: false, ...extra(kind), img: file, w, h });
   console.log(`${id}: ${look.sprites.length} sprites, ${look.n} of ${ways.reduce((t, v) => t + v.n, 0)} frames (first ${look.frame}), ${w} × ${h}`);
 }
+// The code's objects: id = their handler, as `$2A`.
+for (const [t, c] of Object.entries(CODE).map(([t, c]) => [Number(t), c] as const)) {
+  const ways = [...(seen.get(0x100 + t)?.values() ?? [])].sort((a, b) => b.n - a.n);
+  if (!ways.length) {
+    missing.push(0x100 + t);
+    continue;
+  }
+  const look = ways.filter((w) => w.n >= ways[0].n * 0.2).sort((a, b) => b.sprites.length - a.sprites.length || b.n - a.n)[0];
+  const file = `kinds/code-${t.toString(16)}.png`;
+  const { w, h } = draw(look, `out/levels/${file}`);
+  const id = `$${t.toString(16).toUpperCase()}`;
+  const sections = [...(codeSections.get(0x100 + t) ?? [])].sort((a, b) => a - b);
+  out.push({ kind: 0x100 + t, id, name: c.name, group: c.group, item: false, worth: null, count: null, sections, note: c.note, code: true, img: file, w, h });
+  console.log(`${id} (code): ${look.sprites.length} sprites, ${look.n} of ${ways.reduce((q, v) => q + v.n, 0)} frames (first ${look.frame}), ${w} x ${h}`);
+}
+
 // The hero first: not a kind of the lists, his own slot.
 // Standing: his commonest pose while his place does not change (taken from any frame, the speedrun's
 // commonest is a sliver, one column of sprites, and its fullest a fight).
