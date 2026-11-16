@@ -269,7 +269,9 @@ doors, and an elevator (header 3) between floors. `src/experiments/transitions.t
   (`src/experiments/elevator-car.ts`, 39.5 px right of the player's x), on the map the door is x
   346-390 (16 px right of the player's x as they come out) — so 24 px left of the exit's x. The page
   draws a ride's frame with its black clear and without its lines above 32 (the energy bar is at
-  22-28, the car never above 65): only the car is laid on the hospital.
+  22-28, the car never above 65): only the car is laid on the hospital. While the run rides, the
+  map dims to 60 % black (by the user's word: as the game blacks out all but the car, but with the
+  hospital still in view); the car is drawn over the dimming.
 - The packing writes every frame's place on the level's map into its state (bytes 88-91), the bar's
   scale and the rides included, so the page takes it as it is. Level 3 is one span now, frames
   12 722-18 637 (1:38). Checked in the browser: an office fades in over the plan with the frame on

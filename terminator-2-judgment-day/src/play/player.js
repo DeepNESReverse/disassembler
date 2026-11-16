@@ -187,6 +187,9 @@ const run = {
     const on = !!(o?.overlay && page?.cur === o.n);
     if (on && over.dataset.src !== o.src) (over.dataset.src = o.src), (over.src = LEVELS + o.src), placeOverlay(o);
     over.classList.toggle('on', on);
+    // On a ride (the elevator) the map dims, not to black — the hospital stays in view and the car,
+    // drawn over the dimming, is what the eye goes to: as the game blacks out all but the car.
+    document.getElementById('rideDim').classList.toggle('on', !!(o?.ride && page?.cur === o.n));
     const p = pieceOf.get(state[0]);
     const small = p && p.k !== 1 && page?.cur === p.n ? p : null;
     const live = document.getElementById('live');
@@ -247,8 +250,8 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s four music streams (PRG $10113-$10333, $10545-$1097D)',
   effectsTitle: 'The sound effects: the driver&#39;s two effect streams (PRG $10334-$10544, $1097E-$10ACF)',
-  css: '#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}',
-  layersBelow: '<img id="overlay" alt="">',
+  css: '#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}#rideDim{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}#rideDim.on{opacity:.6}',
+  layersBelow: '<img id="overlay" alt=""><div id="rideDim"></div>',
   onZoom: () => placeOverlay(),
   onPick: () => placeOverlay(),
   onMouse: (x, y) => {
