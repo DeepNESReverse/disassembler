@@ -169,7 +169,7 @@ times each); the screens between levels play on the map loaded before them.
 
 What `src/take-pack.ts` keeps per frame (its header comment has the layout): the header loaded, the
 field's place on the map, PPUCTRL/PPUMASK, the field's scroll, the MMC3's CHR banks **line by
-line** (`src/experiments`-style probe on frames 1700-35500: the scanline IRQ sets the sprites' slot 4
+line** (`src/experiments/line-banks.ts`, frames 1700-35500: the scanline IRQ sets the sprites' slot 4
 to bank 0 at line 20 and back further down, and in the steel mill the background's slots 2-3 change
 at line 179), the sprite memory, the palette, the nametables; and the sound-chip writes.
 - **The field** is lines 0-219, one scroll; below, the status bar has its own.
