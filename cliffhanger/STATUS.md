@@ -390,3 +390,8 @@ the boots and the like — no enemies; and as many on the map as the hero can ta
   him alone), not by a box round him: the box cut the legs off the bosses $2A and $2C where he
   stands against them (the user saw it). The bosses' pictures: the tallest of their common poses
   ($2B's commonest fullest is a flying kick, lying across).
+- The shots and thrown knives (the user: "the knife an enemy throws, and the bullets when you shoot",
+  2026-11-16), put by the game's code as they are fired: `$01` the hero's bullet, `$03` his thrown
+  knife (the fifth slot), `$34` the henchmen's knife, `$33` the bullet of the henchman up a tree
+  (he himself is a list's `$06`, at the same place), `$36` the helicopter's bullet. A shot's picture is
+  one sprite, the nearest its place within 16 px; the hero's tiles go only to his own shots.

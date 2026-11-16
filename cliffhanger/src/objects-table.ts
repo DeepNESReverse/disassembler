@@ -81,17 +81,27 @@ ppu.scanline = (line) => {
 /**
  * The objects the lists do not place: each section's own code puts them in a slot (no entry behind
  * it at $6D-$70, or the fifth slot), known by the handler the slot runs (byte 1; a list's kind runs
- * its template's byte 11 there: the bags $10/$11, the wolf $30). The bosses, the helicopter and the
- * falling rocks; not the shots and thrown knives ($01, $03, $33, $34, $36), which are not things on
- * the mountain. Read off the run's frames (STATUS §15).
+ * its template's byte 11 there: the bags $10/$11, the wolf $30). The bosses, the helicopter, the
+ * falling rocks, and the shots and thrown knives — the hero's (his pistol's bullet $01 and his knife
+ * $03, in the fifth slot) and the others' (a henchman's knife $34, the bullet of the one up a tree
+ * $33 — he himself is a list's $06 —, the helicopter's bullet $36): the user asked for those too.
+ * Read off the run's frames (STATUS §15). A shot is one small sprite, maybe in the hero's own tiles
+ * ($40-$7F): the one nearest its place within 16 px (its thrower's hand is often next to it; the
+ * tree man's bullet is drawn 12 px off its place), the hero's tiles going only to his own shots, and
+ * only outside his box (his arm raised to shoot stuck to the helicopter's bullet).
  */
-const CODE: Record<number, { name: string; group: string; big: boolean; note: string }> = {
+const CODE: Record<number, { name: string; group: string; big: boolean; shot?: boolean; note: string }> = {
   0x2a: { name: 'boss', group: 'boss', big: true, note: 'at the cabin, section 5' },
   0x2b: { name: 'boss', group: 'boss', big: true, note: 'on the snow slope, section 8' },
   0x2c: { name: 'boss', group: 'boss', big: true, note: 'in the ice cave, section 11' },
   0x31: { name: 'helicopter', group: 'boss', big: true, note: 'it shoots from above, section 14' },
   0x2d: { name: 'the last boss', group: 'boss', big: true, note: 'the last fight, section 15' },
   0x2f: { name: 'falling rock', group: 'hazard', big: false, note: 'put by the sections’ own code' },
+  0x01: { name: 'bullet', group: 'shot', big: false, shot: true, note: 'the hero’s, from the pistol' },
+  0x03: { name: 'thrown knife', group: 'shot', big: false, shot: true, note: 'the hero’s' },
+  0x33: { name: 'bullet', group: 'shot', big: false, shot: true, note: 'a henchman’s, the one up a tree' },
+  0x34: { name: 'thrown knife', group: 'shot', big: false, shot: true, note: 'the henchmen’s' },
+  0x36: { name: 'bullet', group: 'shot', big: false, shot: true, note: 'the helicopter’s' },
 };
 const codeSections = new Map<number, Set<number>>();
 /**
@@ -117,14 +127,15 @@ for (let f = 985; f <= end; f++) {
   const near = (x: number) => { while (x < cam.x - 512) x += 2048; while (x > cam.x + 1536) x -= 2048; return x; };
   // Every slot on: a list's kind (its entry at $6D-$70), one of the code's (CODE, by its handler at
   // byte 1, as 0x100 + it), or anything else (a shot: -1), which keeps its own sprites.
-  const slots: { kind: number; sx: number; sy: number; big: boolean }[] = [];
+  const slots: { kind: number; sx: number; sy: number; big: boolean; shot: boolean; heroShot: boolean }[] = [];
   for (let k = 0; k < 5; k++) {
     const b = 0x633 + 0x1f * k, idx = k < 4 ? m.ram[0x6d + k] : 0xff;
     if (!(m.ram[b] & 1)) continue;
     const p = pos(b);
     const fromList = idx < 0xfe && (m.ram[0x51e] | m.ram[0x51f]) !== 0;
     const kind = fromList ? prg[base + 9 * idx + 1] : CODE[m.ram[b + 1]] ? 0x100 + m.ram[b + 1] : -1;
-    slots.push({ kind, sx: near(p.x) - cam.x, sy: p.y - cam.y, big: kind >= 0x100 && CODE[kind - 0x100].big });
+    const code = kind >= 0x100 ? CODE[kind - 0x100] : null;
+    slots.push({ kind, sx: near(p.x) - cam.x, sy: p.y - cam.y, big: !!code?.big, shot: !!code?.shot, heroShot: kind === 0x101 || kind === 0x103 });
     if (kind >= 0x100) (codeSections.get(kind) ?? codeSections.set(kind, new Set()).get(kind)!).add(m.ram[0x40a] + 1);
   }
   const pl = pos(0x614);
@@ -158,17 +169,23 @@ for (let f = 985; f <= end; f++) {
   for (let k = 0; k < 64; k++) {
     if (oam[k * 4] >= 0xef) continue;
     const y = oam[k * 4] + 1, x = oam[k * 4 + 3];
-    if (isHero(oam[k * 4 + 1])) continue;
+    // The hero's tiles: his own in his box; outside it only a shot's (his bullet, his knife).
+    const heroTile = isHero(oam[k * 4 + 1]);
+    if (heroTile && x >= qx - 4 && x < qx + 24 && y >= qy - 4 && y < qy + 40) continue;
     let best = -1, bd = Infinity;
     slots.forEach((sl, i) => {
-      if (sl.big ? x < sl.sx - 48 || x >= sl.sx + 72 || y < sl.sy - 40 || y >= sl.sy + 56 : x < sl.sx - 16 || x >= sl.sx + 40 || y < sl.sy - 24 || y >= sl.sy + 40) return;
+      // The hero's tiles outside his box: only his own bullet and knife (his arm raised is above it).
+      if (heroTile && !sl.heroShot) return;
+      if (sl.shot ? x < sl.sx - 16 || x >= sl.sx + 16 || y < sl.sy - 16 || y >= sl.sy + 16 : sl.big ? x < sl.sx - 48 || x >= sl.sx + 72 || y < sl.sy - 40 || y >= sl.sy + 56 : x < sl.sx - 16 || x >= sl.sx + 40 || y < sl.sy - 24 || y >= sl.sy + 40) return;
       const d = Math.hypot(x + 4 - (sl.sx + 8), y + 4 - (sl.sy + 12));
       if (d < bd) (bd = d), (best = i);
     });
     if (best >= 0) (mine.get(best) ?? mine.set(best, []).get(best)!).push([x - slots[best].sx, y - slots[best].sy, oam[k * 4 + 1], oam[k * 4 + 2]]);
   }
-  for (const [i, sprites] of mine) {
+  for (const [i, all] of mine) {
     const sl = slots[i];
+    // A shot is one sprite: the one nearest its place (its thrower's hand is often next to it).
+    const sprites = sl.shot ? [[...all].sort((a, b) => Math.hypot(a[0], a[1]) - Math.hypot(b[0], b[1]))[0]] : all;
     if (sl.kind < 0 || (sl.kind < 0x100 && (!kinds.has(sl.kind) || ITEMS[sl.kind]))) continue;
     // Wholly on the field (a boss's or the helicopter's place may be its top).
     if (sl.big ? sl.sx < 8 || sl.sx > 200 || sl.sy < 8 || sl.sy > 120 : sl.sx < 24 || sl.sx > 200 || sl.sy < 24 || sl.sy > 130) continue;
@@ -303,7 +320,7 @@ for (const [t, c] of Object.entries(CODE).map(([t, c]) => [Number(t), c] as cons
     .sort((a, b) => (c.big ? tall(b) - tall(a) : 0) || b.sprites.length - a.sprites.length || b.n - a.n)[0];
   const file = `kinds/code-${t.toString(16)}.png`;
   const { w, h } = draw(look, `out/levels/${file}`);
-  const id = `$${t.toString(16).toUpperCase()}`;
+  const id = `$${t.toString(16).toUpperCase().padStart(2, '0')}`;
   const sections = [...(codeSections.get(0x100 + t) ?? [])].sort((a, b) => a - b);
   out.push({ kind: 0x100 + t, id, name: c.name, group: c.group, item: false, worth: null, count: null, sections, note: c.note, code: true, img: file, w, h });
   console.log(`${id} (code): ${look.sprites.length} sprites, ${look.n} of ${ways.reduce((q, v) => q + v.n, 0)} frames (first ${look.frame}), ${w} x ${h}`);
