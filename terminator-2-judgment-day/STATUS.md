@@ -236,9 +236,13 @@ pixel as before; the flood channel's corridor redrawn the same way.
 
 By the user's word level 1 is one map: the truck stop's last screen is the bar's porch and door,
 the T-800 walks in at its right edge, and the bar's inside (header 8, 768 × 224) is laid right after
-it at x 2560 — and, by the user's word on seeing it, at y 62 so that the bar's ceiling goes on from
-the porch's roof (the roof's top is row 128 of the truck stop, the bar's ceiling beam row 66): a
-3 328 × 286 map, the bar's floor 42 px below the street's. `src/maps.ts` lists the
+it at x 2560 — shrunk, by the user's word on seeing it, so that its ceiling and floor go on from the
+porch's roof and floor: the roof begins at row 128 of the truck stop and the porch's floor at 202,
+the bar's ceiling beam at row 66 and its floor beam at 178, so the bar is drawn at 74 / 112 (0.661)
+of its size with its top at 128 - 66 × 0.661 = 84.4 (a 3 068 × 233 map). While the run is in the
+bar the page scales the game's frame the same and zooms so that the bar fills the window, the
+follow paused; out of it (scrubbing back) the zoom and the follow come back — the way Cliffhanger
+shows its house (`src/play/player.js` `onFrame`/`view`). `src/maps.ts` lists the
 page's maps (8 now) and where each area lies on its map; it writes `out/levels/maps.json` for the
 page and gives the packing each area's shift (`placeOf`: the bar +2560; the flood channel −416, its
 corridor cut out of its world). The run's spans follow the maps, so level 1 plays as one: frames

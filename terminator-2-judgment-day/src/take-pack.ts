@@ -266,7 +266,7 @@ for (let f = 0; f <= total; f++) {
   // Onto the page's map (maps.ts: the bar after the truck stop, the flood channel's corridor cut
   // out of its world).
   const place = placeOf(h);
-  const pt: [number, number, number] = [px + place.dx, py + place.dy, f];
+  const pt: [number, number, number] = [Math.round(px * place.k + place.dx), Math.round(py * place.k + place.dy), f];
   if (!trails.has(place.n)) trails.set(place.n, []);
   const segs = trails.get(place.n)!;
   if (!lastPt || f - lastPt[2] > 2 || Math.abs(pt[0] - lastPt[0]) > 24 || Math.abs(pt[1] - lastPt[1]) > 24) segs.push([]);

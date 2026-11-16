@@ -155,9 +155,51 @@ const run = {
       }
     }
     ctx.putImageData(image, 0, 0);
-    const p = pieceOf.get(state[0]) ?? { dx: 0, dy: 0 };
-    run.last = { x: i16(state[2], state[3]) + p.dx, y: i16(state[4], state[5]) + p.dy };
+    const p = pieceOf.get(state[0]) ?? { k: 1, dx: 0, dy: 0 };
+    run.last = { x: p.k * i16(state[2], state[3]) + p.dx, y: p.k * i16(state[4], state[5]) + p.dy };
     return run.last;
+  },
+  // A map piece drawn smaller than its area (the bar, glued into level 1 at its porch's height,
+  // src/maps.ts): while the run is in it the game's frame is scaled the same, and the view zooms so
+  // that the piece fills the window (the follow paused, the piece in the middle); out of it the zoom
+  // and the follow come back — the way Cliffhanger shows its house.
+  inside: null,
+  zoomBefore: 0,
+  followBefore: true,
+  onFrame() {
+    const p = pieceOf.get(state[0]);
+    const small = p && p.k !== 1 && page?.cur === p.n ? p : null;
+    const live = document.getElementById('live');
+    // The page sets the frame's transform each frame: the scale goes after it.
+    if (small) live.style.transform += ` scale(${small.k})`;
+    if (small === run.inside) return;
+    run.inside = small;
+    // After the page's frame: onFrame runs inside it, before it scrolls by the zoom and follow it
+    // read at its start, which would undo these.
+    if (page) setTimeout(() => run.view(small));
+  },
+  view(small) {
+    const follow = document.getElementById('tkFollow');
+    const zNum = document.getElementById('zNum');
+    const wrap = document.getElementById('wrap');
+    const setPct = (v) => { zNum.value = String(v); zNum.dispatchEvent(new Event('change')); };
+    if (small) {
+      if (!run.zoomBefore) {
+        const on = document.querySelector('[data-z].on');
+        run.zoomBefore = on ? on.dataset.z : Math.round(page.z * 100);
+        run.followBefore = follow.checked;
+      }
+      follow.checked = false;
+      // As near as the page zooms (4× at most) to the piece filling the window.
+      setPct(Math.floor(Math.min(wrap.clientWidth / small.w, wrap.clientHeight / small.h) * 0.96 * 100));
+      wrap.scrollTo((small.x + small.w / 2) * page.z - wrap.clientWidth / 2, (small.y + small.h / 2) * page.z - wrap.clientHeight / 2);
+    } else if (run.zoomBefore) {
+      follow.checked = run.followBefore;
+      const was = run.zoomBefore;
+      run.zoomBefore = 0;
+      if (typeof was === 'string') document.querySelector(`[data-z="${was}"]`).click();
+      else setPct(was);
+    }
   },
   writesOf(f, each) {
     let p = offsets[f];
@@ -185,9 +227,11 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s four music streams (PRG $10113-$10333, $10545-$1097D)',
   effectsTitle: 'The sound effects: the driver&#39;s two effect streams (PRG $10334-$10544, $1097E-$10ACF)',
+  css: '#live{transform-origin:0 0}',
   onMouse: (x, y) => {
     const l = MAPS[(page?.cur ?? 1) - 1];
     const p = l?.pieces.find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
-    document.getElementById('pos').textContent = p ? `${p.name} · x ${x - p.dx} y ${y - p.dy}` : `x ${x} y ${y}`;
+    const at = (v, d) => Math.round((v - d) / (p?.k ?? 1));
+    document.getElementById('pos').textContent = p ? `${p.name} · x ${at(x, p.dx)} y ${at(y, p.dy)}` : `x ${x} y ${y}`;
   },
 });
