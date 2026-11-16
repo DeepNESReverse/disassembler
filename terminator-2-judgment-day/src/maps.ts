@@ -2,7 +2,9 @@
  * The maps the page shows (its levels, in the game's order) and where each area lies on them
  * (STATUS §10). Level 1 is two areas glued: the bar's inside (header 8) right after the truck stop
  * (header 5), whose last screen is the bar's porch and door — the T-800 walks in at the right edge and
- * the bar starts there. The others are one area each.
+ * the bar starts there, its ceiling going on from the porch's roof (by the user's word): the roof's
+ * top is row 128 of the truck stop, the ceiling beam's row 66 of the bar, so the bar lies 62 px down
+ * (its floor then 42 px below the street's). The others are one area each.
  *
  *   placeOf(header) → { n, dx, dy }: the page level and the shift from the area's own coordinates
  *   (its decoded world: the camera's, level.ts) to the map's.
@@ -13,7 +15,7 @@ import { BIKE, NAMES, area } from './level.ts';
 
 interface Piece { header: number; x: number; y: number }
 export const MAPS: { label: string; pieces: Piece[] }[] = [
-  { label: 'Level 1 — the truck stop and the bar', pieces: [{ header: 5, x: 0, y: 0 }, { header: 8, x: 2560, y: 0 }] },
+  { label: 'Level 1 — the truck stop and the bar', pieces: [{ header: 5, x: 0, y: 0 }, { header: 8, x: 2560, y: 62 }] },
   { label: 'Level 2 — the flood channel', pieces: [{ header: 6, x: 0, y: 0 }] },
   { label: 'Level 3 — hospital corridors', pieces: [{ header: 2, x: 0, y: 0 }] },
   { label: 'Level 3 — hospital offices', pieces: [{ header: 1, x: 0, y: 0 }] },

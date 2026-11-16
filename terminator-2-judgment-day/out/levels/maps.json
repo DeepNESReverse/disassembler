@@ -4,7 +4,7 @@
    "n": 1,
    "label": "Level 1 — the truck stop and the bar",
    "w": 3328,
-   "h": 224,
+   "h": 286,
    "pieces": [
     {
      "header": 5,
@@ -22,11 +22,11 @@
      "name": "bar",
      "src": "8.png",
      "x": 2560,
-     "y": 0,
+     "y": 62,
      "w": 768,
      "h": 224,
      "dx": 2560,
-     "dy": 0
+     "dy": 62
     }
    ]
   },
