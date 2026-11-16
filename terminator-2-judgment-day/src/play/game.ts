@@ -4,10 +4,12 @@
  * the keyboard or a gamepad, the sound through @xromdev/apu, a save slot and a reset — and a weapon
  * from the start (STATUS §17): before every frame `$E9` (a gun in hand) and `$EA` (which, 0-6) are set
  * to the gun chosen, and `$EB` (its rounds) held at 56 if asked. The attack `$9DBA` fires while
- * `$E9` is not 0, so B shoots from level 1 on. After the Alien 3 folder's src/play/any.ts.
+ * `$E9` is not 0, so B shoots from level 1 on; and level 1's enemies, which only ever met fists, are
+ * made to feel the shots (src/shots-hurt.ts). After the Alien 3 folder's src/play/any.ts.
  */
 import { Apu, mixApu, OutputFilters, type ChannelBuffers } from '@xromdev/apu';
 import { BUTTON, Machine, loadState, saveState } from '../machine.ts';
+import { shotsHurt } from '../shots-hurt.ts';
 
 const HZ = 60.0988;
 const $ = (id: string) => document.getElementById(id) as HTMLElement & HTMLInputElement & HTMLSelectElement;
@@ -21,6 +23,9 @@ try {
   $('error').textContent = `Did not start: ${e instanceof Error ? e.message : e}`;
   throw e;
 }
+// Level 1's enemies take the shots as blows (src/shots-hurt.ts, STATUS §18): there the game has no
+// gun, and its enemies only ask whether a fist is on them.
+shotsHurt(m);
 $('cart').textContent = `mapper ${m.cart.mapper} (${m.nes.mapper.name}), PRG ${m.cart.prg.length / 1024} KB, CHR ${m.cart.chr.length / 1024} KB`;
 
 // The weapon (STATUS §17): 'game' as the game gives it, 'fists', or a gun 0-6.

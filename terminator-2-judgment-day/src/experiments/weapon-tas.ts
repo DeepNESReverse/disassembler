@@ -8,6 +8,7 @@ import { writeFileSync } from 'node:fs';
 import { encodePng } from '../../libs/nes/src/png.ts';
 import { HEIGHT, WIDTH } from '../../libs/nes/src/ppu.ts';
 import { Run } from '../run.ts';
+import { shotsHurt } from '../shots-hurt.ts';
 
 const weapon = Number(process.argv[2] ?? 0);
 const from = Number(process.argv[3] ?? 1595);
@@ -19,6 +20,8 @@ run.to(from);
 const m = run.m;
 const shots: Uint32Array[] = [];
 const log: string[] = [];
+// HURT=1: the shots hurt level 1's enemies (src/shots-hurt.ts); the hits are logged.
+const hurt: string[] = [];
 // Which steps of the attack ($9DBA, STATUS §17) run: the shot's checks and the spawn.
 const MARKS: Record<number, string> = { 0x5dba: 'attack', 0x5dc5: 'punch', 0x5dfb: 'gun', 0x5e08: 'ammo ok', 0x5e11: 'spawned', 0x59f7: 'B?', 0x59fc: 'B!' };
 const hits: string[] = [];
@@ -26,6 +29,7 @@ m.hooks.exec = (p) => {
   const o = m.prgOffset(p);
   if (p >= 0x8000 && MARKS[o]) hits.push(MARKS[o]);
 };
+if (process.env.HURT) shotsHurt(m, (x) => hurt.push(`${run.frame + 1}: slot ${x.toString(16)} hit, health ${m.ram[0x4e7 + x]}`));
 for (let i = 0; i < count; i++) {
   m.ram[0xe9] = 2;
   m.ram[0xea] = weapon;
@@ -43,3 +47,4 @@ shots.forEach((s, k) => {
 });
 writeFileSync(`runs/weapon-tas-${weapon}.png`, encodePng(px, W, H, 1));
 console.log(log.join(' '));
+if (process.env.HURT) console.log(hurt.join('\n') || 'no hits');

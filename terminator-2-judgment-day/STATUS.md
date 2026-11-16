@@ -373,3 +373,26 @@ as the game gives it, fists, or gun 0-6 — and "ammo never runs out": before ev
 `$EA` = the gun (and `$EB` = 56). Checked in the browser: the title, Start through the screens to the
 truck stop, gun 6 chosen, the T-800 armed with the rounds' bar, B fires. The guns' names are not in
 the code (only their table rows); gun 0 is the one the bar gives.
+
+## 18. Shots that hurt level 1's enemies (`src/shots-hurt.ts`)
+
+The user found the guns of §17 hurt no one on level 1. Why, from the code:
+- The shot (bank 0, `$9C1B`-`$9CDA`) walks the slots and, on one that is hittable (`$0547,Y` not 0
+  or 1, no bit 7 in `$04E7,Y`/`$0508,Y`, `$04A7,Y` not 0) and inside its box (`$0507,Y`, `$0508,Y`),
+  marks it — `$04E8,Y` |= 1 — and is gone (`$9CD0`-`$9CD8`). Level 1's thugs are hittable
+  (`src/experiments/enemy-fields.ts`), so they get the mark.
+- The hit flags' bits 5-7 are worked out anew every frame (`$A59C`, `$A5AB`: the T-800's fist over
+  an object sets bit 6); bits 0-4 are kept.
+- A thug of the truck stop asks `JSR $B8CE` "was I hit?" (its handler `$98E8`-`$9939`,
+  `src/experiments/callers-of.ts`): `$B8CE` looks at bit 6 only, then the facing and `$E6` (one hit a
+  blow). It never reads bit 0; nothing on level 1 does — there the game has no gun. The later
+  levels' enemies read the shots' mark themselves.
+- A blow puts the thug in state 6 (it reels), its state 1 handler `$9B29` takes a point off its
+  health `$04E7,X` (`$9B37`), at 0 state 8 (it dies) — `src/experiments/slot-writes.ts`.
+
+`src/shots-hurt.ts`: on the truck stop and in the bar (`$D1` 6, 8), when a thug asks `$B8CE` with
+a shot's mark on it, the mark is taken off and the routine answers as for a blow — on to `$B8F6`
+(SEC / RTS) with A = 0. `src/experiments/weapon-tas.ts` (HURT=1, gun 6 from frame 1 535, B tapped):
+the thug in slot $1E is hit at 1 663, 1 675, … 1 742, its health 4 → 0 (a point every two hits, as
+with fists), state 8 on 1 744, gone from its slot on 1 811 (`runs/death-check.ts`). The play page
+installs it (`src/play/game.ts`); a cheat of the page, the cartridge's code is not changed.
