@@ -15,6 +15,13 @@
  *  +23  word    -> $03D5: the layout's CPU address in that 16 KB
  *  +25  word    the routine the loader jumps to (`JMP ($93)`)
  * The layout is one byte a 16 × 16 block, row by row; the tables are indexed by the block.
+ *
+ * The flood channel (header 6) is laid out another way (STATUS §7): its layout word points at a
+ * table of 384 row pointers (`($CC)`, `$DA53`/`$DA33`), each row 42 blocks, and the rows are
+ * sheared — block column c of row r is byte c + 2r - 766 of the row (`$95/$96` = column - 2 ×
+ * ($17F - row), from `$D8C4-$D921`). Outside 0-41 the builder stores the index's high byte: $FF
+ * left of the row, 0 right of it. So the world is a corridor 42 blocks wide going up and right,
+ * two blocks across for one up — the way the camera moves (+4, -2 a frame).
  */
 import { parseRom } from '../libs/nes/src/nes.ts';
 import { romFile } from './rom.ts';
@@ -42,6 +49,8 @@ export interface Area {
   cols: number;
   rows: number;
   blocks: Uint8Array;
+  /** The flood channel's row pointers (PRG offsets), when the layout is sheared. */
+  sheared?: number[];
   /** The header's four words at +14 ($03CC-$03D3). */
   limits: number[];
   routine: number;
@@ -56,6 +65,15 @@ export function area(header: number): Area {
   const cols = raw[12];
   const rows = raw[13];
   const layoutAt = inBank(word(at + 23));
+  if (header === BIKE) {
+    const sheared = Array.from({ length: BIKE_ROWS }, (_, r) => inBank(word(layoutAt + 2 * r)));
+    return {
+      header, raw, bank, tables, layoutAt, cols: BIKE_SHEAR + BIKE_ROW, rows: BIKE_ROWS, sheared,
+      blocks: new Uint8Array(0),
+      limits: [0, 1, 2, 3].map((k) => word(at + 14 + 2 * k)),
+      routine: word(at + 25),
+    };
+  }
   return {
     header, raw, bank, tables, layoutAt, cols, rows,
     blocks: prg.slice(layoutAt, layoutAt + cols * rows),
@@ -64,9 +82,24 @@ export function area(header: number): Area {
   };
 }
 
+/** The flood channel: its header, rows, the blocks in a row and the shear's constant ($2FE). */
+export const BIKE = 6;
+const BIKE_ROWS = 384;
+const BIKE_ROW = 42;
+const BIKE_SHEAR = 0x2fe;
+
+/** The block at block column bx, row by. */
+export function blockAt(a: Area, bx: number, by: number): number {
+  if (!a.sheared) return a.blocks[by * a.cols + bx];
+  const i = bx + 2 * by - BIKE_SHEAR;
+  if (i < 0) return 0xff;
+  if (i >= BIKE_ROW) return i >> 8;
+  return prg[a.sheared[by] + i];
+}
+
 /** The tile number and palette at tile (tx, ty). */
 export function tileAt(a: Area, tx: number, ty: number): { tile: number; palette: number } {
-  const block = a.blocks[(ty >> 1) * a.cols + (tx >> 1)];
+  const block = blockAt(a, tx >> 1, ty >> 1);
   const tile = prg[a.tables[((ty & 1) << 1) | (tx & 1)] + block];
   return { tile, palette: prg[a.tables[4] + block] & 3 };
 }

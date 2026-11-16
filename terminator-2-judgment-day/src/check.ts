@@ -11,14 +11,14 @@
  * the elevator shaft, header 3, 37, -3). A frame where more than half the tiles differ shows
  * something else (a text screen, a fade, the building's explosion) and is counted apart.
  * The area is the header loaded last by `$A3E0`.
- * Header 6 (the flood channel) is not a world (STATUS §5) and is left out.
+ * The flood channel (header 6) is a sheared corridor (STATUS §7); its picture is searched ±16 px.
  */
 import { Run } from './run.ts';
 import { HEADERS, area, tileAt, type Area } from './level.ts';
 
 const args = process.argv.slice(2).map(Number);
 const step = args[0] || 1;
-const wanted = new Set(args.length > 1 ? args.slice(1) : [...Array(HEADERS).keys()].filter((h) => h !== 6));
+const wanted = new Set(args.length > 1 ? args.slice(1) : [...Array(HEADERS).keys()]);
 const offsetOf = (h: number) => ({ x: Number(process.env.DX ?? (h === 3 ? 37 : 13)), y: Number(process.env.DY ?? -3) });
 
 const run = new Run();
@@ -138,8 +138,9 @@ for (let f = 1100; f < run.pads.length; f += step) {
   const base = { x: cam.x + off.x, y: cam.y + off.y };
   let at = { ...base, n: count(a, base.x, base.y, fl) };
   if (at.n > 0 && !process.env.STRICT) {
-    for (let dy = -8; dy <= 8 && at.n > 0; dy++) {
-      for (let dx = -8; dx <= 8 && at.n > 0; dx++) {
+    const R = h === 6 ? 16 : 8; // the bike moves 4 px a frame, and its picture runs further from the RAM
+    for (let dy = -R; dy <= R && at.n > 0; dy++) {
+      for (let dx = -R; dx <= R && at.n > 0; dx++) {
         const n = count(a, base.x + dx, base.y + dy, fl);
         if (n < at.n) at = { x: base.x + dx, y: base.y + dy, n };
       }

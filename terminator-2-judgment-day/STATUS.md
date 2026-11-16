@@ -86,7 +86,7 @@ Found by following the nametable writes back (`src/vram-origins.ts 1530 2500`, `
 |---|---|---|---|---|
 | 5 | 6 | truck stop | 160 × 14 | 2560 × 224 |
 | 8 | 8 | bar | 48 × 14 | 768 × 224 |
-| 6 | 1 | flood channel (bike) | — | not a world, below |
+| 6 | 1 | flood channel (bike) | 808 × 384, sheared (§7) | 12928 × 6144 |
 | 2 | 3 | hospital corridors | 96 × 38 | 1536 × 608 |
 | 1 | 2 | hospital offices | 96 × 38 | 1536 × 608 |
 | 3 | 4 | hospital elevator shaft | 20 × 38 | 320 × 608 |
@@ -97,11 +97,7 @@ Found by following the nametable writes back (`src/vram-origins.ts 1530 2500`, `
 `src/render.ts` → `out/levels/<header>.png`, with the background banks on line 100 and the palette
 of a frame of the TAS inside the area (`LOOK`).
 
-**The flood channel is not a world.** Its header says 64 × 128, but drawn so it is road for a few
-rows and noise after. On the bike the camera `$C4-$C7` stands still while `$2005` runs over the
-whole 512 × 480 plane: the road is a diagonal pattern scrolled round and round. **Open:** how its
-picture is built (`$846A`-`$849E` read PRG `$EB00` 4 000 times in frames 9 400-9 700) and how to
-show the ride as a map.
+The flood channel's layout is not a grid: §7.
 
 ## 6. The maps against the game, every frame of the TAS (`src/check.ts`)
 
@@ -115,6 +111,7 @@ it moves; within ±8 px the best fit is taken ("only shifted").
 | header | frames | something else | differ | tiles apart |
 |---|---|---|---|---|
 | 0 steel mill | 7 857 | 40 | 2 | 32 of 5 180 066 |
+| 6 flood channel | 3 410 | 225 | 1 616 | 4 679 of 1 323 010 |
 | 1 hospital offices | 1 290 | 595 | 0 | 0 |
 | 2 hospital corridors | 3 139 | 0 | 0 | 0 |
 | 3 elevator shaft | 720 | 0 | 0 | 0 |
@@ -130,3 +127,32 @@ it moves; within ±8 px the best fit is taken ("only shifted").
   written by the status bar's unrolled copy in bank 3 (`$A0B7-$A2C8`, from the buffers
   `$0600-$0650`). An attribute byte covers 4 tile rows; on the field's edge row it is shared with
   the status bar's rows, and the status bar's write wins. Not a fault of the map.
+- **The flood channel:** 1-3 tiles a frame, nearly all in the screen's corners — the top-left
+  cell where the row strip and the column strip meet (2 509 tiles at cells 0-1 of row 0-1: the
+  game, moving 4 px right and 2 up a frame, renews it a frame late) and the bottom-right at the
+  ride's start (432 tiles), where the camera looks past the 384th row and the game reads row
+  "pointers" out of the row data. Its picture is searched ±16 px: at 4 px a frame it runs up to 12
+  px from the RAM's camera.
+
+## 7. The flood channel: a sheared corridor (`src/level.ts`, `src/bike-corridor.ts`)
+
+The camera does move on the bike — `$C4/$C5` +4 and `$C6/$C7` -2 a frame (it stands still only
+before the start, where I looked first), from x 416, y 6136 up to x 12180, y 22. The columns and
+rows are written by the same `$C565`/`$C5A7` from tiles of header 6's tables, but the blocks come
+from other builders (`src/who-writes.ts 9600 9604 140 163`):
+- `$D8C4-$D921` set `$CC/$CD` = the header's layout word `$935C` + 2 × the block row, and
+  `$95/$96` = block column - 2 × ($17F - block row).
+- `$DA53` (a column, 15 blocks to `$0154`) and `$DA33` (a row, 21 blocks to `$0140`) take each row's
+  pointer from `($CC)` and the block at index `$8D/$8E` of it; down a row the index grows by 2
+  (`INY / INY`). An index outside 0-41 stores its high byte instead: $FF left of the row, 0 right of it
+  (1, 2 further right — never in view).
+
+So `$935C` is a table of row pointers (`src/experiments/bike-rows.ts`): 384 words, 81 distinct rows
+of 42 blocks from `$965C` on (the next words are row data). Block column c of row r is byte
+c + 2r - 766 of its row: the world is 808 × 384 blocks and the road a corridor 42 blocks wide
+going up and right, two blocks across for one up — the camera's own slope. The broken cars,
+crates and the bridges the channel passes under are background in it.
+
+`src/bike-corridor.ts` → `out/levels/6-corridor.png` (12 064 × 6 144): the world drawn only where
+the camera looked during the ride (`$C4-$C7` + 13, -3, ±16 px) and cut to that band — the
+corridor, everything else black. `out/levels/6.png` is the whole 808 × 384-block world.
