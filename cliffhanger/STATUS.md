@@ -363,3 +363,12 @@ the boots and the like — no enemies; and as many on the map as the hero can ta
   (`src/components/site/gameObjects.ts` in ~/xrom). Its card: `src/objects-preview.ts` →
   out/art/objects.png and objects.webp, the 30 in a grid ×4. On the maps page the items switch is on
   in the run (`?view=run`) and off on the maps (`?view=map`), as they were published.
+- The money (2026-11-16): `$0418-$041A`, BCD, high byte first (the status bar counts up to it). A
+  money kind's worth is in its template (`$B598`, bank 5): BCD bytes 6, 3, 2, high first —
+  `$0E` 80, `$0F` 30, `$10` 50, `$11` 750, `$17` 250, `$15` 2 000, `$14` 2 500, the cases `$13`
+  303 300, `$12` 306 500, `$16` 329 500. Every take of the run adds exactly that (27 takes; `$0F`,
+  `$10`, `$12` are never taken, their worth by the same bytes); the knife, the pistol and the boots
+  add 10. The money also goes down: -75 at frames 2426 and 2442, -150 at 4719, -60 000 at 22128 —
+  why, not looked at yet.
+- Not in the Objects table: the hero (his own slot, `$0614`, not in the spawn lists) and whatever
+  sections 3, 8 and 15 have — their spawn-list words at `$AD5C` are 0.
