@@ -40,3 +40,9 @@
 [submodule "cliffhanger/libs/maps-run"]
 	path = cliffhanger/libs/maps-run
 	url = https://github.com/DeepNESReverse/xrom-maps-run
+[submodule "terminator-2-judgment-day/libs/nes"]
+	path = terminator-2-judgment-day/libs/nes
+	url = https://github.com/DeepNESReverse/xrom-nes
+[submodule "terminator-2-judgment-day/libs/maps-run"]
+	path = terminator-2-judgment-day/libs/maps-run
+	url = https://github.com/DeepNESReverse/xrom-maps-run

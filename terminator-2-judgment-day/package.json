@@ -1,0 +1,9 @@
+{
+  "name": "terminator-2-judgment-day-levels",
+  "private": true,
+  "type": "module",
+  "description": "Terminator 2: Judgment Day (USA): every level drawn whole from the cartridge, with a TAS over it.",
+  "scripts": {
+    "setup": "npm --prefix libs/nes ci && ln -sfn libs/nes/node_modules node_modules"
+  }
+}
