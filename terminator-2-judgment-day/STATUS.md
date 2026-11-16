@@ -297,3 +297,12 @@ By the user's word, the way of the hospital (§11): Cyberdyne's labs (header 7) 
 lie on the corridors' map at 0, 0 as an overlay shown while the run is in a lab. The page has five
 maps now, one a level; Cyberdyne is one stretch, frames 18 686-34 246 (4:19). Checked in the
 browser: the corridors in a corridor, the labs fading in over them in a lab.
+
+## 14. The blend slider
+
+By the user's wish, on the levels with two plans (the hospital, Cyberdyne) the header has a slider
+from "Corridors" to "Rooms": how much of the rooms' plan (the floors without the walls) shows over
+the corridors, to see one laid on the other. Until it is moved — and again after "auto" — it follows
+the run (the rooms while the run is in one, §11, §13); moved, it holds the rooms' plan at its
+opacity whatever the run does. It works on the map alone too, the run not started. Checked in the
+browser: hidden on levels 1, 2 and 5; at 50 % both plans show through each other; "auto" lets go.

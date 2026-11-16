@@ -38,6 +38,8 @@ const MAP = 88;
 const RIDE_TOP = 32;
 /** The overlay piece last shown (the hospital's offices), placed at the page's zoom by placeOverlay. */
 let overlayPiece = null;
+/** The blend slider's state: `manual` once moved (until "auto"). */
+const blend = { manual: false };
 
 let image, px;
 const bgOpaque = new Uint8Array(W * H);
@@ -202,12 +204,13 @@ const run = {
   zoomBefore: 0,
   followBefore: true,
   onFrame() {
-    // An overlay piece (the hospital's offices): shown over the map while the run is in it.
+    // An overlay piece (the hospital's offices, Cyberdyne's labs): shown over the map while the run
+    // is in it — unless the blend slider holds it (then the slider's opacity stands).
     const o = pieceOf.get(state[0]);
     const over = document.getElementById('overlay');
     const on = !!(o?.overlay && page?.cur === o.n);
-    if (on && over.dataset.src !== o.src) (over.dataset.src = o.src), (over.src = LEVELS + o.src), placeOverlay(o);
     over.classList.toggle('on', on);
+    if (!blend.manual) document.getElementById('blend').value = on ? '100' : '0';
     // On a ride (the elevator) the map dims, not to black — the hospital stays in view and the car,
     // drawn over the dimming, is what the eye goes to: as the game blacks out all but the car.
     document.getElementById('rideDim').classList.toggle('on', !!(o?.ride && page?.cur === o.n));
@@ -271,10 +274,20 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s four music streams (PRG $10113-$10333, $10545-$1097D)',
   effectsTitle: 'The sound effects: the driver&#39;s two effect streams (PRG $10334-$10544, $1097E-$10ACF)',
-  css: '#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}#rideDim{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}#rideDim.on{opacity:.6}',
+  css: '#blendGrp[hidden]{display:none}#blend{width:110px;accent-color:#dfe4ee}#blendAuto{padding:2px 8px;font-size:12px}#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}#rideDim{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}#rideDim.on{opacity:.6}',
   layersBelow: '<img id="overlay" alt=""><div id="rideDim"></div>',
   onZoom: () => placeOverlay(),
-  onPick: () => placeOverlay(),
+  // The blend slider: on a level with two plans (the corridors and, over them, the rooms without the
+  // walls) how much of the rooms' plan shows — 0 the corridors, 100 the rooms. "auto" (until the
+  // slider is moved, and again on a click) follows the run: the rooms while it is in one.
+  headerHtml: '<span class="grp" id="blendGrp" hidden title="How much of the rooms&#39; plan (the same floors without the walls) shows over the corridors"><span class="cap">Corridors</span><input type="range" id="blend" min="0" max="100" value="0"><span class="cap">Rooms</span><button id="blendAuto" class="on" title="Follow the run: the rooms while it is in one">auto</button></span>',
+  onPick: (n) => {
+    const ov = MAPS[n - 1]?.pieces.find((p) => p.overlay);
+    document.getElementById('blendGrp').hidden = !ov;
+    const im = document.getElementById('overlay');
+    if (ov && im.dataset.src !== ov.src) (im.dataset.src = ov.src), (im.src = LEVELS + ov.src);
+    placeOverlay(ov ? { n, ...ov } : null);
+  },
   onMouse: (x, y) => {
     const l = MAPS[(page?.cur ?? 1) - 1];
     const p = l && baseOf(l).find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
@@ -293,4 +306,21 @@ function placeOverlay(o = overlayPiece) {
     return;
   }
   Object.assign(im.style, { left: o.x * page.z + 'px', top: o.y * page.z + 'px', width: o.w * page.z + 'px' });
+}
+
+// The blend slider (see headerHtml): moved, it holds the rooms' plan at its opacity; "auto" lets go.
+{
+  const slider = document.getElementById('blend');
+  const auto = document.getElementById('blendAuto');
+  const im = document.getElementById('overlay');
+  slider.oninput = () => {
+    blend.manual = true;
+    auto.classList.remove('on');
+    Object.assign(im.style, { transition: 'none', opacity: String(+slider.value / 100) });
+  };
+  auto.onclick = () => {
+    blend.manual = false;
+    auto.classList.add('on');
+    Object.assign(im.style, { transition: '', opacity: '' });
+  };
 }
