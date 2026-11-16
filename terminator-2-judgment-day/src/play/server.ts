@@ -4,6 +4,7 @@
  *   node --experimental-strip-types src/play/server.ts [--port 4330]
  *
  * GET / the page (src/play/index.html); /levels/… the maps and the packed run (out/levels);
+ * /play the game to play by hand, a weapon from the start (src/play/game.html), /rom its cartridge;
  * /src/… this repo's modules; /xrom-libs/nes/… the palette and @xromdev/apu; /chr the cartridge's
  * pattern tables, read in place (the ROM is never copied).
  */
@@ -46,6 +47,9 @@ createServer((req, res) => {
   const p = new URL(req.url ?? '/', 'http://localhost').pathname;
   if (p === '/' || p === '/index.html') return file(res, resolve(repo, 'src/play'), '/index.html');
   if (p.startsWith('/levels/')) return file(res, resolve(repo, 'out/levels'), p.slice('/levels'.length));
+  // The game to play by hand (src/play/game.html) and its cartridge, read in place, on 127.0.0.1 only.
+  if (p === '/play') return file(res, resolve(repo, 'src/play'), '/game.html');
+  if (p === '/rom') return send(res, 200, romFile(), 'application/octet-stream');
   if (p === '/chr') {
     const rom = romFile();
     return send(res, 200, rom.subarray(16 + rom[4] * 0x4000), 'application/octet-stream');

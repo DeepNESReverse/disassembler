@@ -346,3 +346,30 @@ labs' bombs (nine) have pink rings and show as much as the rooms' plan does — 
 in a lab, not at all in a corridor, as the blend slider says when it is held — and the corridors' (one,
 #5) orange, as much as the corridors show. Checked in the browser: on the corridors' plan only #5;
 at the slider's "Rooms" end only the nine; "auto" follows the run again.
+
+## 17. The weapon, and the game to play with one from level 1 (`src/play/game.*`)
+
+**Where the game keeps the weapon** (the user wanted a gun on level 1, where the T-800 only punches).
+`src/experiments/press-diff.ts` (the code a press of B adds: level 1 frame 1 603 against 13 065 in
+the hospital) leads to the attack:
+- the scanline IRQ (`$C227`-`$C23E`) shifts a set bit into `$0717` on a press of B (`$85`), into
+  `$0716` on A, unless `$D0` bit 1;
+- the player's code takes it at `$99F7` (`LSR $0717`, `JMP $9DBA`);
+- `$9DBA`, the attack: `LDX $E9 / BNE $9DFB` — **`$E9` not 0 is a gun in hand**, else the punch
+  (`$9DC5`). The shot: `$EB` the rounds (none: no shot), `$EA` **which gun** (0-6; tables at `$9E57`
+  the shot's object, `$9E5E`, `$9E65`, `$9E6C` how many may fly at once: 2 3 3 4 4 5 5), `$ED` the
+  shots flying; `JSR $DC8E` makes the shot, `DEC $EB` (at 0 `$E9` goes back to 0, the fists).
+- In the run (the capture): `$E9` becomes 2 on frame 9 005 (the end of the bar: the shotgun, gun 0),
+  gun 6 from 18 015 (Cyberdyne); `$EA`/`$E9` are not touched by the levels' starts.
+
+`src/experiments/weapon-tas.ts` (OWN=1: B tapped standing at the truck stop, `$E9` 2, `$EA` 6, `$EB`
+56): the attack takes the gun's way, the shot is made (`$ED` 1, then 2), the T-800 holds a gun and the
+status bar shows the rounds ("R:"). The shot is there but dark grey on the black night: level 1's
+sprite colours (`runs/bullet-look.ts`, the sprite layer).
+
+**The page.** http://127.0.0.1:4330/play (the maps' server): the cartridge on xrom-libs' NES, keys
+or a gamepad, the sound, a save slot, after the Alien 3 folder's `src/play/any.*`; a weapon list —
+as the game gives it, fists, or gun 0-6 — and "ammo never runs out": before every frame `$E9` = 2 and
+`$EA` = the gun (and `$EB` = 56). Checked in the browser: the title, Start through the screens to the
+truck stop, gun 6 chosen, the T-800 armed with the rounds' bar, B fires. The guns' names are not in
+the code (only their table rows); gun 0 is the one the bar gives.
