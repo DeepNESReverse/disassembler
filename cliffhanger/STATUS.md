@@ -369,6 +369,11 @@ the boots and the like — no enemies; and as many on the map as the hero can ta
   303 300, `$12` 306 500, `$16` 329 500. Every take of the run adds exactly that (27 takes; `$0F`,
   `$10`, `$12` are never taken, their worth by the same bytes); the knife, the pistol and the boots
   add 10. The money also goes down: -75 at frames 2426 and 2442, -150 at 4719, -60 000 at 22128 —
-  why, not looked at yet.
+  the hero warming himself at a campfire (the user's word; checked: each drop with the hero within
+  15 px of a campfire of his section). How the price is set is not read yet.
+- The Objects table (kinds.json) has, per kind, its group (hero, enemy, hazard, money, gear, other),
+  its worth, how many the lists place and in which sections, a note, and for the campfire what it
+  cost in the run; and the hero first — his standing pose (his place unchanged for 10 frames: he is
+  8 px wide, side on; his commonest picture in the run is the same sliver).
 - Not in the Objects table: the hero (his own slot, `$0614`, not in the spawn lists) and whatever
   sections 3, 8 and 15 have — their spawn-list words at `$AD5C` are 0.

@@ -1,6 +1,7 @@
 /**
  * Every kind of object the game's spawn lists place (STATUS §15: the rows at $C69B, each naming an
- * entry of $AD5C), one picture a kind, for xrom.dev's Objects chapter: a table of id and object →
+ * entry of $AD5C), one picture a kind, with its group, its worth, how many and where, and the hero
+ * (his own slot), for xrom.dev's Objects chapter: a table of id and object →
  * out/levels/kinds.json, out/levels/kinds/<kind>.png (objects.json is §11's).
  *   node --experimental-strip-types --no-warnings src/objects-table.ts
  *
@@ -77,10 +78,13 @@ ppu.scanline = (line) => {
   }
 };
 
+/** The hero's key among the kinds' looks: he is not a kind, his slot is his own ($0614). */
+const HERO = -1;
 interface Look { sprites: number[][]; banks: number[]; palette: number[]; tall: boolean; n: number; frame: number }
 const seen = new Map<number, Map<string, Look>>();
 const end = run.pads.length + 600;
 const dark = (c: number) => (c & 0x0f) >= 0x0d;
+let still = 0, lastPlace = '';
 for (let f = 985; f <= end; f++) {
   run.to(f);
   const cam = takeCam.get(f);
@@ -95,9 +99,31 @@ for (let f = 985; f <= end; f++) {
     const p = pos(b);
     slots.push({ kind: prg[base + 9 * idx + 1], sx: near(p.x) - cam.x, sy: p.y - cam.y });
   }
-  if (!slots.length) continue;
   const pl = pos(0x614);
   const qx = near(pl.x) - cam.x, qy = pl.y - cam.y;
+  // The hero, alone on the field (no object's sprites to take for his), standing: his place the
+  // same for 10 frames (each section's start, while its tune plays). His own slot, $0614.
+  const here = `${pl.x},${pl.y}`;
+  still = here === lastPlace ? still + 1 : 0;
+  lastPlace = here;
+  if (!slots.length) {
+    if (still < 10 || qx < 24 || qx > 200 || qy < 24 || qy > 120) continue;
+    const sprites: number[][] = [];
+    for (let k = 0; k < 64; k++) {
+      if (oam[k * 4] >= 0xef) continue;
+      const y = oam[k * 4] + 1, x = oam[k * 4 + 3];
+      if (x >= qx - 4 && x < qx + 24 && y >= qy - 4 && y < qy + 40) sprites.push([x - qx, y - qy, oam[k * 4 + 1], oam[k * 4 + 2]]);
+    }
+    if (!sprites.length || sprites.every((p) => [1, 2, 3].every((c) => dark(sprPal[(p[3] & 3) * 4 + c])))) continue;
+    const ax = Math.min(...sprites.map((p) => p[0])), ay = Math.min(...sprites.map((p) => p[1]));
+    const rel = sprites.map(([x, y, t, a]) => [x - ax, y - ay, t, a]).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+    const key = JSON.stringify(rel) + rel.map((p) => sprPal.slice((p[3] & 3) * 4, (p[3] & 3) * 4 + 4).join('.')).join('|');
+    if (!seen.has(HERO)) seen.set(HERO, new Map());
+    const v = seen.get(HERO)!.get(key) ?? { sprites: rel, banks, palette: sprPal, tall: (ctrl & 0x20) !== 0, n: 0, frame: f };
+    v.n++;
+    seen.get(HERO)!.set(key, v);
+    continue;
+  }
   const mine = new Map<number, number[][]>();
   for (let k = 0; k < 64; k++) {
     if (oam[k * 4] >= 0xef) continue;
@@ -160,7 +186,61 @@ const placed = JSON.parse(readFileSync('out/levels/items.json', 'utf8')).section
 const itemPic = new Map<number, { img: string; w: number; h: number }>();
 for (const list of Object.values(placed)) for (const it of list) if (!itemPic.has(it.kind)) itemPic.set(it.kind, it);
 
-const out: { kind: number; id: string; name: string; item: boolean; img: string; w: number; h: number }[] = [];
+/**
+ * Each kind's group and what it is worth, for the table. The money: a money kind's worth is in its
+ * template ($B598, bank 5) — BCD bytes 6, 3, 2, high first — and every take of the run adds exactly
+ * that (STATUS §15; the money at $0418-$041A). The knife, the pistol and the boots add 10 (seen on
+ * the run's takes; the house's boot and the dynamite are never taken). The campfires take money:
+ * the hero warms himself at one and pays (the user's word, checked: all four drops of the run are
+ * at a campfire, $75, $75, $150, $60 000).
+ */
+const GROUPS: Record<string, number[]> = {
+  enemy: [0x03, 0x06, 0x07, 0x08, 0x09, 0x0b, 0x0d],
+  hazard: [0x00, 0x01, 0x04, 0x05, 0x0c],
+  money: [0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17],
+  gear: [0x18, 0x19, 0x1c, 0x1a, 0x1d, 0x1f],
+  other: [0x1e, 0x21],
+};
+const groupOf = (k: number) => Object.entries(GROUPS).find(([, ks]) => ks.includes(k))?.[0] ?? 'other';
+const bcd = (b: number) => (b >> 4) * 10 + (b & 15);
+const worthOf = (k: number): number | null => {
+  if (GROUPS.money.includes(k)) {
+    const t = B5(prg[B5(0xb598) + 2 * k] | (prg[B5(0xb598) + 2 * k + 1] << 8));
+    return bcd(prg[t + 6]) * 10000 + bcd(prg[t + 3]) * 100 + bcd(prg[t + 2]);
+  }
+  return [0x18, 0x19, 0x1d, 0x1f].includes(k) ? 10 : null;
+};
+const NOTES: Record<number, string> = {
+  0x05: 'on the cabins’ roofs and the ledges',
+  0x0c: 'on the river above the waterfall',
+  0x1a: 'in the cabin',
+  0x1c: 'in the cabin and in section 12',
+  0x1e: 'in the cabin',
+  0x21: 'warm up here — it costs money',
+};
+// Where each kind is put: how many rows of the spawn lists, in which sections (from 1).
+const where = new Map<number, { n: number; sections: Set<number> }>();
+for (let s = 0; s < SECTIONS; s++) {
+  for (const r of rowsOf(s)) {
+    if (Math.abs(r.rx - r.x) > 64 || Math.abs(r.ry - r.y) > 64) continue;
+    const w = where.get(r.kind) ?? { n: 0, sections: new Set<number>() };
+    w.n++;
+    w.sections.add(s + 1);
+    where.set(r.kind, w);
+  }
+}
+
+interface Row { kind: number; id: string; name: string; group: string; item: boolean; worth: number | null; costs?: number[]; count: number | null; sections: number[]; note?: string; img: string; w: number; h: number }
+const out: Row[] = [];
+const extra = (kind: number) => ({
+  group: groupOf(kind),
+  worth: worthOf(kind),
+  count: where.get(kind)?.n ?? null,
+  sections: [...(where.get(kind)?.sections ?? [])].sort((a, b) => a - b),
+  ...(NOTES[kind] ? { note: NOTES[kind] } : {}),
+  // What warming up at a campfire took from the money in the speedrun (the four drops, STATUS §15).
+  ...(kind === 0x21 ? { costs: [75, 150, 60000] } : {}),
+});
 const missing: number[] = [];
 for (const kind of [...kinds].sort((a, b) => a - b)) {
   const id = `$${kind.toString(16).toUpperCase().padStart(2, '0')}`;
@@ -168,15 +248,25 @@ for (const kind of [...kinds].sort((a, b) => a - b)) {
   if (ITEMS[kind]) {
     const p = itemPic.get(kind)!;
     copyFileSync(`out/levels/${p.img}`, `out/levels/${file}`);
-    out.push({ kind, id, name: ITEMS[kind].name, item: true, img: file, w: p.w, h: p.h });
+    out.push({ kind, id, name: ITEMS[kind].name, item: true, ...extra(kind), img: file, w: p.w, h: p.h });
     continue;
   }
   const ways = [...(seen.get(kind)?.values() ?? [])].sort((a, b) => b.n - a.n);
   if (!ways.length) { missing.push(kind); continue; }
   const look = ways.filter((w) => w.n >= ways[0].n * 0.2).sort((a, b) => b.sprites.length - a.sprites.length || b.n - a.n)[0];
   const { w, h } = draw(look, `out/levels/${file}`);
-  out.push({ kind, id, name: OTHERS[kind] ?? `object ${id}`, item: false, img: file, w, h });
+  out.push({ kind, id, name: OTHERS[kind] ?? `object ${id}`, item: false, ...extra(kind), img: file, w, h });
   console.log(`${id}: ${look.sprites.length} sprites, ${look.n} of ${ways.reduce((t, v) => t + v.n, 0)} frames (first ${look.frame}), ${w} × ${h}`);
+}
+// The hero first: not a kind of the lists, his own slot.
+// Standing: his commonest pose while his place does not change (taken from any frame, the speedrun's
+// commonest is a sliver, one column of sprites, and its fullest a fight).
+const heroWays = [...(seen.get(HERO)?.values() ?? [])].sort((a, b) => b.n - a.n);
+const heroLook = heroWays[0];
+if (heroLook) {
+  const { w, h } = draw(heroLook, 'out/levels/kinds/hero.png');
+  out.unshift({ kind: HERO, id: 'slot $0614', name: 'Gabe Walker', group: 'hero', item: false, worth: null, count: null, sections: [], note: 'the player — his own slot, not in the spawn lists', img: 'kinds/hero.png', w, h });
+  console.log(`hero: ${heroLook.sprites.length} sprites, ${heroLook.n} frames (first ${heroLook.frame}), ${w} × ${h}`);
 }
 writeFileSync('out/levels/kinds.json', JSON.stringify({ objects: out }) + '\n');
 console.log(`${out.length} kinds (${out.filter((o) => o.item).length} items)${missing.length ? `; never seen whole: ${missing.map((k) => k.toString(16)).join(' ')}` : ''}`);
