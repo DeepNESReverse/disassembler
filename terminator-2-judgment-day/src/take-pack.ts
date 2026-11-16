@@ -9,6 +9,8 @@
  *   2-3 x, 4-5 y: where the field's top-left lies on the header's map (out/levels/<h>.png), int16
  *   6 PPUCTRL  7 PPUMASK (line 100)  8-9 the field's plane x (0-511), 10-11 plane y (0-479) at its top,
  *   from line 120's scroll (line 0's may differ on frames where the scroll is set late)
+ *   88-91 x, y (int16): where the field's top-left lies on the page's map (its level, maps.ts) —
+ *   the place above moved and scaled as the area lies there, or, on a ride, between its two doors
  *   12 the number of CHR bank runs over the field, 16-87 the runs: 9 bytes each, the first line and
  *   the 1 KB CHR bank in each slot $0000-$1FFF (the scanline IRQ switches the sprites' slot 4 mid-
  *   frame, and the steel mill's background slots 2-3 from line 179)
@@ -28,7 +30,7 @@ import { Run } from './run.ts';
 import { HEADERS, area, tileAt, type Area } from './level.ts';
 import { placeOf } from './maps.ts';
 
-import { BANKS, FIELD, NT, OAM, PAL, SIZE } from './take-pack-layout.ts';
+import { BANKS, FIELD, MAP, NT, OAM, PAL, SIZE } from './take-pack-layout.ts';
 
 const run = new Run();
 const m = run.m;
@@ -227,6 +229,36 @@ const nearest = (r: number, md: number, near: number) => near + ((((r - near) % 
 // The state is re-read through a fresh pass of the NES's lines for `misses`: it reads `m.lineX/Y`,
 // which hold the last frame only — so the check is done on the saved nametables with the saved
 // line-0 scroll (one scroll over the field, STATUS §6).
+// A ride (maps.ts: the elevator) is laid between two doors of its level's map: the player's place
+// before the load that starts it (20 frames before: on the last frames the game has already put the
+// player at the floor they will come out on) and after the load that ends it; on the way, the
+// player's height in the shaft from its first frame to its last stands for the way between the two.
+const visitFirst = new Map<number, number>();
+const visitLast = new Map<number, number>();
+for (let f = 0; f <= total; f++) {
+  if (!visitFirst.has(visit[f])) visitFirst.set(visit[f], f);
+  visitLast.set(visit[f], f);
+}
+const rawAt = (f: number) => ({ x: player[2 * Math.max(0, Math.min(total, f))], y: player[2 * Math.max(0, Math.min(total, f)) + 1] });
+/** The player's place on the level's map on frame f of a ride. */
+function ridePlace(f: number): { x: number; y: number } {
+  const a = visitFirst.get(visit[f])!;
+  const z = visitLast.get(visit[f])!;
+  const entry = rawAt(a - 20);
+  const exit = rawAt(z + 1);
+  const y0 = rawAt(a).y;
+  const y1 = rawAt(z).y;
+  const t = y1 === y0 ? 0 : (rawAt(f).y - y0) / (y1 - y0);
+  return { x: exit.x + RIDE_DX, y: entry.y + t * (exit.y - entry.y) };
+}
+/**
+ * The car's middle over the door's: in the frame the car is columns 89-166, its middle 39.5 px right
+ * of the player's x (src/experiments/elevator-car.ts); on the map the elevator's door is x 346-390,
+ * its middle 16 px right of the player's x as they come out (352). So the player rides 24 px left
+ * of where they come out.
+ */
+const RIDE_DX = -24;
+
 const shownCount = new Map<number, number>();
 /** Per header: shown frames with tiles apart from the map at the place given, and those tiles. */
 const apart = new Map<number, [number, number]>();
@@ -266,7 +298,17 @@ for (let f = 0; f <= total; f++) {
   // Onto the page's map (maps.ts: the bar after the truck stop, the flood channel's corridor cut
   // out of its world).
   const place = placeOf(h);
-  const pt: [number, number, number] = [Math.round(px * place.k + place.dx), Math.round(py * place.k + place.dy), f];
+  let mx = Math.round(x * place.k + place.dx);
+  let my = Math.round(y * place.k + place.dy);
+  let pt: [number, number, number] = [Math.round(px * place.k + place.dx), Math.round(py * place.k + place.dy), f];
+  if (place.ride) {
+    const r = ridePlace(f);
+    mx = Math.round(x + r.x - (px));
+    my = Math.round(y + r.y - (py + 20));
+    // The path keeps the player's x (the door's), not the car's shift.
+    pt = [Math.round(r.x - RIDE_DX), Math.round(r.y - 20), f];
+  }
+  states[b + MAP] = mx & 255, (states[b + MAP + 1] = (mx >> 8) & 255), (states[b + MAP + 2] = my & 255), (states[b + MAP + 3] = (my >> 8) & 255);
   if (!trails.has(place.n)) trails.set(place.n, []);
   const segs = trails.get(place.n)!;
   if (!lastPt || f - lastPt[2] > 2 || Math.abs(pt[0] - lastPt[0]) > 24 || Math.abs(pt[1] - lastPt[1]) > 24) segs.push([]);

@@ -247,3 +247,30 @@ page's maps (8 now) and where each area lies on its map; it writes `out/levels/m
 page and gives the packing each area's shift (`placeOf`: the bar +2560; the flood channel −416, its
 corridor cut out of its world). The run's spans follow the maps, so level 1 plays as one: frames
 1-9 187, the GET READY screen between the two dark on the map. Checked in the browser.
+
+## 11. Level 3: the hospital as one map (`src/maps.ts`, `src/take-pack.ts`, `src/play/player.js`)
+
+The user found level 3 broken: the run was cut into three maps that took turns (6 s on the first
+corridors). The level is one place: corridors (header 2), offices (header 1) entered through their
+doors, and an elevator (header 3) between floors. `src/experiments/transitions.ts 12600 15400`
+(the player's `$0427/$0447` and the camera around every load):
+- **Corridor ↔ office:** the player and the camera keep their places to the pixel (218, 592 →
+  218, 592; camera 94 → 94). The offices are the corridors' plan without the walls, at the same
+  coordinates, so on the page they are an overlay: the offices' map (1.png) laid over the corridors'
+  at 0, 0, fading in while the run is in an office.
+- **The elevator:** entered at a door (the player 338-352, floor 592), the car rises 48 px in the
+  shaft, and the player comes out one floor up in the corridors (496): a corridor floor is 96 px, a
+  floor of the shaft 48. Every ride of the TAS is the same column. The shaft has no picture of its own
+  (§9: it is the car over and over); the ride's frames are laid on the corridors' map, the player
+  going from the door entered (its place 20 frames before the load — on the last frames the game has
+  already put the player on the floor they come out on) to the door left (the place on the first
+  frame after), in step with their height in the shaft from its first frame to its last.
+  Horizontally the car's middle is put over the door's: in the frame the car is columns 89-166
+  (`src/experiments/elevator-car.ts`, 39.5 px right of the player's x), on the map the door is x
+  346-390 (16 px right of the player's x as they come out) — so 24 px left of the exit's x. The page
+  draws a ride's frame with its black clear and without its lines above 32 (the energy bar is at
+  22-28, the car never above 65): only the car is laid on the hospital.
+- The packing writes every frame's place on the level's map into its state (bytes 88-91), the bar's
+  scale and the rides included, so the page takes it as it is. Level 3 is one span now, frames
+  12 722-18 637 (1:38). Checked in the browser: an office fades in over the plan with the frame on
+  it seamless; the car rides up the elevators' column between two floors.

@@ -6,9 +6,10 @@
 // field (lines 0-219, above the status bar) is drawn as the PPU draws it and laid on the map.
 //
 // The page's levels are the maps of src/maps.ts in the game's order — level 1 the truck stop with the
-// bar glued after it, the others one area each; the hospital and Cyberdyne come back many times
-// (between their corridors, offices and the elevator), and the run goes from map to map as the game
-// loads them: its spans follow the loads one after another.
+// bar glued after it (scaled; the view zooms into it), level 3 the hospital: its corridors the map,
+// its offices laid over them while the run is in one (the same plan without the walls), the
+// elevator's frames laid between the two doors of the ride with their black clear; the others one
+// area each. The run goes from map to map as the game loads them: its spans follow the loads.
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
 import { mountRunPage } from '/src/maps-run/run-page.js';
@@ -26,7 +27,17 @@ const MAPS = (await (await fetch(LEVELS + 'maps.json')).json()).levels;
 const pieceOf = new Map();
 for (const l of MAPS) for (const p of l.pieces) pieceOf.set(p.header, { n: l.n, ...p });
 const levelOf = (h) => pieceOf.get(h)?.n ?? 1;
-const mapOf = (l) => (l.pieces.length === 1 ? LEVELS + l.pieces[0].src : { w: l.w, h: l.h, pieces: l.pieces.map((p) => ({ src: LEVELS + p.src, x: p.x, y: p.y, w: p.w, h: p.h })) });
+/** A level's picture: its pieces but the overlays and rides (they are drawn as the run goes). */
+const baseOf = (l) => l.pieces.filter((p) => !p.overlay && !p.ride);
+const mapOf = (l) => {
+  const b = baseOf(l);
+  return b.length === 1 && b[0].x === 0 && b[0].y === 0 && b[0].k === 1 ? LEVELS + b[0].src : { w: l.w, h: l.h, pieces: b.map((p) => ({ src: LEVELS + p.src, x: p.x, y: p.y, w: p.w, h: p.h })) };
+};
+const MAP = 88;
+/** On a ride the lines above the car (the energy bar is at 22-28; the car never above 65) are left out. */
+const RIDE_TOP = 32;
+/** The overlay piece last shown (the hospital's offices), placed at the page's zoom by placeOverlay. */
+let overlayPiece = null;
 
 let image, px;
 const bgOpaque = new Uint8Array(W * H);
@@ -104,7 +115,9 @@ const run = {
     }
     const ctrl = state[6], mask = state[7];
     const planeX = state[8] | (state[9] << 8), planeY = state[10] | (state[11] << 8);
-    const backdrop = rgb(pal(0));
+    // On a ride (the elevator) the frame's black is left clear: the map shows around the car.
+    const ride = !!pieceOf.get(state[0])?.ride;
+    const backdrop = ride ? 0 : rgb(pal(0));
     const bgTable = (ctrl & 0x10) << 8;
     for (let line = 0; line < H; line++) {
       const bank = runOf(line);
@@ -112,7 +125,7 @@ const run = {
       for (let x = 0; x < W; x++) {
         const i = line * W + x;
         // The left 8 columns the game hides (PPUMASK bit 1 clear) are left clear, the map showing through.
-        if (x < 8 && !(mask & 0x02)) { px[i] = 0; bgOpaque[i] = 0; continue; }
+        if ((x < 8 && !(mask & 0x02)) || (ride && line < RIDE_TOP)) { px[i] = 0; bgOpaque[i] = 0; continue; }
         if (!(mask & 0x08)) { px[i] = backdrop; bgOpaque[i] = 0; continue; }
         const pxl = (planeX + x) & 511, cx = (pxl & 255) >> 3, base = NT + (top | (pxl >> 8)) * 0x400;
         const tile = state[base + row * 32 + cx];
@@ -136,6 +149,7 @@ const run = {
           if (r >= 0 && r < height) found.push(k);
         }
         for (let m = found.length - 1; m >= 0; m--) {
+          if (ride && line < RIDE_TOP) continue;
           const k = found[m], tile = state[OAM + k * 4 + 1], attr = state[OAM + k * 4 + 2], sx = state[OAM + k * 4 + 3];
           let r = line - (state[OAM + k * 4] + 1);
           if (attr & 0x80) r = height - 1 - r;
@@ -155,8 +169,8 @@ const run = {
       }
     }
     ctx.putImageData(image, 0, 0);
-    const p = pieceOf.get(state[0]) ?? { k: 1, dx: 0, dy: 0 };
-    run.last = { x: p.k * i16(state[2], state[3]) + p.dx, y: p.k * i16(state[4], state[5]) + p.dy };
+    // Where the field lies on the level's map, as src/take-pack.ts placed it.
+    run.last = { x: i16(state[MAP], state[MAP + 1]), y: i16(state[MAP + 2], state[MAP + 3]) };
     return run.last;
   },
   // A map piece drawn smaller than its area (the bar, glued into level 1 at its porch's height,
@@ -167,6 +181,12 @@ const run = {
   zoomBefore: 0,
   followBefore: true,
   onFrame() {
+    // An overlay piece (the hospital's offices): shown over the map while the run is in it.
+    const o = pieceOf.get(state[0]);
+    const over = document.getElementById('overlay');
+    const on = !!(o?.overlay && page?.cur === o.n);
+    if (on && over.dataset.src !== o.src) (over.dataset.src = o.src), (over.src = LEVELS + o.src), placeOverlay(o);
+    over.classList.toggle('on', on);
     const p = pieceOf.get(state[0]);
     const small = p && p.k !== 1 && page?.cur === p.n ? p : null;
     const live = document.getElementById('live');
@@ -227,11 +247,26 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s four music streams (PRG $10113-$10333, $10545-$1097D)',
   effectsTitle: 'The sound effects: the driver&#39;s two effect streams (PRG $10334-$10544, $1097E-$10ACF)',
-  css: '#live{transform-origin:0 0}',
+  css: '#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}',
+  layersBelow: '<img id="overlay" alt="">',
+  onZoom: () => placeOverlay(),
+  onPick: () => placeOverlay(),
   onMouse: (x, y) => {
     const l = MAPS[(page?.cur ?? 1) - 1];
-    const p = l?.pieces.find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
+    const p = l && baseOf(l).find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
     const at = (v, d) => Math.round((v - d) / (p?.k ?? 1));
     document.getElementById('pos').textContent = p ? `${p.name} · x ${at(x, p.dx)} y ${at(y, p.dy)}` : `x ${x} y ${y}`;
   },
 });
+
+/** The overlay piece's picture on the map at the page's zoom (the last one shown, or `o`). */
+function placeOverlay(o = overlayPiece) {
+  overlayPiece = o;
+  const im = document.getElementById('overlay');
+  if (!im || !page) return;
+  if (!o || page.cur !== o.n) {
+    im.classList.remove('on');
+    return;
+  }
+  Object.assign(im.style, { left: o.x * page.z + 'px', top: o.y * page.z + 'px', width: o.w * page.z + 'px' });
+}

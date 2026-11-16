@@ -16,7 +16,9 @@
      "h": 224,
      "k": 1,
      "dx": 0,
-     "dy": 0
+     "dy": 0,
+     "overlay": false,
+     "ride": false
     },
     {
      "header": 8,
@@ -28,7 +30,9 @@
      "h": 148,
      "k": 0.6607142857142857,
      "dx": 2560,
-     "dy": 84.39285714285714
+     "dy": 84.39285714285714,
+     "overlay": false,
+     "ride": false
     }
    ]
   },
@@ -48,13 +52,15 @@
      "h": 6144,
      "k": 1,
      "dx": -416,
-     "dy": 0
+     "dy": 0,
+     "overlay": false,
+     "ride": false
     }
    ]
   },
   {
    "n": 3,
-   "label": "Level 3 — hospital corridors",
+   "label": "Level 3 — the hospital",
    "w": 1536,
    "h": 608,
    "pieces": [
@@ -68,16 +74,10 @@
      "h": 608,
      "k": 1,
      "dx": 0,
-     "dy": 0
-    }
-   ]
-  },
-  {
-   "n": 4,
-   "label": "Level 3 — hospital offices",
-   "w": 1536,
-   "h": 608,
-   "pieces": [
+     "dy": 0,
+     "overlay": false,
+     "ride": false
+    },
     {
      "header": 1,
      "name": "hospital offices",
@@ -88,16 +88,10 @@
      "h": 608,
      "k": 1,
      "dx": 0,
-     "dy": 0
-    }
-   ]
-  },
-  {
-   "n": 5,
-   "label": "Level 3 — the elevator",
-   "w": 320,
-   "h": 608,
-   "pieces": [
+     "dy": 0,
+     "overlay": true,
+     "ride": false
+    },
     {
      "header": 3,
      "name": "hospital elevator",
@@ -108,12 +102,14 @@
      "h": 608,
      "k": 1,
      "dx": 0,
-     "dy": 0
+     "dy": 0,
+     "overlay": false,
+     "ride": true
     }
    ]
   },
   {
-   "n": 6,
+   "n": 4,
    "label": "Level 4 — Cyberdyne corridors",
    "w": 1536,
    "h": 592,
@@ -128,12 +124,14 @@
      "h": 592,
      "k": 1,
      "dx": 0,
-     "dy": 0
+     "dy": 0,
+     "overlay": false,
+     "ride": false
     }
    ]
   },
   {
-   "n": 7,
+   "n": 5,
    "label": "Level 4 — Cyberdyne labs",
    "w": 1536,
    "h": 592,
@@ -148,12 +146,14 @@
      "h": 592,
      "k": 1,
      "dx": 0,
-     "dy": 0
+     "dy": 0,
+     "overlay": false,
+     "ride": false
     }
    ]
   },
   {
-   "n": 8,
+   "n": 6,
    "label": "Level 5 — the steel mill",
    "w": 1536,
    "h": 1280,
@@ -168,7 +168,9 @@
      "h": 1280,
      "k": 1,
      "dx": 0,
-     "dy": 0
+     "dy": 0,
+     "overlay": false,
+     "ride": false
     }
    ]
   }
