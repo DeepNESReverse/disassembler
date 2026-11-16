@@ -276,3 +276,15 @@ doors, and an elevator (header 3) between floors. `src/experiments/transitions.t
   scale and the rides included, so the page takes it as it is. Level 3 is one span now, frames
   12 722-18 637 (1:38). Checked in the browser: an office fades in over the plan with the frame on
   it seamless; the car rides up the elevators' column between two floors.
+
+## 12. The screens between levels left out
+
+By the user's word, as on the Alien 3 page: a level is played from the first frame its field is on
+the map (state byte 1) to the last; the title, the story, the mission texts and scores, the weapon
+screen, GET READY and the fades between levels are left out, the run jumping from level to level
+(`src/play/player.js` `load`). Dark frames inside a level stay (the doors, GET READY between the
+truck stop and the bar). Cyberdyne's corridors and labs, which the game goes back and forth
+between, share one stretch (the maps' first-to-last frames merged where they overlap), and within
+it the run changes maps as the game loads them. Stretches: level 1 frames 1 310-9 017, the flood
+channel 9 237-12 433, the hospital 12 770-17 442, Cyberdyne 18 686-34 246, the steel mill
+34 927-42 824.

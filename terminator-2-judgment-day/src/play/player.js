@@ -71,6 +71,7 @@ const run = {
     keys = [];
     const s = new Uint8Array(size);
     const header = new Uint8Array(frames);
+    const shown = new Uint8Array(frames);
     let o = 10;
     for (let f = 0; f < frames; f++) {
       offsets[f] = o;
@@ -80,16 +81,36 @@ const run = {
       o += 2 + 2 * (data[o] | (data[o + 1] << 8));
       if (f % 600 === 0) keys.push(s.slice());
       header[f] = s[0];
+      shown[f] = s[1];
     }
-    // A span a load: from the frame after the span before (the first from power-on) to the frame
-    // before the next load, so that the run goes on from map to map; the screens between levels
-    // (mission texts, the weapon screen) are played on the map loaded before them.
-    const spans = [];
+    // A level is played from the first frame its field is on the map to the last, as the Alien 3 page
+    // has it (by the user's word): the screens between levels — the title, the mission texts, the
+    // weapon screen, GET READY, the fades — are left out, the run jumping from level to level. Dark
+    // frames inside a level (the doors, GET READY between the truck stop and the bar) stay. Maps
+    // the game goes back and forth between (Cyberdyne's corridors and labs) share one stretch: the
+    // stretches are the maps' first-to-last frames merged where they overlap, and within one the run
+    // goes from map to map as the game loads them.
+    const first = new Map(), last = new Map();
     for (let f = 1; f < frames; f++) {
-      const n = header[f] === 255 ? 1 : levelOf(header[f]);
-      const last = spans[spans.length - 1];
-      if (last && last[0] === n) last[2] = f;
-      else spans.push([n, f, f]);
+      if (!shown[f] || header[f] === 255) continue;
+      const n = levelOf(header[f]);
+      if (!first.has(n)) first.set(n, f);
+      last.set(n, f);
+    }
+    const stretches = [];
+    for (const [a, b] of [...first].map(([n, a]) => [a, last.get(n)]).sort((p, q) => p[0] - q[0])) {
+      const st = stretches[stretches.length - 1];
+      if (st && a <= st[1]) st[1] = Math.max(st[1], b);
+      else stretches.push([a, b]);
+    }
+    const spans = [];
+    for (const [a, b] of stretches) {
+      for (let f = a; f <= b; f++) {
+        const n = levelOf(header[f]);
+        const sp = spans[spans.length - 1];
+        if (sp && sp[0] === n && sp[2] === f - 1) sp[2] = f;
+        else spans.push([n, f, f]);
+      }
     }
     return { frames, spans };
   },
