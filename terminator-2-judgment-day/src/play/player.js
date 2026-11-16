@@ -12,7 +12,7 @@
 // area each. The run goes from map to map as the game loads them: its spans follow the loads.
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage } from '/src/maps-run/run-page.js';
+import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
 
 const W = 256, H = 220;
 const BANKS = 16, OAM = 96, PAL = 352, NT = 384;
@@ -24,8 +24,16 @@ const LEVELS = PUBLIC ? '' : '/levels/';
  * inside glued after its door.
  */
 const MAPS = (await (await fetch(LEVELS + 'maps.json')).json()).levels;
+/**
+ * Cyberdyne's bombs (src/bombs.ts → bombs.json): where each lies on the level's map (the object's X/Y,
+ * the game's own sprite at `sprite.dx/dy` from it, src/bomb-sprite.ts), and the frame the run takes
+ * it — numbered in that order, as the Alien 3 page numbers its prisoners.
+ */
+const BOMBS = await (await fetch(LEVELS + 'bombs.json')).json();
 const pieceOf = new Map();
 for (const l of MAPS) for (const p of l.pieces) pieceOf.set(p.header, { n: l.n, ...p });
+/** The level the bombs are on (Cyberdyne's map: the corridors, header 4). */
+const BOMB_LEVEL = pieceOf.get(4)?.n;
 const levelOf = (h) => pieceOf.get(h)?.n ?? 1;
 /** A level's picture: its pieces but the overlays and rides (they are drawn as the run goes). */
 const baseOf = (l) => l.pieces.filter((p) => !p.overlay && !p.ride);
@@ -38,6 +46,8 @@ const MAP = 88;
 const RIDE_TOP = 32;
 /** The overlay piece last shown (the hospital's offices), placed at the page's zoom by placeOverlay. */
 let overlayPiece = null;
+/** How many bombs the run had taken on the frame last drawn (the layer is redrawn when it changes). */
+let bombsTaken = -1;
 /** The blend slider's state: `manual` once moved (until "auto"). */
 const blend = { manual: false };
 
@@ -211,6 +221,9 @@ const run = {
     const on = !!(o?.overlay && page?.cur === o.n);
     over.classList.toggle('on', on);
     if (!blend.manual) document.getElementById('blend').value = on ? '100' : '0';
+    // The bombs the run has taken by now leave the map.
+    const taken = BOMBS.bombs.filter((b) => b.taken !== null && b.taken <= window.takeFrame).length;
+    if (taken !== bombsTaken) (bombsTaken = taken), showBombs();
     // On a ride (the elevator) the map dims, not to black — the hospital stays in view and the car,
     // drawn over the dimming, is what the eye goes to: as the game blacks out all but the car.
     document.getElementById('rideDim').classList.toggle('on', !!(o?.ride && page?.cur === o.n));
@@ -274,19 +287,21 @@ page = mountRunPage({
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s four music streams (PRG $10113-$10333, $10545-$1097D)',
   effectsTitle: 'The sound effects: the driver&#39;s two effect streams (PRG $10334-$10544, $1097E-$10ACF)',
-  css: '#blendGrp[hidden]{display:none}#blend{width:110px;accent-color:#dfe4ee}#blendAuto{padding:2px 8px;font-size:12px}#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}#rideDim{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}#rideDim.on{opacity:.6}',
-  layersBelow: '<img id="overlay" alt=""><div id="rideDim"></div>',
-  onZoom: () => placeOverlay(),
+  css: '.bsp{position:absolute;image-rendering:pixelated;pointer-events:none}.bsp.glow{filter:drop-shadow(0 0 2px #ff9f1a) drop-shadow(0 0 4px #ff9f1a)}.bomb{position:absolute;border:3px solid #ff9f1a;border-radius:50%;box-shadow:0 0 0 3px #0008,0 0 14px #ff9f1a;pointer-events:none;animation:bpulse 1.2s ease-in-out infinite}.bomb b{position:absolute;left:50%;top:-22px;transform:translateX(-50%);background:#ff9f1a;color:#000;font:bold 12px system-ui;padding:0 5px;border-radius:3px}@keyframes bpulse{50%{opacity:.55}}#blendGrp[hidden]{display:none}#blend{width:110px;accent-color:#dfe4ee}#blendAuto{padding:2px 8px;font-size:12px}#live{transform-origin:0 0}#overlay{opacity:0;transition:opacity .35s;pointer-events:none}#overlay.on{opacity:1}#rideDim{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}#rideDim.on{opacity:.6}',
+  layersBelow: '<img id="overlay" alt=""><div id="rideDim"></div><div id="bombLayer"></div>',
+  onZoom: () => (placeOverlay(), showBombs()),
   // The blend slider: on a level with two plans (the corridors and, over them, the rooms without the
   // walls) how much of the rooms' plan shows — 0 the corridors, 100 the rooms. "auto" (until the
   // slider is moved, and again on a click) follows the run: the rooms while it is in one.
-  headerHtml: '<span class="grp" id="blendGrp" hidden title="How much of the rooms&#39; plan (the same floors without the walls) shows over the corridors"><span class="cap">Corridors</span><input type="range" id="blend" min="0" max="100" value="0"><span class="cap">Rooms</span><button id="blendAuto" class="on" title="Follow the run: the rooms while it is in one">auto</button></span>',
+  headerHtml: iconToggle({ id: 'bombBox', icon: `<img src="${LEVELS}bomb.png" alt="">`, label: 'bombs', colour: '#ff9f1a', count: 'bombN', checked: true, title: 'The bombs the T-800 gathers in Cyberdyne: the game&#39;s own canister where the level places it, numbered in the order goofydylan8&#39;s run takes them; taken ones leave the map while the run plays' }) +
+    '<span class="grp" id="blendGrp" hidden title="How much of the rooms&#39; plan (the same floors without the walls) shows over the corridors"><span class="cap">Corridors</span><input type="range" id="blend" min="0" max="100" value="0"><span class="cap">Rooms</span><button id="blendAuto" class="on" title="Follow the run: the rooms while it is in one">auto</button></span>',
   onPick: (n) => {
     const ov = MAPS[n - 1]?.pieces.find((p) => p.overlay);
     document.getElementById('blendGrp').hidden = !ov;
     const im = document.getElementById('overlay');
     if (ov && im.dataset.src !== ov.src) (im.dataset.src = ov.src), (im.src = LEVELS + ov.src);
     placeOverlay(ov ? { n, ...ov } : null);
+    showBombs();
   },
   onMouse: (x, y) => {
     const l = MAPS[(page?.cur ?? 1) - 1];
@@ -295,6 +310,29 @@ page = mountRunPage({
     document.getElementById('pos').textContent = p ? `${p.name} · x ${at(x, p.dx)} y ${at(y, p.dy)}` : `x ${x} y ${y}`;
   },
 });
+
+/**
+ * The bombs on their level's map, as the Alien 3 page shows its prisoners: the game's canister
+ * always, the switch adding a glow and a ring with its number; while the run plays, those it has
+ * taken are left out.
+ */
+function showBombs() {
+  const lay = document.getElementById('bombLayer');
+  const box = document.getElementById('bombBox');
+  if (!lay || !page) return;
+  box.closest('label').style.display = page.cur === BOMB_LEVEL ? '' : 'none';
+  if (page.cur !== BOMB_LEVEL) { lay.innerHTML = ''; return; }
+  const z = page.z, sp = BOMBS.sprite, f = window.takeFrame;
+  const list = BOMBS.bombs.filter((b) => !(b.taken !== null && f !== undefined && b.taken <= f));
+  document.getElementById('bombN').textContent = `(${list.length})`;
+  const mark = box.checked;
+  const ring = Math.max(40, 40 * z);
+  lay.innerHTML = list.map((b) => {
+    const cx = b.x + sp.dx + sp.w / 2, cy = b.y + sp.dy + sp.h / 2;
+    return `<img class="bsp${mark ? ' glow' : ''}" src="${LEVELS}bomb.png" alt="" style="left:${(b.x + sp.dx) * z}px;top:${(b.y + sp.dy) * z}px;width:${sp.w * z}px;height:${sp.h * z}px">` +
+      (mark ? `<div class="bomb" style="left:${cx * z - ring / 2}px;top:${cy * z - ring / 2}px;width:${ring}px;height:${ring}px" title="bomb ${b.num ?? ''}: X ${b.x}, Y ${b.y}${b.taken !== null ? `, taken on frame ${b.taken}` : ''}"><b>${b.num ?? ''}</b></div>` : '');
+  }).join('');
+}
 
 /** The overlay piece's picture on the map at the page's zoom (the last one shown, or `o`). */
 function placeOverlay(o = overlayPiece) {
@@ -324,3 +362,6 @@ function placeOverlay(o = overlayPiece) {
     Object.assign(im.style, { transition: '', opacity: '' });
   };
 }
+
+document.getElementById('bombBox').onchange = showBombs;
+showBombs();

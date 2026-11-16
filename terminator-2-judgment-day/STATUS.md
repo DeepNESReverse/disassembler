@@ -306,3 +306,34 @@ the corridors, to see one laid on the other. Until it is moved — and again aft
 the run (the rooms while the run is in one, §11, §13); moved, it holds the rooms' plan at its
 opacity whatever the run does. It works on the map alone too, the run not started. Checked in the
 browser: hidden on levels 1, 2 and 5; at 50 % both plans show through each other; "auto" lets go.
+
+## 15. Objects, and Cyberdyne's bombs on the map (`src/objects.ts`, `src/bombs.ts`)
+
+**Where an area's objects are placed.** Who writes a bomb's X into its slot (`src/who-writes.ts`)
+leads to the spawner `$9149`-`$929E` (bank 6 at $8000, PRG `$C000`): per area `$D1` a list's address
+(lo at `$8000 + $D1`, hi at `$8009 + $D1`), how many entries it looks at a frame (`$8012 + $D1`;
+the list is walked a few entries a frame, `$E0` going on from where it stopped) and a handler
+(`$801B/$8024 + $D1`, via `$079A`). The list ends at an entry whose X is $FFFF. An entry is 7 bytes:
+flags (→ `$04C8,X`), X and Y words (→ `$0427,X`, `$0447,X`: the same arrays as the player's, the
+player being slot 0 — objects are slots 2-$1E) and the address of the object's kind, whose first
+bytes go to `$04C7,X`, `$0547,X`, `$04A7,X`, `$0027,X`. The slot arrays are words, 16 slots, from
+`$0407 + $20 k`. `src/objects.ts [$D1]` lists an area's objects by kind; Cyberdyne's corridors
+place 84, its labs 58.
+
+**Which are the bombs.** `src/experiments/object-life.ts` cuts each object out of the first frame
+it is well in view: the yellow canisters (the bombs the T-800 gathers) are kind `$8BB9` in the
+corridors (one: 1486, 384) and `$8BB2` in the labs (nine) — ten in all; `$8E3F` is the DEPOSIT sign
+with its canister (corridors, 328, 96), and `$8BAC` (labs, ten on the top floor) the places bombs are
+laid. A bomb taken does not leave its slot (it goes when the camera leaves it); its slot's
+`$04E8,X` gets bit 7 (`src/experiments/object-slot.ts`: the bomb at 536, 576 on frame 19 819, the
+player at 548 turning back). `src/bombs.ts` → `out/levels/bombs.json`: every bomb, the frame it is
+taken and its number in that order — all ten taken, the player within 12 px of each.
+
+**On the page** (by the user's wish, as the Alien 3 page shows its prisoners): on level 4 the bombs
+switch (on by default, with the count) and a layer under the run's frame: the game's own canister
+(`src/bomb-sprite.ts`: the sprite layer around bomb 2 on frame 20 255, where it is the only sprite
+— 10 × 14 at 12, -13 from the object's X/Y → `out/levels/bomb.png`) at each bomb's place, and with
+the switch on a glow and an orange ring with the bomb's number. While the run plays, the bombs it
+has taken by the frame shown leave the map (10 at frame 19 800, 6 at 23 100). The object's X/Y are
+in the corridors' (and so the map's) coordinates: the canisters stand on their floors and on the
+game's own canister in the run's frame. Checked in the browser.
