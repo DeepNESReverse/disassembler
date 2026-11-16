@@ -1,7 +1,9 @@
 /**
  * Every area drawn whole from the cartridge (level.ts) -> out/levels/<header>.png, with the
- * background CHR banks the PPU reads on line 100 and the palette, both at a frame of the TAS inside
- * the area (`LOOK`).
+ * background CHR banks the game drew each tile with in the run (tile-banks.ts; the scanline IRQ
+ * switches them partway down in the steel mill and the elevator) — where the run never showed a tile,
+ * the banks the PPU reads on line 100 — and the palette, both at a frame of the TAS inside the area
+ * (`LOOK`).
  *   node --experimental-strip-types --no-warnings src/render.ts [header …]
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -9,6 +11,7 @@ import { encodePng } from '../libs/nes/src/png.ts';
 import { NES_RGB } from '../libs/nes/src/palette.ts';
 import { Run } from './run.ts';
 import { HEADERS, NAMES, area, tileAt } from './level.ts';
+import { tileBanks } from './tile-banks.ts';
 
 /** A movie frame inside each header's area, in play (src/experiments/header-loads.ts). */
 export const LOOK = [35500, 13200, 12950, 13500, 18800, 1700, 9500, 19700, 7000];
@@ -37,7 +40,11 @@ export function lookAt(run: Run, f: number, line = 100): Look {
   return { slots, palette: m.ppu.palette.slice() };
 }
 
-export function drawArea(header: number, look: Look, chr: Uint8Array) {
+/**
+ * `banks`: per tile (tile row × tile columns) the 1 KB CHR bank the game drew it with (tile-banks.ts),
+ * -1 where the run never showed it — those take `look`'s.
+ */
+export function drawArea(header: number, look: Look, chr: Uint8Array, banks?: Int16Array) {
   const a = area(header);
   const width = a.cols * 16;
   const height = a.rows * 16;
@@ -45,7 +52,8 @@ export function drawArea(header: number, look: Look, chr: Uint8Array) {
   for (let ty = 0; ty < a.rows * 2; ty++) {
     for (let tx = 0; tx < a.cols * 2; tx++) {
       const { tile, palette } = tileAt(a, tx, ty);
-      const at = look.slots[tile >> 6] + (tile & 63) * 16;
+      const b = banks ? banks[ty * a.cols * 2 + tx] : -1;
+      const at = (b >= 0 ? b * 0x400 : look.slots[tile >> 6]) + (tile & 63) * 16;
       for (let y = 0; y < 8; y++) {
         const lo = chr[at + y];
         const hi = chr[at + y + 8];
@@ -68,7 +76,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const run = new Run();
   for (const h of order) {
     const look = lookAt(run, LOOK[h]);
-    const { pixels, width, height } = drawArea(h, look, run.m.cart.chr);
+    const { pixels, width, height } = drawArea(h, look, run.m.cart.chr, tileBanks(h));
     writeFileSync(`out/levels/${h}.png`, encodePng(pixels, width, height, 1));
     const a = area(h);
     console.log(`header ${h} (${NAMES[h]}): ${a.cols}x${a.rows} blocks, bank ${a.bank}, layout prg ${a.layoutAt.toString(16)}, slots ${look.slots.map((s) => s.toString(16)).join(' ')}`);

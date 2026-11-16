@@ -206,3 +206,28 @@ channel, the hospital corridors and the steel mill — the game's frame sits on 
 at its edges, the path ahead, no errors.
 **Open:** the music/effect split is from the code, not yet heard; the hospital's and Cyberdyne's
 many short spans make the clock per span short (6 s in the first hospital corridors).
+
+## 9. A map's CHR banks, tile by tile (`src/tile-banks.ts`)
+
+The maps were drawn from the background banks of one frame each (render.ts `LOOK`). In the steel
+mill the user saw the ladles of molten steel as noise on the map: the game draws them from banks
+no single frame's top lines use. `src/experiments/bank-runs.ts <header>` (the sets opening the field
+and the sets the scanline IRQ switches to further down, from the packed run) and
+`src/experiments/mill-phases.ts` (the mill's top with each set) show how the banks go:
+- **The steel mill's fans turn by bank switching:** slots 2-3 cycle 8/9, a/b, c/d, e/f, 4.1 frames
+  each. **The ladles exist only in 28/29**, which the game holds instead while they are in view
+  (1 474 frames open with it), switching the lines below them back to the fans' set at line
+  179-180. Drawn with any fans' set the ladles are noise; with 28/29 they are whole.
+- **The elevator's car is a window of banks.** The shaft's layout is the car over and over; the IRQ
+  draws lines 65-154 or so from 42/43 (the car) and the rest from 2/3 (black), and moves that window
+  down the shaft.
+
+So per tile, from the packed run: the set its line was drawn with on every shown frame (the field's
+last tile row left out — on some frames it is the status bar's, banks 2/3). A set whose stretches
+at the field's top average under 30 frames is an animation (only the mill's four fans' sets): a tile
+drawn from it, or never from another, keeps the look's banks, so a fan stays one picture. Else the
+tile takes the bank it was drawn from most — the status bar's 2/3 only where nothing else was seen
+(the game draws parts of the hospital's corridors by the elevator from them on its way between
+maps: black patches when they won). The elevator shaft keeps the look's banks (a car on every floor
+otherwise). Result: 308 tiles of the steel mill (the ladles) changed, every other map pixel for
+pixel as before; the flood channel's corridor redrawn the same way.

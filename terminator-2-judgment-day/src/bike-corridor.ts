@@ -12,6 +12,7 @@ import { readCapture } from './capture.ts';
 import { BIKE, area, tileAt } from './level.ts';
 import { LOOK, lookAt } from './render.ts';
 import { Run } from './run.ts';
+import { tileBanks } from './tile-banks.ts';
 
 const a = area(BIKE);
 const W = a.cols * 2;
@@ -36,6 +37,7 @@ for (let ty = 0; ty < H; ty++) for (let tx = 0; tx < W; tx++) {
 const run = new Run();
 const look = lookAt(run, LOOK[BIKE]);
 const chr = run.m.cart.chr;
+const banks = tileBanks(BIKE);
 const width = (x1 - x0 + 1) * 8;
 const height = (y1 - y0 + 1) * 8;
 const pixels = new Uint32Array(width * height);
@@ -43,7 +45,8 @@ for (let ty = y0; ty <= y1; ty++) {
   for (let tx = x0; tx <= x1; tx++) {
     if (!seen[ty * W + tx]) continue;
     const { tile, palette } = tileAt(a, tx, ty);
-    const at = look.slots[tile >> 6] + (tile & 63) * 16;
+    const bk = banks[ty * W + tx];
+    const at = (bk >= 0 ? bk * 0x400 : look.slots[tile >> 6]) + (tile & 63) * 16;
     for (let y = 0; y < 8; y++) {
       const lo = chr[at + y];
       const hi = chr[at + y + 8];

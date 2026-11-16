@@ -28,12 +28,7 @@ import { Run } from './run.ts';
 import { BIKE, HEADERS, ORDER, area, tileAt, type Area } from './level.ts';
 import { readFileSync } from 'node:fs';
 
-export const SIZE = 4480;
-export const BANKS = 16;
-export const OAM = 96;
-export const PAL = 352;
-export const NT = 384;
-export const FIELD = 220;
+import { BANKS, FIELD, NT, OAM, SIZE } from './take-pack-layout.ts';
 /** Where the flood channel's corridor map lies in its world (written by src/bike-corridor.ts). */
 const corridor = JSON.parse(readFileSync('out/levels/6-corridor.json', 'utf8')) as { x: number; y: number };
 
