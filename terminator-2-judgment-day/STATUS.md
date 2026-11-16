@@ -19,17 +19,17 @@ It is used only for where a player goes.
 - The movie's own `romChecksum` (`8301909c…`) matches neither: FCEUX 2.1.5 summed something else.
   Not followed further.
 
-## 2. The TAS on the headless NES — first without FCEUX's power-on (superseded by §4)
+## 2. The TAS on the headless NES — first without FCEUX's power-on (superseded by §3)
 
 Before the capture, `src/replay.ts` played the .fm2 on a NES with zeroed RAM and its own seed. The
 story was skipped (Start 1015), the title taken (Start 1193), then the run parted: from 1216 to 1250
 the pad was not read (`src/experiments/title-flow.ts 1180 1260`: a 20-frame wait `$E8FE`, a fade
 `$C918`, two 15-frame waits `$B2EE`, all counted in NMIs by `$C739`), the Start on 1241 was lost,
-and the Start on 2549 paused level 1 for good. The cause was the power-on, not these waits (§4):
+and the Start on 2549 paused level 1 for good. The cause was the power-on, not these waits (§3):
 FCEUX's capture has the area `$D1 = 6` already on frame 1040 — the game took another way through
 its intro from the first frames.
 
-## 4. The TAS plays on the headless NES in step with FCEUX
+## 3. The TAS plays on the headless NES in step with FCEUX
 
 The FCEUX capture (`fceux/movie_capture.lua` on FCEUX with the iNES file, 2026-11-16): 42 824
 frames, 1 026 lagged, the areas in `src/experiments/capture-areas.ts`. Two things make this NES
@@ -53,7 +53,7 @@ the 50 area changes on the same frames as FCEUX's capture and draws the game to 
 truck stop, the bar `$D1 = 8`, the bike, the hospital floors 2-4, the Cyberdyne building 5/7, the
 finale 0). The run can be played here.
 
-## 3. Known from the workshop (2026-10-20, to be proven here again)
+## 4. Known from the workshop (2026-10-20, to be proven here again)
 
 `$D1` is the area the level loads: 6 = the truck stop (level 1), 1 = the flood channel (bike),
 7 and 8 = the hospital and the steel mill. `LDY $D1 / LDA $8F68,Y` picks the level's CHR banks.

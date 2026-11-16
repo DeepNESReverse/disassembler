@@ -31,7 +31,7 @@ export class Machine {
   /** Values to answer CPU reads of a RAM cell with, while the RAM keeps what the game wrote. */
   readonly pins = new Map<number, number>();
   /**
-   * The game's random seed `$06FC/$06FD` as FCEUX's power-on leaves it (STATUS §4): set the first
+   * The game's random seed `$06FC/$06FD` as FCEUX's power-on leaves it (STATUS §3): set the first
    * time the seed is complete, at `$A52D`. `null` keeps what this NES made of it.
    */
   seed: [number, number] | null = [0x02, 0x02];
@@ -55,7 +55,7 @@ export class Machine {
     this.ram = n.ram;
     // FCEUX powers on with the RAM as 00 00 00 00 FF FF FF FF over and over (the capture's first
     // frame), xrom-libs' NES with zeros. Terminator 2 reads cells it never wrote before the title
-    // (STATUS §2), so the run here starts from FCEUX's pattern.
+    // (STATUS §3), so the run here starts from FCEUX's pattern.
     for (let a = 0; a < this.ram.length; a++) this.ram[a] = a & 4 ? 0xff : 0;
     const read = n.read.bind(n);
     const write = n.write.bind(n);
@@ -65,7 +65,7 @@ export class Machine {
     // NES reads them as 0. Cliffhanger read them when its floor walker runs off the end of a
     // section's floor table (`$CF32`, at the right edge of section 14): there FCEUX's bus gave the
     // player a floor where 0 let them fall, and after the movie the bus is what makes the last boss
-    // walk off the cliff — with the sprite memory for `$2004` he stood on it (STATUS §10).
+    // walk off the cliff — with the sprite memory for `$2004` he stood on it (Cliffhanger's STATUS §10).
     n.read = (a) => {
       const pin = a < 0x2000 ? this.pins.get(a & 0x7ff) : undefined;
       let v = pin ?? read(a);
