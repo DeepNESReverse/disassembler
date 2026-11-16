@@ -32,6 +32,8 @@ const word = (o: number) => prg[o] | (prg[o + 1] << 8);
 export const HEADERS = 9;
 /** `$D1` → header, as the TAS loads them (src/experiments/header-loads.ts). */
 export const HEADER_OF_AREA: Record<number, number> = { 0: 0, 1: 6, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 7, 8: 8 };
+/** The headers in the order the game goes through them: the maps page's levels 1-9. */
+export const ORDER = [5, 8, 6, 2, 1, 3, 4, 7, 0];
 /** By header, from the pictures (out/levels) and the order the TAS enters them. */
 export const NAMES = [
   'steel mill', 'hospital offices', 'hospital corridors', 'hospital elevator', 'cyberdyne corridors',

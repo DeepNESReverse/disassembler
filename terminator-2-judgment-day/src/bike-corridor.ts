@@ -57,4 +57,5 @@ for (let ty = y0; ty <= y1; ty++) {
 }
 mkdirSync('out/levels', { recursive: true });
 writeFileSync('out/levels/6-corridor.png', encodePng(pixels, width, height, 1));
+writeFileSync('out/levels/6-corridor.json', JSON.stringify({ x: x0 * 8, y: y0 * 8, w: width, h: height }) + '\n');
 console.log(`${frames} frames; the corridor is world x ${x0 * 8}-${x1 * 8 + 7}, y ${y0 * 8}-${y1 * 8 + 7}: ${width} x ${height}`);

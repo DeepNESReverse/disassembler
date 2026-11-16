@@ -156,3 +156,44 @@ crates and the bridges the channel passes under are background in it.
 `src/bike-corridor.ts` → `out/levels/6-corridor.png` (12 064 × 6 144): the world drawn only where
 the camera looked during the ride (`$C4-$C7` + 13, -3, ±16 px) and cut to that band — the
 corridor, everything else black. `out/levels/6.png` is the whole 808 × 384-block world.
+Its place in the world (x 408, y 0) goes to `out/levels/6-corridor.json`.
+
+## 8. The run on the maps (`src/take-pack.ts`, `src/play/`)
+
+`node --experimental-strip-types src/play/server.ts` → http://127.0.0.1:4330/: the shared maps page
+(`src/maps-run` → `libs/maps-run`), its levels the nine maps in the game's order (`level.ts`
+`ORDER`: truck stop, bar, flood channel, hospital corridors, offices, elevator, Cyberdyne
+corridors, labs, steel mill). The run's spans follow the header loads one after another, so the
+run goes from map to map as the game loads them (the hospital and Cyberdyne switch maps 10-12
+times each); the screens between levels play on the map loaded before them.
+
+What `src/take-pack.ts` keeps per frame (its header comment has the layout): the header loaded, the
+field's place on the map, PPUCTRL/PPUMASK, the field's scroll, the MMC3's CHR banks **line by
+line** (`src/experiments`-style probe on frames 1700-35500: the scanline IRQ sets the sprites' slot 4
+to bank 0 at line 20 and back further down, and in the steel mill the background's slots 2-3 change
+at line 179), the sprite memory, the palette, the nametables; and the sound-chip writes.
+- **The field** is lines 0-219, one scroll; below, the status bar has its own.
+- **Its place on the map**: the field's plane (line 120's scroll) minus a constant, the one nearest
+  the RAM's camera + (13, -3). The constant, from the frames that fit at the RAM's camera as it is:
+  x 499 in every area (the plane's x is the RAM's camera x itself), y 82 (steel mill), 67
+  (hospital), 227 (Cyberdyne), 211 (truck stop, bar); on the bike, where the RAM's camera runs off
+  the picture, from the place within ±16 px where every tile fits: 83, 77. One constant a header
+  over all its visits (2-12 loads). A frame is shown on the map when fewer than half its tiles
+  differ from the map there (37 988 of 42 824 frames); the rest is dark (text screens, fades).
+  The tiles that do differ on shown frames are the edge rows of §6.
+- **The player's path** (`out/levels/tas.json`, per page level): `$0427/$0428` (x) and
+  `$0447/$0448` (y, the feet) — found by `src/experiments/player-cells.ts` (the words that stay in
+  the camera's screen and move most), right in every area including the bike — moved onto the map
+  as the field was, 20 px up.
+- **The sound's owner.** The driver (bank 8, PRG `$10000-$111FF`, entries `$8000` play a frame,
+  `$8003` start effect X, `$8006` start song X, `$8009` stop) runs six streams a frame, each by
+  its own code (`src/experiments/sound-flags.ts`): music A `$8113`, effect 2 `$8334`, music B
+  `$8545`, C `$8756`, D `$8869`, effect 1 `$897E` (flags `$39-$3E`, bit 7 = playing). A write is
+  the music's from the music streams' code, an effect's from the effects' code: 208 755 music,
+  64 895 effects, 1 671 neither (start, stop). The writes are FCEUX's on 42 792 of 42 822 frames
+  (`src/experiments/apu-writers.ts`; the others a frame early or late around 3 618).
+
+Checked in the browser (2026-11-16): the truck stop, the flood channel, the hospital corridors and
+the steel mill — the game's frame sits on the map with no seam, the path ahead, no errors.
+**Open:** the music/effect split is from the code, not yet heard; the hospital's and Cyberdyne's
+many short spans make the clock per span short (6 s in the first hospital corridors).
