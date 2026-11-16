@@ -209,6 +209,10 @@ to 25 112, the boss's fall. (`fceux/movie_tail.lua`, recording FCEUX past the mo
   kind's colours are loaded with it.) 50 looks; a kind the run never
   shows in a section borrows another section's look; 11 objects of kinds the run never shows at all
   are not drawn (0:f 0:1d 3:10 5:1a 5:1e 6:ff ×2 12:1f 12:13 13:17 13:ff).
+- **Wrong, found 2026-11-16 (§15):** the list the game spawns from is the second one, not the first
+  read in order. objects.ts reads entries 0 … n-1 of the first list; the game reads the second list's
+  rows, each naming an entry by index — some indices past n, some entries never named, one named
+  twice. objects.json is kept as it was; items.ts reads the rows.
 
 ## 12. One world
 
@@ -287,3 +291,66 @@ sprite layer; `src/preview.ts`: run.mp4, 12 s of section 0 over the map; maps.we
 `~/xrom/public/art/cliffhanger`. The page's levels are 0 the whole mountain and n section n, so the
 site's `#level=n` links open the section the site names. xrom commit d05d54a: the game (Spidersoft,
 1993; chapters Run and Maps, credit TASVideos 3752M) and Spidersoft's bio (unchecked).
+
+## 15. The items (2026-11-16)
+
+The user's word: an "items" switch with what the player picks up — money, the campfires, the pistol,
+the boots and the like — no enemies; and as many on the map as the hero can take, no more.
+`src/items.ts` → `out/levels/items.json`, `out/levels/items/<section>-<kind>.png`; the page's switch
+"items" (on), `#itemLayer` under the run's frame, the house's in `#houseItems` with its inside.
+
+- The spawn list (`$D685`, from the disassembly): a word per section at `$C69B` → bank 5: a count
+  (word), then 5-byte rows: X in tiles (word; in RAM bit 7 of the high byte = spawned, bit 6 = gone),
+  Y in tiles (word), the index of the entry in the section's `$AD5C` list (kind, place). A row spawns
+  when the camera (`$14/$16`, tiles) is within 35 × 30 tiles of its X/Y. With all four slots taken
+  (`$6C` = 4) the row is marked spawned anyway and its object skipped until the row leaves the window
+  (`$D90E` clears bit 7) — that is how the run never shows the bag at section 1's x 296: two start
+  bags it never takes hold the slots; freed in a test (`$6D-$70`, the slots' bytes) the bag comes in
+  at frame 3745 at its place. On a restart (`$D88B`) bit 6 stays only for kinds `$0E-$17`: money taken
+  stays taken; the knife, the pistol, the fires come back.
+- The item kinds, by the picture in the run's frames: money bags `$0E $0F $10 $11 $14 $15 $17`,
+  money cases `$12 $13 $16`, knife `$18`, pistol `$19`, dynamite `$1C`, boot `$1A` (the house) and
+  `$1F`, boots `$1D`, 1-up `$1E` (the house), campfire `$21`. The templates (`$B598`, bank 5) agree:
+  byte 9 is the picture ($24 every bag, $00 every case). `$10` and `$12` are never on the field in the
+  run; they wear the bag's and the case's look.
+- Left out: section 4's row 24 names entry `$1D`, past section 4's list into the house's — a boot
+  put at x 88 y 75 of section 4 when the camera is at x 600: it is gone before it could be seen.
+  Rule: an item whose row and place are more than 64 px apart. Section 11's row 27 (kind `$20` at
+  x 240 640) is the same, but not an item.
+- 57 items: 30 money bags, 3 cases, 5 knives, 5 pistols, 2 dynamite, 3 boots + 1 pair, a 1-up, 7
+  campfires. The run takes 27 (row's bit 6 set with the player on it); on the page each goes at the
+  frame it is taken, and comes back where the game puts it back (none in this run). The switch's count
+  is what is left on the map at the run's frame.
+- Skipped by the game (the four slots full, above): from the frame the row is marked spawned with no
+  object at its place to the frame the row leaves the window, the item is drawn pale and grey (and
+  not counted), with the reason in its title. An item skipped and never on the field in the run is
+  pale all through it: drawn whole until the camera came, it was there on the map and then gone under
+  the game's frame (the user saw it twice: section 5's lower bag, then section 2's). Three, all so:
+  section 2's bag at x 296 (marked at 3745; the start bags hold the slots), section 5's lower bag at
+  624, 320 (9603: three enemies and the upper bag), section 7's knife at 1360, 339 (put once off the
+  field at 12930, taken off, skipped at 12968).
+- A take starts the frame the object leaves its place: the game frees the slot 2-4 frames before it
+  sets the row's bit 6, and the map kept the item those frames.
+- The check over the whole run (items.ts prints it): frames where an item's place is wholly in the
+  camera's field, the game shows no object there, and the page draws it whole (not taken, not pale).
+  0 frames (56 before the two fixes above, all the takes' 2-4 frames).
+- The look per section and kind: from every frame the item is on the field, the sprites nearest it
+  (the house's knife and boot are 16 px apart), laid by the map's camera from take.bin.gz (the RAM's
+  is 2 px off for the boots), fades left out; the commonest set, its place the one most frames
+  agree on. A section and kind on the field fewer than 20 frames gives way to the same kind's from
+  the nearest section. The commonest set can be a part: the boots show their right half on 4 frames,
+  both on 3 (the user saw the half boot on the page) — a set seen twice or more that holds the chosen
+  one wins, when each sprite it has besides is in the same palette, next to it on the 8-px grid and
+  on a cell of its own (else a bird's wing, or a stone falling over the case in section 13, gets in).
+- Checked in the browser against the game's own frame on the page, both ways, at 2× (a fractional
+  zoom misplaces the check by a pixel): every opaque pixel of the picture equals the frame's there,
+  and no pixel of the frame within 8 px of it differs from the map under it unless the picture covers
+  it. 35 of the 41 items the run has on the field pass both; the 6 others match pixel for pixel and
+  leave only a neighbour (the house's pairs, 16 px apart) or another flame of an animated campfire.
+  (The first check, the picture's pixels alone, passed the half boots: a part matches too.)
+- Fixed on the way: going back to the whole mountain from a section did not work since section 14
+  was glued (`APART` -1, and `levelOfSection(-1)` is the whole mountain's 0).
+- On xrom.dev (2026-11-16, the user's word): a chapter of its own, Items — the page's third door,
+  `?view=items`: the maps alone, the items on, no route (`map` keeps them off, as it was published;
+  `run` has them on). Its card: `src/items-preview.ts` → out/art/items.png (section 4's campfire, two
+  bags and a knife over the map, ×2) and items.webp, in `~/xrom/public/art/cliffhanger`.

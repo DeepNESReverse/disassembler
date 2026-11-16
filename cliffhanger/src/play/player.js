@@ -13,7 +13,7 @@
 // a level of one way puts its spans first, so the page's span lookup finds them.
 import { NES_RGB } from '/libs/nes/src/palette.ts';
 import { Apu, mixApu, OutputFilters } from '/libs/nes/node_modules/@xromdev/apu/dist/index.js';
-import { mountRunPage } from '/src/maps-run/run-page.js';
+import { mountRunPage, iconToggle } from '/src/maps-run/run-page.js';
 
 const W = 256, H = 176;
 const OAM = 32, PAL = 288, NT = 320;
@@ -22,11 +22,26 @@ let image, px;
 const bgOpaque = new Uint8Array(W * H);
 let chr, data, frames, size, offsets, keys, state;
 const PUBLIC = !!window.CART_PACK;
+/**
+ * The site's doors into this page (`?view=`): `run` the speedrun over the maps, `map` the maps alone
+ * (as they were published, the items off), `items` the maps alone with the items on and no route
+ * — xrom.dev's Items chapter, the user's word (2026-11-16). The workshop (no view) is the run's.
+ */
+const VIEW = new URLSearchParams(location.search).get('view') ?? 'run';
 /** The maps, the run and the path: out/levels in the workshop, beside the page when public. */
 const LEVELS = PUBLIC ? '' : '/levels/';
 const WORLD = await (await fetch(LEVELS + 'world.json')).json();
 /** Per section the frame the player first moves (src/starts.ts): the tune's wait ends there. */
 const STARTS = await (await fetch(LEVELS + 'starts.json')).json();
+/**
+ * What the player picks up (src/items.ts, STATUS §15): the money, the knife, the pistol, the
+ * dynamite, the boots, the 1-up, the campfires — not the enemies. Per section, each at the place the
+ * game puts it, its picture as the game draws it, the frames the run has it taken, and the frames
+ * the game skips it (four objects alive when the camera came: it is not there, a ghost is drawn).
+ */
+const ITEMS = (await (await fetch(LEVELS + 'items.json')).json()).sections;
+/** The run's frame the items were last shown for (-1: none, all are shown). */
+let itemFrame = -1;
 const HOUSE = WORLD.house.inside.section;
 // A section shown apart from the whole mountain (none now: section 14 is glued, by the user's word).
 const APART = WORLD.apart[0] ?? -1;
@@ -251,6 +266,7 @@ const run = {
   zoomBefore: 0,
   followBefore: true,
   onFrame(f) {
+    markTaken(f);
     if (page?.cur === WHOLE && cut) {
       // Over the cut (after the page's frame), and the clock without the cut frames.
       if (cut[f] && nextKept[f] > f) queueMicrotask(() => seekTo(nextKept[f]));
@@ -317,29 +333,37 @@ page = mountRunPage({
       : mapOf(n - 1),
   field: { w: W, h: H },
   zoom: 'fith',
-  run,
+  // The items' door is the maps alone, like `map` (run-page.js drops the run for that one only).
+  run: VIEW === 'items' ? null : run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
   runName: 'klmz’s TAS',
-  trail: { url: LEVELS + 'tas-world.json', label: 'route', title: 'TAS by klmz, played from power-on in FCEUX and replayed here frame for frame: the player&#39;s way through the mountain' },
+  // The items' door has no route (unchecking it after the page is up races the path's loading).
+  trail: VIEW === 'items' ? undefined : { url: LEVELS + 'tas-world.json', label: 'route', title: 'TAS by klmz, played from power-on in FCEUX and replayed here frame for frame: the player&#39;s way through the mountain' },
   runTitle: 'klmz&#39;s TAS as the game plays it: the camera window shows the game&#39;s frame (the field as the PPU draws it, from our replay of the movie)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s channel writes (PRG $C000-$C3FF)',
   effectsTitle: 'The sound effects: the effect player&#39;s writes (PRG $D100-$D3FF), which take a channel from the music while they sound',
-  layersBelow: `<div id="house"><div class="dim"></div><img id="houseIn" alt=""></div>`,
-  css: `#live{transform-origin:0 0}#secTicks{position:absolute;pointer-events:none}#secTicks i{position:absolute;top:0;width:2px;margin-left:-1px;background:#e6e9ef;opacity:.55;border-radius:1px}#secTicks b{position:absolute;transform:translateX(-50%);font:600 10px/1 system-ui,sans-serif;color:#cfc8dc;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:3px}#secTicks b:hover{background:#b48cff;color:#160b26}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
+  // The items' switch wears the game's own money bag.
+  headerHtml: iconToggle({ id: 'itemsBox', icon: `<img src="${LEVELS}items/0-14.png" alt="">`, label: 'items', colour: '#ffd166', count: 'itemsN', checked: VIEW !== 'map', title: 'What the player picks up — money bags and cases, the knife, the pistol, the dynamite, the boots, the 1-up, the campfires — where the game puts them, as it draws them. The run&#39;s taken ones go as it takes them' }),
+  // Under the run's frame: inside the camera the game's own picture is seen. The house's items go
+  // with its inside, at its scale.
+  layersBelow: `<div id="itemLayer"></div><div id="house"><div class="dim"></div><img id="houseIn" alt=""><div id="houseItems"></div></div>`,
+  css: `#itemLayer,#houseItems{position:absolute;left:0;top:0;pointer-events:none}#stage .it{pointer-events:auto;transition:opacity .2s}#stage .it[hidden]{display:none}#stage .it.skip{opacity:.3;filter:grayscale(1)}#live{transform-origin:0 0}#secTicks{position:absolute;pointer-events:none}#secTicks i{position:absolute;top:0;width:2px;margin-left:-1px;background:#e6e9ef;opacity:.55;border-radius:1px}#secTicks b{position:absolute;transform:translateX(-50%);font:600 10px/1 system-ui,sans-serif;color:#cfc8dc;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:3px}#secTicks b:hover{background:#b48cff;color:#160b26}#house{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .8s}#house.on{opacity:1}#house .dim{position:absolute;inset:0;background:#000b}#houseIn{outline:2px solid #fff6;box-shadow:0 0 40px #000}`,
   // The level chosen sets the way the run follows: the whole mountain, or section by section
   // (section 15 belongs to both).
   onPick: (n) => {
-    if (n !== levelOfSection(APART) && whole !== (n === WHOLE)) {
+    // (With no section apart, APART is -1 and levelOfSection(APART) would be the whole mountain's 0.)
+    if (!(APART >= 0 && n === levelOfSection(APART)) && whole !== (n === WHOLE)) {
       whole = n === WHOLE;
       orderSpans();
     }
     document.getElementById('house').style.display = n === WHOLE ? '' : 'none';
     placeHouse();
+    showItems();
     setTimeout(sectionTicks);
   },
-  onZoom: () => placeHouse(),
+  onZoom: () => (placeHouse(), showItems()),
   onMouse: (x, y) => {
     const p = WORLD.pieces.find((q) => x >= q.x && x < q.x + q.w && y >= q.y && y < q.y + q.h);
     const where = page.cur !== WHOLE ? `section ${page.cur} · x ${x} y ${y}` : p ? `section ${p.section + 1} · x ${x - p.x} y ${y - p.y}` : `world x ${x} y ${y}`;
@@ -356,6 +380,60 @@ function placeHouse() {
 }
 placeHouse();
 
+// ---------------------------------------------------------------- the items
+/** The current map's items: on the whole mountain every section's at its place on the world. */
+function showItems() {
+  if (!page) return;
+  const layer = document.getElementById('itemLayer'), inHouse = document.getElementById('houseItems');
+  layer.textContent = '';
+  inHouse.textContent = '';
+  if (document.getElementById('itemsBox').checked) {
+    const z = page.z;
+    const list = page.cur === WHOLE
+      ? Object.entries(ITEMS).flatMap(([s, l]) => l.map((it) => [Number(s), it]))
+      : (ITEMS[page.cur - 1] ?? []).map((it) => [page.cur - 1, it]);
+    for (const [s, it] of list) {
+      let x = it.x + it.dx, y = it.y + it.dy, k = 1, host = layer;
+      if (page.cur === WHOLE) {
+        const o = originOf(s);
+        if (!o) continue;
+        k = o.scale ?? 1;
+        x = o.x + k * x;
+        y = o.y + k * y;
+        if (s === HOUSE) host = inHouse;
+      }
+      const img = document.createElement('img');
+      img.className = 'it';
+      img.src = LEVELS + it.img;
+      img.alt = img.title = `${it.name} · section ${s + 1}, x ${it.x} y ${it.y}${it.taken.length ? ' · the run takes it' : ''}${it.skipped.length ? ' · pale: this run never has it on the field — four objects were alive when the camera came, so the game did not put it there (with a slot free it would)' : ''}`;
+      Object.assign(img.style, { left: x * z + 'px', top: y * z + 'px', width: it.w * k * z + 'px', height: it.h * k * z + 'px' });
+      img.taken = it.taken;
+      img.skipped = it.skipped;
+      host.append(img);
+    }
+  }
+  markTaken(itemFrame, true);
+}
+/**
+ * At the run's frame f: the items it has taken are gone (and back where the game puts them back);
+ * those the game skips (all four object slots full when the camera came) are pale, not counted.
+ */
+function markTaken(f, always = false) {
+  if (f === itemFrame && !always) return;
+  itemFrame = f;
+  let n = 0;
+  for (const img of document.querySelectorAll('.it')) {
+    const gone = f >= 0 && img.taken.some(([a, b]) => f >= a && f < b);
+    const skipped = f >= 0 && img.skipped.some(([a, b]) => f >= a && f < b);
+    if (img.hidden !== gone) img.hidden = gone;
+    img.classList.toggle('skip', skipped);
+    if (!gone && !skipped) n++;
+  }
+  const count = document.getElementById('itemsN');
+  if (count) count.textContent = document.getElementById('itemsBox').checked ? `(${n})` : '';
+}
+document.getElementById('itemsBox').onchange = showItems;
+showItems();
 
 /** m:ss of a count of frames, as the page's clock. */
 const clockOf = (n) => { const t = Math.max(0, Math.round(n / 60.0988)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`; };

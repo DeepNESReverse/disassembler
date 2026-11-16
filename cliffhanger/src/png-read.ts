@@ -2,8 +2,8 @@
 import { readFileSync } from 'node:fs';
 import { inflateSync } from 'node:zlib';
 
-/** A PNG of ours (8-bit RGB or RGBA, no interlace) back to 0xRRGGBB pixels. */
-export function readPng(path: string): { w: number; h: number; px: Uint32Array } {
+/** A PNG of ours (8-bit RGB or RGBA, no interlace) back to 0xRRGGBB pixels; `alpha` for an RGBA one. */
+export function readPng(path: string): { w: number; h: number; px: Uint32Array; alpha?: Uint8Array } {
   const b = readFileSync(path);
   const w = b.readUInt32BE(16);
   const h = b.readUInt32BE(20);
@@ -19,6 +19,7 @@ export function readPng(path: string): { w: number; h: number; px: Uint32Array }
   const bpp = type === 6 ? 4 : 3;
   const stride = w * bpp;
   const px = new Uint32Array(w * h);
+  const alpha = bpp === 4 ? new Uint8Array(w * h) : undefined;
   const prev = new Uint8Array(stride);
   const cur = new Uint8Array(stride);
   for (let y = 0; y < h; y++) {
@@ -40,7 +41,8 @@ export function readPng(path: string): { w: number; h: number; px: Uint32Array }
       cur[i] = v & 255;
     }
     for (let x = 0; x < w; x++) px[y * w + x] = (cur[x * bpp] << 16) | (cur[x * bpp + 1] << 8) | cur[x * bpp + 2];
+    if (alpha) for (let x = 0; x < w; x++) alpha[y * w + x] = cur[x * bpp + 3];
     prev.set(cur);
   }
-  return { w, h, px };
+  return { w, h, px, alpha };
 }

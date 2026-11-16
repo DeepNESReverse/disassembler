@@ -7,10 +7,11 @@
  * ever draws — every tile of the fifteen maps (each from its section's background banks, level.ts),
  * every background tile of the field and every sprite tile in the sprite memory on the frames a
  * section is shown, through that frame's MMC3 banks (take.bin.gz); the rest zero. Beside it: the
- * maps, the run, the path, the world (world.json, starts.json), the sound's worklet, levels.json
+ * maps, the run, the path, the world (world.json, starts.json), the items (items.json and their
+ * pictures, items/), the sound's worklet, levels.json
  * (what the site's page says of each map, as text for search engines).
  */
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { gunzipSync, gzipSync } from 'node:zlib';
 import { resolve } from 'node:path';
 import { createRequire } from 'node:module';
@@ -64,7 +65,9 @@ const kept = keep.reduce((a, b) => a + b, 0);
 console.log(`cart.bin.gz: ${kept} of ${keep.length} tiles kept (${((100 * kept) / keep.length).toFixed(0)} % of the CHR), no PRG`);
 
 for (let n = 0; n < SECTIONS; n++) copyFileSync(resolve(levels, `${String(n).padStart(2, '0')}.png`), resolve(out, `${String(n).padStart(2, '0')}.png`));
-for (const f of ['take.bin.gz', 'tas-world.json', 'world.json', 'starts.json']) copyFileSync(resolve(levels, f), resolve(out, f));
+for (const f of ['take.bin.gz', 'tas-world.json', 'world.json', 'starts.json', 'items.json']) copyFileSync(resolve(levels, f), resolve(out, f));
+mkdirSync(resolve(out, 'items'), { recursive: true });
+for (const f of readdirSync(resolve(levels, 'items'))) copyFileSync(resolve(levels, 'items', f), resolve(out, 'items', f));
 copyFileSync(resolve(repo, 'src/maps-run/sound.js'), resolve(out, 'maps-run/sound.js'));
 
 // levels.json: each section's map, its size, its name where it has one, the run's time on it.
