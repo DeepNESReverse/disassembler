@@ -350,7 +350,9 @@ the boots and the like — no enemies; and as many on the map as the hero can ta
   (The first check, the picture's pixels alone, passed the half boots: a part matches too.)
 - Fixed on the way: going back to the whole mountain from a section did not work since section 14
   was glued (`APART` -1, and `levelOfSection(-1)` is the whole mountain's 0).
-- On xrom.dev (2026-11-16, the user's word): a chapter of its own, Items — the page's third door,
-  `?view=items`: the maps alone, the items on, no route (`map` keeps them off, as it was published;
-  `run` has them on). Its card: `src/items-preview.ts` → out/art/items.png (section 4's campfire, two
-  bags and a knife over the map, ×2) and items.webp, in `~/xrom/public/art/cliffhanger`.
+- On xrom.dev (2026-11-16, the user's word: "just a table of id and items"): a chapter of its own,
+  Items — a table, one row a kind, its id and its picture, read from items.json by the site
+  (`src/components/site/gameItems.ts` in ~/xrom), not a door into the maps. Its card:
+  `src/items-preview.ts` → out/art/items.png, the 18 kinds in a grid ×4, and items.webp, in
+  `~/xrom/public/art/cliffhanger`. On the maps page the switch is on in the run (`?view=run`) and
+  off on the maps (`?view=map`), as they were published.

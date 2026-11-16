@@ -23,9 +23,8 @@ const bgOpaque = new Uint8Array(W * H);
 let chr, data, frames, size, offsets, keys, state;
 const PUBLIC = !!window.CART_PACK;
 /**
- * The site's doors into this page (`?view=`): `run` the speedrun over the maps, `map` the maps alone
- * (as they were published, the items off), `items` the maps alone with the items on and no route
- * — xrom.dev's Items chapter, the user's word (2026-11-16). The workshop (no view) is the run's.
+ * The site's doors into this page (`?view=`): `run` the speedrun over the maps (the items on), `map`
+ * the maps alone (as they were published, the items off). The workshop (no view) is the run's.
  */
 const VIEW = new URLSearchParams(location.search).get('view') ?? 'run';
 /** The maps, the run and the path: out/levels in the workshop, beside the page when public. */
@@ -333,13 +332,11 @@ page = mountRunPage({
       : mapOf(n - 1),
   field: { w: W, h: H },
   zoom: 'fith',
-  // The items' door is the maps alone, like `map` (run-page.js drops the run for that one only).
-  run: VIEW === 'items' ? null : run,
+  run,
   apu: { Apu, mixApu, OutputFilters },
   soundWorklet: PUBLIC ? new URL('maps-run/sound.js', import.meta.url).href : '/src/maps-run/sound.js',
   runName: 'klmz’s TAS',
-  // The items' door has no route (unchecking it after the page is up races the path's loading).
-  trail: VIEW === 'items' ? undefined : { url: LEVELS + 'tas-world.json', label: 'route', title: 'TAS by klmz, played from power-on in FCEUX and replayed here frame for frame: the player&#39;s way through the mountain' },
+  trail: { url: LEVELS + 'tas-world.json', label: 'route', title: 'TAS by klmz, played from power-on in FCEUX and replayed here frame for frame: the player&#39;s way through the mountain' },
   runTitle: 'klmz&#39;s TAS as the game plays it: the camera window shows the game&#39;s frame (the field as the PPU draws it, from our replay of the movie)',
   soundTitle: 'The run&#39;s music and sound effects: the game&#39;s sound-chip writes (the same as FCEUX&#39;s), played through @xromdev/apu. At ×1 only',
   musicTitle: 'The music: the driver&#39;s channel writes (PRG $C000-$C3FF)',
