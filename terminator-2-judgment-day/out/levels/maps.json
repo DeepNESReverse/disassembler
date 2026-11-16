@@ -110,7 +110,7 @@
   },
   {
    "n": 4,
-   "label": "Level 4 — Cyberdyne corridors",
+   "label": "Level 4 — Cyberdyne",
    "w": 1536,
    "h": 592,
    "pieces": [
@@ -127,15 +127,7 @@
      "dy": 0,
      "overlay": false,
      "ride": false
-    }
-   ]
-  },
-  {
-   "n": 5,
-   "label": "Level 4 — Cyberdyne labs",
-   "w": 1536,
-   "h": 592,
-   "pieces": [
+    },
     {
      "header": 7,
      "name": "cyberdyne labs",
@@ -147,13 +139,13 @@
      "k": 1,
      "dx": 0,
      "dy": 0,
-     "overlay": false,
+     "overlay": true,
      "ride": false
     }
    ]
   },
   {
-   "n": 6,
+   "n": 5,
    "label": "Level 5 — the steel mill",
    "w": 1536,
    "h": 1280,

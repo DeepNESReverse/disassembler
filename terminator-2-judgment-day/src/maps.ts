@@ -14,7 +14,9 @@
  * shown while the run is in them; and the elevator (header 3) is a `ride`: its shaft is the car over
  * and over (§9), so it has no picture of its own here, and the game's frame of the ride is laid
  * between the door it was entered from and the door it is left by (src/take-pack.ts places it, the
- * page draws its black clear so the hospital stays in view). The others are one area each.
+ * page draws its black clear so the hospital stays in view). Level 4, Cyberdyne, the same way: its
+ * labs (header 7) over its corridors (header 4), the player and the camera keeping their places
+ * through the doors (STATUS §13). The others are one area each.
  *
  *   placeOf(header) → { n, k, dx, dy }: the page level, and map = k × the area's own coordinates
  *   (its decoded world: the camera's, level.ts) + (dx, dy).
@@ -43,8 +45,7 @@ export const MAPS: { label: string; pieces: Piece[] }[] = [
     label: 'Level 3 — the hospital',
     pieces: [{ header: 2, x: 0, y: 0 }, { header: 1, x: 0, y: 0, overlay: true }, { header: 3, x: 0, y: 0, ride: true }],
   },
-  { label: 'Level 4 — Cyberdyne corridors', pieces: [{ header: 4, x: 0, y: 0 }] },
-  { label: 'Level 4 — Cyberdyne labs', pieces: [{ header: 7, x: 0, y: 0 }] },
+  { label: 'Level 4 — Cyberdyne', pieces: [{ header: 4, x: 0, y: 0 }, { header: 7, x: 0, y: 0, overlay: true }] },
   { label: 'Level 5 — the steel mill', pieces: [{ header: 0, x: 0, y: 0 }] },
 ];
 

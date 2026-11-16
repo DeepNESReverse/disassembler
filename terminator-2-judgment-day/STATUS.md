@@ -288,3 +288,12 @@ between, share one stretch (the maps' first-to-last frames merged where they ove
 it the run changes maps as the game loads them. Stretches: level 1 frames 1 310-9 017, the flood
 channel 9 237-12 433, the hospital 12 770-17 442, Cyberdyne 18 686-34 246, the steel mill
 34 927-42 824.
+
+## 13. Level 4: Cyberdyne as one map
+
+By the user's word, the way of the hospital (§11): Cyberdyne's labs (header 7) are its corridors'
+(header 4) plan without the walls — through a door the player and the camera keep their places
+(`src/experiments/transitions.ts 19400 20700`: 1086, 576 → 1086, 576; camera 960 → 960) — so they
+lie on the corridors' map at 0, 0 as an overlay shown while the run is in a lab. The page has five
+maps now, one a level; Cyberdyne is one stretch, frames 18 686-34 246 (4:19). Checked in the
+browser: the corridors in a corridor, the labs fading in over them in a lab.
