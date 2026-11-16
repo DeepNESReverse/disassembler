@@ -350,9 +350,16 @@ the boots and the like — no enemies; and as many on the map as the hero can ta
   (The first check, the picture's pixels alone, passed the half boots: a part matches too.)
 - Fixed on the way: going back to the whole mountain from a section did not work since section 14
   was glued (`APART` -1, and `levelOfSection(-1)` is the whole mountain's 0).
-- On xrom.dev (2026-11-16, the user's word: "just a table of id and items"): a chapter of its own,
-  Items — a table, one row a kind, its id and its picture, read from items.json by the site
-  (`src/components/site/gameItems.ts` in ~/xrom), not a door into the maps. Its card:
-  `src/items-preview.ts` → out/art/items.png, the 18 kinds in a grid ×4, and items.webp, in
-  `~/xrom/public/art/cliffhanger`. On the maps page the switch is on in the run (`?view=run`) and
-  off on the maps (`?view=map`), as they were published.
+- On xrom.dev (2026-11-16, the user's word: "just a table of id and items", then "call it objects
+  and add the enemies"): a chapter of its own, Objects — a table, one row a kind the spawn lists
+  place, its id and its picture. `src/objects-table.ts` → out/levels/kinds.json, kinds/<kind>.png
+  (objects.json is §11's): the items' pictures from items.ts; the others' read by the slot, since
+  they move — the spawner keeps per slot the entry it filled it from (`$6D-$70`, slot X at
+  `$0633 + $1F·X`), so a slot's kind is known on every frame; the sprites nearest it, the player's
+  left out, by the map's camera, fades left out, the commonest set (the biggest of the common ones).
+  30 kinds: stone $00, boulder $01, eagle $03, icicle $04, snow clump $05 (on the cabins' roofs),
+  henchmen $06-$09, bat $0B, log $0C (on the river over the waterfall), wolf $0D, and the 18 items.
+  The names are ours, by the pictures in the run's frames. The site reads kinds.json
+  (`src/components/site/gameObjects.ts` in ~/xrom). Its card: `src/objects-preview.ts` →
+  out/art/objects.png and objects.webp, the 30 in a grid ×4. On the maps page the items switch is on
+  in the run (`?view=run`) and off on the maps (`?view=map`), as they were published.
