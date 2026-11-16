@@ -386,3 +386,7 @@ the boots and the like — no enemies; and as many on the map as the hero can ta
   objects-table.ts reads their pictures by the slot like the others' (CODE; a wider window for the
   bosses and the helicopter, 64 × 32) and puts them in the table with that handler as their id. The
   hero's picture is now taken when no object is within 64 px of him (a shot elsewhere is no matter).
+- The hero's sprites are told by their tiles, $40-$7F (one CHR bank; 24 648 of 24 712 sprites round
+  him alone), not by a box round him: the box cut the legs off the bosses $2A and $2C where he
+  stands against them (the user saw it). The bosses' pictures: the tallest of their common poses
+  ($2B's commonest fullest is a flying kick, lying across).

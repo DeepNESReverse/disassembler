@@ -94,6 +94,13 @@ const CODE: Record<number, { name: string; group: string; big: boolean; note: st
   0x2f: { name: 'falling rock', group: 'hazard', big: false, note: 'put by the sections’ own code' },
 };
 const codeSections = new Map<number, Set<number>>();
+/**
+ * The hero's sprites are told by their tiles, not by a box round him: his are $40-$7F (one 1 KB CHR
+ * bank of the sprites' table: 24 648 of the 24 712 sprites round him alone over the run; the rest
+ * money he stands on), and no object's are (the few $40-$49 near objects are the status bar's own
+ * sprites). A box cut the bosses' legs off where he stands against them ($2A, $2C — the user saw it).
+ */
+const isHero = (tile: number) => tile >= 0x40 && tile < 0x80;
 /** The hero's key among the kinds' looks: he is not a kind, his slot is his own ($0614). */
 const HERO = -1;
 interface Look { sprites: number[][]; banks: number[]; palette: number[]; tall: boolean; n: number; frame: number }
@@ -134,7 +141,7 @@ for (let f = 985; f <= end; f++) {
     for (let k = 0; k < 64; k++) {
       if (oam[k * 4] >= 0xef) continue;
       const y = oam[k * 4] + 1, x = oam[k * 4 + 3];
-      if (x >= qx - 4 && x < qx + 24 && y >= qy - 4 && y < qy + 40) sprites.push([x - qx, y - qy, oam[k * 4 + 1], oam[k * 4 + 2]]);
+      if (isHero(oam[k * 4 + 1]) && x >= qx - 4 && x < qx + 24 && y >= qy - 4 && y < qy + 40) sprites.push([x - qx, y - qy, oam[k * 4 + 1], oam[k * 4 + 2]]);
     }
     if (sprites.length && !sprites.every((p) => [1, 2, 3].every((c) => dark(sprPal[(p[3] & 3) * 4 + c])))) {
       const ax = Math.min(...sprites.map((p) => p[0])), ay = Math.min(...sprites.map((p) => p[1]));
@@ -151,7 +158,7 @@ for (let f = 985; f <= end; f++) {
   for (let k = 0; k < 64; k++) {
     if (oam[k * 4] >= 0xef) continue;
     const y = oam[k * 4] + 1, x = oam[k * 4 + 3];
-    if (x >= qx - 4 && x < qx + 24 && y >= qy - 4 && y < qy + 40) continue;
+    if (isHero(oam[k * 4 + 1])) continue;
     let best = -1, bd = Infinity;
     slots.forEach((sl, i) => {
       if (sl.big ? x < sl.sx - 48 || x >= sl.sx + 72 || y < sl.sy - 40 || y >= sl.sy + 56 : x < sl.sx - 16 || x >= sl.sx + 40 || y < sl.sy - 24 || y >= sl.sy + 40) return;
@@ -288,7 +295,12 @@ for (const [t, c] of Object.entries(CODE).map(([t, c]) => [Number(t), c] as cons
     missing.push(0x100 + t);
     continue;
   }
-  const look = ways.filter((w) => w.n >= ways[0].n * 0.2).sort((a, b) => b.sprites.length - a.sprites.length || b.n - a.n)[0];
+  // A boss standing reads best in the table: among the common poses the tallest, then the fullest
+  // (the most sprites would be $2B's flying kick, lying across).
+  const tall = (w: Look) => Math.max(...w.sprites.map((p) => p[1])) - Math.min(...w.sprites.map((p) => p[1]));
+  const look = ways
+    .filter((w) => w.n >= ways[0].n * 0.2)
+    .sort((a, b) => (c.big ? tall(b) - tall(a) : 0) || b.sprites.length - a.sprites.length || b.n - a.n)[0];
   const file = `kinds/code-${t.toString(16)}.png`;
   const { w, h } = draw(look, `out/levels/${file}`);
   const id = `$${t.toString(16).toUpperCase()}`;
