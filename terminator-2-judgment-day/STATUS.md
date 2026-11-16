@@ -53,8 +53,80 @@ the 50 area changes on the same frames as FCEUX's capture and draws the game to 
 truck stop, the bar `$D1 = 8`, the bike, the hospital floors 2-4, the Cyberdyne building 5/7, the
 finale 0). The run can be played here.
 
-## 4. Known from the workshop (2026-10-20, to be proven here again)
+## 4. Known from the workshop (2026-10-20), corrected
 
-`$D1` is the area the level loads: 6 = the truck stop (level 1), 1 = the flood channel (bike),
-7 and 8 = the hospital and the steel mill. `LDY $D1 / LDA $8F68,Y` picks the level's CHR banks.
-The game's flow is a bytecode script: pointer `$E0/$E1`, handler `$E2/$E3` (`JMP ($E2)` at `$E75D`).
+`$D1` is the area the script picks (§5 has which header each one loads): the workshop's "7 and 8 =
+the hospital and the steel mill" was wrong — 8 is the bar, 7 Cyberdyne's labs, 0 the steel mill.
+`LDY $D1 / LDA $8F68,Y` picks the level's CHR banks (not checked here yet). The game's flow is a
+bytecode script: pointer `$E0/$E1`, handler `$E2/$E3` (`JMP ($E2)` at `$E75D`).
+
+## 5. Where an area lies in the cartridge (`src/level.ts`)
+
+Found by following the nametable writes back (`src/vram-origins.ts 1530 2500`, `src/who-writes.ts`,
+`src/who-reads.ts`, the truck stop):
+- **The column builder.** `$C565` (fixed bank) writes a column of 30 tiles (`$2000` = 4, +32 a
+  write) from the buffer `$05EF`. `$D6FF` fills it: `$D875` copies 16 block numbers down a column of
+  the layout (pointer `$93`, `+$03CA` a row) to `$0154`, and each block gives two tiles, top and
+  bottom, from `($A5)/($A9)` for its left half and `($A7)/($AB)` for its right. `$D797` gives the
+  block's palette, `($AD),Y & 3`, merged into the attribute shadow `$060F` by the quadrant masks
+  at `$D88E/$D89E`.
+- **The header.** `$A3E0` takes header `X / 2` through the 9 words at CPU `$A40C` (PRG `$640C`) into
+  27-byte entries in bank 2 (PRG `$4000`): 6 words to `$A5-$B0` (the tables: TL, TR, BL, BR tiles,
+  attributes, a sixth not read yet), the row stride and the rows (`$03CA`, `$03CB`), 4 words
+  (`$03CC-$03D3`, not read yet), the 8 KB bank for `$8000` (`$03D4`; `$E37B` maps it and the next
+  at `$A000`), the layout's address (`$03D5`), and a routine the loader jumps to.
+  `src/experiments/headers.ts` prints all 9.
+- **Which `$D1` loads which header** (`src/experiments/header-loads.ts`, every load of the TAS):
+  0 → 0, 1 → 6, 2 → 1, 3 → 2, 4 → 3, 5 → 4, 6 → 5, 7 → 7, 8 → 8. `$D1` changes long before the
+  load (the mission screens come between).
+- The layout ends exactly where the first tile table starts in the truck stop (160 × 14 bytes from
+  `$99E6` to `$A2A6`) and the bar (48 × 14, `$B99D` to `$BC3D`).
+
+| header | `$D1` | area | blocks | px |
+|---|---|---|---|---|
+| 5 | 6 | truck stop | 160 × 14 | 2560 × 224 |
+| 8 | 8 | bar | 48 × 14 | 768 × 224 |
+| 6 | 1 | flood channel (bike) | — | not a world, below |
+| 2 | 3 | hospital corridors | 96 × 38 | 1536 × 608 |
+| 1 | 2 | hospital offices | 96 × 38 | 1536 × 608 |
+| 3 | 4 | hospital elevator shaft | 20 × 38 | 320 × 608 |
+| 4 | 5 | Cyberdyne corridors | 96 × 37 | 1536 × 592 |
+| 7 | 7 | Cyberdyne labs | 96 × 37 | 1536 × 592 |
+| 0 | 0 | steel mill | 96 × 80 | 1536 × 1280 |
+
+`src/render.ts` → `out/levels/<header>.png`, with the background banks on line 100 and the palette
+of a frame of the TAS inside the area (`LOOK`).
+
+**The flood channel is not a world.** Its header says 64 × 128, but drawn so it is road for a few
+rows and noise after. On the bike the camera `$C4-$C7` stands still while `$2005` runs over the
+whole 512 × 480 plane: the road is a diagonal pattern scrolled round and round. **Open:** how its
+picture is built (`$846A`-`$849E` read PRG `$EB00` 4 000 times in frames 9 400-9 700) and how to
+show the ride as a map.
+
+## 6. The maps against the game, every frame of the TAS (`src/check.ts`)
+
+On every frame of the run, every world tile wholly inside the field (the lines drawn with line
+120's scroll) is looked up in the PPU's nametable and compared with the decoded one, tile and
+palette. The area is the header `$A3E0` loaded last. The camera is `$C4/$C5`, `$C6/$C7` as the NMI
+writes the scroll, **plus 13, -3** (found with `PROBE=`; the same in every area but the elevator
+shaft: 37, -3; **open:** why these numbers). The RAM's Y is often 1-4 px ahead of the picture while
+it moves; within ±8 px the best fit is taken ("only shifted").
+
+| header | frames | something else | differ | tiles apart |
+|---|---|---|---|---|
+| 0 steel mill | 7 857 | 40 | 2 | 32 of 5 180 066 |
+| 1 hospital offices | 1 290 | 595 | 0 | 0 |
+| 2 hospital corridors | 3 139 | 0 | 0 | 0 |
+| 3 elevator shaft | 720 | 0 | 0 | 0 |
+| 4 Cyberdyne corridors | 10 378 | 736 | 55 | 20 508 of 5 925 472 |
+| 5 truck stop | 5 478 | 0 | 524 | 1 919 of 4 569 219 |
+| 7 Cyberdyne labs | 5 663 | 0 | 961 | 15 058 of 3 074 751 |
+| 8 bar | 2 278 | 74 | 0 | 0 |
+
+"Something else": more than half the tiles differ — text screens, fades. What is left:
+- **Cyberdyne corridors, 33 817-34 234:** the building's explosion; the screen shakes and the
+  picture is a tile off within the frame (the tiles come from the column writers `$C565/$C5A7`).
+- **Palettes on the field's top or bottom row** (truck stop row 1, labs row 47, steel mill row 85):
+  written by the status bar's unrolled copy in bank 3 (`$A0B7-$A2C8`, from the buffers
+  `$0600-$0650`). An attribute byte covers 4 tile rows; on the field's edge row it is shared with
+  the status bar's rows, and the status bar's write wins. Not a fault of the map.
