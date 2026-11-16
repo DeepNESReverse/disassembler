@@ -30,6 +30,12 @@ export class Machine {
   readonly hooks: Hooks = {};
   /** Values to answer CPU reads of a RAM cell with, while the RAM keeps what the game wrote. */
   readonly pins = new Map<number, number>();
+  /**
+   * The game's random seed `$06FC/$06FD` as FCEUX's power-on leaves it (STATUS §4): set the first
+   * time the seed is complete, at `$A52D`. `null` keeps what this NES made of it.
+   */
+  seed: [number, number] | null = [0x02, 0x02];
+  private seeded = false;
   /** Per visible line of the last frame: the nametable-plane x (0-511) and y (0-479) it starts at. */
   readonly lineX = new Int16Array(240);
   readonly lineY = new Int16Array(240);
@@ -47,6 +53,10 @@ export class Machine {
     this.nes.ppu = this.ppu;
     const n = this.nes as unknown as { read(a: number): number; write(a: number, v: number): void; ram: Uint8Array };
     this.ram = n.ram;
+    // FCEUX powers on with the RAM as 00 00 00 00 FF FF FF FF over and over (the capture's first
+    // frame), xrom-libs' NES with zeros. Terminator 2 reads cells it never wrote before the title
+    // (STATUS §2), so the run here starts from FCEUX's pattern.
+    for (let a = 0; a < this.ram.length; a++) this.ram[a] = a & 4 ? 0xff : 0;
     const read = n.read.bind(n);
     const write = n.write.bind(n);
     // The PPU's open bus as FCEUX (its old PPU, the default) has it — its PPUGenLatch: every write to
@@ -89,6 +99,11 @@ export class Machine {
     const step = cpu.step.bind(cpu);
     cpu.step = () => {
       const pc = cpu.pc;
+      if (pc === 0xa52d && this.seed && !this.seeded) {
+        this.seeded = true;
+        this.ram[0x6fc] = this.seed[0];
+        this.ram[0x6fd] = this.seed[1];
+      }
       this.hooks.exec?.(pc);
       const op = this.peek(pc);
       const c = step();

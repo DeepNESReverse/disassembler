@@ -19,17 +19,39 @@ It is used only for where a player goes.
 - The movie's own `romChecksum` (`8301909c…`) matches neither: FCEUX 2.1.5 summed something else.
   Not followed further.
 
-## 2. The TAS on the headless NES parts from FCEUX after the title
+## 2. The TAS on the headless NES — first without FCEUX's power-on (superseded by §4)
 
-`src/replay.ts` (pads straight from the .fm2, changed at line 241 as in Cliffhanger): the story is
-skipped (Start 1015) and the title taken (Start 1193, the script `$E0/$E1` moves `$E85E → $E89E`
-on 1194), then it parts. `src/experiments/title-flow.ts 1180 1260`: from 1216 to 1250 the game does
-not read the pad here (a 20-frame wait `$E8FE`, a fade `$C918`, two 15-frame waits `$B2EE`, all
-counted in NMIs by `$C739`), so the movie's Start on 1241 is lost and the "Cyberdyne" and mission
-screens play out in full; the movie's Start on 2549, meant for later, pauses level 1 for good.
-Moving that Start to 1251, the first frame the pad is read, does not skip the screen either, so
-FCEUX took another path there. **Open:** which — the FCEUX capture's RAM will show it
-(`src/sync.ts`). Until then nothing is replayed here: the run comes from FCEUX only.
+Before the capture, `src/replay.ts` played the .fm2 on a NES with zeroed RAM and its own seed. The
+story was skipped (Start 1015), the title taken (Start 1193), then the run parted: from 1216 to 1250
+the pad was not read (`src/experiments/title-flow.ts 1180 1260`: a 20-frame wait `$E8FE`, a fade
+`$C918`, two 15-frame waits `$B2EE`, all counted in NMIs by `$C739`), the Start on 1241 was lost,
+and the Start on 2549 paused level 1 for good. The cause was the power-on, not these waits (§4):
+FCEUX's capture has the area `$D1 = 6` already on frame 1040 — the game took another way through
+its intro from the first frames.
+
+## 4. The TAS plays on the headless NES in step with FCEUX
+
+The FCEUX capture (`fceux/movie_capture.lua` on FCEUX with the iNES file, 2026-11-16): 42 824
+frames, 1 026 lagged, the areas in `src/experiments/capture-areas.ts`. Two things make this NES
+power on as FCEUX does (`src/machine.ts`):
+
+- **The RAM pattern.** FCEUX starts with `00 00 00 00 FF FF FF FF` repeated (the capture's frame 1);
+  zeros here gave 888 cells apart from frame 3.
+- **The random seed `$06FC/$06FD`.** The reset code counts while it waits for seven vblanks
+  (`$FFA8`: `INC $06FC / DEC $06FD / BIT $2002 / BPL`), so the count is how long the PPU takes to
+  its first vblanks — another number on this NES than in FCEUX. Then `$A50F` XORs the pages
+  `$0200-$06FF` into it. The seed decides where enemies appear: with this NES's own (`$A6/$A6`
+  against FCEUX's `$02/$02`) the first enemy of level 1 came 6 frames later in another slot
+  (frame 1532) and the run parted. `Machine.seed` sets FCEUX's `$02/$02` at `$A52D`, the first
+  instruction after the XOR. The random routine itself is `$C76E` (adds and XORs of the two cells).
+
+`src/sync.ts --off 2` with the sprite page and `$8C/$90/$91` left out (`IGNORE=8c,90,91,200…2ff`;
+they rotate the sprites' order — flicker — and their timing within the frame differs): **750 of
+42 822 frames differ, in 319 runs, the longest 26 frames, every one by 1-26 cells and back.** The
+most frequent is `$0404` (340 frames, late in the game, 1 vs 0). `src/replay.ts --off 2` passes
+the 50 area changes on the same frames as FCEUX's capture and draws the game to the end (the
+truck stop, the bar `$D1 = 8`, the bike, the hospital floors 2-4, the Cyberdyne building 5/7, the
+finale 0). The run can be played here.
 
 ## 3. Known from the workshop (2026-10-20, to be proven here again)
 

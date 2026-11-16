@@ -17,7 +17,7 @@ import { romFile } from './rom.ts';
 
 const args = process.argv.slice(2);
 const opt = (k: string, d: number) => (args.includes(k) ? Number(args[args.indexOf(k) + 1]) : d);
-const off = opt('--off', 1);
+const off = opt('--off', 2);
 const every = opt('--every', 600);
 const dir = args.includes('--out') ? args[args.indexOf('--out') + 1] : 'runs/replay';
 mkdirSync(dir, { recursive: true });
